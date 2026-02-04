@@ -1,0 +1,97 @@
+## ======================================
+## ASP.NET MVC (.NET Framework) + SQL Server
+## ======================================
+
+# ======================
+# Build results
+# ======================
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# ======================
+# Visual Studio
+# ======================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+
+# ======================
+# NuGet
+# ======================
+packages/
+*.nupkg
+# Mantener packages.config
+!packages.config
+
+# ======================
+# ASP.NET MVC / IIS
+# ======================
+App_Data/
+!App_Data/.gitkeep
+
+# Publicación / Deploy
+*.Publish.xml
+*.pubxml
+*.publishproj
+*.azurePubxml
+
+# ======================
+# SQL Server
+# ======================
+*.mdf
+*.ldf
+*.ndf
+*.bak
+
+# ======================
+# Configuraciones locales
+# ======================
+web.config.local
+appsettings.local.json
+
+# Si tienes connectionStrings locales
+Web.config.user
+
+# ======================
+# Logs y temporales
+# ======================
+*.log
+*.tmp
+*.temp
+*.cache
+*~
+
+# ======================
+# Testing
+# ======================
+TestResults/
+*.trx
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ======================
+# Frontend (si aplica)
+# ======================
+node_modules/
+
+# ======================
+# ReSharper / Rider
+# ======================
+_ReSharper*/
+*.DotSettings.user
+
+# ======================
+# Debug
+# ======================
+*.pdb
+*.mdb
