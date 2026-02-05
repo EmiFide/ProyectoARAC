@@ -253,6 +253,7 @@
     <Content Include="Views\TipoAnimal\Index.cshtml" />
     <Content Include="Views\TipoAnimal\Create.cshtml" />
     <Content Include="Views\TipoAnimal\Edit.cshtml" />
+    <Content Include="Views\TipoAnimal\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
