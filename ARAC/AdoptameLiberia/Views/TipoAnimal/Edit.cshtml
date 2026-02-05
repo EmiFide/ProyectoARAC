@@ -1,0 +1,25 @@
+﻿@model AdoptameLiberia.Models.TiposAnimales.TipoAnimal
+
+<h2>Editar Tipo de Animal</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ID_TipoAnimal)
+
+    <label>Tipo</label>
+    <br />
+    @Html.TextBoxFor(m => m.Nombre_Tipo_Animal)
+    <br />
+
+    <label>Descripción</label>
+    <br />
+    @Html.TextBoxFor(m => m.Descripcion)
+    <br />
+
+    <label>Activo</label>
+    @Html.CheckBoxFor(m => m.Estado)
+    <br />
+    <br />
+
+    <button type="submit">Guardar</button>
+}

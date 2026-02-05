@@ -1,0 +1,19 @@
+﻿@model AdoptameLiberia.Models.TiposAnimales.TipoAnimal
+
+<h2>Nuevo Tipo de Animal</h2>
+
+@using (Html.BeginForm())
+{
+    <label>Tipo</label>
+    <br />
+    @Html.TextBoxFor(m => m.Nombre_Tipo_Animal)
+    <br />
+
+    <label>Descripción</label>
+    <br />
+    @Html.TextBoxFor(m => m.Descripcion)
+    <br />
+    <br />
+
+    <button type="submit">Guardar</button>
+}
