@@ -1,0 +1,32 @@
+﻿@model AdoptameLiberia.Models.Mascotas.HistorialMedicoModel
+
+<h2>Registrar Historial Médico</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ID_Animal)
+
+    <div>
+        @Html.LabelFor(m => m.Tipo)
+        @Html.DropDownListFor(m => m.Tipo,
+            new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Vacunación", Value = "Vacunación" },
+                new SelectListItem { Text = "Desparasitación", Value = "Desparasitación" },
+                new SelectListItem { Text = "Cirugía", Value = "Cirugía" },
+                new SelectListItem { Text = "Tratamiento", Value = "Tratamiento" },
+                new SelectListItem { Text = "Consulta", Value = "Consulta" }
+            },
+            "-- Seleccione tipo --")
+    </div>
+
+    <br />
+
+
+    @Html.LabelFor(m => m.Detalle)
+    @Html.TextBoxFor(m => m.Detalle)
+    <br />
+
+    <button type="submit">Guardar</button>
+}
+

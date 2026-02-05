@@ -1,0 +1,25 @@
+﻿@model List<AdoptameLiberia.Models.Mascotas.AnimalModel>
+
+<h2>Catálogo de Mascotas</h2>
+
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Raza</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.Nombre_Animal</td>
+            <td>@a.NombreTipo</td>
+            <td>@a.NombreRaza</td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = a.ID_Animal }) |
+                @Html.ActionLink("Historial", "Index", "HistorialMedico", new { idAnimal = a.ID_Animal }, null) |
+                @Html.ActionLink("Desactivar", "Desactivar", new { id = a.ID_Animal })
+            </td>
+        </tr>
+    }
+</table>
