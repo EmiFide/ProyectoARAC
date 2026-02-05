@@ -257,11 +257,6 @@
     <Content Include="Views\TipoAnimal\Index.cshtml" />
     <Content Include="Views\TipoAnimal\Create.cshtml" />
     <Content Include="Views\TipoAnimal\Edit.cshtml" />
-    <Content Include="Views\Animal\Catalogo.cshtml" />
-    <Content Include="Views\Animal\Crear.cshtml" />
-    <Content Include="Views\HistorialMedico\Index.cshtml" />
-    <Content Include="Views\HistorialMedico\Crear.cshtml" />
-    <Content Include="Views\Animal\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
