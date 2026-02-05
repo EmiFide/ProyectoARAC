@@ -29,5 +29,7 @@ namespace AdoptameLiberia.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
     }
 }
