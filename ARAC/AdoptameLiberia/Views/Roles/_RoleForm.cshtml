@@ -1,0 +1,44 @@
+@model AdoptameLiberia.Models.RoleCreateEditVM
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+</div>
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+    @Html.TextAreaFor(m => m.Description, 3, 50, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+</div>
+
+<h4>Permisos por módulo</h4>
+<p class="text-muted">Nota: si marcas <strong>Escritura</strong>, el sistema activará automáticamente <strong>Lectura</strong>.</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Módulo</th>
+            <th style="width:110px;" class="text-center">Lectura</th>
+            <th style="width:110px;" class="text-center">Escritura</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Permissions.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(m => m.Permissions[i].ModuleId)
+                    @Html.HiddenFor(m => m.Permissions[i].ModuleName)
+                    @Model.Permissions[i].ModuleName
+                </td>
+                <td class="text-center">
+                    @Html.CheckBoxFor(m => m.Permissions[i].CanRead, new { @class = "perm-read" })
+                </td>
+                <td class="text-center">
+                    @Html.CheckBoxFor(m => m.Permissions[i].CanWrite, new { @class = "perm-write" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
