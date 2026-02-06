@@ -23,12 +23,14 @@
                     <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
 
+                    <li>@Html.ActionLink("Catálogo Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })</li>
+
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <li>@Html.ActionLink("Usuarios", "Index", "AdminUsers", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Roles y permisos", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })</li>
                     }
 
+                    <li>@Html.ActionLink("Tipos de Animales", "Index", "TipoAnimal", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
                  @Html.Partial("_LoginPartial")
             </div>

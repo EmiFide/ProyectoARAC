@@ -1,0 +1,33 @@
+﻿@model List<AdoptameLiberia.Models.TiposAnimales.TipoAnimal>
+
+<h2>Tipos de Animales</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Tipo", "Create")
+</p>
+
+<table border="1">
+    <tr>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (AdoptameLiberia.Models.TiposAnimales.TipoAnimal item in Model)
+    {
+        <tr>
+            <td>@item.Nombre_Tipo_Animal</td>
+            <td>@item.Descripcion</td>
+            <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID_TipoAnimal }) |
+                <a href="@Url.Action("Eliminar", "TipoAnimal", new { id = item.ID_TipoAnimal })"
+                   class="btn btn-danger"
+                   onclick="return confirm('¿Seguro que desea eliminar este tipo de animal?');">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+    }
+</table>
