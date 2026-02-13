@@ -164,22 +164,36 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SeedData.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Mascotas\AnimalController.cs" />
     <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
+    <Compile Include="Controllers\RazasController.cs" />
     <Compile Include="Controllers\TiposAnimales\TipoAnimalController.cs" />
+    <Compile Include="Controllers\Mascotas\AnimalController.cs" />
+    <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
+    <Compile Include="Controllers\TiposAnimales\TipoAnimalController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Filters\PermissionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mascotas\AnimalModel.cs" />
     <Compile Include="Models\Mascotas\HistorialMedicoModel.cs" />
+    <Compile Include="Models\Raza.cs" />
     <Compile Include="Models\TiposAnimales\TipoAnimal.cs" />
+    <Compile Include="Models\Mascotas\AnimalModel.cs" />
+    <Compile Include="Models\Mascotas\HistorialMedicoModel.cs" />
+    <Compile Include="Models\TiposAnimales\TipoAnimal.cs" />
+    <Compile Include="Models\SecurityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -257,11 +271,20 @@
     <Content Include="Views\TipoAnimal\Index.cshtml" />
     <Content Include="Views\TipoAnimal\Create.cshtml" />
     <Content Include="Views\TipoAnimal\Edit.cshtml" />
-    <Content Include="Views\Animal\Catalogo.cshtml" />
-    <Content Include="Views\Animal\Crear.cshtml" />
-    <Content Include="Views\HistorialMedico\Index.cshtml" />
-    <Content Include="Views\HistorialMedico\Crear.cshtml" />
-    <Content Include="Views\Animal\Editar.cshtml" />
+    <Content Include="Views\Razas\Create.cshtml" />
+    <Content Include="Views\Razas\Delete.cshtml" />
+    <Content Include="Views\Razas\Details.cshtml" />
+    <Content Include="Views\Razas\Edit.cshtml" />
+    <Content Include="Views\Razas\Index.cshtml" />
+    <Content Include="Views\TipoAnimal\Index.cshtml" />
+    <Content Include="Views\TipoAnimal\Create.cshtml" />
+    <Content Include="Views\TipoAnimal\Edit.cshtml" />
+    <Content Include="Views\AdminUsers\AssignRoles.cshtml" />
+    <Content Include="Views\AdminUsers\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\_RoleForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
