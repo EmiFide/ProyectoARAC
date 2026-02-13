@@ -60,7 +60,7 @@ namespace AdoptameLiberia.Controllers.TiposAnimales
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                string sql = @"INSERT INTO Tipo_Animal 
+                string sql = @"INSERT INTO Tipo_Animal
                                (Nombre_Tipo_Animal, Descripcion, Estado)
                                VALUES (@Nombre, @Descripcion, 1)";
 
@@ -81,8 +81,9 @@ namespace AdoptameLiberia.Controllers.TiposAnimales
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                string sql = @"SELECT ID_TipoAnimal, Nombre_Tipo_Animal, Descripcion, Estado 
-                               FROM Tipo_Animal WHERE ID_TipoAnimal = @Id";
+                string sql = @"SELECT ID_TipoAnimal, Nombre_Tipo_Animal, Descripcion, Estado
+                               FROM Tipo_Animal
+                               WHERE ID_TipoAnimal = @Id";
 
                 SqlCommand comando = new SqlCommand(sql, conexion);
                 comando.Parameters.AddWithValue("@Id", id);
@@ -112,7 +113,7 @@ namespace AdoptameLiberia.Controllers.TiposAnimales
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                string sql = @"UPDATE Tipo_Animal 
+                string sql = @"UPDATE Tipo_Animal
                                SET Nombre_Tipo_Animal = @Nombre,
                                    Descripcion = @Descripcion,
                                    Estado = @Estado
@@ -130,25 +131,18 @@ namespace AdoptameLiberia.Controllers.TiposAnimales
 
             return RedirectToAction("Index");
         }
-
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult Eliminar(int id)
         {
-            TipoAnimal tipo = new TipoAnimal();
-            tipo.ID_TipoAnimal = id;
-            return View(tipo);
-        }
+            string cadenaConexion =
+                ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            using (SqlConnection conexion = new SqlConnection(connectionString))
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
             {
-                string sql = @"UPDATE Tipo_Animal 
-                               SET Estado = 0 
-                               WHERE ID_TipoAnimal = @Id";
+                string sql = "DELETE FROM Tipo_Animal WHERE ID_TipoAnimal = @id";
 
                 SqlCommand comando = new SqlCommand(sql, conexion);
-                comando.Parameters.AddWithValue("@Id", id);
+                comando.Parameters.AddWithValue("@id", id);
 
                 conexion.Open();
                 comando.ExecuteNonQuery();
@@ -156,5 +150,7 @@ namespace AdoptameLiberia.Controllers.TiposAnimales
 
             return RedirectToAction("Index");
         }
+
+
     }
 }

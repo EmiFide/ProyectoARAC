@@ -200,26 +200,40 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // No revelar que el usuario no existe o que no está confirmado
-                    return View("ForgotPasswordConfirmation");
-                }
-
-                // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                // Enviar un correo electrónico con este vínculo
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return View(model);
             }
 
-            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            return View(model);
+            // Buscar usuario por email (en la plantilla, UserName = Email)
+            var user = await UserManager.FindByNameAsync(model.Email);
+
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+            {
+                
+                return View("ForgotPasswordConfirmation");
+            }
+
+            // Generar token de reseteo
+            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+            // Construir URL de recuperación
+            var callbackUrl = Url.Action(
+                "ResetPassword",
+                "Account",
+                new { userId = user.Id, code = code },
+                protocol: Request.Url.Scheme);
+
+            // Enviar correo
+            await UserManager.SendEmailAsync(
+                user.Id,
+                "Restablecer contraseña",
+                $"Para restablecer su contraseña haga clic <a href=\"{callbackUrl}\">aquí</a>.");
+
+            // Confirmación
+            return RedirectToAction("ForgotPasswordConfirmation", "Account");
         }
+
 
         //
         // GET: /Account/ForgotPasswordConfirmation
