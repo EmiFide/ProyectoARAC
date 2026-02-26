@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.NombreRaza)
         </dt>
 
@@ -29,6 +37,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.RazaId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_Raza }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
