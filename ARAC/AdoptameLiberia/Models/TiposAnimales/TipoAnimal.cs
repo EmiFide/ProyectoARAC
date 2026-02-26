@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdoptameLiberia.Models.TiposAnimales
@@ -11,11 +13,14 @@ namespace AdoptameLiberia.Models.TiposAnimales
 
         [Required]
         [StringLength(50)]
+        [DisplayName("Nombre del tipo de animal")]
         public string Nombre_Tipo_Animal { get; set; }
 
         [StringLength(200)]
         public string Descripcion { get; set; }
 
         public bool Estado { get; set; }
+
+        public ICollection<Raza> Razas { get; set; }
     }
 }

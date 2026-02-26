@@ -1,51 +1,128 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+
+    @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/animal-theme.css")" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-arac sticky-top">
         <div class="container">
-            @Html.ActionLink("Nombre de la aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+
+            @Html.ActionLink(
+                "ARAC Refugio",
+                "Index",
+                "Home",
+                null,
+                new { @class = "navbar-brand font-weight-bold" })
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
 
-                    <li>@Html.ActionLink("Catálogo Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })</li>
+            <div class="collapse navbar-collapse" id="mainNavbar">
 
-                    @if (Request.IsAuthenticated)
+                <!-- Menú principal -->
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Mascotas", "Catalogo", "Animal", null,
+                            new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Razas", "Index", "Razas", null,
+                            new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Tipos de Animales", "Index", "TipoAnimal", null,
+                            new { @class = "nav-link" })
+                    </li>
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <li>@Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })</li>
-                    }
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle font-weight-semibold"
+                               href="#"
+                               id="adminDropdown"
+                               role="button"
+                               data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                Administración
+                            </a>
 
-                    <li>@Html.ActionLink("Tipos de Animales", "Index", "TipoAnimal", new { area = "" }, new { @class = "nav-link" })</li>
+                            <div class="dropdown-menu dropdown-admin">
+                                @Html.ActionLink("Inventario", "Index", "Inventario", null,
+                                    new { @class = "dropdown-item" })
+                        
+                            @Html.ActionLink("Donaciones", "Index", "Donaciones", null,
+                                new { @class = "dropdown-item" })
+                       
+
+                        @Html.ActionLink("Campañas", "Index", "Campanias", null,
+                            new { @class = "dropdown-item" })
+
+                        <div class="dropdown-divider"></div>
+
+                        @Html.ActionLink("Usuarios", "Index", "AdminUsers", null,
+                            new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Roles y permisos", "Index", "Roles", null,
+                            new { @class = "dropdown-item" })
+</div>
+                        </li>
+                    }
                 </ul>
-                 @Html.Partial("_LoginPartial")
+
+                <!-- Login parcial -->
+                <div class="ml-auto">
+                    @Html.Partial("_LoginPartial")
+                </div>
+
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+
+    <!-- CONTENIDO -->
+    <div class="container body-content mt-4">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        <footer class="text-center mt-4 mb-3">
+            <p style="color:#6D4C41; font-weight:500;">
+                🐾 © @DateTime.Now.Year - ARAC Refugio | Salvando vidas con amor 💚
+            </p>
         </footer>
     </div>
 
+    <!-- SCRIPTS (ORDEN CRÍTICO) -->
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
     @RenderSection("scripts", required: false)
+
+    <div style="position: fixed; bottom: 12px; right: 12px; font-size: 38px; opacity: 0.25; z-index: 9999;">
+        🐾🐾
+    </div>
+
 </body>
 </html>

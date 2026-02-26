@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +8,7 @@ namespace AdoptameLiberia.Models.Mascotas
 {
     public class AnimalModel
     {
+        [Key]
         public int ID_Animal { get; set; }
         public string Nombre_Animal { get; set; }
         public int ID_Raza { get; set; }

@@ -1,0 +1,95 @@
+﻿@model AdoptameLiberia.Models.Campanias.CampaniaCastracion
+
+@{
+    ViewBag.Title = "Nueva Campaña";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header text-white" style="background-color: #40090b;">
+                    <h4 class="mb-0">Registrar Nueva Campaña de Castración</h4>
+                </div>
+
+                <div class="card-body bg-light">
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nombre, new { @class = "font-weight-bold" })
+                            @Html.TextBoxFor(model => model.Nombre,
+                                new
+                                     {
+                                    @class = "form-control",
+                                    placeholder = "Nombre de la campaña",
+                                    required = "required"
+                                })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha, new { @class = "font-weight-bold" })
+                            @Html.TextBoxFor(model => model.Fecha,
+                                "{0:yyyy-MM-dd}",
+                                new
+                                     {
+                                    @class = "form-control",
+                                    type = "date"
+                                })
+                            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Lugar, new { @class = "font-weight-bold" })
+                            @Html.TextBoxFor(model => model.Lugar,
+                                new
+                                     {
+                                    @class = "form-control",
+                                    placeholder = "Lugar donde se realizará la campaña"
+                                })
+                            @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cupos, new { @class = "font-weight-bold" })
+                            @Html.TextBoxFor(model => model.Cupos,
+                                new
+                                     {
+                                    @class = "form-control",
+                                    type = "number",
+                                    min = "0",
+                                    placeholder = "Cantidad de cupos disponibles"
+                                })
+                            @Html.ValidationMessageFor(model => model.Cupos, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+
+                            <a href="@Url.Action("Index", "CampaniaCastracion")"
+                               class="btn btn-outline-secondary">
+                                ← Volver
+                            </a>
+
+                            <button type="submit"
+                                    class="btn text-white"
+                                    style="background-color: #40090b;">
+                                Guardar
+                            </button>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
