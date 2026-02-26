@@ -441,3 +441,43 @@ IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId =
 BEGIN
   INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);
 END
+
+--Bryan, esto sirve para la parte de donaciones--
+IF OBJECT_ID('dbo.Observacion_Donacion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Observacion_Donacion
+    (
+        ID_Observacion INT IDENTITY PRIMARY KEY,
+        ID_Donacion INT NOT NULL,
+        Comentario VARCHAR(400) NOT NULL,
+        Fecha DATETIME NOT NULL DEFAULT GETDATE(),
+        CONSTRAINT FK_ObsDon_Donacion FOREIGN KEY (ID_Donacion) 
+            REFERENCES dbo.Donacion(ID_Donacion)
+            ON DELETE CASCADE
+    );
+END
+GO
+--tablas campañas
+CREATE TABLE CampaniasCastracion (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100),
+    Fecha DATE,
+    Lugar NVARCHAR(150),
+    Cupos INT
+);
+--agragar a anmimales
+ALTER TABLE Animal
+ADD NombreRaza NVARCHAR(100),
+    NombreTipo NVARCHAR(100);
+
+    --Tablas Inscripciones
+    CREATE TABLE InscripcionesCastracion (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    CampaniaCastracionId INT NOT NULL,
+    AnimalId INT NOT NULL,
+    VeterinarioAsignado NVARCHAR(100) NULL,
+    Resultado NVARCHAR(200) NULL,
+    
+    FOREIGN KEY (CampaniaCastracionId) REFERENCES CampaniasCastracion(Id),
+    FOREIGN KEY (AnimalId) REFERENCES Animal(ID_Animal)
+);
