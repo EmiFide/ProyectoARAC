@@ -441,3 +441,19 @@ IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId =
 BEGIN
   INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);
 END
+
+--Bryan, esto sirve para la parte de donaciones--
+IF OBJECT_ID('dbo.Observacion_Donacion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Observacion_Donacion
+    (
+        ID_Observacion INT IDENTITY PRIMARY KEY,
+        ID_Donacion INT NOT NULL,
+        Comentario VARCHAR(400) NOT NULL,
+        Fecha DATETIME NOT NULL DEFAULT GETDATE(),
+        CONSTRAINT FK_ObsDon_Donacion FOREIGN KEY (ID_Donacion) 
+            REFERENCES dbo.Donacion(ID_Donacion)
+            ON DELETE CASCADE
+    );
+END
+GO
