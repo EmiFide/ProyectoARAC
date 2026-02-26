@@ -28,6 +28,7 @@
 
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
+                        <li>@Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Usuarios", "Index", "AdminUsers", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Roles y permisos", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>

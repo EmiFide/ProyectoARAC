@@ -1,0 +1,24 @@
+﻿@model AdoptameLiberia.Models.Campanias.InscripcionCastracion
+
+<h2>Asignar Veterinario</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken() 
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div>
+        <label>Veterinario</label>
+        @Html.TextBoxFor(m => m.VeterinarioAsignado, new { @class = "form-control" })
+    </div>
+
+    <div>
+        <label>Resultado</label>
+        @Html.TextBoxFor(m => m.Resultado, new { @class = "form-control" })
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+}
