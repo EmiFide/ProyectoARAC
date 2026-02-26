@@ -1,0 +1,49 @@
+﻿@model AdoptameLiberia.Models.Campanias.CampaniaCastracion
+
+@{
+    ViewBag.Title = "Nueva Campaña";
+}
+
+<h2>Nueva Campaña de Castración</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.LabelFor(model => model.Nombre)
+        @Html.TextBoxFor(model => model.Nombre)
+        @Html.ValidationMessageFor(model => model.Nombre)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(model => model.Fecha)
+        @Html.TextBoxFor(model => model.Fecha, "{0:yyyy-MM-dd}", new { type = "date" })
+        @Html.ValidationMessageFor(model => model.Fecha)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(model => model.Lugar)
+        @Html.TextBoxFor(model => model.Lugar)
+        @Html.ValidationMessageFor(model => model.Lugar)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(model => model.Cupos)
+        @Html.TextBoxFor(model => model.Cupos)
+        @Html.ValidationMessageFor(model => model.Cupos)
+    </div>
+
+    <br />
+
+    <button type="submit">Guardar</button>
+}
+
+<br />
+@Html.ActionLink("Volver a la lista", "Index")
