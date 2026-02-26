@@ -1,0 +1,91 @@
+﻿/* 1) Fondo general */
+body {
+    background-color: #FDF6EC;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 2) Navbar */
+.navbar {
+    background-color: #8D6E63 !important;
+}
+
+    .navbar a {
+        color: #fff !important;
+    }
+
+/* 3) Títulos */
+h1, h2, h3 {
+    color: #6D4C41;
+    font-weight: 600;
+}
+
+/* 4) Tarjetas bonitas */
+.card-animal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
+    transition: transform .15s ease;
+}
+
+    .card-animal:hover {
+        transform: scale(1.01);
+    }
+
+/* 5) Botones con estilo */
+.btn-primary {
+    background-color: #66BB6A !important;
+    border: none !important;
+    border-radius: 20px !important;
+}
+
+    .btn-primary:hover {
+        background-color: #57A85C !important;
+    }
+
+.btn-warning {
+    background-color: #FFB74D !important;
+    border: none !important;
+    border-radius: 20px !important;
+}
+
+/* 6) Tablas más limpias */
+.table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* HERO SECTION */
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/Content/img/refugio.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+/* Navbar más moderno */
+.navbar {
+    background-color: #8D6E63 !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+    .nav-link:hover {
+        color: #FFEB3B !important;
+    }
