@@ -175,6 +175,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202602130138001_NuevaM.cs" />
+    <Compile Include="Migrations\202602130138001_NuevaM.Designer.cs">
+      <DependentUpon>202602130138001_NuevaM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602200251284_NombreDeLaMigracion.cs" />
+    <Compile Include="Migrations\202602200251284_NombreDeLaMigracion.Designer.cs">
+      <DependentUpon>202602200251284_NombreDeLaMigracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602252227424_UpdRazas.cs" />
+    <Compile Include="Migrations\202602252227424_UpdRazas.Designer.cs">
+      <DependentUpon>202602252227424_UpdRazas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -259,6 +272,17 @@
     <Content Include="Views\TipoAnimal\Index.cshtml" />
     <Content Include="Views\TipoAnimal\Create.cshtml" />
     <Content Include="Views\TipoAnimal\Edit.cshtml" />
+    <Content Include="Views\TipoAnimal\Index.cshtml" />
+    <Content Include="Views\TipoAnimal\Create.cshtml" />
+    <Content Include="Views\TipoAnimal\Edit.cshtml" />
+    <Content Include="Views\AdminUsers\AssignRoles.cshtml" />
+    <Content Include="Views\AdminUsers\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\_RoleForm.cshtml" />
+    <Content Include="Views\Animal\Catalogo.cshtml" />
+    <Content Include="Views\Animal\Crear.cshtml" />
     <Content Include="Views\Razas\Create.cshtml" />
     <Content Include="Views\Razas\Delete.cshtml" />
     <Content Include="Views\Razas\Details.cshtml" />
@@ -294,6 +318,17 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202602130138001_NuevaM.resx">
+      <DependentUpon>202602130138001_NuevaM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602200251284_NombreDeLaMigracion.resx">
+      <DependentUpon>202602200251284_NombreDeLaMigracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602252227424_UpdRazas.resx">
+      <DependentUpon>202602252227424_UpdRazas.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
