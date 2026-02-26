@@ -1,0 +1,55 @@
+﻿@model AdoptameLiberia.Models.Donaciones.Donacion
+
+<h2>Detalle Donación #@Model.IdDonacion</h2>
+
+<p><b>Tipo:</b> @(Model.TipoDonacion != null ? Model.TipoDonacion.Nombre : "")</p>
+<p><b>Monto:</b> @Model.Monto</p>
+<p><b>Método:</b> @Model.Metodo</p>
+<p><b>Descripción:</b> @Model.Descripcion</p>
+
+<h3>Detalles (Insumos)</h3>
+@if (Model.Detalles != null && Model.Detalles.Any())
+{
+    <ul>
+        @foreach (var det in Model.Detalles)
+        {
+            <li>@det.Descripcion (ItemId: @det.IdItemInventario)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No hay detalles.</p>
+}
+
+<hr />
+<h3>Observaciones (H35)</h3>
+
+@using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
+    <div class="form-group">
+        <textarea class="form-control" name="comentario" rows="3" placeholder="Agregar observación..."></textarea>
+    </div>
+    <button class="btn btn-success" type="submit">Agregar</button>
+}
+
+@if (Model.Observaciones != null && Model.Observaciones.Any())
+{
+    <ul>
+        @foreach (var o in Model.Observaciones.OrderByDescending(x => x.Fecha))
+        {
+            <li><b>@o.Fecha.ToString("dd/MM/yyyy HH:mm")</b> - @o.Comentario</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Sin observaciones.</p>
+}
+
+<p>
+    @Html.ActionLink("Comprobante", "Comprobante", new { id = Model.IdDonacion }) |
+    @Html.ActionLink("Volver", "Index")
+</p>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Donaciones.Donacion>
+
+<h2>Historial de Donaciones</h2>
+<p>@Html.ActionLink("Registrar Donación", "Create")</p>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Monto</th>
+        <th>Método</th>
+        <th></th>
+    </tr>
+
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.IdDonacion</td>
+            <td>@d.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "")</td>
+            <td>@d.Monto</td>
+            <td>@d.Metodo</td>
+            <td>
+                @Html.ActionLink("Detalles", "Details", new { id = d.IdDonacion }) |
+                @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion })
+            </td>
+        </tr>
+    }
+</table>
