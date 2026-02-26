@@ -1,0 +1,52 @@
+﻿@model AdoptameLiberia.Models.Donaciones.VM.DonacionCreateVM
+
+<h2>Registrar Donación</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Tipo Donación</label>
+        @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>ID Usuario (Donante en tabla Usuario)</label>
+        @Html.TextBoxFor(m => m.IdUsuario, new { @class = "form-control" })
+        <small>Por ahora poné el ID_Usuario (ej: 2 o 3) según tu tabla Usuario.</small>
+    </div>
+
+    <div class="form-group">
+        <label>Método</label>
+        @Html.TextBoxFor(m => m.Metodo, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Descripción</label>
+        @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Monto (solo Monetaria)</label>
+        @Html.TextBoxFor(m => m.Monto, new { @class = "form-control" })
+    </div>
+
+    <hr />
+    <h4>Insumos (solo si tipo = Insumos)</h4>
+
+    @for (int i = 0; i < Model.Insumos.Count; i++)
+    {
+        <div class="form-group">
+            <label>Item inventario</label>
+            @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- opcional --", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Detalle</label>
+            @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "form-control" })
+        </div>
+        <hr />
+    }
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+}
