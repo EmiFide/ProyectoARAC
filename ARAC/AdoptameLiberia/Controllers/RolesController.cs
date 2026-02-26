@@ -153,11 +153,12 @@ namespace AdoptameLiberia.Controllers
                 return View(model);
             }
 
-            var role = db.Roles.FirstOrDefault(r => r.Id == model.Id);
+            var role = await RoleManager.FindByIdAsync(model.Id);
             if (role == null) return HttpNotFound();
 
             // Validación: nombre no duplicado (excluyendo el rol actual)
-            if (db.Roles.Any(r => r.Name == model.Name && r.Id != model.Id))
+            var existing = await RoleManager.FindByNameAsync(model.Name);
+            if (existing != null && existing.Id != model.Id)
             {
                 ModelState.AddModelError("Name", "Ya existe un rol con ese nombre.");
                 HydrateModuleNames(model);
