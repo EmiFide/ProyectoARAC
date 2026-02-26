@@ -57,17 +57,14 @@ namespace AdoptameLiberia.Controllers
             if (campania == null)
                 return HttpNotFound();
 
-            // 🚨 Validar cupos
             if (campania.Cupos <= 0)
             {
                 ModelState.AddModelError("", "No hay cupos disponibles.");
                 return View(inscripcion);
             }
 
-            // ✅ Guardar inscripción
             db.InscripcionesCastracion.Add(inscripcion);
 
-            // ✅ Restar cupo
             campania.Cupos--;
 
             db.SaveChanges();
