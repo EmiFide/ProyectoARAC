@@ -17,7 +17,7 @@ CREATE TABLE Rol (
 INSERT INTO Rol (Nombre_Rol, Descripcion)
 VALUES 
 ('Administrador', 'Control total del sistema'),
-('Voluntario', 'Apoyo en campaÒas y gestiÛn'),
+('Voluntario', 'Apoyo en campa√±as y gesti√≥n'),
 ('Adoptante', 'Usuario interesado en adoptar');
 
 
@@ -35,8 +35,8 @@ CREATE TABLE Usuario (
 
 INSERT INTO Usuario (ID_Rol, Nombre, Apellido1, Apellido2, Correo)
 VALUES
-(1, 'Carlos', 'RamÌrez', 'LÛpez', 'admin@refugio.com'),
-(2, 'Ana', 'Mora', 'JimÈnez', 'ana@correo.com'),
+(1, 'Carlos', 'Ram√≠rez', 'L√≥pez', 'admin@refugio.com'),
+(2, 'Ana', 'Mora', 'Jim√©nez', 'ana@correo.com'),
 (3, 'Luis', 'Soto', 'Vargas', 'luis@gmail.com');
 
 
@@ -51,8 +51,8 @@ CREATE TABLE Tipo_Animal (
 
 INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion)
 VALUES
-('Perro', 'Canino domÈstico'),
-('Gato', 'Felino domÈstico');
+('Perro', 'Canino dom√©stico'),
+('Gato', 'Felino dom√©stico');
 
 
 /*Tabla de raza*/
@@ -88,8 +88,8 @@ CREATE TABLE Animal (
 INSERT INTO Animal
 (Nombre_Animal, ID_Raza, ID_TipoAnimal, Edad, Sexo, Tamano, Peso, Descripcion)
 VALUES
-('Max', 1, 1, 3, 'Macho', 'Grande', 28.5, 'Muy juguetÛn'),
-('Luna', 2, 2, 2, 'Hembra', 'PequeÒo', 4.2, 'CariÒosa y tranquila');
+('Max', 1, 1, 3, 'Macho', 'Grande', 28.5, 'Muy juguet√≥n'),
+('Luna', 2, 2, 2, 'Hembra', 'Peque√±o', 4.2, 'Cari√±osa y tranquila');
 
 
 /*Tabla de perfil animal*/
@@ -110,7 +110,7 @@ INSERT INTO Perfil_Animal
 (ID_Animal, Nivel_Energia, Nivel_Socializacion, Temperamento, Convivencia,
  Nivel_Entrenamiento, Necesidades_Especiales, Sintesis)
 VALUES
-(1, 'Alta', 'Alta', 'Amigable', 'NiÒos y otros perros', 'B·sico', 'Ninguna', 'Ideal para familia activa'),
+(1, 'Alta', 'Alta', 'Amigable', 'Ni√±os y otros perros', 'B√°sico', 'Ninguna', 'Ideal para familia activa'),
 (2, 'Media', 'Media', 'Tranquila', 'Adultos', 'Ninguno', 'Control veterinario', 'Perfecta para apartamento');
 
 
@@ -129,7 +129,7 @@ CREATE TABLE Publicacion_Comunidad (
 INSERT INTO Publicacion_Comunidad
 (ID_Usuario, ID_Categoria, Titulo, Contenido)
 VALUES
-(2, 1, 'Jornada de adopciÛn', 'Este s·bado tendremos jornada de adopciÛn'),
+(2, 1, 'Jornada de adopci√≥n', 'Este s√°bado tendremos jornada de adopci√≥n'),
 (3, 1, 'Donaciones recibidas', 'Gracias por el apoyo recibido');
 
 
@@ -147,7 +147,7 @@ CREATE TABLE NotificacionCorreo (
 INSERT INTO NotificacionCorreo
 (ID_Usuario, Asunto, Mensaje, Fecha_Envio, Estado_Envio)
 VALUES
-(3, 'Estado de solicitud', 'Su solicitud est· en revisiÛn', GETDATE(), 'Enviado');
+(3, 'Estado de solicitud', 'Su solicitud est√° en revisi√≥n', GETDATE(), 'Enviado');
 
 
 /*Tabla de tipo donacion*/
@@ -160,8 +160,8 @@ CREATE TABLE Tipo_Donacion (
 
 INSERT INTO Tipo_Donacion (Nombre, Descripcion)
 VALUES
-('Monetaria', 'DonaciÛn en efectivo'),
-('Insumos', 'Alimentos o artÌculos');
+('Monetaria', 'Donaci√≥n en efectivo'),
+('Insumos', 'Alimentos o art√≠culos');
 
 
 /*Tabla de donacion*/
@@ -182,7 +182,7 @@ INSERT INTO Donacion
 (ID_Usuario, ID_Tipo_Donacion, Monto, Metodo, Descripcion)
 VALUES
 (3, 1, 50000, 'Transferencia', 'Apoyo mensual'),
-(2, 2, 0, 'Entrega directa', 'DonaciÛn de alimentos');
+(2, 2, 0, 'Entrega directa', 'Donaci√≥n de alimentos');
 
 
 /*Tabla de item inventario*/
@@ -217,7 +217,7 @@ CREATE TABLE Movimiento_Inventario (
 INSERT INTO Movimiento_Inventario
 (ID_Item_Inventario, Tipo_Movimiento, Motivo)
 VALUES
-(1, 'Entrada', 'DonaciÛn recibida'),
+(1, 'Entrada', 'Donaci√≥n recibida'),
 (2, 'Salida', 'Uso veterinario');
 
 
@@ -237,7 +237,7 @@ VALUES
 (2, 1, '5 sacos de alimento');
 
 
-/*Tabla de los campaÒa castracion*/
+/*Tabla de los campa√±a castracion*/
 CREATE TABLE Campania_Castracion (
     ID_Campania INT IDENTITY PRIMARY KEY,
     Nombre VARCHAR(100),
@@ -253,10 +253,10 @@ CREATE TABLE Campania_Castracion (
 INSERT INTO Campania_Castracion
 (Nombre, Descripcion, Ubicacion, Costo_Por_Animal, Hora_Inicio, Hora_Finalizacion, Fecha)
 VALUES
-('CastraciÛn Solidaria', 'CampaÒa comunitaria', 'San JosÈ', 15000, '08:00', '16:00', '2026-03-10');
+('Castraci√≥n Solidaria', 'Campa√±a comunitaria', 'San Jos√©', 15000, '08:00', '16:00', '2026-03-10');
 
 
-/*Tabla de participante campaÒa*/
+/*Tabla de participante campa√±a*/
 CREATE TABLE Participante_Campania (
     ID_Participante_Campania INT IDENTITY PRIMARY KEY,
     ID_Campania INT,
@@ -275,7 +275,7 @@ VALUES
 (1, 2, '09:30', 'Confirmado', 'Perro adulto');
 
 
-/*Tabla de gasto campaÒa*/
+/*Tabla de gasto campa√±a*/
 CREATE TABLE Gasto_Campania (
     ID_Gasto_Campania INT IDENTITY PRIMARY KEY,
     ID_Campania INT,
@@ -309,7 +309,7 @@ INSERT INTO Solicitud_Adopcion
 (ID_Usuario, ID_Animal, Condiciones_Hogar, Motivo_Adopcion,
  Otros_Animales, Detalle_Otros_Animales, Estado)
 VALUES
-(3, 1, 'Casa con patio', 'CompaÒÌa familiar', 0, NULL, 'En revisiÛn');
+(3, 1, 'Casa con patio', 'Compa√±√≠a familiar', 0, NULL, 'En revisi√≥n');
 
 
 /*Tabla de adopcion*/
@@ -325,8 +325,119 @@ CREATE TABLE Adopcion (
 );
 
 
+ALTER TABLE Animal
+ADD Estado VARCHAR(20) NOT NULL DEFAULT 'Disponible';
+
+
+CREATE TABLE Historial_Medico (
+    ID_Historial INT IDENTITY PRIMARY KEY,
+    ID_Animal INT NOT NULL,
+    Fecha DATETIME NOT NULL DEFAULT GETDATE(),
+    Tipo VARCHAR(40) NOT NULL,          -- Vacuna, Desparasitacion, Cirugia, Tratamiento
+    Detalle VARCHAR(600) NULL,
+    CONSTRAINT FK_Historial_Animal FOREIGN KEY (ID_Animal) REFERENCES Animal(ID_Animal)
+);
+
+
+
 INSERT INTO Adopcion
 (ID_Solicitud, ID_Animal, Fecha_Adopcion, Estado_Adopcion, Seguimiento_Inicial)
 VALUES
-(1, 1, GETDATE(), 'Aprobada', 'Visita en 15 dÌas');
+(1, 1, GETDATE(), 'Aprobada', 'Visita en 15 d√≠as');
 
+
+
+
+
+USE ARAC_DB;
+
+-- 1) Agregar columna Description a AspNetRoles (para roles personalizados)
+IF COL_LENGTH('dbo.AspNetRoles', 'Description') IS NULL
+BEGIN
+    ALTER TABLE dbo.AspNetRoles
+    ADD [Description] NVARCHAR(256) NULL;
+END
+GO
+
+-- 2) Tabla Modules
+IF OBJECT_ID('dbo.Modules', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Modules
+    (
+        ModuleId INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_Modules PRIMARY KEY,
+        [Name] NVARCHAR(100) NOT NULL,
+        [Description] NVARCHAR(250) NULL,
+        CONSTRAINT UQ_Modules_Name UNIQUE ([Name])
+    );
+END
+GO
+
+-- 3) Tabla RoleModulePermissions (permisos por rol y m√≥dulo)
+IF OBJECT_ID('dbo.RoleModulePermissions', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.RoleModulePermissions
+    (
+        RoleId NVARCHAR(128) NOT NULL,
+        ModuleId INT NOT NULL,
+        CanRead BIT NOT NULL CONSTRAINT DF_RoleModulePermissions_CanRead DEFAULT(0),
+        CanWrite BIT NOT NULL CONSTRAINT DF_RoleModulePermissions_CanWrite DEFAULT(0),
+        CONSTRAINT PK_RoleModulePermissions PRIMARY KEY (RoleId, ModuleId),
+        CONSTRAINT FK_RoleModulePermissions_Role FOREIGN KEY (RoleId) REFERENCES dbo.AspNetRoles(Id) ON DELETE CASCADE,
+        CONSTRAINT FK_RoleModulePermissions_Module FOREIGN KEY (ModuleId) REFERENCES dbo.Modules(ModuleId) ON DELETE CASCADE
+    );
+END
+GO
+
+-- 4) Seed b√°sico de m√≥dulos (si no existen)
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Animales')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Animales','Gesti√≥n de animales rescatados');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Adopciones')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Adopciones','Gesti√≥n de procesos de adopci√≥n');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Donaciones')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Donaciones','Gesti√≥n de donaciones');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Usuarios')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Usuarios','Gesti√≥n de usuarios');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Roles y permisos')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Roles y permisos','Gesti√≥n de roles y permisos');
+
+-- 5) (Opcional) Crear roles base si no existen
+IF NOT EXISTS (SELECT 1 FROM dbo.AspNetRoles WHERE [Name] = 'Administrador')
+    INSERT INTO dbo.AspNetRoles(Id, [Name], Description) VALUES (NEWID(), 'Administrador', 'Acceso total al sistema');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.AspNetRoles WHERE [Name] = 'Colaborador')
+    INSERT INTO dbo.AspNetRoles(Id, [Name], Description) VALUES (NEWID(), 'Colaborador', 'Acceso operativo (lectura/escritura seg√∫n permisos)');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.AspNetRoles WHERE [Name] = 'Lector')
+    INSERT INTO dbo.AspNetRoles(Id, [Name], Description) VALUES (NEWID(), 'Lector', 'Acceso solo lectura');
+
+-- 6) (Opcional) Dar permisos full al Administrador
+DECLARE @AdminRoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM dbo.AspNetRoles WHERE [Name] = 'Administrador');
+
+IF @AdminRoleId IS NOT NULL
+BEGIN
+    INSERT INTO dbo.RoleModulePermissions(RoleId, ModuleId, CanRead, CanWrite)
+    SELECT @AdminRoleId, m.ModuleId, 1, 1
+    FROM dbo.Modules m
+    WHERE NOT EXISTS (
+        SELECT 1 FROM dbo.RoleModulePermissions p
+        WHERE p.RoleId = @AdminRoleId AND p.ModuleId = m.ModuleId
+    );
+END
+GO
+
+--Crear el usuario con el correo ADMIN
+SELECT TOP (1000) [UserId]
+      ,[RoleId]
+  FROM [ARAC_DB].[dbo].[AspNetUserRoles]
+
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'franffv0809@gmail.com');
+DECLARE @RoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
+
+IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId = @RoleId)
+BEGIN
+  INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);
+END
