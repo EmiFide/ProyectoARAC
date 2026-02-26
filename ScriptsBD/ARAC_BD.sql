@@ -457,3 +457,27 @@ BEGIN
     );
 END
 GO
+--tablas campañas
+CREATE TABLE CampaniasCastracion (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100),
+    Fecha DATE,
+    Lugar NVARCHAR(150),
+    Cupos INT
+);
+--agragar a anmimales
+ALTER TABLE Animal
+ADD NombreRaza NVARCHAR(100),
+    NombreTipo NVARCHAR(100);
+
+    --Tablas Inscripciones
+    CREATE TABLE InscripcionesCastracion (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    CampaniaCastracionId INT NOT NULL,
+    AnimalId INT NOT NULL,
+    VeterinarioAsignado NVARCHAR(100) NULL,
+    Resultado NVARCHAR(200) NULL,
+    
+    FOREIGN KEY (CampaniaCastracionId) REFERENCES CampaniasCastracion(Id),
+    FOREIGN KEY (AnimalId) REFERENCES Animal(ID_Animal)
+);
