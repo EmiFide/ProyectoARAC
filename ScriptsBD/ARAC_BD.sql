@@ -481,3 +481,76 @@ ADD NombreRaza NVARCHAR(100),
     FOREIGN KEY (CampaniaCastracionId) REFERENCES CampaniasCastracion(Id),
     FOREIGN KEY (AnimalId) REFERENCES Animal(ID_Animal)
 );
+
+-----
+USE ARAC_DB;
+
+/* 1) Item_Inventario: agregar Stock_Minimo y Fecha_Caducidad */
+IF COL_LENGTH('dbo.Item_Inventario', 'Stock_Minimo') IS NULL
+BEGIN
+    ALTER TABLE dbo.Item_Inventario
+    ADD Stock_Minimo INT NOT NULL CONSTRAINT DF_ItemInventario_StockMinimo DEFAULT(0);
+END
+GO
+
+IF COL_LENGTH('dbo.Item_Inventario', 'Fecha_Caducidad') IS NULL
+BEGIN
+    ALTER TABLE dbo.Item_Inventario
+    ADD Fecha_Caducidad DATE NULL;
+END
+GO
+
+/* 2) Movimiento_Inventario: agregar cantidad y campos de auditoría */
+IF COL_LENGTH('dbo.Movimiento_Inventario', 'Cantidad') IS NULL
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario
+    ADD Cantidad INT NOT NULL CONSTRAINT DF_MovInv_Cantidad DEFAULT(0);
+END
+GO
+
+IF COL_LENGTH('dbo.Movimiento_Inventario', 'Stock_Anterior') IS NULL
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario
+    ADD Stock_Anterior INT NULL;
+END
+GO
+
+IF COL_LENGTH('dbo.Movimiento_Inventario', 'Stock_Nuevo') IS NULL
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario
+    ADD Stock_Nuevo INT NULL;
+END
+GO
+
+IF COL_LENGTH('dbo.Movimiento_Inventario', 'Destinatario') IS NULL
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario
+    ADD Destinatario NVARCHAR(100) NULL;
+END
+GO
+
+IF COL_LENGTH('dbo.Movimiento_Inventario', 'UsuarioId') IS NULL
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario
+    ADD UsuarioId NVARCHAR(128) NULL;
+END
+GO
+
+/* 3) FK a AspNetUsers (si existe) */
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'AspNetUsers')
+AND NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_MovInv_Usuario')
+BEGIN
+    ALTER TABLE dbo.Movimiento_Inventario WITH CHECK
+    ADD CONSTRAINT FK_MovInv_Usuario FOREIGN KEY (UsuarioId) REFERENCES dbo.AspNetUsers(Id);
+END
+GO
+
+/* 4) Índice para búsquedas por fecha y tipo */
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_MovInv_Fecha' AND object_id = OBJECT_ID('dbo.Movimiento_Inventario'))
+BEGIN
+    CREATE INDEX IX_MovInv_Fecha ON dbo.Movimiento_Inventario(Fecha_Movimiento DESC);
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Modules WHERE [Name] = 'Inventario')
+    INSERT INTO dbo.Modules([Name],[Description]) VALUES ('Inventario','Gestión del inventario');

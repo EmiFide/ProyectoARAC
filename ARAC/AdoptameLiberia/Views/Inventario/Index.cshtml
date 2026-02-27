@@ -1,0 +1,82 @@
+@model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+@{
+    ViewBag.Title = "Inventario";
+}
+
+<h2>Inventario</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-6">
+        @Html.ActionLink("Registrar artículo", "Create", "Inventario", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Historial de movimientos", "Historial", "Inventario", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-md-6 text-right">
+        <span class="label label-danger" style="margin-right:8px;">Stock bajo: @ViewBag.StockBajoCount</span>
+        <span class="label label-warning">Próximo a vencer: @ViewBag.VencenProntoCount</span>
+        <div style="margin-top:8px;">
+            @Html.ActionLink("Ver alertas de stock mínimo", "AlertasStockMinimo", "Inventario", null, new { @class = "btn btn-link" })
+            |
+            @Html.ActionLink("Ver vencimientos", "Vencimientos", "Inventario", null, new { @class = "btn btn-link" })
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Categoría</th>
+            <th>Unidad</th>
+            <th>Stock</th>
+            <th>Stock mínimo</th>
+            <th>Caducidad</th>
+            <th style="width: 280px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        var stockBajo = item.StockActual <= item.StockMinimo;
+        var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
+
+        <tr class="@(stockBajo ? "danger" : "")">
+            <td>@item.Nombre</td>
+            <td>@item.Categoria</td>
+            <td>@item.UnidadMedida</td>
+            <td>
+                @item.StockActual
+                @if (stockBajo)
+                {
+                    <span class="label label-danger" style="margin-left:6px;">Stock bajo</span>
+                }
+            </td>
+            <td>@item.StockMinimo</td>
+            <td>
+                @if (item.FechaCaducidad.HasValue)
+                {
+                    @item.FechaCaducidad.Value.ToString("yyyy-MM-dd")
+                    if (vencePronto)
+                    {
+                        <span class="label label-warning" style="margin-left:6px;">Pronto</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">—</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Entrada", "Entrada", "Inventario", new { id = item.IdItemInventario }, new { @class = "btn btn-xs btn-success" })
+                @Html.ActionLink("Salida", "Salida", "Inventario", new { id = item.IdItemInventario }, new { @class = "btn btn-xs btn-warning" })
+                @Html.ActionLink("Ajuste", "Ajuste", "Inventario", new { id = item.IdItemInventario }, new { @class = "btn btn-xs btn-info" })
+                @Html.ActionLink("Editar", "Edit", "Inventario", new { id = item.IdItemInventario }, new { @class = "btn btn-xs btn-default" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

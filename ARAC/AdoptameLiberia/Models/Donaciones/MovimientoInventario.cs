@@ -18,8 +18,26 @@ namespace AdoptameLiberia.Models.Donaciones
         [StringLength(20)]
         public string TipoMovimiento { get; set; } // Entrada/Salida
 
+        [Column("Cantidad")]
+        [Range(0, int.MaxValue)]
+        public int Cantidad { get; set; }
+
+        [Column("Stock_Anterior")]
+        public int? StockAnterior { get; set; }
+
+        [Column("Stock_Nuevo")]
+        public int? StockNuevo { get; set; }
+
+        [Column("Destinatario")]
+        [StringLength(100)]
+        public string Destinatario { get; set; }
+
         [Column("Fecha_Movimiento")]
         public DateTime FechaMovimiento { get; set; }
+
+        [Column("UsuarioId")]
+        [StringLength(128)]
+        public string UsuarioId { get; set; }
 
         [Column("Motivo")]
         [StringLength(200)]

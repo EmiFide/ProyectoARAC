@@ -171,6 +171,7 @@
     <Compile Include="Controllers\CampaniasController.cs" />
     <Compile Include="Controllers\DonacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Mascotas\AnimalController.cs" />
     <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
@@ -197,6 +198,12 @@
     <Compile Include="Models\Donaciones\TipoDonacion.cs" />
     <Compile Include="Models\Donaciones\VM\DonacionCreateVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Inventario\AjusteInventario.cs" />
+    <Compile Include="Models\Inventario\HistorialInventarioFilter.cs" />
+    <Compile Include="Models\Inventario\HistorialInventario.cs" />
+    <Compile Include="Models\Inventario\ItemInventarioCreateEdit.cs" />
+    <Compile Include="Models\Inventario\MovimientoEntrada.cs" />
+    <Compile Include="Models\Inventario\MovimientoSalida.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mascotas\AnimalModel.cs" />
     <Compile Include="Models\Mascotas\HistorialMedicoModel.cs" />
@@ -307,6 +314,15 @@
     <Content Include="Views\Campanias\Inscribir.cshtml" />
     <Content Include="Views\Campanias\VerInscripciones.cshtml" />
     <Content Include="Views\Campanias\AsignarVeterinario.cshtml" />
+    <Content Include="Views\Inventario\Ajuste.cshtml" />
+    <Content Include="Views\Inventario\AlertasStockMinimo.cshtml" />
+    <Content Include="Views\Inventario\Create.cshtml" />
+    <Content Include="Views\Inventario\Edit.cshtml" />
+    <Content Include="Views\Inventario\Entrada.cshtml" />
+    <Content Include="Views\Inventario\Historial.cshtml" />
+    <Content Include="Views\Inventario\Index.cshtml" />
+    <Content Include="Views\Inventario\Salida.cshtml" />
+    <Content Include="Views\Inventario\Vencimientos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
