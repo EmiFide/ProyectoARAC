@@ -20,6 +20,7 @@ namespace AdoptameLiberia.App_Start
                     new Module { Name = "Animales", Description = "Gestión de animales rescatados" },
                     new Module { Name = "Adopciones", Description = "Gestión de procesos de adopción" },
                     new Module { Name = "Donaciones", Description = "Gestión de donaciones" },
+                    new Module { Name = "Inventario", Description = "Inventario de equipo y suministros" },
                     new Module { Name = "Usuarios", Description = "Gestión de usuarios" },
                     new Module { Name = "Roles y permisos", Description = "Gestión de roles y permisos" },
                 };
