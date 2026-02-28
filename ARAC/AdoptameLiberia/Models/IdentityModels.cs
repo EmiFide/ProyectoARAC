@@ -60,5 +60,7 @@ namespace AdoptameLiberia.Models
         }
 
         public System.Data.Entity.DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
+
+        public System.Data.Entity.DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
     }
 }
