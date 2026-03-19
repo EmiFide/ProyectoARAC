@@ -1,0 +1,43 @@
+﻿@model AdoptameLiberia.Models.Comunidad.PublicacionComunidad
+@using AdoptameLiberia.Models.Comunidad
+@{
+    ViewBag.Title = "Detalle publicación";
+    var comentarios = ViewBag.Comentarios as List<ComentarioPublicacion>;
+}
+
+<h2>@Model.Titulo</h2>
+<p>@Model.Contenido</p>
+<p><strong>Fecha:</strong> @Model.Fecha</p>
+
+<hr />
+<h3>Comentarios</h3>
+
+@if (comentarios != null && comentarios.Any())
+{
+    foreach (var c in comentarios)
+    {
+        <div class="panel panel-default" style="padding:10px; margin-bottom:10px;">
+            <p>@c.Contenido</p>
+            <small>@c.Fecha</small>
+        </div>
+    }
+}
+else
+{
+    <p>No hay comentarios todavía.</p>
+}
+
+<hr />
+<h3>Agregar comentario</h3>
+
+@using (Html.BeginForm("Comentar", "Comunidad", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="idPublicacion" value="@Model.ID_Publicacion" />
+
+    <div class="form-group">
+        <textarea name="contenido" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Comentar</button>
+}

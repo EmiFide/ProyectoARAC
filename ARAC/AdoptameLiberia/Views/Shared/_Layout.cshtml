@@ -31,6 +31,8 @@
                     <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Catálogo Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Voluntariado", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })</li>
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
                         <li>@Html.ActionLink("Inventario", "Index", "Inventario", null, new { @class = "nav-link" })</li>
@@ -38,6 +40,9 @@
                         <li>@Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Usuarios", "Index", "AdminUsers", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Roles y permisos", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Voluntarios", "Index", "Voluntarios", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Tareas Voluntariado", "Index", "TareasVoluntariado", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Participaciones", "Index", "ParticipacionesVoluntario", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     <li>@Html.ActionLink("Tipos de Animales", "Index", "TipoAnimal", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>

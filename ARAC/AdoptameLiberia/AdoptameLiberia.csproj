@@ -170,18 +170,22 @@
     <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\AdopcionesController.cs" />
     <Compile Include="Controllers\CampaniasController.cs" />
+    <Compile Include="Controllers\ComunidadController.cs" />
     <Compile Include="Controllers\DonacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Mascotas\AnimalController.cs" />
     <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
+    <Compile Include="Controllers\ParticipacionesVoluntarioController.cs" />
     <Compile Include="Controllers\RazasController.cs" />
+    <Compile Include="Controllers\SolicitudesVoluntariadoController.cs" />
     <Compile Include="Controllers\TiposAnimales\TipoAnimalController.cs" />
     <Compile Include="Controllers\Mascotas\AnimalController.cs" />
     <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
     <Compile Include="Controllers\TiposAnimales\TipoAnimalController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\VoluntariosController.cs" />
     <Compile Include="Filters\PermissionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -218,6 +222,8 @@
     <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Campanias\CampaniasCastracion.cs" />
     <Compile Include="Models\Campanias\InscripcionCastracion.cs" />
+    <Compile Include="Models\Comunidad\ComentarioPublicacion.cs" />
+    <Compile Include="Models\Comunidad\PublicacionComunidad.cs" />
     <Compile Include="Models\Donaciones\ARACDbContext.cs" />
     <Compile Include="Models\Donaciones\DetalleDonacion.cs" />
     <Compile Include="Models\Donaciones\Donacion.cs" />
@@ -243,6 +249,9 @@
     <Compile Include="Models\Mascotas\HistorialMedicoModel.cs" />
     <Compile Include="Models\TiposAnimales\TipoAnimal.cs" />
     <Compile Include="Models\SecurityModels.cs" />
+    <Compile Include="Models\Voluntariado\ParticipacionVoluntario.cs" />
+    <Compile Include="Models\Voluntariado\TareaVoluntariado.cs" />
+    <Compile Include="Models\Voluntariado\Voluntario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -369,6 +378,15 @@
     <Content Include="Views\Adopciones\Details.cshtml" />
     <Content Include="Views\Adopciones\Edit.cshtml" />
     <Content Include="Views\Adopciones\Index.cshtml" />
+    <Content Include="Views\Voluntarios\Index.cshtml" />
+    <Content Include="Views\ParticipacionesVoluntario\Create.cshtml" />
+    <Content Include="Views\ParticipacionesVoluntario\Index.cshtml" />
+    <Content Include="Views\SolicitudesVoluntariado\Create.cshtml" />
+    <Content Include="Views\Comunidad\Index.cshtml" />
+    <Content Include="Views\Comunidad\Create.cshtml" />
+    <Content Include="Views\Comunidad\Details.cshtml" />
+    <Content Include="Views\Voluntarios\Create.cshtml" />
+    <Content Include="Views\Voluntarios\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
