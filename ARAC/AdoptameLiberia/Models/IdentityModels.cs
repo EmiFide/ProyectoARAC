@@ -19,40 +19,11 @@ namespace AdoptameLiberia.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection")
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
-        }
-
-        public DbSet<Module> Modules { get; set; }
-        public DbSet<RoleModulePermission> RoleModulePermissions { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            // Clave compuesta (RoleId + ModuleId)
-            modelBuilder.Entity<RoleModulePermission>()
-                .HasKey(x => new { x.RoleId, x.ModuleId });
-
-            modelBuilder.Entity<RoleModulePermission>()
-                .HasRequired(x => x.Role)
-                .WithMany(r => r.ModulePermissions)
-                .HasForeignKey(x => x.RoleId)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<RoleModulePermission>()
-                .HasRequired(x => x.Module)
-                .WithMany(m => m.RolePermissions)
-                .HasForeignKey(x => x.ModuleId)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Module>()
-                .Property(m => m.Name)
-                .IsRequired()
-                .HasMaxLength(100);
         }
 
         public static ApplicationDbContext Create()
