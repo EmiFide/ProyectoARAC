@@ -54,24 +54,21 @@ namespace AdoptameLiberia.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña se ha cambiado."
-                : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña se ha establecido."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Su proveedor de autenticación de dos factores se ha establecido."
-                : message == ManageMessageId.Error ? "Se ha producido un error."
-                : message == ManageMessageId.AddPhoneSuccess ? "Se ha agregado su número de teléfono."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Se ha quitado su número de teléfono."
-                : "";
-
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+
+                Nombre = user.Nombre,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
             };
+
             return View(model);
         }
 
@@ -79,24 +76,34 @@ namespace AdoptameLiberia.Controllers
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
+        public async Task<ActionResult> Index(IndexViewModel model)
         {
-            ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+
+            user.Nombre = model.Nombre;
+
+            // Email sigue siendo el login
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+
+            var result = await UserManager.UpdateAsync(user);
+
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                message = ManageMessageId.RemoveLoginSuccess;
+                await SignInManager.SignInAsync(user, false, false);
+                return RedirectToAction("Index");
             }
-            else
-            {
-                message = ManageMessageId.Error;
-            }
-            return RedirectToAction("ManageLogins", new { Message = message });
+
+            AddErrors(result);
+            return View(model);
         }
 
         //

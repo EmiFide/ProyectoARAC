@@ -321,10 +321,16 @@ namespace AdoptameLiberia.Controllers
             var query = db.MovimientosInventario.AsQueryable();
 
             if (filter.Desde.HasValue)
-                query = query.Where(m => DbFunctions.TruncateTime(m.FechaMovimiento) >= DbFunctions.TruncateTime(filter.Desde.Value));
+            {
+                var desde = filter.Desde.Value.Date;
+                query = query.Where(m => m.FechaMovimiento >= desde);
+            }
 
             if (filter.Hasta.HasValue)
-                query = query.Where(m => DbFunctions.TruncateTime(m.FechaMovimiento) <= DbFunctions.TruncateTime(filter.Hasta.Value));
+            {
+                var hasta = filter.Hasta.Value.Date.AddDays(1);
+                query = query.Where(m => m.FechaMovimiento < hasta);
+            }
 
             if (!string.IsNullOrWhiteSpace(filter.UsuarioEmail))
             {

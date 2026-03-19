@@ -197,6 +197,10 @@
     <Compile Include="Migrations\202602252227424_UpdRazas.Designer.cs">
       <DependentUpon>202602252227424_UpdRazas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202603032355218_AjusteEnMG.cs" />
+    <Compile Include="Migrations\202603032355218_AjusteEnMG.Designer.cs">
+      <DependentUpon>202603032355218_AjusteEnMG.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -387,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202602252227424_UpdRazas.resx">
       <DependentUpon>202602252227424_UpdRazas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603032355218_AjusteEnMG.resx">
+      <DependentUpon>202603032355218_AjusteEnMG.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

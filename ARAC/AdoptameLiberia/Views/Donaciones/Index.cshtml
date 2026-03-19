@@ -3,6 +3,19 @@
 <h2>Historial de Donaciones</h2>
 <p>@Html.ActionLink("Registrar Donación", "Create")</p>
 
+@using (Html.BeginForm("Index", "Donaciones", FormMethod.Get))
+{
+    <div class="form-group">
+        <label>Filtrar por tipo de donación</label>
+        @Html.DropDownList(
+            "tipoDonacionId",
+            (SelectList)ViewBag.TiposDonacion,
+            "Todas",
+            new { @class = "form-control", onchange = "this.form.submit();" }
+        )
+    </div>
+}
+
 <table class="table">
     <tr>
         <th>ID</th>

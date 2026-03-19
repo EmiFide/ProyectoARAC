@@ -7,7 +7,7 @@
 <p><b>Método:</b> @Model.Metodo</p>
 <p><b>Descripción:</b> @Model.Descripcion</p>
 
-<h3>Detalles (Insumos)</h3>
+<h3>Detalles de Insumos</h3>
 @if (Model.Detalles != null && Model.Detalles.Any())
 {
     <ul>
@@ -23,7 +23,7 @@ else
 }
 
 <hr />
-<h3>Observaciones (H35)</h3>
+<h3>Observaciones</h3>
 
 @using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
 {
