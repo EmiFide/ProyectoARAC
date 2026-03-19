@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Comunidad.PublicacionComunidad>
+
+@{
+    ViewBag.Title = "Comunidad";
+}
+
+<h2>Comunidad</h2>
+
+<p>
+    @Html.ActionLink("Nueva publicación", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Título</th>
+        <th>Contenido</th>
+        <th>Fecha</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Titulo</td>
+            <td>@item.Contenido</td>
+            <td>@item.Fecha</td>
+            <td>@Html.ActionLink("Ver", "Details", new { id = item.ID_Publicacion })</td>
+        </tr>
+    }
+</table>

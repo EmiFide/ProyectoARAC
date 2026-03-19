@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Voluntariado.Voluntario>
+
+@{
+    ViewBag.Title = "Voluntarios";
+}
+
+<h2>Voluntarios</h2>
+
+<p>
+    @Html.ActionLink("Nuevo voluntario", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido 1</th>
+        <th>Apellido 2</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Disponibilidad</th>
+        <th>Habilidades</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.Apellido1</td>
+            <td>@item.Apellido2</td>
+            <td>@item.Correo</td>
+            <td>@item.Telefono</td>
+            <td>@item.Disponibilidad</td>
+            <td>@item.Habilidades</td>
+            <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID_Voluntario }, new { @class = "btn btn-primary btn-sm" })
+                @Html.Raw(" ")
+                @Html.ActionLink(item.Estado ? "Inactivar" : "Activar", "CambiarEstado", new { id = item.ID_Voluntario }, new { @class = "btn btn-warning btn-sm" })
+            </td>
+        </tr>
+    }
+</table>
