@@ -28,69 +28,23 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav flex-grow-1">
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Voluntariado", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })
-                    </li>
-
-                    <!-- 🔥 NUEVO MÓDULO FINANZAS -->
-                    <li class="nav-item">
-                        @Html.ActionLink("Categorías", "Index", "Categorias", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Gastos", "Index", "Gastos", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Reportes", "Dashboard", "Reportes", null, new { @class = "nav-link" })
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink("Noticias", "Index", "Noticias", null, new { @class = "nav-link" })
-                    </li>
-
+                    <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Catálogo Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Voluntariado", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })</li>
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <li class="nav-item">
-                            @Html.ActionLink("Inventario", "Index", "Inventario", null, new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Usuarios", "Index", "AdminUsers", null, new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Roles", "Index", "Roles", null, new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Voluntarios", "Index", "Voluntarios", null, new { @class = "nav-link" })
-                        </li>
+                        <li>@Html.ActionLink("Inventario", "Index", "Inventario", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Usuarios", "Index", "AdminUsers", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Roles y permisos", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Voluntarios", "Index", "Voluntarios", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Tareas Voluntariado", "Index", "TareasVoluntariado", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Participaciones", "Index", "ParticipacionesVoluntario", new { area = "" }, new { @class = "nav-link" })</li>
                     }
 
                     <li class="nav-item">
