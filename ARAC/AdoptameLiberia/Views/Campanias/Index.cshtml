@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.CampaniaCastracion>
+
+@{
+    ViewBag.Title = "Campanias de Castracion";
+}
+
+<h2>Campanias de Castracion</h2>
+
+<p>
+    @Html.ActionLink("Nueva Campania", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Lugar</th>
+        <th>Cupos</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.Fecha.ToShortDateString()</td>
+            <td>@item.Lugar</td>
+            <td>@item.Cupos</td>
+            <td>
+                @Html.ActionLink("Inscribir", "Inscribir", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                @Html.ActionLink("Ver Inscripciones", "VerInscripciones", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" })
+            </td>
+        </tr>
+    }
+</table>

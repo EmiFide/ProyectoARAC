@@ -1,0 +1,36 @@
+@model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+@{
+    ViewBag.Title = "Alertas por stock mínimo";
+}
+
+<h2>Alertas por stock mínimo</h2>
+
+<p class="text-muted">
+    Esta lista muestra los artículos cuyo stock actual es menor o igual al stock mínimo configurado.
+</p>
+
+<p>
+    @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn btn-default" })
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Categoría</th>
+            <th>Stock actual</th>
+            <th>Stock mínimo</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr class="danger">
+            <td>@item.Nombre</td>
+            <td>@item.Categoria</td>
+            <td>@item.StockActual</td>
+            <td>@item.StockMinimo</td>
+        </tr>
+    }
+    </tbody>
+</table>

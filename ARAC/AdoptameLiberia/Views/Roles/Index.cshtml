@@ -1,0 +1,72 @@
+@model IEnumerable<AdoptameLiberia.Models.RoleListItemVM>
+@{
+    ViewBag.Title = "Roles y permisos";
+}
+
+<h2>Roles y permisos</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Roles", FormMethod.Get))
+        {
+            <div class="input-group">
+                <input type="text" name="q" value="@ViewBag.Query" class="form-control" placeholder="Buscar por nombre de rol..." />
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
+        }
+    </div>
+    <div class="col-md-6 text-end">
+        @Html.ActionLink("Crear rol", "Create", "Roles", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Rol</th>
+            <th>Descripción</th>
+            <th>Permisos por módulo</th>
+            <th style="width:140px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td><strong>@r.Name</strong></td>
+            <td>@(string.IsNullOrWhiteSpace(r.Description) ? "-" : r.Description)</td>
+            <td>
+                <ul class="mb-0">
+                    @foreach (var p in r.Permissions.OrderBy(x => x.ModuleName))
+                    {
+                        <li>
+                            <strong>@p.ModuleName</strong>:
+                            @if (p.CanWrite)
+                            {
+                                <span class="badge bg-success">Escritura</span>
+                                <span class="badge bg-secondary">Lectura</span>
+                            }
+                            else if (p.CanRead)
+                            {
+                                <span class="badge bg-secondary">Lectura</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin acceso</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </td>
+            <td class="text-end">
+                @Html.ActionLink("Editar", "Edit", "Roles", new { id = r.Id }, new { @class = "btn btn-sm btn-warning" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

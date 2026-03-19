@@ -1,0 +1,43 @@
+@model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+@{
+    ViewBag.Title = "Vencimientos";
+    var dias = (int)ViewBag.Dias;
+}
+
+<h2>Vencimientos próximos (@dias días)</h2>
+
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-6">
+        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-md-6 text-right">
+        @using (Html.BeginForm("Vencimientos", "Inventario", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <label>Ver próximos</label>
+            <input type="number" name="dias" value="@dias" min="1" class="form-control" style="width:90px;" />
+            <button type="submit" class="btn btn-primary">Aplicar</button>
+        }
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+            <th>Fecha de caducidad</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr class="warning">
+            <td>@item.Nombre</td>
+            <td>@item.Categoria</td>
+            <td>@item.StockActual</td>
+            <td>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</td>
+        </tr>
+    }
+    </tbody>
+</table>
