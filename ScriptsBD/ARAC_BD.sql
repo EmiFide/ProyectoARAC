@@ -416,11 +416,18 @@ VALUES
 (3, 'Elena', 'Quesada', 'Mora', 'elena.quesada@correo.com');
 GO
 
-INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion)
+INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion, Estado)
 VALUES
-('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar'),
-('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada');
+('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar',1),
+('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada',1);
 GO
+
+
+SELECT * FROM Animal;
+
+DBCC CHECKIDENT ('Animal', RESEED, 0);
+
+DELETE FROM Animal;
 
 INSERT INTO Raza (Nombre, Descripcion)
 VALUES
@@ -815,7 +822,7 @@ FROM [ARAC_DB].[dbo].[AspNetUserRoles];
 GO
 
 -- ASIGNACIÓN DE ROL A USUARIO
-DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'franffv0809@gmail.com');
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'bbogantes05@gmail.com');
 DECLARE @RoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
 
 IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId = @RoleId)
@@ -839,3 +846,45 @@ BEGIN
     CREATE INDEX IX_MovInv_Fecha ON dbo.Movimiento_Inventario(Fecha_Movimiento DESC);
 END
 GO
+
+-- CATEGORIA
+CREATE TABLE CategoriaFinanciera (
+    ID_Categoria INT IDENTITY PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Tipo VARCHAR(50),
+    Estado BIT,
+    FechaRegistro DATETIME
+);
+
+-- GASTO
+CREATE TABLE Gasto (
+    ID_Gasto INT IDENTITY PRIMARY KEY,
+    ID_Categoria INT,
+    Monto DECIMAL(18,2),
+    Descripcion VARCHAR(200),
+    Fecha DATETIME,
+
+    CONSTRAINT FK_Gasto_Categoria
+    FOREIGN KEY (ID_Categoria)
+    REFERENCES CategoriaFinanciera(ID_Categoria)
+);
+
+-- NOTICIA
+CREATE TABLE Noticia (
+    ID_Noticia INT IDENTITY PRIMARY KEY,
+    ID_Usuario NVARCHAR(128),
+    Titulo VARCHAR(150),
+    Contenido VARCHAR(500),
+    Fecha_Publicacion DATETIME DEFAULT GETDATE(),
+    Estado BIT DEFAULT 1,
+
+    CONSTRAINT FK_Noticia_Usuario 
+    FOREIGN KEY (ID_Usuario)
+    REFERENCES AspNetUsers(Id)
+);
+
+SELECT Id, Email FROM AspNetUsers
+
+INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
+VALUES 
+('ab5ca3c8-0285-4f2e-b1cd-f545ba1adad7', 'Primera noticia', 'Bienvenido al sistema ARAC');
