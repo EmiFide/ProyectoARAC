@@ -1,0 +1,23 @@
+﻿@model AdoptameLiberia.Models.Campanias.InscripcionCastracion
+
+@{
+    ViewBag.Title = "Inscribir en Campaña";
+}
+
+<h2>Inscribir en Campaña</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.CampaniaCastracionId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AnimalId)
+        @Html.DropDownList("AnimalId", null, "Seleccione un animal", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Inscribir" class="btn btn-primary" />
+    </div>
+}

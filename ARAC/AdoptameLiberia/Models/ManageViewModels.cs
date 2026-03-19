@@ -9,9 +9,18 @@ namespace AdoptameLiberia.Models
     {
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
-        public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Display(Name = "Nombre completo")]
+        public string Nombre { get; set; }
+
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Phone]
+        [Display(Name = "Teléfono")]
+        public string PhoneNumber { get; set; }
     }
 
     public class ManageLoginsViewModel

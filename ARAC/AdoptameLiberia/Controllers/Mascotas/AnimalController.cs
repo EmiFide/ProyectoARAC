@@ -22,10 +22,10 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 string sql = @"
                 SELECT a.ID_Animal, a.Nombre_Animal, a.Edad, a.Sexo, a.Tamano, a.Peso,
                        a.Descripcion, a.Estado,
-                       r.Nombre AS NombreRaza,
+                       r.NombreRaza AS NombreRaza,
                        t.Nombre_Tipo_Animal AS NombreTipo
                 FROM Animal a
-                LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
+                LEFT JOIN Razas r ON a.ID_Raza = r.ID_Raza
                 LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
                 WHERE a.Estado = 'Disponible'";
 

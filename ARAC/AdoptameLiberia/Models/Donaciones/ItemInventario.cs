@@ -30,6 +30,13 @@ namespace AdoptameLiberia.Models.Donaciones
         [Column("Stock_Actual")]
         public int StockActual { get; set; }
 
+        [Column("Stock_Minimo")]
+        [Range(0, int.MaxValue, ErrorMessage = "El stock mínimo no puede ser negativo.")]
+        public int StockMinimo { get; set; }
+
+        [Column("Fecha_Caducidad")]
+        public DateTime? FechaCaducidad { get; set; }
+
         [Column("Estado")]
         public bool Estado { get; set; }
 

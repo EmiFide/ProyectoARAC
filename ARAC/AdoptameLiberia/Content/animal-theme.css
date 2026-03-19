@@ -67,6 +67,67 @@ h1, h2, h3 {
     margin-top: 20px;
 }
 
+
+.navbar-arac {
+    background-color: #6f171a; /* Vino principal */
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 4px solid #F5E6D3; /* Línea beige */
+}
+
+    /* Marca */
+    .navbar-arac .navbar-brand {
+        color: #FFFFFF;
+        font-weight: 600;
+        font-size: 1.2rem;
+        letter-spacing: 0.5px;
+    }
+
+        .navbar-arac .navbar-brand:hover {
+            color: #F5E6D3;
+        }
+
+    /* Links normales */
+    .navbar-arac.navbar-dark .navbar-nav .nav-link {
+        color: #FFFFFF;
+        font-weight: 500;
+        transition: all 0.25s ease;
+    }
+
+
+        .navbar-arac.navbar-dark .navbar-nav .nav-link:hover {
+            color: #F5E6D3;
+            transform: translateY(-2px);
+        }
+
+    .navbar-arac .dropdown-toggle {
+        color: #F5E6D3;
+        font-weight: 600;
+    }
+
+
+.dropdown-admin {
+    background-color: #FFFFFF;
+    border-radius: 14px;
+    border: none;
+    padding: 10px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+    /* Items */
+    .dropdown-admin .dropdown-item {
+        color: #5C4033; 
+        font-weight: 500;
+        border-radius: 8px;
+        padding: 8px 14px;
+        transition: all 0.2s ease;
+    }
+
+        /* Hover del dropdown */
+        .dropdown-admin .dropdown-item:hover {
+            background-color: #fff;
+            color: #7B1E3A;
+        }
 /* Navbar más moderno */
 .navbar {
     background-color: #8D6E63 !important;
