@@ -1,0 +1,58 @@
+﻿@model AdoptameLiberia.Models.Adopcion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Adopcion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Animal.Nombre_Animal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Animal.Nombre_Animal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud.ID_Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud.ID_Usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Adopcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Adopcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado_Adopcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado_Adopcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seguimiento_Inicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seguimiento_Inicial)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_Adopcion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
