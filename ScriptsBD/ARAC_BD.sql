@@ -334,12 +334,64 @@ CREATE TABLE Razas (
 );
 GO
 
+CREATE TABLE Voluntario (
+    ID_Voluntario INT IDENTITY PRIMARY KEY,
+    ID_Usuario INT NULL,
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido1 VARCHAR(50) NULL,
+    Apellido2 VARCHAR(50) NULL,
+    Correo VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(30) NOT NULL,
+    Disponibilidad VARCHAR(200) NULL,
+    Habilidades VARCHAR(300) NULL,
+    Estado BIT NOT NULL DEFAULT 1,
+    Fecha_Registro DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Voluntario_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
+);
+GO
+
+CREATE TABLE Tarea_Voluntariado (
+    ID_Tarea INT IDENTITY PRIMARY KEY,
+    Titulo VARCHAR(100) NOT NULL,
+    Descripcion VARCHAR(300) NOT NULL,
+    Fecha DATE NOT NULL,
+    Hora TIME NULL,
+    Lugar VARCHAR(100) NULL,
+    Estado BIT NOT NULL DEFAULT 1,
+    Fecha_Registro DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE Participacion_Voluntario (
+    ID_Participacion INT IDENTITY PRIMARY KEY,
+    ID_Voluntario INT NOT NULL,
+    ID_Tarea INT NOT NULL,
+    Asistio BIT NOT NULL DEFAULT 0,
+    Observaciones VARCHAR(300) NULL,
+    Fecha_Registro DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Participacion_Voluntario FOREIGN KEY (ID_Voluntario) REFERENCES Voluntario(ID_Voluntario),
+    CONSTRAINT FK_Participacion_Tarea FOREIGN KEY (ID_Tarea) REFERENCES Tarea_Voluntariado(ID_Tarea)
+);
+GO
+
+CREATE TABLE Comentario_Publicacion (
+    ID_Comentario INT IDENTITY PRIMARY KEY,
+    ID_Publicacion INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+    Contenido VARCHAR(500) NOT NULL,
+    Fecha DATETIME NOT NULL DEFAULT GETDATE(),
+    Estado BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Comentario_Publicacion FOREIGN KEY (ID_Publicacion) REFERENCES Publicacion_Comunidad(ID_Publicacion),
+    CONSTRAINT FK_Comentario_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
+);
+GO
+
 -- INSERTS PRINCIPALES
 INSERT INTO Rol (Nombre_Rol, Descripcion)
 VALUES 
 ('Administrador', 'Control total del sistema'),
-('Voluntario', 'Apoyo en campañas y gestión'),
-('Adoptante', 'Usuario interesado en adoptar');
+('Usuario', 'Usuario general del sistema, puede consultar información y realizar procesos permitidos'),
+('Voluntario', 'Persona que participa en actividades de apoyo, jornadas y tareas del refugio');
 GO
 
 INSERT INTO Usuario (ID_Rol, Nombre, Apellido1, Apellido2, Correo)
