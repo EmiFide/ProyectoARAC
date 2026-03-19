@@ -15,7 +15,7 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel-heading"><strong>Filtros</strong></div>
+    <div class="panel-heading"><strong>Filtro</strong></div>
     <div class="panel-body">
         @using (Html.BeginForm("Historial", "Inventario", FormMethod.Get, new { @class = "form-horizontal" }))
         {
@@ -27,12 +27,16 @@
 
                 <label class="control-label col-md-2">Desde</label>
                 <div class="col-md-2">
-                    <input type="date" name="Desde" value="@(Model.Filter.Desde.HasValue ? Model.Filter.Desde.Value.ToString("yyyy-MM-dd") : "")" class="form-control" />
+                    @Html.TextBoxFor(m => m.Filter.Desde,
+                        "{0:yyyy-MM-dd}",
+                        new { @type = "date", @class = "form-control" })
                 </div>
 
-                <label class="control-label col-md-1">Hasta</label>
-                <div class="col-md-1">
-                    <input type="date" name="Hasta" value="@(Model.Filter.Hasta.HasValue ? Model.Filter.Hasta.Value.ToString("yyyy-MM-dd") : "")" class="form-control" />
+                <label class="control-label col-md-2">Hasta</label>
+                <div class="col-md-2">
+                    @Html.TextBoxFor(m => m.Filter.Hasta,
+                    "{0:yyyy-MM-dd}",
+                    new { @type = "date", @class = "form-control" })
                 </div>
             </div>
 

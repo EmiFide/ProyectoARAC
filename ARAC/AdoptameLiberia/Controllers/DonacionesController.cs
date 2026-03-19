@@ -13,13 +13,27 @@ namespace AdoptameLiberia.Controllers
         private readonly ARACDbContext db = new ARACDbContext();
 
         // H31: Historial
-        public ActionResult Index()
+        public ActionResult Index(int? tipoDonacionId)
         {
-            var list = db.Donaciones
-                         .Include(d => d.TipoDonacion)
-                         .OrderByDescending(d => d.FechaRegistro)
-                         .ToList();
-            return View(list);
+            var donaciones = db.Donaciones
+                               .Include(d => d.TipoDonacion)
+                               .AsQueryable();
+
+            // Filtro por tipo de donación
+            if (tipoDonacionId.HasValue)
+            {
+                donaciones = donaciones
+                    .Where(d => d.IdTipoDonacion == tipoDonacionId.Value);
+            }
+
+            ViewBag.TiposDonacion = new SelectList(
+                db.TiposDonacion,
+                "IdTipoDonacion",
+                "Nombre",
+                tipoDonacionId
+            );
+
+            return View(donaciones.ToList());
         }
 
         // H29/H30: Crear

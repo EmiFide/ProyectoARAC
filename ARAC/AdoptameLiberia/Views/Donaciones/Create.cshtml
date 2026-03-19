@@ -12,9 +12,8 @@
     </div>
 
     <div class="form-group">
-        <label>ID Usuario (Donante en tabla Usuario)</label>
+        <label>ID Usuario</label>
         @Html.TextBoxFor(m => m.IdUsuario, new { @class = "form-control" })
-        <small>Por ahora poné el ID_Usuario (ej: 2 o 3) según tu tabla Usuario.</small>
     </div>
 
     <div class="form-group">
@@ -33,9 +32,9 @@
     </div>
 
     <hr />
-    <h4>Insumos (solo si tipo = Insumos)</h4>
+    <h4>Insumos</h4>
 
-    @for (int i = 0; i < Model.Insumos.Count; i++)
+    for (int i = 0; i < Model.Insumos.Count; i++)
     {
         <div class="form-group">
             <label>Item inventario</label>
