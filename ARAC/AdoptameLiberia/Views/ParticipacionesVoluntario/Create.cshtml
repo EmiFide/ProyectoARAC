@@ -1,0 +1,34 @@
+﻿@model AdoptameLiberia.Models.Voluntariado.ParticipacionVoluntario
+
+@{
+    ViewBag.Title = "Registrar Participación";
+}
+
+<h2>Registrar Participación</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ID_Voluntario)
+        @Html.DropDownList("ID_Voluntario", null, "Seleccione voluntario", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ID_Tarea)
+        @Html.DropDownList("ID_Tarea", null, "Seleccione tarea", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Asistio)
+        @Html.CheckBoxFor(m => m.Asistio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Observaciones)
+        @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+}
