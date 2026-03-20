@@ -1,0 +1,28 @@
+﻿@model AdoptameLiberia.Models.Educativo.ContenidoEducativo
+@{
+    ViewBag.Title = "Eliminar recurso";
+}
+
+<h2>Eliminar recurso</h2>
+
+<div class="alert alert-warning">
+    ¿Seguro que deseas eliminar este recurso?
+</div>
+
+<dl class="dl-horizontal">
+    <dt>Título</dt>
+    <dd>@Model.Titulo</dd>
+
+    <dt>Tipo</dt>
+    <dd>@Model.TipoContenido</dd>
+
+    <dt>Tema</dt>
+    <dd>@Model.Tema</dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    @Html.ActionLink("Cancelar", "Index", "AdminEducativo", null, new { @class = "btn btn-default" })
+}

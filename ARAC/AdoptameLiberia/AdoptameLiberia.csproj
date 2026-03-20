@@ -167,7 +167,10 @@
     <Compile Include="App_Start\SeedData.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FavoritosController.cs" />
     <Compile Include="Controllers\AdminUsersController.cs" />
+    <Compile Include="Controllers\AdminEducativoController.cs" />
+    <Compile Include="Controllers\EducativoController.cs" />
     <Compile Include="Controllers\AdopcionesController.cs" />
     <Compile Include="Controllers\CampaniasController.cs" />
     <Compile Include="Controllers\ComunidadController.cs" />
@@ -192,25 +195,7 @@
     <Compile Include="Filters\PermissionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\ISolicitudAdopcionServicio.cs" />
-    <Compile Include="Migrations\202602130138001_NuevaM.cs" />
-    <Compile Include="Migrations\202602130138001_NuevaM.Designer.cs">
-      <DependentUpon>202602130138001_NuevaM.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202603192256344_UpdateModel.cs" />
-    <Compile Include="Migrations\202603192256344_UpdateModel.Designer.cs">
-      <DependentUpon>202603192256344_UpdateModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202603192125132_Adopciones.cs" />
-    <Compile Include="Migrations\202603192125132_Adopciones.Designer.cs">
-      <DependentUpon>202603192125132_Adopciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202603192208511_AdopcionesP2.cs" />
-    <Compile Include="Migrations\202603192208511_AdopcionesP2.Designer.cs">
-      <DependentUpon>202603192208511_AdopcionesP2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    </Compile>    
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\Adopcion.cs" />
@@ -227,6 +212,10 @@
     <Compile Include="Models\Donaciones\ObservacionDonacion.cs" />
     <Compile Include="Models\Donaciones\TipoDonacion.cs" />
     <Compile Include="Models\Donaciones\VM\DonacionCreateVM.cs" />
+    <Compile Include="Models\Educativo\ContenidoEducativo.cs" />
+    <Compile Include="Models\Educativo\ContenidoEducativoForm.cs" />
+    <Compile Include="Models\Educativo\ContenidoFavorito.cs" />
+    <Compile Include="Models\Educativo\EducativoFiltro.cs" />
     <Compile Include="Models\Finanzas\CategoriaFinanciera.cs" />
     <Compile Include="Models\Finanzas\Gasto.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -252,6 +241,15 @@
     <Compile Include="Models\Voluntariado\Voluntario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+	
+	<Compile Include="Controllers\EducativoController.cs" />
+	<Compile Include="Controllers\AdminEducativoController.cs" />
+	<Compile Include="Controllers\FavoritosController.cs" />
+
+	<Compile Include="Models\Educativo\ContenidoEducativo.cs" />
+	<Compile Include="Models\Educativo\ContenidoFavorito.cs" />
+	<Compile Include="Models\Educativo\EducativoFiltro.cs" />
+	<Compile Include="Models\Educativo\ContenidoEducativoForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animal-theme.css" />
@@ -385,10 +383,29 @@
     <Content Include="Views\Comunidad\Details.cshtml" />
     <Content Include="Views\Voluntarios\Create.cshtml" />
     <Content Include="Views\Voluntarios\Edit.cshtml" />
+    <Content Include="Views\Educativo\Index.cshtml" />
+    <Content Include="Views\Educativo\Detalle.cshtml" />
+    <Content Include="Views\AdminEducativo\Index.cshtml" />
+    <Content Include="Views\AdminEducativo\EducativoForm.cshtml" />
+    <Content Include="Views\AdminEducativo\Create.cshtml" />
+    <Content Include="Views\AdminEducativo\Edit.cshtml" />
+    <Content Include="Views\AdminEducativo\Delete.cshtml" />
+    <Content Include="Views\Favoritos\Index.cshtml" />
+	
+	<Content Include="Views\Educativo\Index.cshtml" />
+	<Content Include="Views\Educativo\Detalle.cshtml" />
+
+	<Content Include="Views\AdminEducativo\Index.cshtml" />
+	<Content Include="Views\AdminEducativo\Create.cshtml" />
+	<Content Include="Views\AdminEducativo\Edit.cshtml" />
+	<Content Include="Views\AdminEducativo\Delete.cshtml" />
+	<Content Include="Views\AdminEducativo\EducativoForm.cshtml" />
+
+	<Content Include="Views\Favoritos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\NewFolder1\" />
+    <Folder Include="Uploads\Educativo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -416,20 +433,8 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202603192142548_InicialCompleta.resx">
-      <DependentUpon>202603192142548_InicialCompleta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202603192256344_UpdateModel.resx">
-      <DependentUpon>202603192256344_UpdateModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202603192125132_Adopciones.resx">
-      <DependentUpon>202603192125132_Adopciones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202603192208511_AdopcionesP2.resx">
-      <DependentUpon>202603192208511_AdopcionesP2.cs</DependentUpon>
-    </EmbeddedResource>
+	
+	<Content Include="Uploads\Educativo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

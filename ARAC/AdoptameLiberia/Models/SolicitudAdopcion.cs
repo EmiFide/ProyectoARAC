@@ -1,15 +1,16 @@
 ﻿using AdoptameLiberia.Models.Mascotas;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdoptameLiberia.Models
 {
     public class SolicitudAdopcion
     {
+        [Key]
         public int ID_Solicitud { get; set; }
 
+        [NotMapped]
         public int ID_Usuario { get; set; }
         public int ID_Animal { get; set; }
 

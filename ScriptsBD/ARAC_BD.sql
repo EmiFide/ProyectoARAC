@@ -831,6 +831,15 @@ BEGIN
 END
 GO
 
+DECLARE @UserId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+DECLARE @RoleId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
+
+IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId2 AND RoleId = @RoleId2)
+BEGIN
+    INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId2, @RoleId2);
+END
+GO
+
 -- RELACIÓN CON ASPNETUSERS
 IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'AspNetUsers')
 AND NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_MovInv_Usuario')
@@ -885,6 +894,115 @@ CREATE TABLE Noticia (
 
 SELECT Id, Email FROM AspNetUsers
 
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+
 INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
 VALUES 
-('ab5ca3c8-0285-4f2e-b1cd-f545ba1adad7', 'Primera noticia', 'Bienvenido al sistema ARAC');
+(@UserId, 'Primera noticia', 'Bienvenido al sistema ARAC');
+
+ALTER TABLE dbo.AspNetUsers ADD	Nombre nvarchar(MAX) NULL;
+
+-- Tablas del Módulo Educativo
+IF OBJECT_ID('dbo.ContenidoEducativo', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoEducativo
+    (
+        IdContenidoEducativo INT IDENTITY(1,1) PRIMARY KEY,
+        Titulo NVARCHAR(200) NOT NULL,
+        Descripcion NVARCHAR(1000) NOT NULL,
+        TipoContenido NVARCHAR(50) NOT NULL,
+        Tema NVARCHAR(100) NOT NULL,
+        UrlContenido NVARCHAR(500) NULL,
+        RutaArchivo NVARCHAR(500) NULL,
+        Activo BIT NOT NULL DEFAULT 1,
+        FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+        FechaActualizacion DATETIME NULL,
+        UsuarioCreadorId NVARCHAR(128) NULL
+    );
+END
+GO
+
+IF OBJECT_ID('dbo.ContenidoFavorito', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoFavorito
+    (
+        IdContenidoFavorito INT IDENTITY(1,1) PRIMARY KEY,
+        UsuarioId NVARCHAR(128) NOT NULL,
+        IdContenidoEducativo INT NOT NULL,
+        FechaAgregado DATETIME NOT NULL DEFAULT GETDATE(),
+
+        CONSTRAINT FK_ContenidoFavorito_AspNetUsers
+            FOREIGN KEY (UsuarioId) REFERENCES dbo.AspNetUsers(Id),
+
+        CONSTRAINT FK_ContenidoFavorito_ContenidoEducativo
+            FOREIGN KEY (IdContenidoEducativo) REFERENCES dbo.ContenidoEducativo(IdContenidoEducativo)
+    );
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'UX_ContenidoFavorito_Usuario_Contenido'
+)
+BEGIN
+    CREATE UNIQUE INDEX UX_ContenidoFavorito_Usuario_Contenido
+    ON dbo.ContenidoFavorito(UsuarioId, IdContenidoEducativo);
+END
+GO
+
+-- =========================================
+-- 1) Registrar módulo Educativo
+-- =========================================
+IF NOT EXISTS (
+    SELECT 1
+    FROM dbo.Modules
+    WHERE Name = 'Educativo'
+)
+BEGIN
+    INSERT INTO dbo.Modules (Name, Description)
+    VALUES ('Educativo', 'Módulo educativo de bienestar animal');
+END
+GO
+
+-- =========================================
+-- 2) Asignar permisos al rol Administrador
+--    (lectura y escritura)
+-- =========================================
+DECLARE @RoleId NVARCHAR(128) = (SELECT Id FROM dbo.AspNetRoles WHERE Name = 'Administrador')
+DECLARE @ModuleId INT = (SELECT ModuleId FROM dbo.Modules WHERE Name = 'Educativo')
+
+IF @RoleId IS NOT NULL AND @ModuleId IS NOT NULL
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.RoleModulePermissions
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId
+    )
+    BEGIN
+        INSERT INTO dbo.RoleModulePermissions
+        (
+            RoleId,
+            ModuleId,
+            CanRead,
+            CanWrite
+        )
+        VALUES
+        (
+            @RoleId,
+            @ModuleId,
+            1,
+            1
+        );
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.RoleModulePermissions
+        SET CanRead = 1,
+            CanWrite = 1
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId;
+    END
+END
+GO
