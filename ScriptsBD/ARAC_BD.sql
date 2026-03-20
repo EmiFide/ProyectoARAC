@@ -831,6 +831,15 @@ BEGIN
 END
 GO
 
+DECLARE @UserId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+DECLARE @RoleId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
+
+IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId2 AND RoleId = @RoleId2)
+BEGIN
+    INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId2, @RoleId2);
+END
+GO
+
 -- RELACIÓN CON ASPNETUSERS
 IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'AspNetUsers')
 AND NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_MovInv_Usuario')
@@ -888,3 +897,55 @@ SELECT Id, Email FROM AspNetUsers
 INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
 VALUES 
 ('ab5ca3c8-0285-4f2e-b1cd-f545ba1adad7', 'Primera noticia', 'Bienvenido al sistema ARAC');
+
+ALTER TABLE dbo.AspNetUsers ADD	Nombre nvarchar(MAX) NULL;
+
+-- Tablas del Módulo Educativo
+IF OBJECT_ID('dbo.ContenidoEducativo', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoEducativo
+    (
+        IdContenidoEducativo INT IDENTITY(1,1) PRIMARY KEY,
+        Titulo NVARCHAR(200) NOT NULL,
+        Descripcion NVARCHAR(1000) NOT NULL,
+        TipoContenido NVARCHAR(50) NOT NULL,
+        Tema NVARCHAR(100) NOT NULL,
+        UrlContenido NVARCHAR(500) NULL,
+        RutaArchivo NVARCHAR(500) NULL,
+        Activo BIT NOT NULL DEFAULT 1,
+        FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+        FechaActualizacion DATETIME NULL,
+        UsuarioCreadorId NVARCHAR(128) NULL
+    );
+END
+GO
+
+IF OBJECT_ID('dbo.ContenidoFavorito', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoFavorito
+    (
+        IdContenidoFavorito INT IDENTITY(1,1) PRIMARY KEY,
+        UsuarioId NVARCHAR(128) NOT NULL,
+        IdContenidoEducativo INT NOT NULL,
+        FechaAgregado DATETIME NOT NULL DEFAULT GETDATE(),
+
+        CONSTRAINT FK_ContenidoFavorito_AspNetUsers
+            FOREIGN KEY (UsuarioId) REFERENCES dbo.AspNetUsers(Id),
+
+        CONSTRAINT FK_ContenidoFavorito_ContenidoEducativo
+            FOREIGN KEY (IdContenidoEducativo) REFERENCES dbo.ContenidoEducativo(IdContenidoEducativo)
+    );
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'UX_ContenidoFavorito_Usuario_Contenido'
+)
+BEGIN
+    CREATE UNIQUE INDEX UX_ContenidoFavorito_Usuario_Contenido
+    ON dbo.ContenidoFavorito(UsuarioId, IdContenidoEducativo);
+END
+GO
+
