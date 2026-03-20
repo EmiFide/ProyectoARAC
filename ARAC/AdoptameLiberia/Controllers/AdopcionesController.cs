@@ -36,7 +36,7 @@ namespace AdoptameLiberia.Controllers
         public ActionResult Create()
         {
             ViewBag.ID_Animal = new SelectList(db.Animals, "ID_Animal", "Nombre_Animal");
-            ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario");
+            //ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario");
             return View();
         }
 
@@ -52,7 +52,7 @@ namespace AdoptameLiberia.Controllers
             }
 
             ViewBag.ID_Animal = new SelectList(db.Animals, "ID_Animal", "Nombre_Animal", adopcion.ID_Animal);
-            ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
+            //ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
             return View(adopcion);
         }
 
@@ -69,7 +69,7 @@ namespace AdoptameLiberia.Controllers
                 return HttpNotFound();
             }
             ViewBag.ID_Animal = new SelectList(db.Animals, "ID_Animal", "Nombre_Animal", adopcion.ID_Animal);
-            ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
+            //ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
             return View(adopcion);
         }
 
@@ -87,7 +87,7 @@ namespace AdoptameLiberia.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ID_Animal = new SelectList(db.Animals, "ID_Animal", "Nombre_Animal", adopcion.ID_Animal);
-            ViewBag.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
+            //.ID_Solicitud = new SelectList(db.SolicitudAdopcion, "ID_Solicitud", "ID_Usuario", adopcion.ID_Solicitud);
             return View(adopcion);
         }
 

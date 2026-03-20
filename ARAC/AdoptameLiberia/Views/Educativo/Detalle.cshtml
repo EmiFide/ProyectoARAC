@@ -1,0 +1,55 @@
+﻿@model AdoptameLiberia.Models.Educativo.ContenidoEducativo
+@{
+    ViewBag.Title = "Detalle del recurso";
+    bool esFavorito = ViewBag.EsFavorito != null && (bool)ViewBag.EsFavorito;
+}
+
+<h2>@Model.Titulo</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><strong>Información del recurso</strong></div>
+    <div class="panel-body">
+        <p><strong>Tipo:</strong> @Model.TipoContenido</p>
+        <p><strong>Tema:</strong> @Model.Tema</p>
+        <p><strong>Descripción:</strong></p>
+        <p>@Model.Descripcion</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.UrlContenido))
+        {
+            <p>
+                <a href="@Model.UrlContenido" target="_blank" class="btn btn-primary">Abrir enlace</a>
+            </p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.RutaArchivo))
+        {
+            <p>
+                <a href="@Url.Content(Model.RutaArchivo)" target="_blank" class="btn btn-default">Descargar archivo</a>
+            </p>
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (!esFavorito)
+            {
+                using (Html.BeginForm("Agregar", "Favoritos", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("idContenidoEducativo", Model.IdContenidoEducativo)
+                    <button type="submit" class="btn btn-success">Agregar a favoritos</button>
+                }
+            }
+            else
+            {
+                <div class="alert alert-success">Este recurso ya está en tus favoritos.</div>
+            }
+        }
+    </div>
+</div>
+
+@Html.ActionLink("Volver", "Index", "Educativo", null, new { @class = "btn btn-default" })

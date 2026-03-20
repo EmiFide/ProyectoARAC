@@ -894,9 +894,11 @@ CREATE TABLE Noticia (
 
 SELECT Id, Email FROM AspNetUsers
 
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+
 INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
 VALUES 
-('ab5ca3c8-0285-4f2e-b1cd-f545ba1adad7', 'Primera noticia', 'Bienvenido al sistema ARAC');
+(@UserId, 'Primera noticia', 'Bienvenido al sistema ARAC');
 
 ALTER TABLE dbo.AspNetUsers ADD	Nombre nvarchar(MAX) NULL;
 
@@ -949,3 +951,58 @@ BEGIN
 END
 GO
 
+-- =========================================
+-- 1) Registrar módulo Educativo
+-- =========================================
+IF NOT EXISTS (
+    SELECT 1
+    FROM dbo.Modules
+    WHERE Name = 'Educativo'
+)
+BEGIN
+    INSERT INTO dbo.Modules (Name, Description)
+    VALUES ('Educativo', 'Módulo educativo de bienestar animal');
+END
+GO
+
+-- =========================================
+-- 2) Asignar permisos al rol Administrador
+--    (lectura y escritura)
+-- =========================================
+DECLARE @RoleId NVARCHAR(128) = (SELECT Id FROM dbo.AspNetRoles WHERE Name = 'Administrador')
+DECLARE @ModuleId INT = (SELECT ModuleId FROM dbo.Modules WHERE Name = 'Educativo')
+
+IF @RoleId IS NOT NULL AND @ModuleId IS NOT NULL
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.RoleModulePermissions
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId
+    )
+    BEGIN
+        INSERT INTO dbo.RoleModulePermissions
+        (
+            RoleId,
+            ModuleId,
+            CanRead,
+            CanWrite
+        )
+        VALUES
+        (
+            @RoleId,
+            @ModuleId,
+            1,
+            1
+        );
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.RoleModulePermissions
+        SET CanRead = 1,
+            CanWrite = 1
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId;
+    END
+END
+GO
