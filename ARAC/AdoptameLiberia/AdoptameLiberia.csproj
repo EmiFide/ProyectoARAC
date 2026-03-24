@@ -252,6 +252,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\Login.css" />
     <Content Include="Content\estilos\Perfil.css" />
     <Content Include="Content\estilos\About.css" />
     <Content Include="Content\estilos\Layout.css" />

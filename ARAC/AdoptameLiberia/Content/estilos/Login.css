@@ -1,0 +1,115 @@
+﻿/* WRAPPER GENERAL */
+.login-wrapper {
+    width: 100%;
+}
+
+/* CONTENIDO PRINCIPAL (IMPORTANTE) */
+.main-content {
+    width: 100%;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTENEDOR */
+.login-container {
+    display: flex;
+    width: 100%;
+    max-width: 900px; /* 🔥 controlado */
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* LADO IZQUIERDO */
+.login-left {
+    width: 50%;
+    background: #f5efe7 url('/Content/img/Cachorro.png') no-repeat center;
+    background-size: 250px;
+}
+
+/* LADO DERECHO */
+.login-right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* FORM */
+.login-box {
+    width: 100%;
+    max-width: 420px; /* 🔥 evita efecto tubo */
+}
+
+    /* TITULO */
+    .login-box h2 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2b3a55;
+        margin-bottom: 10px;
+    }
+
+/* TEXTO */
+.register-text {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+    .register-text a {
+        color: #e76f51;
+        font-weight: bold;
+    }
+
+/* INPUTS */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+/* BOTON */
+.btn-login {
+    width: 100%;
+    background: #e76f51;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .btn-login:hover {
+        background: #d65a3f;
+    }
+
+/* LINKS */
+.forgot {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .login-left {
+        width: 100%;
+        height: 200px;
+    }
+
+    .login-right {
+        width: 100%;
+        padding: 20px;
+    }
+}
