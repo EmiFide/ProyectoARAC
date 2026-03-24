@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AdoptameLiberia.Models.Mascotas;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AdoptameLiberia.Models
 {
-    // Para agregar datos de perfil del usuario, agregue más propiedades a su clase ApplicationUser. Visite https://go.microsoft.com/fwlink/?LinkID=317594 para obtener más información.
     public class ApplicationUser : IdentityUser
     {
         public string Nombre { get; set; }
@@ -24,16 +24,33 @@ namespace AdoptameLiberia.Models
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
+            Database.SetInitializer<ApplicationDbContext>(null); // ❗ DESACTIVA VALIDACIÓN DE MODELO
         }
 
+        // 🔹 EXISTENTE
         public DbSet<Module> Modules { get; set; }
         public DbSet<RoleModulePermission> RoleModulePermissions { get; set; }
+
+        // 🔥 DONACIONES
+        public DbSet<AdoptameLiberia.Models.Donaciones.Donacion> Donaciones { get; set; }
+        public DbSet<AdoptameLiberia.Models.Donaciones.DetalleDonacion> DetalleDonaciones { get; set; }
+        public DbSet<AdoptameLiberia.Models.Donaciones.ObservacionDonacion> ObservacionesDonacion { get; set; }
+
+        // 🔥 FINANZAS
+        public DbSet<AdoptameLiberia.Models.Finanzas.Gasto> Gastos { get; set; }
+        public DbSet<AdoptameLiberia.Models.Finanzas.CategoriaFinanciera> CategoriasFinancieras { get; set; }
+
+        // 🔥 NOTICIAS
+        public DbSet<AdoptameLiberia.Models.Noticias.Noticia> Noticias { get; set; }
+
+        // 🔹 EXISTENTE
+        public DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
+        public DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Clave compuesta (RoleId + ModuleId)
             modelBuilder.Entity<RoleModulePermission>()
                 .HasKey(x => new { x.RoleId, x.ModuleId });
 
@@ -60,8 +77,13 @@ namespace AdoptameLiberia.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
+        //public System.Data.Entity.DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
 
-        public System.Data.Entity.DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
+        //public System.Data.Entity.DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
+        public object Animal { get; internal set; }
+        public DbSet<AnimalModel> Animals { get; internal set; }
+        public DbSet<Adopcion> Adopcion { get; set; }
+
+        //public DbSet<SolicitudAdopcion> SolicitudAdopcion { get; set; }
     }
 }

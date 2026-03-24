@@ -1,0 +1,25 @@
+﻿@model AdoptameLiberia.Models.Finanzas.CategoriaFinanciera
+
+<h2>Crear Categoría</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nombre)
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Tipo)
+        @Html.DropDownListFor(m => m.Tipo,
+            new SelectList(new[] { "Ingreso", "Gasto" }),
+            "Seleccione",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.CheckBox("Estado", Model.Estado ?? false)
+    </div>
+
+    <button class="btn btn-success">Guardar</button>
+}

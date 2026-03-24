@@ -1,0 +1,26 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Finanzas.Gasto>
+
+<h2>Gastos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Gasto", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Categoría</th>
+        <th>Monto</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@(item.Categoria != null ? item.Categoria.Nombre : "")</td>
+            <td>₡ @item.Monto</td>
+            <td>@item.Descripcion</td>
+            <td>@(item.Fecha.HasValue ? item.Fecha.Value.ToShortDateString() : "")</td>
+        </tr>
+    }
+</table>

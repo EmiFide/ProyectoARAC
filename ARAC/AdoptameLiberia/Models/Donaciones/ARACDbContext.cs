@@ -1,8 +1,9 @@
-﻿using System.Data.Entity;
-using AdoptameLiberia.Models.Campanias;
+﻿using AdoptameLiberia.Models.Campanias;
+using AdoptameLiberia.Models.Comunidad;
+using AdoptameLiberia.Models.Educativo;
 using AdoptameLiberia.Models.Mascotas;
 using AdoptameLiberia.Models.Voluntariado;
-using AdoptameLiberia.Models.Comunidad;
+using System.Data.Entity;
 
 namespace AdoptameLiberia.Models.Donaciones
 {
@@ -26,6 +27,8 @@ namespace AdoptameLiberia.Models.Donaciones
         public DbSet<ParticipacionVoluntario> ParticipacionesVoluntario { get; set; }
         public DbSet<PublicacionComunidad> PublicacionesComunidad { get; set; }
         public DbSet<ComentarioPublicacion> ComentariosPublicacion { get; set; }
+        public DbSet<ContenidoEducativo> ContenidoEducativo { get; set; }
+        public DbSet<ContenidoFavorito> ContenidoFavorito { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // IMPORTANTÍSIMO: evita que EF trate de crear/migrar tablas

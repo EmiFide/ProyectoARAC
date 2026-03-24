@@ -416,11 +416,18 @@ VALUES
 (3, 'Elena', 'Quesada', 'Mora', 'elena.quesada@correo.com');
 GO
 
-INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion)
+INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion, Estado)
 VALUES
-('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar'),
-('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada');
+('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar',1),
+('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada',1);
 GO
+
+
+SELECT * FROM Animal;
+
+DBCC CHECKIDENT ('Animal', RESEED, 0);
+
+DELETE FROM Animal;
 
 INSERT INTO Raza (Nombre, Descripcion)
 VALUES
@@ -815,12 +822,21 @@ FROM [ARAC_DB].[dbo].[AspNetUserRoles];
 GO
 
 -- ASIGNACIÓN DE ROL A USUARIO
-DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'franffv0809@gmail.com');
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'bbogantes05@gmail.com');
 DECLARE @RoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
 
 IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId = @RoleId)
 BEGIN
     INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);
+END
+GO
+
+DECLARE @UserId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+DECLARE @RoleId2 NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
+
+IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId2 AND RoleId = @RoleId2)
+BEGIN
+    INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@UserId2, @RoleId2);
 END
 GO
 
@@ -837,5 +853,156 @@ GO
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_MovInv_Fecha' AND object_id = OBJECT_ID('dbo.Movimiento_Inventario'))
 BEGIN
     CREATE INDEX IX_MovInv_Fecha ON dbo.Movimiento_Inventario(Fecha_Movimiento DESC);
+END
+GO
+
+-- CATEGORIA
+CREATE TABLE CategoriaFinanciera (
+    ID_Categoria INT IDENTITY PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Tipo VARCHAR(50),
+    Estado BIT,
+    FechaRegistro DATETIME
+);
+
+-- GASTO
+CREATE TABLE Gasto (
+    ID_Gasto INT IDENTITY PRIMARY KEY,
+    ID_Categoria INT,
+    Monto DECIMAL(18,2),
+    Descripcion VARCHAR(200),
+    Fecha DATETIME,
+
+    CONSTRAINT FK_Gasto_Categoria
+    FOREIGN KEY (ID_Categoria)
+    REFERENCES CategoriaFinanciera(ID_Categoria)
+);
+
+-- NOTICIA
+CREATE TABLE Noticia (
+    ID_Noticia INT IDENTITY PRIMARY KEY,
+    ID_Usuario NVARCHAR(128),
+    Titulo VARCHAR(150),
+    Contenido VARCHAR(500),
+    Fecha_Publicacion DATETIME DEFAULT GETDATE(),
+    Estado BIT DEFAULT 1,
+
+    CONSTRAINT FK_Noticia_Usuario 
+    FOREIGN KEY (ID_Usuario)
+    REFERENCES AspNetUsers(Id)
+);
+
+SELECT Id, Email FROM AspNetUsers
+
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'lolivar42@gmail.com');
+
+INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
+VALUES 
+(@UserId, 'Primera noticia', 'Bienvenido al sistema ARAC');
+
+ALTER TABLE dbo.AspNetUsers ADD	Nombre nvarchar(MAX) NULL;
+
+-- Tablas del Módulo Educativo
+IF OBJECT_ID('dbo.ContenidoEducativo', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoEducativo
+    (
+        IdContenidoEducativo INT IDENTITY(1,1) PRIMARY KEY,
+        Titulo NVARCHAR(200) NOT NULL,
+        Descripcion NVARCHAR(1000) NOT NULL,
+        TipoContenido NVARCHAR(50) NOT NULL,
+        Tema NVARCHAR(100) NOT NULL,
+        UrlContenido NVARCHAR(500) NULL,
+        RutaArchivo NVARCHAR(500) NULL,
+        Activo BIT NOT NULL DEFAULT 1,
+        FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+        FechaActualizacion DATETIME NULL,
+        UsuarioCreadorId NVARCHAR(128) NULL
+    );
+END
+GO
+
+IF OBJECT_ID('dbo.ContenidoFavorito', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.ContenidoFavorito
+    (
+        IdContenidoFavorito INT IDENTITY(1,1) PRIMARY KEY,
+        UsuarioId NVARCHAR(128) NOT NULL,
+        IdContenidoEducativo INT NOT NULL,
+        FechaAgregado DATETIME NOT NULL DEFAULT GETDATE(),
+
+        CONSTRAINT FK_ContenidoFavorito_AspNetUsers
+            FOREIGN KEY (UsuarioId) REFERENCES dbo.AspNetUsers(Id),
+
+        CONSTRAINT FK_ContenidoFavorito_ContenidoEducativo
+            FOREIGN KEY (IdContenidoEducativo) REFERENCES dbo.ContenidoEducativo(IdContenidoEducativo)
+    );
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'UX_ContenidoFavorito_Usuario_Contenido'
+)
+BEGIN
+    CREATE UNIQUE INDEX UX_ContenidoFavorito_Usuario_Contenido
+    ON dbo.ContenidoFavorito(UsuarioId, IdContenidoEducativo);
+END
+GO
+
+-- =========================================
+-- 1) Registrar módulo Educativo
+-- =========================================
+IF NOT EXISTS (
+    SELECT 1
+    FROM dbo.Modules
+    WHERE Name = 'Educativo'
+)
+BEGIN
+    INSERT INTO dbo.Modules (Name, Description)
+    VALUES ('Educativo', 'Módulo educativo de bienestar animal');
+END
+GO
+
+-- =========================================
+-- 2) Asignar permisos al rol Administrador
+--    (lectura y escritura)
+-- =========================================
+DECLARE @RoleId NVARCHAR(128) = (SELECT Id FROM dbo.AspNetRoles WHERE Name = 'Administrador')
+DECLARE @ModuleId INT = (SELECT ModuleId FROM dbo.Modules WHERE Name = 'Educativo')
+
+IF @RoleId IS NOT NULL AND @ModuleId IS NOT NULL
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.RoleModulePermissions
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId
+    )
+    BEGIN
+        INSERT INTO dbo.RoleModulePermissions
+        (
+            RoleId,
+            ModuleId,
+            CanRead,
+            CanWrite
+        )
+        VALUES
+        (
+            @RoleId,
+            @ModuleId,
+            1,
+            1
+        );
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.RoleModulePermissions
+        SET CanRead = 1,
+            CanWrite = 1
+        WHERE RoleId = @RoleId
+          AND ModuleId = @ModuleId;
+    END
 END
 GO
