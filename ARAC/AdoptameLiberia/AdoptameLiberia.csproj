@@ -195,7 +195,7 @@
     <Compile Include="Filters\PermissionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>    
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\Adopcion.cs" />
@@ -241,15 +241,13 @@
     <Compile Include="Models\Voluntariado\Voluntario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-	
-	<Compile Include="Controllers\EducativoController.cs" />
-	<Compile Include="Controllers\AdminEducativoController.cs" />
-	<Compile Include="Controllers\FavoritosController.cs" />
-
-	<Compile Include="Models\Educativo\ContenidoEducativo.cs" />
-	<Compile Include="Models\Educativo\ContenidoFavorito.cs" />
-	<Compile Include="Models\Educativo\EducativoFiltro.cs" />
-	<Compile Include="Models\Educativo\ContenidoEducativoForm.cs" />
+    <Compile Include="Controllers\EducativoController.cs" />
+    <Compile Include="Controllers\AdminEducativoController.cs" />
+    <Compile Include="Controllers\FavoritosController.cs" />
+    <Compile Include="Models\Educativo\ContenidoEducativo.cs" />
+    <Compile Include="Models\Educativo\ContenidoFavorito.cs" />
+    <Compile Include="Models\Educativo\EducativoFiltro.cs" />
+    <Compile Include="Models\Educativo\ContenidoEducativoForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animal-theme.css" />
@@ -269,6 +267,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\Perfil.css" />
+    <Content Include="Content\estilos\About.css" />
+    <Content Include="Content\estilos\Layout.css" />
+    <Content Include="Content\estilos\Index.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -391,20 +393,18 @@
     <Content Include="Views\AdminEducativo\Edit.cshtml" />
     <Content Include="Views\AdminEducativo\Delete.cshtml" />
     <Content Include="Views\Favoritos\Index.cshtml" />
-	
-	<Content Include="Views\Educativo\Index.cshtml" />
-	<Content Include="Views\Educativo\Detalle.cshtml" />
-
-	<Content Include="Views\AdminEducativo\Index.cshtml" />
-	<Content Include="Views\AdminEducativo\Create.cshtml" />
-	<Content Include="Views\AdminEducativo\Edit.cshtml" />
-	<Content Include="Views\AdminEducativo\Delete.cshtml" />
-	<Content Include="Views\AdminEducativo\EducativoForm.cshtml" />
-
-	<Content Include="Views\Favoritos\Index.cshtml" />
+    <Content Include="Views\Educativo\Index.cshtml" />
+    <Content Include="Views\Educativo\Detalle.cshtml" />
+    <Content Include="Views\AdminEducativo\Index.cshtml" />
+    <Content Include="Views\AdminEducativo\Create.cshtml" />
+    <Content Include="Views\AdminEducativo\Edit.cshtml" />
+    <Content Include="Views\AdminEducativo\Delete.cshtml" />
+    <Content Include="Views\AdminEducativo\EducativoForm.cshtml" />
+    <Content Include="Views\Favoritos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\" />
     <Folder Include="Uploads\Educativo\" />
   </ItemGroup>
   <ItemGroup>
@@ -433,8 +433,7 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
-	
-	<Content Include="Uploads\Educativo\" />
+    <Content Include="Uploads\Educativo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

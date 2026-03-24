@@ -10,8 +10,9 @@ namespace AdoptameLiberia.Models
         [Key]
         public int ID_Solicitud { get; set; }
 
-        [NotMapped]
-        public int ID_Usuario { get; set; }
+        // 🔥 CAMBIO CLAVE
+        public string ID_Usuario { get; set; }
+
         public int ID_Animal { get; set; }
 
         public string Condiciones_Hogar { get; set; }
@@ -23,7 +24,10 @@ namespace AdoptameLiberia.Models
 
         public string Estado { get; set; }
 
-        public virtual AspNetUsers Usuario { get; set; }
+        // 🔥 RELACIÓN CORRECTA
+        [ForeignKey("ID_Usuario")]
+        public virtual ApplicationUser Usuario { get; set; }
+
         public virtual AnimalModel Animal { get; set; }
     }
 }

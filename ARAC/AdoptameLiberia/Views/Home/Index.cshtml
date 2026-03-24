@@ -1,36 +1,51 @@
-﻿@{
-    ViewBag.Title = "Inicio";
+﻿@section styles {
+    <link href="~/Content/estilos/Index.css" rel="stylesheet" />
 }
 
-<div class="hero-section text-center text-white">
-    <h1 class="display-4 text-white">🐾 ARAC Refugio</h1>
-    <p class="lead">Cuidando vidas, cambiando destinos.</p>
-    <a href="@Url.Action("Catalogo", "Animal")" class="btn btn-lg btn-primary">
-        Ver Mascotas Disponibles 🐶
-    </a>
+<div class="hero-arac">
+
+    <div class="hero-content">
+        <div class="paw">🐾</div>
+
+        <h1>ARAC Refugio</h1>
+        <p>Cuidando vidas, cambiando destinos</p>
+
+        <a href="@Url.Action("Catalogo","Animal")" class="btn-hero">
+            Ver Mascotas Disponibles 🐶
+        </a>
+    </div>
+
+  
 </div>
 
-<hr />
+<div class="info-home">
 
-<div class="row text-center mt-5">
-    <div class="col-md-4">
-        <div class="card-animal">
-            <h3>🐾 Adopta</h3>
-            <p>Dale un hogar a un amigo fiel que lo necesita.</p>
-        </div>
-    </div>
+    <h2 class="titulo-seccion">🐾 ¿Quiénes somos?</h2>
 
-    <div class="col-md-4">
-        <div class="card-animal">
-            <h3>💚 Dona</h3>
-            <p>Tu ayuda mantiene vivo nuestro refugio.</p>
-        </div>
-    </div>
+    <p>
+        ARAC Refugio es una organización dedicada al rescate, cuidado y protección de animales en situación de abandono.
+        Nuestro objetivo es brindarles una segunda oportunidad a perros y gatos, ofreciéndoles un espacio seguro, atención médica
+        y mucho amor mientras encuentran un hogar definitivo.
+    </p>
 
-    <div class="col-md-4">
-        <div class="card-animal">
-            <h3>🌿 Participa</h3>
-            <p>Únete a nuestras campañas y salva vidas.</p>
-        </div>
-    </div>
+    <hr />
+
+    <h3>💚 ¿Cómo ayudamos?</h3>
+
+    <p>
+        Trabajamos diariamente en el rescate de animales en riesgo, promovemos la adopción responsable y realizamos campañas
+        de concientización para fomentar el respeto y el cuidado hacia los animales.
+        Además, contamos con el apoyo de voluntarios y donaciones que hacen posible continuar con nuestra labor.
+    </p>
+
+    <hr />
+
+    <h3>🏡 Adopta y cambia una vida</h3>
+
+    <p>
+        Adoptar no solo le da una oportunidad a un animal, también transforma tu vida.
+        Cada mascota rescatada tiene una historia, y tú puedes ser parte de su nuevo comienzo.
+        Te invitamos a conocer a nuestros peluditos y darles el hogar que tanto merecen.
+    </p>
+
 </div>
