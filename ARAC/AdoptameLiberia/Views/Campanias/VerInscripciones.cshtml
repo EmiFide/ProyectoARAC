@@ -1,24 +1,36 @@
-﻿@model List<AdoptameLiberia.Models.Campanias.InscripcionCastracion>
+﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.InscripcionCastracion>
+
+@{
+    ViewBag.Title = "Ver Inscripciones";
+}
 
 <h2>Animales Inscritos</h2>
 
-<table class="table">
-    <tr>
-        <th>Animal</th>
-        <th>Veterinario</th>
-        <th>Resultado</th>
-        <th></th>
-    </tr>
+<p>
+    @Html.ActionLink("Volver a campañas", "Index", "Campanias", null, new { @class = "btn btn-secondary" })
+</p>
 
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped">
+    <thead>
         <tr>
-            <td>@item.Animal.Nombre_Animal</td>
-            <td>@item.VeterinarioAsignado</td>
-            <td>@item.Resultado</td>
-            <td>
-                @Html.ActionLink("Asignar Veterinario", "AsignarVeterinario",new { id = item.Id },new { @class = "btn btn-primary btn-sm" })
-            </td>
+            <th>Animal</th>
+            <th>Veterinario</th>
+            <th>Resultado</th>
+            <th>Acciones</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(item.Animal != null ? item.Animal.Nombre_Animal : "Sin animal")</td>
+                <td>@item.VeterinarioAsignado</td>
+                <td>@item.Resultado</td>
+                <td>
+                    @Html.ActionLink("Asignar Veterinario", "AsignarVeterinario", "Campanias", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Registrar Resultado", "RegistrarResultado", "Campanias", new { id = item.Id }, new { @class = "btn btn-info btn-sm ml-1" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

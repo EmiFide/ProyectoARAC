@@ -1,9 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using AdoptameLiberia.Models.Campanias;
 using AdoptameLiberia.Models.Donaciones;
-using AdoptameLiberia.Models.Mascotas;
 
 namespace AdoptameLiberia.Controllers
 {
@@ -11,6 +11,23 @@ namespace AdoptameLiberia.Controllers
     public class CampaniasController : Controller
     {
         private ARACDbContext db = new ARACDbContext();
+
+        private class AnimalComboItem
+        {
+            public int ID_Animal { get; set; }
+            public string Nombre_Animal { get; set; }
+        }
+
+        private void CargarAnimalesDisponibles(int? animalSeleccionado = null)
+        {
+            var animales = db.Database.SqlQuery<AnimalComboItem>(
+                @"SELECT ID_Animal, Nombre_Animal
+                  FROM Animal
+                  WHERE Estado = 'Disponible'"
+            ).ToList();
+
+            ViewBag.AnimalId = new SelectList(animales, "ID_Animal", "Nombre_Animal", animalSeleccionado);
+        }
 
         public ActionResult Index()
         {
@@ -32,15 +49,18 @@ namespace AdoptameLiberia.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(campania);
         }
 
         public ActionResult Inscribir(int id)
         {
-            ViewBag.AnimalId = new SelectList(db.Animal, "ID_Animal", "Nombre_Animal");
+            CargarAnimalesDisponibles();
 
-            var model = new InscripcionCastracion();
-            model.CampaniaCastracionId = id;
+            var model = new InscripcionCastracion
+            {
+                CampaniaCastracionId = id
+            };
 
             return View(model);
         }
@@ -49,6 +69,8 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Inscribir(InscripcionCastracion inscripcion)
         {
+            CargarAnimalesDisponibles(inscripcion.AnimalId);
+
             if (!ModelState.IsValid)
                 return View(inscripcion);
 
@@ -64,7 +86,6 @@ namespace AdoptameLiberia.Controllers
             }
 
             db.InscripcionesCastracion.Add(inscripcion);
-
             campania.Cupos--;
 
             db.SaveChanges();
@@ -105,6 +126,10 @@ namespace AdoptameLiberia.Controllers
         public ActionResult RegistrarResultado(int id)
         {
             var inscripcion = db.InscripcionesCastracion.Find(id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
             return View(inscripcion);
         }
 
@@ -113,10 +138,16 @@ namespace AdoptameLiberia.Controllers
         public ActionResult RegistrarResultado(InscripcionCastracion model)
         {
             var inscripcion = db.InscripcionesCastracion.Find(model.Id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
             inscripcion.Resultado = model.Resultado;
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
+
         public ActionResult VerInscripciones(int id)
         {
             var inscripciones = db.InscripcionesCastracion
@@ -128,6 +159,5 @@ namespace AdoptameLiberia.Controllers
 
             return View(inscripciones);
         }
-
     }
 }
