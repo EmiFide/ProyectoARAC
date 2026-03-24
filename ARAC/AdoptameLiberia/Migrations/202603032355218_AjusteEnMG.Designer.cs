@@ -7,13 +7,13 @@ namespace AdoptameLiberia.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class InicialCompleta : IMigrationMetadata
+    public sealed partial class AjusteEnMG : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InicialCompleta));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AjusteEnMG));
         
         string IMigrationMetadata.Id
         {
-            get { return "202603192142548_InicialCompleta"; }
+            get { return "202603032355218_AjusteEnMG"; }
         }
         
         string IMigrationMetadata.Source
