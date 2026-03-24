@@ -849,6 +849,7 @@ BEGIN
 END
 GO
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 -- CATEGORIA
 CREATE TABLE CategoriaFinanciera (
@@ -1000,5 +1001,7 @@ BEGIN
     END
 END
 GO
+=======
+>>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
 =======
 >>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)

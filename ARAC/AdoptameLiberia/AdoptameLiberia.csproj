@@ -240,12 +240,15 @@
     <Compile Include="Models\Donaciones\TipoDonacion.cs" />
     <Compile Include="Models\Donaciones\VM\DonacionCreateVM.cs" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Compile Include="Models\Educativo\ContenidoEducativo.cs" />
     <Compile Include="Models\Educativo\ContenidoEducativoForm.cs" />
     <Compile Include="Models\Educativo\ContenidoFavorito.cs" />
     <Compile Include="Models\Educativo\EducativoFiltro.cs" />
     <Compile Include="Models\Finanzas\CategoriaFinanciera.cs" />
     <Compile Include="Models\Finanzas\Gasto.cs" />
+=======
+>>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
 =======
 >>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
     <Compile Include="Models\IdentityModels.cs" />
@@ -435,7 +438,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Folder Include="Uploads\Educativo\" />
+=======
+>>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
 =======
 >>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
   </ItemGroup>
