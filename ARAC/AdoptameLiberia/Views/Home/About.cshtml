@@ -1,9 +1,59 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@section styles {
+    <link href="~/Content/estilos/About.css" rel="stylesheet" />
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<!-- HERO ABOUT -->
+<div class="about-hero">
+
+    <h1>Albergue ARAC</h1>
+
+    <div class="about-top">
+        <p>
+            Nos dedicamos a rescatar perros y gatos en situaciones críticas de vida o muerte,
+            para curarlos, esterilizarlos y darlos en adopción responsable.
+        </p>
+
+        <img src="@Url.Content("~/Content/img/Refugio.png")" class="about-img" />
+    </div>
+
+    <div class="about-cta">
+        TÚ TAMBIÉN PUEDES SER PARTE DE ESTA FAMILIA!
+    </div>
+
+</div>
+
+<!-- PROCESO -->
+<div class="proceso">
+
+    <h2>¿Cómo es el proceso de adopción?</h2>
+
+    <div class="cards-proceso">
+
+        <div class="card">
+            <div class="icon">🐶</div>
+            <p>1. Elige a tu mascota</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📝</div>
+            <p>2. Completa el formulario</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📹</div>
+            <p>3. Entrevista por videollamada</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏠</div>
+            <p>4. Aporte y preparación</p>
+        </div>
+
+        <div class="card grande">
+            <div class="icon">🎁</div>
+            <p>5. ¡Llega a tu hogar!</p>
+        </div>
+
+    </div>
+
+</div>

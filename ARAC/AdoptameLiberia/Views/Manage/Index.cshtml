@@ -3,142 +3,141 @@
     ViewBag.Title = "Mi perfil";
 }
 
-<div class="container mt-4">
+@section styles {
+    <link href="~/Content/estilos/Perfil.css" rel="stylesheet" />
+}
 
-    <h2 class="mb-4">Mi perfil</h2>
+<div class="perfil-container">
 
-    @* Mensaje de estado *@
+    <h2>🐾 Mi perfil</h2>
+
     @if (!string.IsNullOrEmpty(ViewBag.StatusMessage as string))
     {
-        <div class="alert alert-success">
+        <div class="alert-custom">
             @ViewBag.StatusMessage
         </div>
     }
 
-<div class="row">
+    <div class="perfil-grid">
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-            <strong>Mi información</strong>
+        <div class="perfil-box">
+            <div class="perfil-header">
+                <span>Mi información</span>
 
-            <button class="btn btn-outline-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#editarPerfilModal">
-                Editar perfil
-            </button>
-        </div>
+                <button type="button"
+                        class="btn btn-edit"
+                        data-toggle="modal"
+                        data-target="#editarPerfilModal">
+                    Editar
+                </button>
+            </div>
 
-        <div class="card-body">
-            <dl class="row mb-0">
-                <dt class="col-sm-4">Nombre</dt>
-                <dd class="col-sm-8">@Model.Nombre</dd>
+            <div class="perfil-item">
+                <span>Nombre</span>
+                <strong>@Model.Nombre</strong>
+            </div>
 
-                <dt class="col-sm-4">Correo</dt>
-                <dd class="col-sm-8">@Model.Email</dd>
+            <div class="perfil-item">
+                <span>Correo</span>
+                <strong>@Model.Email</strong>
+            </div>
 
-                <dt class="col-sm-4">Teléfono</dt>
-                <dd class="col-sm-8">
+            <div class="perfil-item">
+                <span>Teléfono</span>
+                <strong>
                     @(string.IsNullOrEmpty(Model.PhoneNumber) ? "No registrado" : Model.PhoneNumber)
-                </dd>
-            </dl>
+                </strong>
+            </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <div class="perfil-box">
+            <div class="perfil-header">
+                <span>Seguridad</span>
+            </div>
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar perfil</h5>
-                    <button type="button" class="close" data-dismiss="modal"></button>
-                </div>
-
-                @using (Html.BeginForm("Index", "Manage", FormMethod.Post))
+            <div class="perfil-item">
+                <span>Contraseña</span>
+                @if (Model.HasPassword)
                 {
-                    @Html.AntiForgeryToken()
-
-                    <div class="modal-body">
-
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.Nombre)
-                            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.Email)
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.PhoneNumber)
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Guardar cambios
-                        </button>
-                    </div>
+                    <strong class="ok">Configurada ✔</strong>
+                }
+                else
+                {
+                    <strong class="error">No configurada</strong>
                 }
             </div>
+
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink(
+                    "Cambiar contraseña",
+                    "ChangePassword",
+                    "Manage",
+                    null,
+                    new { @class = "btn-secundario" })
+            }
+            else
+            {
+                @Html.ActionLink(
+                    "Establecer contraseña",
+                    "SetPassword",
+                    "Manage",
+                    null,
+                    new { @class = "btn-secundario" })
+            }
         </div>
+
     </div>
-
-    <!-- SEGURIDAD -->
-    <div class="col-md-5">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-light">
-                <strong>Seguridad</strong>
-            </div>
-            <div class="card-body">
-
-                <p>
-                    <strong>Contraseña:</strong>
-                    @if (Model.HasPassword)
-                    {
-                        <span class="text-success">Configurada</span>
-                    }
-                    else
-                    {
-                        <span class="text-danger">No configurada</span>
-                    }
-                </p>
-
-                <p>
-                    @if (Model.HasPassword)
-                    {
-                        @Html.ActionLink(
-                            "Cambiar contraseña",
-                            "ChangePassword",
-                            "Manage",
-                            null,
-                            new { @class = "btn btn-outline-secondary btn-sm" })
-                    }
-                    else
-                    {
-                        @Html.ActionLink(
-                            "Establecer contraseña",
-                            "SetPassword",
-                            "Manage",
-                            null,
-                            new { @class = "btn btn-outline-secondary btn-sm" })
-                    }
-                </p>
-
-                <hr />
-            </div>
-        </div>
-    </div>
-
 </div>
+
+<div class="modal fade" id="editarPerfilModal" tabindex="-1" role="dialog" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-custom">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarPerfilModalLabel">Editar perfil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("Index", "Manage", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Nombre)
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-save">
+                        Guardar
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
 @section Scripts {

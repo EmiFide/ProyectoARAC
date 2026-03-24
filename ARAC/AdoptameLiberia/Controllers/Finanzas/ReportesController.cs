@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AdoptameLiberia.Models;
-using AdoptameLiberia.Models.ViewModels;
+using AdoptameLiberia.Models.Finanzas;
 
 namespace AdoptameLiberia.Controllers.Finanzas
 {

@@ -1,0 +1,38 @@
+﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
+
+@{
+    ViewBag.Title = "Detalle de tarea";
+}
+
+<h2>Detalle de tarea</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Título</dt>
+        <dd>@Model.Titulo</dd>
+
+        <dt>Descripción</dt>
+        <dd>@Model.Descripcion</dd>
+
+        <dt>Fecha</dt>
+        <dd>@Model.Fecha.ToShortDateString()</dd>
+
+        <dt>Hora</dt>
+        <dd>@(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "")</dd>
+
+        <dt>Lugar</dt>
+        <dd>@Model.Lugar</dd>
+
+        <dt>Estado</dt>
+        <dd>@(Model.Estado ? "Activa" : "Inactiva")</dd>
+
+        <dt>Fecha de registro</dt>
+        <dd>@Model.Fecha_Registro</dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID_Tarea }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-secondary" })
+</p>
