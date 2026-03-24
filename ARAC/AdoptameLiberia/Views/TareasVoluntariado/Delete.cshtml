@@ -1,0 +1,39 @@
+﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
+
+@{
+    ViewBag.Title = "Eliminar tarea";
+}
+
+<h2>Eliminar tarea</h2>
+
+<h3>¿Seguro que quieres eliminar esta tarea?</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Título</dt>
+        <dd>@Model.Titulo</dd>
+
+        <dt>Descripción</dt>
+        <dd>@Model.Descripcion</dd>
+
+        <dt>Fecha</dt>
+        <dd>@Model.Fecha.ToShortDateString()</dd>
+
+        <dt>Hora</dt>
+        <dd>@(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "")</dd>
+
+        <dt>Lugar</dt>
+        <dd>@Model.Lugar</dd>
+
+        <dt>Estado</dt>
+        <dd>@(Model.Estado ? "Activa" : "Inactiva")</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    }
+</div>

@@ -77,10 +77,6 @@ namespace AdoptameLiberia.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
-
-        public System.Data.Entity.DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
         public object Animal { get; internal set; }
         public DbSet<AnimalModel> Animals { get; internal set; }
         public DbSet<Adopcion> Adopcion { get; set; }

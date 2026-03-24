@@ -1,0 +1,96 @@
+﻿/* HERO PRINCIPAL */
+.hero-arac {
+    position: relative;
+    height: 350px;
+    background: linear-gradient(rgba(111,23,26,0.75), rgba(46,15,17,0.85)), url('/Content/img/Refugio.png');
+    background-size: cover; /* 🔥 clave */
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+/* contenido */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+    .hero-content h1 {
+        font-size: 40px;
+        font-weight: 600;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+/* botón */
+.btn-hero {
+    background-color: #2E7DFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+    .btn-hero:hover {
+        background-color: #1c5ed6;
+        color: white;
+    }
+
+/* huellita */
+.paw {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* 🐶 IMAGEN REFUGIO */
+.hero-refugio {
+    position: absolute;
+    left: 50%; /* 🔥 centro horizontal */
+    bottom: 0;
+    transform: translateX(-50%); /* 🔥 lo centra de verdad */
+
+    height: 260px;
+    width: auto;
+    z-index: 1;
+    opacity: 0.95;
+    filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.4));
+}
+
+/* INFO */
+.info-home {
+    margin-top: 30px;
+    color: #333;
+}
+
+.titulo-seccion {
+    color: #6f171a;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.info-home h3 {
+    color: #8e2a2f;
+    margin-top: 20px;
+}
+
+.info-home p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.info-home hr {
+    border: none;
+    height: 2px;
+    background: #e0cfc2;
+    margin: 20px 0;
+}
