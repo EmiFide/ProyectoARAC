@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InicialCompleta : DbMigration
+    public partial class NuevaM : DbMigration
     {
         public override void Up()
         {
@@ -60,32 +60,17 @@
                 "dbo.Razas",
                 c => new
                     {
-                        ID_Raza = c.Int(nullable: false, identity: true),
+                        RazaId = c.Int(nullable: false, identity: true),
                         NombreRaza = c.String(),
                         Descripcion = c.String(),
-                        ID_TipoAnimal = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID_Raza)
-                .ForeignKey("dbo.Tipo_Animal", t => t.ID_TipoAnimal, cascadeDelete: true)
-                .Index(t => t.ID_TipoAnimal);
-            
-            CreateTable(
-                "dbo.Tipo_Animal",
-                c => new
-                    {
-                        ID_TipoAnimal = c.Int(nullable: false, identity: true),
-                        Nombre_Tipo_Animal = c.String(nullable: false, maxLength: 50),
-                        Descripcion = c.String(maxLength: 200),
-                        Estado = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID_TipoAnimal);
+                .PrimaryKey(t => t.RazaId);
             
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        Nombre = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -133,14 +118,12 @@
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Razas", "ID_TipoAnimal", "dbo.Tipo_Animal");
             DropForeignKey("dbo.RoleModulePermissions", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.RoleModulePermissions", "ModuleId", "dbo.Modules");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Razas", new[] { "ID_TipoAnimal" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
@@ -149,7 +132,6 @@
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Tipo_Animal");
             DropTable("dbo.Razas");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");

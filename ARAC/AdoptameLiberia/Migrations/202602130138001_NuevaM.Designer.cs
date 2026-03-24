@@ -7,13 +7,13 @@ namespace AdoptameLiberia.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class UpdateModel : IMigrationMetadata
+    public sealed partial class NuevaM : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NuevaM));
         
         string IMigrationMetadata.Id
         {
-            get { return "202603192256344_UpdateModel"; }
+            get { return "202602130138001_NuevaM"; }
         }
         
         string IMigrationMetadata.Source

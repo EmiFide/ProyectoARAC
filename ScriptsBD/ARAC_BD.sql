@@ -416,18 +416,11 @@ VALUES
 (3, 'Elena', 'Quesada', 'Mora', 'elena.quesada@correo.com');
 GO
 
-INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion, Estado)
+INSERT INTO Tipo_Animal (Nombre_Tipo_Animal, Descripcion)
 VALUES
-('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar',1),
-('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada',1);
+('Perro', 'Animal doméstico leal, activo y protector, ideal para compañía y seguridad en el hogar'),
+('Gato', 'Animal doméstico independiente, limpio y tranquilo, ideal para espacios pequeños y compañía relajada');
 GO
-
-
-SELECT * FROM Animal;
-
-DBCC CHECKIDENT ('Animal', RESEED, 0);
-
-DELETE FROM Animal;
 
 INSERT INTO Raza (Nombre, Descripcion)
 VALUES
@@ -822,7 +815,7 @@ FROM [ARAC_DB].[dbo].[AspNetUserRoles];
 GO
 
 -- ASIGNACIÓN DE ROL A USUARIO
-DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'bbogantes05@gmail.com');
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'franffv0809@gmail.com');
 DECLARE @RoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
 
 IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId = @RoleId)
@@ -855,6 +848,8 @@ BEGIN
     CREATE INDEX IX_MovInv_Fecha ON dbo.Movimiento_Inventario(Fecha_Movimiento DESC);
 END
 GO
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 -- CATEGORIA
 CREATE TABLE CategoriaFinanciera (
@@ -1006,3 +1001,7 @@ BEGIN
     END
 END
 GO
+=======
+>>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
+=======
+>>>>>>> parent of f7c3815 (Merge pull request #37 from EmiFide/Bryan)
