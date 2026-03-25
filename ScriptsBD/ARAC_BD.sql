@@ -822,7 +822,7 @@ FROM [ARAC_DB].[dbo].[AspNetUserRoles];
 GO
 
 -- ASIGNACIÓN DE ROL A USUARIO
-DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'bbogantes05@gmail.com');
+DECLARE @UserId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetUsers WHERE Email = 'franffv080905@gmail.com');
 DECLARE @RoleId NVARCHAR(128) = (SELECT TOP 1 Id FROM AspNetRoles WHERE Name = 'Administrador');
 
 IF NOT EXISTS (SELECT 1 FROM AspNetUserRoles WHERE UserId = @UserId AND RoleId = @RoleId)
@@ -887,4 +887,139 @@ SELECT Id, Email FROM AspNetUsers
 
 INSERT INTO Noticia (ID_Usuario, Titulo, Contenido)
 VALUES 
-('ab5ca3c8-0285-4f2e-b1cd-f545ba1adad7', 'Primera noticia', 'Bienvenido al sistema ARAC');
+('ee541788-4fed-459f-b856-19a538f78af3', 'Primera noticia', 'Bienvenido al sistema ARAC');
+
+--Se altera la tabla de Usuario agregando un nuevo valor 
+ALTER TABLE dbo.Usuario
+ADD IdAspNetUser NVARCHAR(128);
+
+--Se altera la tabla de Usuario conectando con la tabla que se crea con el Login 
+ALTER TABLE dbo.Usuario
+ADD CONSTRAINT FK_Usuario_AspNetUsers
+FOREIGN KEY (IdAspNetUser) REFERENCES dbo.AspNetUsers(Id);
+
+--Esto para comprobar que si se crea
+SELECT 
+    U.ID_Usuario,
+    U.Correo,
+    U.IdAspNetUser,
+    A.Email
+FROM dbo.Usuario U
+LEFT JOIN dbo.AspNetUsers A 
+    ON U.IdAspNetUser = A.Id;
+
+--Esto para ver su id y su email y poder comparar
+SELECT Id, Email
+FROM dbo.AspNetUsers;
+
+--Se agarra el id y se remplaza en el IdAspNetUser
+UPDATE dbo.Usuario
+SET IdAspNetUser = 'ee541788-4fed-459f-b856-19a538f78af3'
+WHERE ID_Usuario = 1;
+
+
+--Para comprobar
+SELECT ID_Usuario, Correo, IdAspNetUser
+FROM dbo.Usuario
+WHERE ID_Usuario = 1;
+
+--Para cambiar el id 1
+UPDATE dbo.Usuario
+SET Correo = 'franffv0809@gmail.com'
+WHERE ID_Usuario = 1;
+-----------------------------------------------
+--Para meter cantidades en las donaciones
+ALTER TABLE Detalle_Donacion
+ADD Cantidad INT NOT NULL DEFAULT 1;
+
+--Eliminar elementos duplicados 
+;WITH TiposBase AS
+(
+    SELECT
+        ID_Tipo_Donacion,
+        Nombre = LTRIM(RTRIM(Nombre)),
+        KeepId = MIN(ID_Tipo_Donacion) OVER (PARTITION BY LTRIM(RTRIM(LOWER(Nombre))))
+    FROM Tipo_Donacion
+),
+Duplicados AS
+(
+    SELECT ID_Tipo_Donacion, KeepId
+    FROM TiposBase
+    WHERE ID_Tipo_Donacion <> KeepId
+)
+UPDATE D
+SET D.ID_Tipo_Donacion = X.KeepId
+FROM Donacion D
+INNER JOIN Duplicados X
+    ON D.ID_Tipo_Donacion = X.ID_Tipo_Donacion;
+GO
+
+;WITH TiposBase AS
+(
+    SELECT
+        ID_Tipo_Donacion,
+        KeepId = MIN(ID_Tipo_Donacion) OVER (PARTITION BY LTRIM(RTRIM(LOWER(Nombre))))
+    FROM Tipo_Donacion
+)
+DELETE T
+FROM Tipo_Donacion T
+INNER JOIN TiposBase X
+    ON T.ID_Tipo_Donacion = X.ID_Tipo_Donacion
+WHERE T.ID_Tipo_Donacion <> X.KeepId;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'monetaria')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Monetaria', 'Donación en efectivo');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'insumos')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Insumos', 'Alimentos o artículos');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'medicinas')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Medicinas', 'Donación de medicamentos veterinarios');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'limpieza')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Limpieza', 'Productos de limpieza para refugio');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'accesorios')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Accesorios', 'Correas, platos y camas');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'higiene')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Higiene', 'Champú y artículos de aseo');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'arena')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Arena', 'Arena sanitaria para gatos');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'cobijas')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Cobijas', 'Cobertores y ropa de cama');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'juguetes')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Juguetes', 'Juguetes para perros y gatos');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'veterinaria')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Veterinaria', 'Aporte para procedimientos médicos');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'transporte')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('Transporte', 'Apoyo para traslados');
+
+IF NOT EXISTS (SELECT 1 FROM Tipo_Donacion WHERE LTRIM(RTRIM(LOWER(Nombre))) = 'general')
+INSERT INTO Tipo_Donacion (Nombre, Descripcion) VALUES ('General', 'Donación general de apoyo');
+GO
+
+SELECT ID_Tipo_Donacion, Nombre, Descripcion
+FROM Tipo_Donacion
+ORDER BY Nombre;
+GO
+
+--Para las inscripciones de castracion 
+IF OBJECT_ID('dbo.Inscripcion_Castracion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Inscripcion_Castracion
+    (
+        Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        CampaniaCastracionId INT NOT NULL,
+        AnimalId INT NOT NULL,
+        VeterinarioAsignado VARCHAR(150) NULL,
+        Resultado VARCHAR(500) NULL
+    );
+END
+GO
