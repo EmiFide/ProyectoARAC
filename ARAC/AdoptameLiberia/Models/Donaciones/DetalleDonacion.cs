@@ -22,5 +22,7 @@ namespace AdoptameLiberia.Models.Donaciones
 
         [ForeignKey(nameof(IdDonacion))]
         public virtual Donacion Donacion { get; set; }
+
+        public int Cantidad { get; set; }
     }
 }

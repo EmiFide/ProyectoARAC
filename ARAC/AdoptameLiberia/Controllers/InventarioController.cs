@@ -244,7 +244,7 @@ namespace AdoptameLiberia.Controllers
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == id);
             if (item == null) return HttpNotFound();
 
-            var vm = new AjusteInventario
+            var vm = new AdoptameLiberia.Models.Inventario.Usuario
             {
                 IdItemInventario = item.IdItemInventario,
                 NombreItem = item.Nombre,
@@ -257,7 +257,7 @@ namespace AdoptameLiberia.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [PermissionAuthorize(Module = "Inventario", RequireWrite = true)]
-        public async Task<ActionResult> Ajuste(AjusteInventario model)
+        public async Task<ActionResult> Ajuste(Models.Inventario.Usuario model)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == model.IdItemInventario);
             if (item == null) return HttpNotFound();

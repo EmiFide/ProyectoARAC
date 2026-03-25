@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdoptameLiberia.Models.Inventario
 {
-    public class AjusteInventario
+    public class Usuario
     {
         public int IdItemInventario { get; set; }
         public string NombreItem { get; set; }

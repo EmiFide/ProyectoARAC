@@ -28,12 +28,17 @@ namespace AdoptameLiberia.Models.Donaciones.VM
         // Dropdowns
         public IEnumerable<SelectListItem> TiposDonacion { get; set; }
         public IEnumerable<SelectListItem> ItemsInventario { get; set; }
+
+        public IEnumerable<SelectListItem> MetodosPago { get; set; }
     }
 
     public class DetalleInsumoVM
     {
         public int? IdItemInventario { get; set; }
+
+        public int? Cantidad { get; set; } // 🔥 NECESARIO
+
         [StringLength(200)]
-        public string Descripcion { get; set; } // Ej: "5 sacos de alimento"
+        public string Descripcion { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AdoptameLiberia.Models.Donaciones;
+using AdoptameLiberia.Models.Donaciones.VM;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using AdoptameLiberia.Models.Donaciones;
-using AdoptameLiberia.Models.Donaciones.VM;
+using Microsoft.AspNet.Identity;
 
 namespace AdoptameLiberia.Controllers
 {
@@ -12,19 +14,17 @@ namespace AdoptameLiberia.Controllers
     {
         private readonly ARACDbContext db = new ARACDbContext();
 
-        // H31: Historial
+        // =========================
+        // INDEX
+        // =========================
         public ActionResult Index(int? tipoDonacionId)
         {
             var donaciones = db.Donaciones
-                               .Include(d => d.TipoDonacion)
-                               .AsQueryable();
+                .Include(d => d.TipoDonacion)
+                .AsQueryable();
 
-            // Filtro por tipo de donación
             if (tipoDonacionId.HasValue)
-            {
-                donaciones = donaciones
-                    .Where(d => d.IdTipoDonacion == tipoDonacionId.Value);
-            }
+                donaciones = donaciones.Where(d => d.IdTipoDonacion == tipoDonacionId.Value);
 
             ViewBag.TiposDonacion = new SelectList(
                 db.TiposDonacion,
@@ -36,8 +36,10 @@ namespace AdoptameLiberia.Controllers
             return View(donaciones.ToList());
         }
 
-        // H29/H30: Crear
-        public ActionResult Create()
+        // =========================
+        // GET CREATE
+        // =========================
+        public ActionResult Create(decimal? monto)
         {
             var vm = new DonacionCreateVM
             {
@@ -46,76 +48,123 @@ namespace AdoptameLiberia.Controllers
                     Value = t.IdTipoDonacion.ToString(),
                     Text = t.Nombre
                 }).ToList(),
-                ItemsInventario = db.ItemsInventario.Where(i => i.Estado).Select(i => new SelectListItem
+
+                ItemsInventario = db.ItemsInventario
+                    .Where(i => i.Estado)
+                    .Select(i => new SelectListItem
+                    {
+                        Value = i.IdItemInventario.ToString(),
+                        Text = i.Nombre + " (" + i.StockActual + ")"
+                    }).ToList(),
+
+                MetodosPago = new List<SelectListItem>
                 {
-                    Value = i.IdItemInventario.ToString(),
-                    Text = i.Nombre + " (" + i.StockActual + ")"
-                }).ToList()
+                    new SelectListItem { Value = "Sinpe", Text = "Sinpe" },
+                    new SelectListItem { Value = "Transferencia", Text = "Transferencia" },
+                    new SelectListItem { Value = "Efectivo", Text = "Efectivo" },
+                    new SelectListItem { Value = "Entrega directa", Text = "Entrega directa" }
+                }
             };
 
-            // mínimo 1 fila para insumos
+            if (monto.HasValue)
+            {
+                vm.Monto = monto.Value;
+
+                var tipoMonetaria = db.TiposDonacion
+                    .FirstOrDefault(t => t.Nombre == "Monetaria");
+
+                if (tipoMonetaria != null)
+                    vm.IdTipoDonacion = tipoMonetaria.IdTipoDonacion;
+            }
+
             vm.Insumos.Add(new DetalleInsumoVM());
+
             return View(vm);
         }
 
+        // =========================
+        // POST CREATE
+        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(DonacionCreateVM vm)
         {
-            // recargar combos por si hay error
+            // Recargar combos
             vm.TiposDonacion = db.TiposDonacion.Select(t => new SelectListItem
             {
                 Value = t.IdTipoDonacion.ToString(),
                 Text = t.Nombre
             }).ToList();
 
-            vm.ItemsInventario = db.ItemsInventario.Where(i => i.Estado).Select(i => new SelectListItem
+            vm.ItemsInventario = db.ItemsInventario
+                .Where(i => i.Estado)
+                .Select(i => new SelectListItem
+                {
+                    Value = i.IdItemInventario.ToString(),
+                    Text = i.Nombre + " (" + i.StockActual + ")"
+                }).ToList();
+
+            vm.MetodosPago = new List<SelectListItem>
             {
-                Value = i.IdItemInventario.ToString(),
-                Text = i.Nombre + " (" + i.StockActual + ")"
-            }).ToList();
+                new SelectListItem { Value = "Sinpe", Text = "Sinpe" },
+                new SelectListItem { Value = "Transferencia", Text = "Transferencia" },
+                new SelectListItem { Value = "Efectivo", Text = "Efectivo" },
+                new SelectListItem { Value = "Entrega directa", Text = "Entrega directa" }
+            };
 
             if (!ModelState.IsValid)
                 return View(vm);
 
-            // Validación por tipo
             var tipo = db.TiposDonacion.FirstOrDefault(t => t.IdTipoDonacion == vm.IdTipoDonacion);
+
             if (tipo == null)
             {
-                ModelState.AddModelError("", "Tipo de donación inválido.");
+                ModelState.AddModelError("", "Tipo inválido.");
                 return View(vm);
             }
 
-            bool esMonetaria = string.Equals(tipo.Nombre, "Monetaria", StringComparison.OrdinalIgnoreCase);
+            bool esMonetaria = tipo.Nombre.Equals("Monetaria", StringComparison.OrdinalIgnoreCase);
 
+            // VALIDACIONES
             if (esMonetaria)
             {
                 if (vm.Monto == null || vm.Monto <= 0)
                 {
-                    ModelState.AddModelError("Monto", "El monto debe ser mayor a 0.");
+                    ModelState.AddModelError("Monto", "Monto inválido.");
                     return View(vm);
                 }
             }
             else
             {
-                // Insumos: debe existir al menos un detalle con descripción o item
-                var hayDetalle = vm.Insumos != null && vm.Insumos.Any(x =>
-                    (x.IdItemInventario.HasValue && x.IdItemInventario.Value > 0) ||
-                    (!string.IsNullOrWhiteSpace(x.Descripcion)));
+                vm.Metodo = "Entrega directa";
 
-                if (!hayDetalle)
+                var hayInsumo = vm.Insumos != null && vm.Insumos.Any(x =>
+                    x.IdItemInventario.HasValue || !string.IsNullOrWhiteSpace(x.Descripcion));
+
+                if (!hayInsumo)
                 {
-                    ModelState.AddModelError("", "Debe ingresar al menos un insumo/detalle.");
+                    ModelState.AddModelError("", "Debe ingresar al menos un insumo.");
                     return View(vm);
                 }
             }
 
-            // Crear Donación
+            // USUARIO
+            var userId = User.Identity.GetUserId();
+
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == userId);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("", "Usuario no vinculado.");
+                return View(vm);
+            }
+
+            // CREAR DONACIÓN
             var donacion = new Donacion
             {
-                IdUsuario = vm.IdUsuario,
+                IdUsuario = usuario.ID_Usuario,
                 IdTipoDonacion = vm.IdTipoDonacion,
-                Monto = esMonetaria ? vm.Monto.Value : 0m, // en tu tabla Monto NO es nullable
+                Monto = esMonetaria ? vm.Monto.Value : 0,
                 Fecha = DateTime.Now,
                 Metodo = vm.Metodo,
                 Descripcion = vm.Descripcion,
@@ -125,34 +174,30 @@ namespace AdoptameLiberia.Controllers
             db.Donaciones.Add(donacion);
             db.SaveChanges();
 
-            // Si es insumos: detalle + movimiento inventario (Entrada)
+            // INSUMOS
             if (!esMonetaria && vm.Insumos != null)
             {
                 foreach (var ins in vm.Insumos)
                 {
                     if (ins == null) continue;
-                    if (ins.IdItemInventario == null && string.IsNullOrWhiteSpace(ins.Descripcion)) continue;
 
-                    var det = new DetalleDonacion
+                    if (!ins.IdItemInventario.HasValue && string.IsNullOrWhiteSpace(ins.Descripcion))
+                        continue;
+
+                    db.DetallesDonacion.Add(new DetalleDonacion
                     {
                         IdDonacion = donacion.IdDonacion,
                         IdItemInventario = ins.IdItemInventario,
+                        Cantidad = ins.Cantidad ?? 1,
                         Descripcion = ins.Descripcion
-                    };
-                    db.DetallesDonacion.Add(det);
+                    });
 
                     if (ins.IdItemInventario.HasValue)
                     {
-                        db.MovimientosInventario.Add(new MovimientoInventario
-                        {
-                            IdItemInventario = ins.IdItemInventario.Value,
-                            TipoMovimiento = "Entrada",
-                            FechaMovimiento = DateTime.Now,
-                            Motivo = "Donación recibida (ID " + donacion.IdDonacion + ")"
-                        });
+                        var item = db.ItemsInventario.Find(ins.IdItemInventario.Value);
 
-                        // (Opcional) aumentar stock si quieres manejar cantidad (tu tabla no tiene Cantidad)
-                        // Aquí NO toco Stock_Actual porque tu modelo no tiene cantidad numérica.
+                        if (item != null)
+                            item.StockActual += ins.Cantidad ?? 1;
                     }
                 }
 
@@ -162,20 +207,26 @@ namespace AdoptameLiberia.Controllers
             return RedirectToAction("Details", new { id = donacion.IdDonacion });
         }
 
-        // Details: muestra donación + detalles + observaciones
+        // =========================
+        // DETAILS
+        // =========================
         public ActionResult Details(int id)
         {
             var donacion = db.Donaciones
-                             .Include(d => d.TipoDonacion)
-                             .Include(d => d.Detalles)
-                             .Include(d => d.Observaciones)
-                             .FirstOrDefault(d => d.IdDonacion == id);
+                .Include(d => d.TipoDonacion)
+                .Include(d => d.Detalles)
+                .Include(d => d.Observaciones)
+                .FirstOrDefault(d => d.IdDonacion == id);
 
-            if (donacion == null) return HttpNotFound();
+            if (donacion == null)
+                return HttpNotFound();
+
             return View(donacion);
         }
 
-        // H35: Agregar observación
+        // =========================
+        // OBSERVACIONES
+        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AgregarObservacion(int idDonacion, string comentario)
@@ -191,18 +242,23 @@ namespace AdoptameLiberia.Controllers
             });
 
             db.SaveChanges();
+
             return RedirectToAction("Details", new { id = idDonacion });
         }
 
-        // H32: Comprobante (vista imprimible)
+        // =========================
+        // COMPROBANTE
+        // =========================
         public ActionResult Comprobante(int id)
         {
             var donacion = db.Donaciones
-                             .Include(d => d.TipoDonacion)
-                             .Include(d => d.Detalles)
-                             .FirstOrDefault(d => d.IdDonacion == id);
+                .Include(d => d.TipoDonacion)
+                .Include(d => d.Detalles)
+                .FirstOrDefault(d => d.IdDonacion == id);
 
-            if (donacion == null) return HttpNotFound();
+            if (donacion == null)
+                return HttpNotFound();
+
             return View(donacion);
         }
     }

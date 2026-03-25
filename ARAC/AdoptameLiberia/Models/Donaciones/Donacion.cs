@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AdoptameLiberia.Models;
 
 namespace AdoptameLiberia.Models.Donaciones
 {
@@ -38,6 +39,10 @@ namespace AdoptameLiberia.Models.Donaciones
         // Navegación
         [ForeignKey(nameof(IdTipoDonacion))]
         public virtual TipoDonacion TipoDonacion { get; set; }
+
+        // 🔥 RELACIÓN CON USUARIO (ESTO ES LO NUEVO)
+        [ForeignKey(nameof(IdUsuario))]
+        public virtual Usuario Usuario { get; set; }
 
         public virtual ICollection<DetalleDonacion> Detalles { get; set; }
         public virtual ICollection<ObservacionDonacion> Observaciones { get; set; }

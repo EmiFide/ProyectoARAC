@@ -1,55 +1,110 @@
 ﻿@model AdoptameLiberia.Models.Donaciones.Donacion
 
-<h2>Detalle Donación #@Model.IdDonacion</h2>
+<div class="container mt-5">
 
-<p><b>Tipo:</b> @(Model.TipoDonacion != null ? Model.TipoDonacion.Nombre : "")</p>
-<p><b>Monto:</b> @Model.Monto</p>
-<p><b>Método:</b> @Model.Metodo</p>
-<p><b>Descripción:</b> @Model.Descripcion</p>
+    <div class="card shadow-lg p-4">
 
-<h3>Detalles de Insumos</h3>
-@if (Model.Detalles != null && Model.Detalles.Any())
-{
-    <ul>
-        @foreach (var det in Model.Detalles)
+        <h2 class="text-center mb-4">
+            ❤️ Detalle Donación #@Model.IdDonacion
+        </h2>
+
+        <hr />
+
+        <!-- INFO PRINCIPAL -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>📧 Correo:</strong> @Model.Usuario.Correo</p>
+                <p><strong>📦 Tipo:</strong> @Model.TipoDonacion.Nombre</p>
+                <p><strong>💳 Método:</strong> @Model.Metodo</p>
+            </div>
+
+            <div class="col-md-6">
+                <p><strong>💰 Monto:</strong> ₡@Model.Monto.ToString("N2")</p>
+                <p><strong>📝 Descripción:</strong> @Model.Descripcion</p>
+                <p><strong>📅 Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- INSUMOS -->
+        <h4 class="mb-3">📦 Detalles de Insumos</h4>
+
+        @if (Model.Detalles != null && Model.Detalles.Any())
         {
-            <li>@det.Descripcion (ItemId: @det.IdItemInventario)</li>
+            <ul class="list-group mb-3">
+                @foreach (var det in Model.Detalles)
+                {
+                    <li class="list-group-item">
+                        @det.Descripcion
+                        @if (det.IdItemInventario != null)
+                        {
+                        }
+                    </li>
+                }
+            </ul>
         }
-    </ul>
-}
-else
-{
-    <p>No hay detalles.</p>
-}
+        else
+        {
+            <div class="alert alert-light">
+                No hay detalles.
+            </div>
+        }
 
-<hr />
-<h3>Observaciones</h3>
+        <hr />
 
-@using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
-    <div class="form-group">
-        <textarea class="form-control" name="comentario" rows="3" placeholder="Agregar observación..."></textarea>
+        <!-- OBSERVACIONES -->
+        <h4 class="mb-3">🗒️ Observaciones</h4>
+
+        @using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
+
+            <div class="form-group mb-2">
+                <textarea class="form-control" name="comentario" rows="3"
+                          placeholder="Escriba una observación..."></textarea>
+            </div>
+
+            <button class="btn btn-success mb-3" type="submit">
+                ➕ Agregar
+            </button>
+        }
+
+        @if (Model.Observaciones != null && Model.Observaciones.Any())
+        {
+            <ul class="list-group">
+                @foreach (var o in Model.Observaciones.OrderByDescending(x => x.Fecha))
+                {
+                    <li class="list-group-item">
+                        <strong>@o.Fecha.ToString("dd/MM/yyyy HH:mm")</strong><br />
+                        @o.Comentario
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-light">
+                Sin observaciones.
+            </div>
+        }
+
+        <hr />
+
+        <!-- BOTONES -->
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })"
+               class="btn btn-primary me-2">
+                📄 Comprobante
+            </a>
+
+            <a href="@Url.Action("Index", "Donaciones")"
+               class="btn btn-secondary">
+                🔙 Volver
+            </a>
+        </div>
+
     </div>
-    <button class="btn btn-success" type="submit">Agregar</button>
-}
 
-@if (Model.Observaciones != null && Model.Observaciones.Any())
-{
-    <ul>
-        @foreach (var o in Model.Observaciones.OrderByDescending(x => x.Fecha))
-        {
-            <li><b>@o.Fecha.ToString("dd/MM/yyyy HH:mm")</b> - @o.Comentario</li>
-        }
-    </ul>
-}
-else
-{
-    <p>Sin observaciones.</p>
-}
-
-<p>
-    @Html.ActionLink("Comprobante", "Comprobante", new { id = Model.IdDonacion }) |
-    @Html.ActionLink("Volver", "Index")
-</p>
+</div>
