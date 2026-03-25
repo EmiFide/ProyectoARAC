@@ -197,6 +197,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\Adopcion.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Campanias\CampaniasCastracion.cs" />
     <Compile Include="Models\Campanias\InscripcionCastracion.cs" />
@@ -252,6 +253,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\CreateDonacion.css" />
+    <Content Include="Content\estilos\Donaciones.css" />
     <Content Include="Content\estilos\Login.css" />
     <Content Include="Content\estilos\Perfil.css" />
     <Content Include="Content\estilos\About.css" />

@@ -12,6 +12,8 @@ namespace AdoptameLiberia.Models.Donaciones
         {
         }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+
         public DbSet<Donacion> Donaciones { get; set; }
         public DbSet<TipoDonacion> TiposDonacion { get; set; }
         public DbSet<DetalleDonacion> DetallesDonacion { get; set; }
