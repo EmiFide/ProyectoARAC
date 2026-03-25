@@ -23,14 +23,14 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="danger">
-            <td>@item.Nombre</td>
-            <td>@item.Categoria</td>
-            <td>@item.StockActual</td>
-            <td>@item.StockMinimo</td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr class="danger">
+                <td>@item.Nombre</td>
+                <td>@item.Categoria</td>
+                <td>@item.StockActual</td>
+                <td>@item.StockMinimo</td>
+            </tr>
+        }
     </tbody>
 </table>

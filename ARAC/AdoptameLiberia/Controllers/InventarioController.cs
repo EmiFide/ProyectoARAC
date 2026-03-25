@@ -15,21 +15,17 @@ namespace AdoptameLiberia.Controllers
     public class InventarioController : Controller
     {
         private readonly ARACDbContext db = new ARACDbContext();
-
         private readonly ApplicationDbContext identityDb = new ApplicationDbContext();
 
         [PermissionAuthorize(Module = "Inventario", RequireWrite = false)]
-
         public async Task<ActionResult> Index()
         {
             var items = await db.ItemsInventario
                 .OrderBy(i => i.Nombre)
                 .ToListAsync();
 
-            // Alertas: stock <= mínimo
             ViewBag.StockBajoCount = items.Count(i => i.StockActual <= i.StockMinimo);
 
-            // Alertas: vencimientos próximos (30 días)
             var limite = DateTime.Today.AddDays(30);
             ViewBag.VencenProntoCount = items.Count(i => i.FechaCaducidad.HasValue && i.FechaCaducidad.Value <= limite);
 
@@ -45,11 +41,12 @@ namespace AdoptameLiberia.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [PermissionAuthorize(Module = "Inventario", RequireWrite = true)]
-
         public async Task<ActionResult> Create(ItemInventarioCreateEdit model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var existe = await db.ItemsInventario.AnyAsync(x => x.Nombre == model.Nombre);
             if (existe)
@@ -82,7 +79,10 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == id);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             var vm = new ItemInventarioCreateEdit
             {
@@ -105,10 +105,15 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Edit(ItemInventarioCreateEdit model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == model.IdItemInventario);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             var duplicado = await db.ItemsInventario.AnyAsync(x => x.Nombre == model.Nombre && x.IdItemInventario != model.IdItemInventario);
             if (duplicado)
@@ -134,7 +139,10 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Entrada(int id)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == id);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             var vm = new MovimientoEntrada
             {
@@ -151,7 +159,10 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Entrada(MovimientoEntrada model)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == model.IdItemInventario);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -184,7 +195,10 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Salida(int id)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == id);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             var vm = new MovimientoSalida
             {
@@ -201,7 +215,10 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Salida(MovimientoSalida model)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == model.IdItemInventario);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -242,9 +259,12 @@ namespace AdoptameLiberia.Controllers
         public async Task<ActionResult> Ajuste(int id)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == id);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
-            var vm = new AdoptameLiberia.Models.Inventario.Usuario
+            var vm = new AjusteInventario
             {
                 IdItemInventario = item.IdItemInventario,
                 NombreItem = item.Nombre,
@@ -257,10 +277,13 @@ namespace AdoptameLiberia.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [PermissionAuthorize(Module = "Inventario", RequireWrite = true)]
-        public async Task<ActionResult> Ajuste(Models.Inventario.Usuario model)
+        public async Task<ActionResult> Ajuste(AjusteInventario model)
         {
             var item = await db.ItemsInventario.FirstOrDefaultAsync(x => x.IdItemInventario == model.IdItemInventario);
-            if (item == null) return HttpNotFound();
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -318,6 +341,8 @@ namespace AdoptameLiberia.Controllers
         [PermissionAuthorize(Module = "Inventario", RequireWrite = false)]
         public async Task<ActionResult> Historial(HistorialInventarioFilter filter)
         {
+            filter = filter ?? new HistorialInventarioFilter();
+
             var query = db.MovimientosInventario.AsQueryable();
 
             if (filter.Desde.HasValue)
@@ -354,7 +379,7 @@ namespace AdoptameLiberia.Controllers
 
             var vm = new HistorialInventario
             {
-                Filter = filter ?? new HistorialInventarioFilter(),
+                Filter = filter,
                 Movimientos = movimientos.Select(m => new HistorialInventarioRowVM
                 {
                     Fecha = m.FechaMovimiento,
@@ -379,6 +404,7 @@ namespace AdoptameLiberia.Controllers
                 db.Dispose();
                 identityDb.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

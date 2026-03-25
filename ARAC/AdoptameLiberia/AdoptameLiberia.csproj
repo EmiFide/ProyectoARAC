@@ -367,6 +367,9 @@
     <Content Include="Views\TareasVoluntariado\Delete.cshtml" />
     <Content Include="Views\TareasVoluntariado\Details.cshtml" />
     <Content Include="Views\TareasVoluntariado\Edit.cshtml" />
+    <Content Include="Views\Animal\Editar.cshtml" />
+    <Content Include="Views\Campanias\RegistrarResultado.cshtml" />
+    <Content Include="Views\Campanias\MisCampanias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

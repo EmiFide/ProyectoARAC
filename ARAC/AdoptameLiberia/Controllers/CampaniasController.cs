@@ -1,39 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using AdoptameLiberia.Models.Campanias;
+using AdoptameLiberia.Models.Donaciones;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using AdoptameLiberia.Models.Campanias;
-using AdoptameLiberia.Models.Donaciones;
 
 namespace AdoptameLiberia.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize]
     public class CampaniasController : Controller
     {
         private ARACDbContext db = new ARACDbContext();
 
-        private class AnimalComboItem
-        {
-            public int ID_Animal { get; set; }
-            public string Nombre_Animal { get; set; }
-        }
-
-        private void CargarAnimalesDisponibles(int? animalSeleccionado = null)
-        {
-            var animales = db.Database.SqlQuery<AnimalComboItem>(
-                @"SELECT ID_Animal, Nombre_Animal
-                  FROM Animal
-                  WHERE Estado = 'Disponible'"
-            ).ToList();
-
-            ViewBag.AnimalId = new SelectList(animales, "ID_Animal", "Nombre_Animal", animalSeleccionado);
-        }
-
         public ActionResult Index()
         {
-            return View(db.CampaniasCastracion.ToList());
+            var campanias = db.CampaniasCastracion
+                .OrderBy(c => c.Fecha)
+                .ToList();
+
+            return View(campanias);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -41,6 +28,7 @@ namespace AdoptameLiberia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create(CampaniaCastracion campania)
         {
             if (ModelState.IsValid)
@@ -53,13 +41,41 @@ namespace AdoptameLiberia.Controllers
             return View(campania);
         }
 
+        [Authorize(Roles = "Administrador")]
+        public ActionResult VerInscripciones(int id)
+        {
+            var inscripciones = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .Where(i => i.CampaniaCastracionId == id)
+                .ToList();
+
+            ViewBag.CampaniaId = id;
+            return View(inscripciones);
+        }
+
         public ActionResult Inscribir(int id)
         {
-            CargarAnimalesDisponibles();
+            var campania = db.CampaniasCastracion.FirstOrDefault(c => c.Id == id);
+
+            if (campania == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CampaniaNombre = campania.Nombre;
+            ViewBag.CampaniaFecha = campania.Fecha;
+            ViewBag.CampaniaLugar = campania.Lugar;
+            ViewBag.CampaniaId = campania.Id;
+
+            ViewBag.AnimalId = new SelectList(
+                db.Animales.OrderBy(a => a.Nombre_Animal).ToList(),
+                "ID_Animal",
+                "Nombre_Animal"
+            );
 
             var model = new InscripcionCastracion
             {
-                CampaniaCastracionId = id
+                CampaniaCastracionId = campania.Id
             };
 
             return View(model);
@@ -67,97 +83,153 @@ namespace AdoptameLiberia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Inscribir(InscripcionCastracion inscripcion)
+        public ActionResult Inscribir(InscripcionCastracion model)
         {
-            CargarAnimalesDisponibles(inscripcion.AnimalId);
-
-            if (!ModelState.IsValid)
-                return View(inscripcion);
-
-            var campania = db.CampaniasCastracion.Find(inscripcion.CampaniaCastracionId);
+            var campania = db.CampaniasCastracion.FirstOrDefault(c => c.Id == model.CampaniaCastracionId);
 
             if (campania == null)
-                return HttpNotFound();
-
-            if (campania.Cupos <= 0)
             {
-                ModelState.AddModelError("", "No hay cupos disponibles.");
-                return View(inscripcion);
+                return HttpNotFound();
             }
 
-            db.InscripcionesCastracion.Add(inscripcion);
-            campania.Cupos--;
+            ViewBag.CampaniaNombre = campania.Nombre;
+            ViewBag.CampaniaFecha = campania.Fecha;
+            ViewBag.CampaniaLugar = campania.Lugar;
+            ViewBag.CampaniaId = campania.Id;
 
+            ViewBag.AnimalId = new SelectList(
+                db.Animales.OrderBy(a => a.Nombre_Animal).ToList(),
+                "ID_Animal",
+                "Nombre_Animal",
+                model.AnimalId
+            );
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var yaInscrito = db.InscripcionesCastracion.Any(i =>
+                i.CampaniaCastracionId == model.CampaniaCastracionId &&
+                i.AnimalId == model.AnimalId
+            );
+
+            if (yaInscrito)
+            {
+                ModelState.AddModelError("", "Esta mascota ya está inscrita en esta campaña.");
+                return View(model);
+            }
+
+            var totalInscritos = db.InscripcionesCastracion.Count(i => i.CampaniaCastracionId == model.CampaniaCastracionId);
+
+            if (totalInscritos >= campania.Cupos)
+            {
+                ModelState.AddModelError("", "Ya no hay cupos disponibles para esta campaña.");
+                return View(model);
+            }
+
+            var nuevaInscripcion = new InscripcionCastracion
+            {
+                CampaniaCastracionId = model.CampaniaCastracionId,
+                AnimalId = model.AnimalId,
+                VeterinarioAsignado = null,
+                Resultado = null
+            };
+
+            db.InscripcionesCastracion.Add(nuevaInscripcion);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            TempData["Success"] = "La mascota fue inscrita correctamente en la campaña.";
+            return RedirectToAction("MisCampanias");
         }
 
-        public ActionResult AsignarVeterinario(int id)
+        public ActionResult MisCampanias()
         {
-            var inscripcion = db.InscripcionesCastracion.Find(id);
+            var inscripciones = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .Include(i => i.Campania)
+                .OrderByDescending(i => i.Id)
+                .ToList();
+
+            return View(inscripciones);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public ActionResult RegistrarResultado(int id)
+        {
+            var inscripcion = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .FirstOrDefault(i => i.Id == id);
 
             if (inscripcion == null)
+            {
                 return HttpNotFound();
+            }
 
             return View(inscripcion);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AsignarVeterinario(InscripcionCastracion model)
+        [Authorize(Roles = "Administrador")]
+        public ActionResult RegistrarResultado(InscripcionCastracion model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var inscripcion = db.InscripcionesCastracion.Find(model.Id);
+            var inscripcion = db.InscripcionesCastracion
+                .FirstOrDefault(i => i.Id == model.Id);
 
             if (inscripcion == null)
+            {
                 return HttpNotFound();
+            }
 
-            inscripcion.VeterinarioAsignado = model.VeterinarioAsignado;
             inscripcion.Resultado = model.Resultado;
-
             db.SaveChanges();
 
             return RedirectToAction("VerInscripciones", new { id = inscripcion.CampaniaCastracionId });
         }
 
-        public ActionResult RegistrarResultado(int id)
+        [Authorize(Roles = "Administrador")]
+        public ActionResult AsignarVeterinario(int id)
         {
-            var inscripcion = db.InscripcionesCastracion.Find(id);
+            var inscripcion = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .FirstOrDefault(i => i.Id == id);
 
             if (inscripcion == null)
+            {
                 return HttpNotFound();
+            }
 
             return View(inscripcion);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegistrarResultado(InscripcionCastracion model)
+        [Authorize(Roles = "Administrador")]
+        public ActionResult AsignarVeterinario(InscripcionCastracion model)
         {
-            var inscripcion = db.InscripcionesCastracion.Find(model.Id);
+            var inscripcion = db.InscripcionesCastracion
+                .FirstOrDefault(i => i.Id == model.Id);
 
             if (inscripcion == null)
+            {
                 return HttpNotFound();
+            }
 
-            inscripcion.Resultado = model.Resultado;
+            inscripcion.VeterinarioAsignado = model.VeterinarioAsignado;
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("VerInscripciones", new { id = inscripcion.CampaniaCastracionId });
         }
 
-        public ActionResult VerInscripciones(int id)
+        protected override void Dispose(bool disposing)
         {
-            var inscripciones = db.InscripcionesCastracion
-                .Where(i => i.CampaniaCastracionId == id)
-                .Include(i => i.Animal)
-                .ToList();
+            if (disposing)
+            {
+                db.Dispose();
+            }
 
-            ViewBag.CampaniaId = id;
-
-            return View(inscripciones);
+            base.Dispose(disposing);
         }
     }
 }
