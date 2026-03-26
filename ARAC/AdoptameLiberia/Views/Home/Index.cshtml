@@ -23,6 +23,11 @@
 
             <div class="home-actions">
                 <a href="@Url.Action("Catalogo", "Animal")" class="home-btn-alt">Ver Mascotas Disponibles 🐶</a>
+
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Comunidad")" class="home-btn-alt">Ir a Comunidad 💬</a>
+                }
             </div>
 
             <div class="home-mini-stats">
@@ -78,6 +83,43 @@
                 Las donaciones ayudan con alimento, medicina, higiene, transporte y cuidado diario.
             </p>
             <a href="@Url.Action("Index", "Donaciones")">Ir a donaciones</a>
+        </article>
+    </section>
+
+    <section class="home-grid-3" style="margin-top: 24px;">
+        <article class="home-card">
+            <div class="home-card-icon">💬</div>
+            <h3>Comunidad ARAC</h3>
+            <p>
+                Comparte publicaciones, experiencias, consejos y comentarios con otras personas que apoyan al refugio.
+            </p>
+
+            @if (Request.IsAuthenticated)
+            {
+                <a href="@Url.Action("Index", "Comunidad")">Entrar a comunidad</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")">Inicia sesión para entrar</a>
+            }
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">🤝</div>
+            <h3>Voluntariado</h3>
+            <p>
+                Forma parte de las actividades del refugio y apoya en eventos, cuidado y acompañamiento.
+            </p>
+            <a href="@Url.Action("Create", "SolicitudesVoluntariado")">Ser voluntario</a>
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">📢</div>
+            <h3>Participa más fácil</h3>
+            <p>
+                El sistema reúne adopciones, campañas, comunidad, donaciones y apoyo voluntario en un solo lugar.
+            </p>
+            <a href="@Url.Action("Index", "Home")">Seguir explorando</a>
         </article>
     </section>
 

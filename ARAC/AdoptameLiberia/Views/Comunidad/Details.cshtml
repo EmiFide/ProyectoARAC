@@ -1,43 +1,72 @@
 ﻿@model AdoptameLiberia.Models.Comunidad.PublicacionComunidad
+@using System.Collections.Generic
+@using System.Linq
 @using AdoptameLiberia.Models.Comunidad
+
 @{
     ViewBag.Title = "Detalle publicación";
     var comentarios = ViewBag.Comentarios as List<ComentarioPublicacion>;
 }
 
-<h2>@Model.Titulo</h2>
-<p>@Model.Contenido</p>
-<p><strong>Fecha:</strong> @Model.Fecha</p>
+@section styles{
+    <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
+}
 
-<hr />
-<h3>Comentarios</h3>
-
-@if (comentarios != null && comentarios.Any())
-{
-    foreach (var c in comentarios)
-    {
-        <div class="panel panel-default" style="padding:10px; margin-bottom:10px;">
-            <p>@c.Contenido</p>
-            <small>@c.Fecha</small>
+<div class="com-shell">
+    <div class="com-detail-card">
+        <div class="com-detail-title">@Model.Titulo</div>
+        <div class="com-detail-meta">
+            Publicado el @Model.Fecha.ToString("dd/MM/yyyy hh:mm tt")
         </div>
-    }
-}
-else
-{
-    <p>No hay comentarios todavía.</p>
-}
 
-<hr />
-<h3>Agregar comentario</h3>
+        <div class="com-detail-body">
+            @Model.Contenido
+        </div>
 
-@using (Html.BeginForm("Comentar", "Comunidad", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="idPublicacion" value="@Model.ID_Publicacion" />
+        @if (TempData["MensajeComentario"] != null)
+        {
+            <div class="com-alert">@TempData["MensajeComentario"]</div>
+        }
 
-    <div class="form-group">
-        <textarea name="contenido" class="form-control"></textarea>
+        <div class="com-comments-title">Comentarios</div>
+
+        @if (comentarios != null && comentarios.Any())
+        {
+            <div class="com-comment-list">
+                @foreach (var c in comentarios)
+                {
+                    <div class="com-comment-card">
+                        <div class="com-comment-body">@c.Contenido</div>
+                        <div class="com-comment-date">@c.Fecha.ToString("dd/MM/yyyy hh:mm tt")</div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="com-empty">
+                No hay comentarios todavía en esta publicación.
+            </div>
+        }
+
+        <div class="com-comments-title" style="margin-top: 24px;">Agregar comentario</div>
+
+        @using (Html.BeginForm("Comentar", "Comunidad", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idPublicacion" value="@Model.ID_Publicacion" />
+
+            <div class="com-form-grid">
+                <div class="com-group">
+                    <label for="contenido">Comentario</label>
+                    <textarea name="contenido" id="contenido" class="form-control" placeholder="Escribe tu comentario..."></textarea>
+                </div>
+            </div>
+
+            <div class="com-actions" style="margin-top: 20px;">
+                <button type="submit" class="com-btn">Comentar</button>
+                @Html.ActionLink("Volver a comunidad", "Index", null, new { @class = "com-btn-outline" })
+            </div>
+        }
     </div>
-
-    <button type="submit" class="btn btn-primary">Comentar</button>
-}
+</div>

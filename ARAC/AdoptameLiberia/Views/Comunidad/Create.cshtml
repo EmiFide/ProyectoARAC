@@ -4,21 +4,57 @@
     ViewBag.Title = "Nueva publicación";
 }
 
-<h2>Nueva publicación</h2>
+@section styles{
+    <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
+}
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Titulo)
-        @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control" })
+<div class="com-shell">
+    <div class="com-hero">
+        <div>
+            <h1>Nueva publicación</h1>
+            <p>
+                Comparte un mensaje dentro de la comunidad de ARAC y ayuda a mantener un espacio
+                más cercano, útil y participativo.
+            </p>
+        </div>
+        <div>
+            <img src="~/Content/img/GatoPerro.png" alt="Nueva publicación" />
+        </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Contenido)
-        @Html.TextAreaFor(m => m.Contenido, new { @class = "form-control" })
-    </div>
+    <div class="com-form-card">
+        <div class="com-panel-title">Formulario de publicación</div>
+        <div class="com-panel-subtitle">
+            Escribe un título claro y el contenido que deseas compartir con la comunidad.
+        </div>
 
-    <button type="submit" class="btn btn-success">Publicar</button>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+
+            <div class="com-form-grid">
+                <div class="com-group">
+                    @Html.LabelFor(m => m.Titulo)
+                    @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control", placeholder = "Escribe un título para tu publicación" })
+                    @Html.ValidationMessageFor(m => m.Titulo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="com-group">
+                    @Html.LabelFor(m => m.Contenido)
+                    @Html.TextAreaFor(m => m.Contenido, new { @class = "form-control", placeholder = "Comparte tu mensaje con la comunidad..." })
+                    @Html.ValidationMessageFor(m => m.Contenido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="com-actions" style="margin-top: 20px;">
+                <button type="submit" class="com-btn">Publicar</button>
+                @Html.ActionLink("Volver", "Index", null, new { @class = "com-btn-outline" })
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

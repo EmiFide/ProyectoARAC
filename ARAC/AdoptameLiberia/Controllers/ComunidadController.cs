@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using AdoptameLiberia.Models.Comunidad;
@@ -24,7 +23,7 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return View(new PublicacionComunidad());
         }
 
         [HttpPost]
@@ -41,6 +40,7 @@ namespace AdoptameLiberia.Controllers
                 db.PublicacionesComunidad.Add(model);
                 db.SaveChanges();
 
+                TempData["MensajeComunidad"] = "La publicación se creó correctamente.";
                 return RedirectToAction("Index");
             }
 
@@ -49,7 +49,8 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Details(int id)
         {
-            var publicacion = db.PublicacionesComunidad.FirstOrDefault(p => p.ID_Publicacion == id);
+            var publicacion = db.PublicacionesComunidad.FirstOrDefault(p => p.ID_Publicacion == id && p.Estado);
+
             if (publicacion == null)
                 return HttpNotFound();
 
@@ -78,6 +79,8 @@ namespace AdoptameLiberia.Controllers
 
                 db.ComentariosPublicacion.Add(comentario);
                 db.SaveChanges();
+
+                TempData["MensajeComentario"] = "Tu comentario se agregó correctamente.";
             }
 
             return RedirectToAction("Details", new { id = idPublicacion });
