@@ -35,13 +35,13 @@
         </div>
 
         <div class="insumos" id="bloqueInsumos">
-            <h4>📦 Detalle de objetos donados</h4>
+            <h4>📦 Detalle de insumos donados</h4>
 
             @for (int i = 0; i < Model.Insumos.Count; i++)
             {
                 <div class="insumo-item">
                     @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- artículo opcional --", new { @class = "input" })
-                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Ej: Cobijas, arena, medicamentos, juguetes..." })
+                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Ej: alimento, medicamento, juguetes..." })
                     @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input", placeholder = "Cantidad", type = "number", min = "1" })
                 </div>
             }
@@ -49,7 +49,12 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <button type="submit" class="btn-guardar">Guardar Donación</button>
+        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+            <button type="submit" class="btn-guardar">Guardar Donación</button>
+            <a href="@Url.Action("Index", "Donaciones")" class="btn-guardar" style="text-decoration:none; background:#6c757d;">
+                Volver
+            </a>
+        </div>
     }
 </div>
 
