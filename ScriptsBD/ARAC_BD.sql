@@ -1062,3 +1062,24 @@ WHERE Likes IS NULL;
 
 ALTER TABLE Noticia
 ALTER COLUMN Likes INT NOT NULL;
+
+--modificacion de roles
+-- 1) Limpiar relaciones que dependen de AspNetRoles
+DELETE FROM dbo.AspNetUserRoles;
+GO
+
+DELETE FROM dbo.RoleModulePermissions;
+GO
+
+-- 2) Limpiar roles actuales
+DELETE FROM dbo.AspNetRoles;
+GO
+
+-- 3) Insertar roles correctos con Id explícito
+INSERT INTO dbo.AspNetRoles (Id, [Name], [Description])
+VALUES
+('1', 'Administrador', 'Acceso total al sistema'),
+('2', 'Colaborador', 'Acceso operativo (lectura y escritura según permisos)'),
+('3', 'Usuario', 'Usuario normal del sistema');
+GO
+
