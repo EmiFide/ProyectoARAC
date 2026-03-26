@@ -2,57 +2,65 @@
     <link href="~/Content/estilos/About.css" rel="stylesheet" />
 }
 
-<!-- HERO ABOUT -->
+<!-- HERO EDUCATIVO -->
 <div class="about-hero">
 
-    <h1>Albergue ARAC</h1>
+    <h1>Bienestar Animal y Tenencia Responsable</h1>
 
     <div class="about-top">
         <p>
-            Nos dedicamos a rescatar perros y gatos en situaciones críticas de vida o muerte,
-            para curarlos, esterilizarlos y darlos en adopción responsable.
+            Si te interesa el bienestar animal, este espacio es para ti.
+            Aquí podrás acceder a contenido educativo gracias a links confiables diseñados para ayudarte
+            a comprender cómo cuidar mejor a tus mascotas y brindarles una vida saludable,
+            segura y llena de amor.
         </p>
 
         <img src="@Url.Content("~/Content/img/Refugio.png")" class="about-img" />
     </div>
 
-    <div class="about-cta">
-        TÚ TAMBIÉN PUEDES SER PARTE DE ESTA FAMILIA!
-    </div>
+    <a href="#contenido" class="about-cta">
+        📚 Explorar contenido educativo
+    </a>
 
 </div>
 
-<!-- PROCESO -->
-<div class="proceso">
+<!-- CONTENIDO EDUCATIVO -->
+<div id="contenido" class="proceso">
 
-    <h2>¿Cómo es el proceso de adopción?</h2>
+    <h2>Contenido educativo disponible</h2>
 
     <div class="cards-proceso">
 
-        <div class="card">
-            <div class="icon">🐶</div>
-            <p>1. Elige a tu mascota</p>
-        </div>
+        <a href="https://www.hillspet.co.cr/"
+           target="_blank" class="card">
+            <div class="icon">🍖</div>
+            <p>Alimentación adecuada</p>
+        </a>
 
-        <div class="card">
-            <div class="icon">📝</div>
-            <p>2. Completa el formulario</p>
-        </div>
+        <a href="https://purina.co.cr/purina/perros/vacunas-para-perros"
+           target="_blank" class="card">
+            <div class="icon">💉</div>
+            <p>Cuidados de salud y vacunación</p>
+        </a>
 
-        <div class="card">
-            <div class="icon">📹</div>
-            <p>3. Entrevista por videollamada</p>
-        </div>
+        <a href="https://purina.co.cr/purina/perros/higiene-de-mascotas"
+           target="_blank" class="card">
+            <div class="icon">🧼</div>
+            <p>Higiene y cuidados básicos</p>
+        </a>
 
-        <div class="card">
+        <a href="https://atrevia.vet/importancia-crear-ambiente-de-descanso-para-mascota/#:~:text=Ubicaci%C3%B3n%3A%20Elige%20un%20lugar%20tranquilo,las%20necesidades%20de%20tu%20mascota."
+           target="_blank" class="card">
             <div class="icon">🏠</div>
-            <p>4. Aporte y preparación</p>
-        </div>
+            <p>Cómo crear un ambiente adecuado</p>
+        </a>
 
-        <div class="card grande">
-            <div class="icon">🎁</div>
-            <p>5. ¡Llega a tu hogar!</p>
-        </div>
+        <a href="https://natukabarf.com/blogs/news/como-cuidar-la-salud-mental-y-emocional-de-tu-perro-o-gato"
+           target="_blank" class="card">
+            <div class="icon">❤️</div>
+            <p>Bienestar emocional de tu mascota</p>
+        </a>
+
 
     </div>
 
