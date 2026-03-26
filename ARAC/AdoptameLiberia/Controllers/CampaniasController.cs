@@ -19,11 +19,28 @@ namespace AdoptameLiberia.Controllers
                 .OrderBy(c => c.Fecha)
                 .ToList();
 
-            var cuposDisponibles = db.InscripcionesCastracion
+            var cuposPorCampania = db.InscripcionesCastracion
                 .GroupBy(i => i.CampaniaCastracionId)
                 .ToDictionary(g => g.Key, g => g.Count());
 
+            var cuposDisponibles = new Dictionary<int, int>();
+
+            foreach (var campania in campanias)
+            {
+                var inscritos = cuposPorCampania.ContainsKey(campania.Id) ? cuposPorCampania[campania.Id] : 0;
+                var disponibles = campania.Cupos - inscritos;
+
+                if (disponibles < 0)
+                {
+                    disponibles = 0;
+                }
+
+                cuposDisponibles[campania.Id] = disponibles;
+            }
+
             ViewBag.CuposDisponibles = cuposDisponibles;
+            ViewBag.TotalCampanias = campanias.Count;
+            ViewBag.CampaniasDisponibles = cuposDisponibles.Values.Count(x => x > 0);
 
             return View(campanias);
         }

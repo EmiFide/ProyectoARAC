@@ -8,7 +8,7 @@
 
 <div class="row" style="margin-bottom:15px;">
     <div class="col-md-6">
-        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn-inventario" })
     </div>
     <div class="col-md-6 text-right">
         @using (Html.BeginForm("Vencimientos", "Inventario", FormMethod.Get, new { @class = "form-inline" }))

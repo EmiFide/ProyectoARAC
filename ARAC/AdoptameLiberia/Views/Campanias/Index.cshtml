@@ -4,11 +4,14 @@
     ViewBag.Title = "Campañas de Castración";
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.CampaniaCastracion>();
     var cuposMap = ViewBag.CuposDisponibles as Dictionary<int, int> ?? new Dictionary<int, int>();
+    var totalCampanias = ViewBag.TotalCampanias != null ? (int)ViewBag.TotalCampanias : lista.Count;
+    var campaniasDisponibles = ViewBag.CampaniasDisponibles != null ? (int)ViewBag.CampaniasDisponibles : 0;
 }
 
 <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
 
-<div class="page-shell">
+<div class="campanias-container">
+
     <div class="hero-campania">
         <div class="hero-campania-content">
             <h1>Campañas de Castración</h1>
@@ -17,41 +20,46 @@
     </div>
 
     <div class="pet-cards">
-        <div class="pet-card">
-            <img src="~/Content/img/dog-card-1.jpg" alt="Perro feliz" />
-            <span>Cuidado canino</span>
+        <div class="pet-card pet-card-overlay">
+            <img src="~/Content/img/MitadPerro.png" alt="Bienestar Canino" />
+            <div class="pet-card-text">
+                <span>BIENESTAR CANINO</span>
+            </div>
         </div>
-        <div class="pet-card">
-            <img src="~/Content/img/cat-card-1.jpg" alt="Gato tranquilo" />
-            <span>Bienestar felino</span>
+
+        <div class="pet-card pet-card-overlay">
+            <img src="~/Content/img/MitadGato.png" alt="Bienestar Felino" />
+            <div class="pet-card-text">
+                <span>BIENESTAR FELINO</span>
+            </div>
         </div>
     </div>
 
-    <div class="stats-row">
-        <div class="stat-card">
-            <h4>Total de campañas</h4>
-            <p>@lista.Count</p>
+    <div class="campanias-bottom">
+        <div class="stats-row">
+            <div class="stat-card">
+                <h4>Total de campañas</h4>
+                <p>@totalCampanias</p>
+            </div>
+            <div class="stat-card">
+                <h4>Disponibles</h4>
+                <p>@campaniasDisponibles</p>
+            </div>
         </div>
-        <div class="stat-card">
-            <h4>Disponibles</h4>
-            <p>@lista.Count(x => x != null)</p>
-        </div>
-    </div>
 
-    <div class="section-card">
-        <div class="action-buttons">
-            @if (User.IsInRole("Administrador"))
-            {
-                <a href="@Url.Action("Create", "Campanias")" class="btn-campania">Nueva Campaña</a>
-            }
-            else
-            {
-                <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">Ver mis registros</a>
-            }
+        <div class="section-card">
+            <div class="action-buttons">
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a href="@Url.Action("Create", "Campanias")" class="btn-campania">Nueva Campaña</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">Ver mis registros</a>
+                }
+            </div>
         </div>
-    </div>
 
-    <div class="section-card">
         <div class="table-shell">
             <table class="table-campania">
                 <thead>
@@ -68,12 +76,7 @@
                     {
                         foreach (var item in lista)
                         {
-                            var inscritos = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : 0;
-                            var disponibles = item.Cupos - inscritos;
-                            if (disponibles < 0)
-                            {
-                                disponibles = 0;
-                            }
+                            var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
 
                             <tr>
                                 <td><strong>@item.Nombre</strong></td>
@@ -109,4 +112,5 @@
             </table>
         </div>
     </div>
+
 </div>
