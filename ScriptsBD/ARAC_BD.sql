@@ -1083,3 +1083,38 @@ VALUES
 ('3', 'Usuario', 'Usuario normal del sistema');
 GO
 
+--Favoritos 
+IF OBJECT_ID('dbo.Favorito', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Favorito
+    (
+        ID_Favorito INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        UserId NVARCHAR(128) NOT NULL,
+        ID_Animal INT NOT NULL,
+        Fecha_Registro DATETIME NOT NULL CONSTRAINT DF_Favorito_Fecha DEFAULT(GETDATE()),
+        CONSTRAINT FK_Favorito_AspNetUsers FOREIGN KEY (UserId) REFERENCES dbo.AspNetUsers(Id) ON DELETE CASCADE,
+        CONSTRAINT FK_Favorito_Animal FOREIGN KEY (ID_Animal) REFERENCES dbo.Animal(ID_Animal) ON DELETE CASCADE,
+        CONSTRAINT UQ_Favorito_User_Animal UNIQUE (UserId, ID_Animal)
+    );
+END
+GO
+
+-- registro de msacotas por ususario 
+IF COL_LENGTH('dbo.Animal', 'UsuarioRegistroId') IS NULL
+BEGIN
+    ALTER TABLE dbo.Animal
+    ADD UsuarioRegistroId NVARCHAR(128) NULL;
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.foreign_keys
+    WHERE name = 'FK_Animal_AspNetUsers_UsuarioRegistro'
+)
+BEGIN
+    ALTER TABLE dbo.Animal
+    ADD CONSTRAINT FK_Animal_AspNetUsers_UsuarioRegistro
+    FOREIGN KEY (UsuarioRegistroId) REFERENCES dbo.AspNetUsers(Id);
+END
+GO
