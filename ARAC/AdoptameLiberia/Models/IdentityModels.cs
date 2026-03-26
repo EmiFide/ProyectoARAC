@@ -21,32 +21,25 @@ namespace AdoptameLiberia.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
     {
-        // 🔥 CONSTRUCTOR CORREGIDO (CLAVE)
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            Database.SetInitializer<ApplicationDbContext>(null); // ❗ DESACTIVA VALIDACIÓN DE MODELO
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
-        // 🔹 EXISTENTE
         public DbSet<Module> Modules { get; set; }
         public DbSet<RoleModulePermission> RoleModulePermissions { get; set; }
-
-        // 🔥 DONACIONES
         public DbSet<AdoptameLiberia.Models.Donaciones.Donacion> Donaciones { get; set; }
         public DbSet<AdoptameLiberia.Models.Donaciones.DetalleDonacion> DetalleDonaciones { get; set; }
         public DbSet<AdoptameLiberia.Models.Donaciones.ObservacionDonacion> ObservacionesDonacion { get; set; }
-
-        // 🔥 FINANZAS
         public DbSet<AdoptameLiberia.Models.Finanzas.Gasto> Gastos { get; set; }
         public DbSet<AdoptameLiberia.Models.Finanzas.CategoriaFinanciera> CategoriasFinancieras { get; set; }
-
-        // 🔥 NOTICIAS
         public DbSet<AdoptameLiberia.Models.Noticias.Noticia> Noticias { get; set; }
-
-        // 🔹 EXISTENTE
         public DbSet<AdoptameLiberia.Models.Raza> Razas { get; set; }
         public DbSet<AdoptameLiberia.Models.TiposAnimales.TipoAnimal> TipoAnimals { get; set; }
+        public DbSet<AnimalModel> Animals { get; set; }
+        public DbSet<Adopcion> Adopcion { get; set; }
+        public DbSet<SolicitudAdopcion> SolicitudAdopcion { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -77,10 +70,5 @@ namespace AdoptameLiberia.Models
         {
             return new ApplicationDbContext();
         }
-        public object Animal { get; internal set; }
-        public DbSet<AnimalModel> Animals { get; internal set; }
-        public DbSet<Adopcion> Adopcion { get; set; }
-
-        public DbSet<SolicitudAdopcion> SolicitudAdopcion { get; set; }
     }
 }

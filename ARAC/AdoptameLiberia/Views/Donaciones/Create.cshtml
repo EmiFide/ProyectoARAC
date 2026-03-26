@@ -3,7 +3,6 @@
 <link href="~/Content/estilos/CreateDonacion.css" rel="stylesheet" />
 
 <div class="form-container">
-
     <h2 class="titulo">💖 Registrar Donación</h2>
 
     @using (Html.BeginForm())
@@ -11,75 +10,83 @@
         @Html.AntiForgeryToken()
 
         <div class="form-grid">
-
             <div class="form-group">
-                <label>Tipo Donación</label>
-                @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "input" })
+                <label>Tipo de donación</label>
+                @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "input", id = "IdTipoDonacion" })
+                @Html.ValidationMessageFor(m => m.IdTipoDonacion, "", new { @class = "text-danger" })
             </div>
 
-
-            <div class="form-group">
+            <div class="form-group" id="grupoMetodo">
                 <label>Método</label>
-                @Html.DropDownListFor(
-                    m => m.Metodo,
-                    Model.MetodosPago,
-                    "-- Seleccione método --",
-                    new { @class = "input" }
-                )
+                @Html.DropDownListFor(m => m.Metodo, Model.MetodosPago, "-- Seleccione método --", new { @class = "input", id = "Metodo" })
+                @Html.ValidationMessageFor(m => m.Metodo, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
-                <label>Descripción</label>
-                @Html.TextBoxFor(m => m.Descripcion, new { @class = "input" })
+                <label>Descripción general</label>
+                @Html.TextBoxFor(m => m.Descripcion, new { @class = "input", placeholder = "Detalle adicional de la donación" })
             </div>
 
-            <div class="form-group full">
+            <div class="form-group full" id="grupoMonto">
                 <label>Monto</label>
-                @Html.TextBoxFor(m => m.Monto, new
-                {
-                    @class = "input monto",
-                    @readonly = Model.Monto > 0 ? "readonly" : null
-                })
+                @Html.TextBoxFor(m => m.Monto, new { @class = "input monto", id = "Monto", type = "number", step = "0.01", min = "0" })
+                @Html.ValidationMessageFor(m => m.Monto, "", new { @class = "text-danger" })
             </div>
-
         </div>
 
-        <div class="insumos">
-            <h4>📦 Insumos</h4>
+        <div class="insumos" id="bloqueInsumos">
+            <h4>📦 Detalle de objetos donados</h4>
 
             @for (int i = 0; i < Model.Insumos.Count; i++)
             {
                 <div class="insumo-item">
-                    @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- opcional --", new { @class = "input" })
-                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Detalle" })
-                    @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input", placeholder = "Cantidad", type = "number" })
+                    @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- artículo opcional --", new { @class = "input" })
+                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Ej: Cobijas, arena, medicamentos, juguetes..." })
+                    @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input", placeholder = "Cantidad", type = "number", min = "1" })
                 </div>
             }
         </div>
 
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <button type="submit" class="btn-guardar">Guardar Donación</button>
     }
-
 </div>
 
 <script>
+    function esMonetaria() {
+        var combo = document.getElementById("IdTipoDonacion");
+        if (!combo || combo.selectedIndex < 0) return false;
+        var texto = combo.options[combo.selectedIndex].text.toLowerCase().trim();
+        return texto === "monetaria";
+    }
+
     function toggleTipoDonacion() {
-        var tipo = document.getElementById("IdTipoDonacion").value;
+        var grupoMonto = document.getElementById("grupoMonto");
+        var grupoMetodo = document.getElementById("grupoMetodo");
+        var bloqueInsumos = document.getElementById("bloqueInsumos");
+        var monto = document.getElementById("Monto");
+        var metodo = document.getElementById("Metodo");
 
-        var montoDiv = document.querySelector(".monto").closest(".form-group");
-        var insumosDiv = document.querySelector(".insumos");
-
-        if (tipo == "2") { // 👈 asumimos 2 = Insumos
-            montoDiv.style.display = "none";
-            insumosDiv.style.display = "block";
+        if (esMonetaria()) {
+            grupoMonto.style.display = "block";
+            grupoMetodo.style.display = "block";
+            bloqueInsumos.style.display = "none";
+            monto.removeAttribute("readonly");
         } else {
-            montoDiv.style.display = "block";
-            insumosDiv.style.display = "none";
+            grupoMonto.style.display = "none";
+            grupoMetodo.style.display = "none";
+            bloqueInsumos.style.display = "block";
+            monto.value = "";
+            metodo.value = "Entrega directa";
         }
     }
 
-    document.getElementById("IdTipoDonacion").addEventListener("change", toggleTipoDonacion);
-
-    // Ejecutar al cargar
-    window.onload = toggleTipoDonacion;
+    document.addEventListener("DOMContentLoaded", function () {
+        var combo = document.getElementById("IdTipoDonacion");
+        if (combo) {
+            combo.addEventListener("change", toggleTipoDonacion);
+        }
+        toggleTipoDonacion();
+    });
 </script>

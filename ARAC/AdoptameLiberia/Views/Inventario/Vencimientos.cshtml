@@ -8,13 +8,13 @@
 
 <div class="row" style="margin-bottom:15px;">
     <div class="col-md-6">
-        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn-inventario" })
     </div>
     <div class="col-md-6 text-right">
         @using (Html.BeginForm("Vencimientos", "Inventario", FormMethod.Get, new { @class = "form-inline" }))
         {
-            <label>Ver próximos</label>
-            <input type="number" name="dias" value="@dias" min="1" class="form-control" style="width:90px;" />
+            <label style="margin-right:8px;">Ver próximos</label>
+            <input type="number" name="dias" value="@dias" min="1" class="form-control" style="width:90px; margin-right:8px;" />
             <button type="submit" class="btn btn-primary">Aplicar</button>
         }
     </div>
@@ -30,14 +30,14 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="warning">
-            <td>@item.Nombre</td>
-            <td>@item.Categoria</td>
-            <td>@item.StockActual</td>
-            <td>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+                <td>@item.Nombre</td>
+                <td>@item.Categoria</td>
+                <td>@item.StockActual</td>
+                <td>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
     </tbody>
 </table>

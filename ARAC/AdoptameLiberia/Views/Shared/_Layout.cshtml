@@ -3,55 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>@ViewBag.Title - ARAC Refugio</title>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
     <link href="~/Content/estilos/Layout.css" rel="stylesheet" />
 
-    <style>
-        .navbar-arac {
-            position: relative;
-            z-index: 1000;
-        }
-
-        .main-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer-arac {
-            position: relative;
-            z-index: 10;
-        }
-
-        .dog-left,
-        .dog-right {
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        a,
-        button,
-        input,
-        select,
-        textarea,
-        .btn,
-        .nav-link {
-            position: relative;
-            z-index: 20;
-        }
-    </style>
-
     @RenderSection("styles", required: false)
-
     @Scripts.Render("~/bundles/modernizr")
 </head>
-
 <body class="layout-body">
-
     <nav class="navbar navbar-expand-lg navbar-dark navbar-arac shadow-sm">
         <div class="container">
             @Html.ActionLink("🐾 ARAC Refugio", "Index", "Home", null, new { @class = "navbar-brand" })
@@ -61,36 +21,26 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarMain">
-
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        @Html.ActionLink("Adopta", "Catalogo", "Animal", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Nosotros", "About", "Home", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })
                     </li>
-                </ul>
-
-                <div class="d-flex align-items-center flex-wrap">
-                    <a href="@Url.Action("Create","Donaciones")" class="btn btn-light btn-sm mr-2">
-                        Comunidad
-                    </a>
-
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="adminMenu"
-                               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ⚙️ Administración
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="adminMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administración
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="adminMenu">
-
                                 <h6 class="dropdown-header">Gestión</h6>
-
                                 @Html.ActionLink("Inventario", "Index", "Inventario", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "dropdown-item" })
@@ -98,28 +48,26 @@
                                 <div class="dropdown-divider"></div>
 
                                 <h6 class="dropdown-header">Administración</h6>
-
                                 @Html.ActionLink("Usuarios", "Index", "AdminUsers", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Roles y permisos", "Index", "Roles", null, new { @class = "dropdown-item" })
-
                             </div>
-                        </div>
+                        </li>
                     }
+                </ul>
 
+                <div class="navbar-login-area">
                     @Html.Partial("_LoginPartial")
                 </div>
-
             </div>
         </div>
     </nav>
 
-    <main class="main-content">
+    <div class="main-container">
         @RenderBody()
-    </main>
+    </div>
 
     <footer class="footer-arac">
         <div class="container text-center">
-
             <h5 class="footer-title">Síguenos en:</h5>
 
             <div class="social-icons mb-3">
@@ -135,16 +83,15 @@
             <hr />
 
             <p>© @DateTime.Now.Year - ARAC Refugio</p>
-
         </div>
+
+        <img src="~/Content/img/perro.png" class="dog-left" alt="Decoración izquierda" />
+        <img src="~/Content/img/perro.png" class="dog-right" alt="Decoración derecha" />
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     @RenderSection("scripts", required: false)
-
-    <img src="~/Content/img/perro.png" class="dog-left" alt="Decoración izquierda" />
-    <img src="~/Content/img/perro.png" class="dog-right" alt="Decoración derecha" />
 </body>
 </html>

@@ -1,7 +1,7 @@
 ﻿@model AdoptameLiberia.Models.Mascotas.AnimalModel
 
 @{
-    ViewBag.Title = "Registrar Mascota";
+    ViewBag.Title = "Editar Mascota";
 }
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
@@ -9,8 +9,8 @@
 <div class="mascota-shell">
     <div class="mascota-hero">
         <div class="mascota-hero-content">
-            <h1>Registrar nueva mascota</h1>
-            <p>Agrega la información principal de la mascota manteniendo la misma estética del sistema.</p>
+            <h1>Editar mascota</h1>
+            <p>Actualiza la información de la mascota con una vista más bonita, limpia y consistente.</p>
         </div>
     </div>
 
@@ -18,6 +18,8 @@
         <div class="mascota-form-card">
             @using (Html.BeginForm())
             {
+                @Html.HiddenFor(m => m.ID_Animal)
+
                 <div class="mascota-form-grid">
                     <div class="mascota-group">
                         <label>Nombre</label>
@@ -64,14 +66,14 @@
                 </div>
 
                 <div class="mascota-actions">
-                    <button type="submit" class="mascota-btn">Guardar</button>
+                    <button type="submit" class="mascota-btn">Guardar cambios</button>
                     <a href="@Url.Action("Catalogo", "Animal")" class="mascota-btn-outline">Volver</a>
                 </div>
             }
         </div>
 
         <div class="mascota-side-photo">
-            <img src="~/Content/img/GatoPerro.png" alt="GatoEncimaPerro.webp" />
+            <img src="~/Content/img/cat-card-1.jpg" alt="Gato" />
         </div>
     </div>
 </div>

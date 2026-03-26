@@ -10,7 +10,7 @@
 </p>
 
 <p>
-    @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn-inventario" })
 </p>
 
 <table class="table table-striped table-hover">
@@ -23,14 +23,14 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="danger">
-            <td>@item.Nombre</td>
-            <td>@item.Categoria</td>
-            <td>@item.StockActual</td>
-            <td>@item.StockMinimo</td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr class="danger">
+                <td>@item.Nombre</td>
+                <td>@item.Categoria</td>
+                <td>@item.StockActual</td>
+                <td>@item.StockMinimo</td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,79 +1,65 @@
-﻿@model List<AdoptameLiberia.Models.Mascotas.AnimalModel>
+﻿@model IEnumerable<AdoptameLiberia.Models.Mascotas.AnimalModel>
 
 @{
-    ViewBag.Title = "Catálogo de Animales";
+    ViewBag.Title = "Catálogo de Mascotas";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Mascotas.AnimalModel>();
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
 
-<div class="container mt-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Animales Disponibles para Adopción</h2>
-        @Html.ActionLink("Nuevo Animal", "Crear", null, new { @class = "btn btn-success" })
+<div class="mascota-shell">
+    <div class="mascota-hero">
+        <div class="mascota-hero-content">
+            <h1>Catálogo de mascotas</h1>
+            <p>Consulta las mascotas registradas y administra su información.</p>
+        </div>
     </div>
 
-    <div class="row g-4">
-        @if (Model != null && Model.Any())
+    <div class="mascota-form-card">
+        <div class="mascota-actions" style="margin-top:0; margin-bottom:20px;">
+            <a href="@Url.Action("Crear", "Animal")" class="mascota-btn">Registrar mascota</a>
+        </div>
+
+        @if (lista.Any())
         {
-            foreach (var item in Model)
-            {
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                    <div class="card h-100 shadow-sm">
-
-                        <!-- Imagen placeholder -->
-                        <img src="https://place-puppy.com/300x200"
-                             class="card-img-top"
-                             alt="Imagen del animal">
-
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold">@item.Nombre_Animal</h5>
-
-                            <p class="card-text mb-1">
-                                <strong>Tipo:</strong> @item.NombreTipo
-                            </p>
-                            <p class="card-text mb-1">
-                                <strong>Raza:</strong> @item.NombreRaza
-                            </p>
-                            <p class="card-text mb-1">
-                                <strong>Edad:</strong>
-                                @(item.Edad.HasValue ? item.Edad + " años" : "N/D")
-                            </p>
-                            <p class="card-text mb-1">
-                                <strong>Sexo:</strong> @item.Sexo
-                            </p>
-                            <p class="card-text mb-1">
-                                <strong>Tamaño:</strong> @item.Tamano
-                            </p>
-                            <p class="card-text mb-2">
-                                <strong>Peso:</strong>
-                                @(item.Peso.HasValue ? item.Peso + " kg" : "N/D")
-                            </p>
-
-                            <p class="card-text text-muted small">
-                                @item.Descripcion
-                            </p>
-
-                            <div class="mt-auto d-flex justify-content-between">
-                                @Html.ActionLink("Editar", "Editar",
-                                    new { id = item.ID_Animal },
-                                    new { @class = "btn btn-sm btn-primary" })
-
-                                <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })"
-                                   class="btn btn-sm btn-outline-danger"
-                                   onclick="return confirm('¿Seguro que desea desactivar este animal?');">
-                                    Desactivar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered table-striped" style="background:white; border-radius:18px; overflow:hidden;">
+                    <thead style="background:#40090b; color:white;">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Tamaño</th>
+                            <th>Peso</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in lista)
+                        {
+                            <tr>
+                                <td>@item.Nombre_Animal</td>
+                                <td>@item.Edad</td>
+                                <td>@item.Sexo</td>
+                                <td>@item.Tamano</td>
+                                <td>@item.Peso Kg</td>
+                                <td>@item.Descripcion</td>
+                                <td>
+                                    <div class="mascota-actions" style="margin-top:0;">
+                                        <a href="@Url.Action("Editar", new { id = item.ID_Animal })" class="mascota-btn-outline">Editar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
         else
         {
-            <div class="col-12 text-center text-muted">
-                <p>No hay animales disponibles para adopción.</p>
+            <div style="text-align:center; padding:30px; color:#7c5649;">
+                No hay mascotas registradas todavía.
             </div>
         }
     </div>
