@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -8,13 +9,14 @@ using AdoptameLiberia.Models.Voluntariado;
 
 namespace AdoptameLiberia.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class TareasVoluntariadoController : Controller
     {
         private ARACDbContext db = new ARACDbContext();
 
         public ActionResult Index()
         {
-            return View(db.TareasVoluntariado.OrderByDescending(t => t.Fecha).ToList());
+            return RedirectToAction("Index", "Voluntarios");
         }
 
         public ActionResult Create()
@@ -38,7 +40,7 @@ namespace AdoptameLiberia.Controllers
                 tarea.Fecha_Registro = DateTime.Now;
                 db.TareasVoluntariado.Add(tarea);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Voluntarios");
             }
 
             return View(tarea);
@@ -65,7 +67,7 @@ namespace AdoptameLiberia.Controllers
             {
                 db.Entry(tarea).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Voluntarios");
             }
 
             return View(tarea);
@@ -80,6 +82,14 @@ namespace AdoptameLiberia.Controllers
 
             if (tarea == null)
                 return HttpNotFound();
+
+            var voluntariosAsignados = db.ParticipacionesVoluntario
+                .Include(p => p.Voluntario)
+                .Where(p => p.ID_Tarea == tarea.ID_Tarea)
+                .OrderByDescending(p => p.Fecha_Registro)
+                .ToList();
+
+            ViewBag.VoluntariosAsignados = voluntariosAsignados;
 
             return View(tarea);
         }
@@ -101,6 +111,15 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var participaciones = db.ParticipacionesVoluntario
+                .Where(p => p.ID_Tarea == id)
+                .ToList();
+
+            if (participaciones.Any())
+            {
+                db.ParticipacionesVoluntario.RemoveRange(participaciones);
+            }
+
             var tarea = db.TareasVoluntariado.Find(id);
 
             if (tarea == null)
@@ -108,7 +127,7 @@ namespace AdoptameLiberia.Controllers
 
             db.TareasVoluntariado.Remove(tarea);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Voluntarios");
         }
 
         public ActionResult CambiarEstado(int id)
@@ -121,7 +140,7 @@ namespace AdoptameLiberia.Controllers
             tarea.Estado = !tarea.Estado;
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Voluntarios");
         }
 
         protected override void Dispose(bool disposing)

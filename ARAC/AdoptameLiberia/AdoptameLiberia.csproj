@@ -254,6 +254,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\Comunidad.css" />
+    <Content Include="Content\estilos\Voluntarios.css" />
     <Content Include="Content\estilos\Mascotas.css" />
     <Content Include="Content\estilos\Inventario.css" />
     <Content Include="Content\estilos\Campanias.css" />
