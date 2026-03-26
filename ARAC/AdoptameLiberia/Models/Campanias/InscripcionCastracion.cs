@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdoptameLiberia.Models.Campanias
 {
-    [Table("Inscripcion_Castracion")]
+    [Table("InscripcionesCastracion")]
     public class InscripcionCastracion
     {
         [Key]
@@ -13,6 +13,8 @@ namespace AdoptameLiberia.Models.Campanias
         public int CampaniaCastracionId { get; set; }
 
         public int AnimalId { get; set; }
+
+        public int? IdUsuario { get; set; }
 
         public string VeterinarioAsignado { get; set; }
 

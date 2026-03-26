@@ -4,82 +4,76 @@
     ViewBag.Title = "Editar Mascota";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card shadow">
-                <div class="card-header text-white" style="background-color: #40090b;">
-                    <h4 class="mb-0">Editar Mascota</h4>
+<div class="mascota-shell">
+    <div class="mascota-hero">
+        <div class="mascota-hero-content">
+            <h1>Editar mascota</h1>
+            <p>Actualiza la información de la mascota con una vista más bonita, limpia y consistente.</p>
+        </div>
+    </div>
+
+    <div class="mascota-layout">
+        <div class="mascota-form-card">
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(m => m.ID_Animal)
+
+                <div class="mascota-form-grid">
+                    <div class="mascota-group">
+                        <label>Nombre</label>
+                        @Html.TextBoxFor(m => m.Nombre_Animal)
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>Edad</label>
+                        @Html.TextBoxFor(m => m.Edad, new { type = "number", min = "0" })
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>Sexo</label>
+                        @Html.TextBoxFor(m => m.Sexo)
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>ID Tipo Animal</label>
+                        @Html.TextBoxFor(m => m.ID_TipoAnimal)
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>ID Raza</label>
+                        @Html.TextBoxFor(m => m.ID_Raza)
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>Tamaño</label>
+                        @Html.TextBoxFor(m => m.Tamano)
+                    </div>
+
+                    <div class="mascota-group">
+                        <label>Peso</label>
+                        <div style="display:flex; gap:8px;">
+                            @Html.TextBoxFor(m => m.Peso, new { type = "number", step = "0.01", style = "flex:1;" })
+                            <input type="text" value="Kg" readonly style="width:80px;" />
+                        </div>
+                    </div>
+
+                    <div class="mascota-group full">
+                        <label>Descripción</label>
+                        @Html.TextAreaFor(m => m.Descripcion)
+                    </div>
                 </div>
 
-                <div class="card-body">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.HiddenFor(m => m.ID_Animal)
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(m => m.Nombre_Animal, new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.Nombre_Animal, new { @class = "form-control", placeholder = "Nombre de la mascota", required = "required" })
-                            </div>
-
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Edad, new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
-                            </div>
-
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Sexo, new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.Sexo, new { @class = "form-control", placeholder = "M / H" })
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.Label("ID Tipo Animal", new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.ID_TipoAnimal, new { @class = "form-control", placeholder = "Ej: 1" })
-                            </div>
-
-                            <div class="col-md-6">
-                                @Html.Label("ID Raza", new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.ID_Raza, new { @class = "form-control", placeholder = "Ej: 3" })
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(m => m.Tamano, new { @class = "form-label" })
-                                @Html.TextBoxFor(m => m.Tamano, new { @class = "form-control", placeholder = "Pequeño / Mediano / Grande" })
-                            </div>
-
-                            <div class="col-md-6">
-                                @Html.LabelFor(m => m.Peso, new { @class = "form-label" })
-                                <div class="input-group">
-                                    @Html.TextBoxFor(m => m.Peso, new { @class = "form-control", type = "number", step = "0.01" })
-                                    <span class="input-group-text">Kg</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.Descripcion, new { @class = "form-label" })
-                            @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "4", placeholder = "Describe a la mascota..." })
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="@Url.Action("Catalogo", "Animal")" class="btn btn-outline-secondary">
-                                Volver
-                            </a>
-
-                            <button type="submit" class="btn px-4 text-white" style="background-color: #40090b;">
-                                Guardar cambios
-                            </button>
-                        </div>
-                    }
+                <div class="mascota-actions">
+                    <button type="submit" class="mascota-btn">Guardar cambios</button>
+                    <a href="@Url.Action("Catalogo", "Animal")" class="mascota-btn-outline">Volver</a>
                 </div>
-            </div>
+            }
+        </div>
+
+        <div class="mascota-side-photo">
+            <img src="~/Content/img/cat-card-1.jpg" alt="Gato" />
         </div>
     </div>
 </div>

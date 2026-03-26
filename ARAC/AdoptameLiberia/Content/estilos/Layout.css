@@ -1,125 +1,187 @@
-﻿/* BODY GENERAL */
-.layout-body {
-    background: linear-gradient(180deg, #f4f4f4 0%, #e9e9e9 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
+﻿html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-    .layout-body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('/Content/img/paw.png');
-        background-repeat: repeat;
-        background-size: 80px;
-        opacity: 0.05;
-        z-index: 0;
+    body.layout-body {
+        min-height: 100vh;
+        background-color: #fffaf7;
+        display: flex;
+        flex-direction: column;
     }
 
-/* CONTENIDO CENTRAL (COMO LO TENÍAS) */
-.main-content {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 30px;
-    background: transparent; /* 🔥 cambio clave */
-    border-radius: 20px;
-    box-shadow: none; /* 🔥 sin sombra */
-}
-/* NAVBAR */
 .navbar-arac {
-    background: linear-gradient(90deg, #6f171a, #8e2a2f);
-    border-bottom: 4px solid #F5E6D3;
+    background: linear-gradient(90deg, #8b1e24, #7a171d);
+    border-bottom: 2px solid #f0d8cf;
+    position: relative;
+    z-index: 1000;
+    min-height: 70px;
 }
 
+    .navbar-arac .container {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-arac .navbar-brand,
     .navbar-arac .nav-link {
         color: #fff !important;
-        font-weight: 500;
+        font-weight: 700;
     }
 
+        .navbar-arac .navbar-brand:hover,
         .navbar-arac .nav-link:hover {
-            color: #F5E6D3 !important;
+            color: #ffe7df !important;
         }
 
-/* BOTÓN */
-.btn-light {
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-/* FOOTER */
-.footer-arac {
-    position: relative;
-    z-index: 5;
-    background: linear-gradient(90deg, #6f171a, #8e2a2f);
-    color: #F5E6D3;
-    padding: 30px 0;
-    margin-top: 40px;
-}
-
-    .footer-arac hr {
-        border-color: #F5E6D3;
+    .navbar-arac .navbar-collapse {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
     }
 
-.footer-title {
-    color: #F5E6D3;
-}
-
-/* ICONOS */
-.social-icons span {
-    font-size: 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-    .social-icons span:hover {
-        transform: scale(1.2);
-    }
-
-/* 🐶 PERRO IZQUIERDO */
-.dog-left {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 300px;
-    width: auto;
-    z-index: 20;
-    pointer-events: none;
-    filter: drop-shadow(15px 20px 25px rgba(0,0,0,0.4));
-    opacity: 0.95;
-}
-
-/* 🐶 PERRO DERECHO */
-.dog-right {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    height: 300px;
-    width: auto;
-    z-index: 20;
-    pointer-events: none;
-    filter: drop-shadow(-15px 20px 25px rgba(0,0,0,0.4));
-    opacity: 0.95;
-    transform: scaleX(-1);
-}
-
-/* ESTRUCTURA GENERAL */
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-/* BODY FLEX */
-.layout-body {
+.navbar-login-area {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    min-height: 40px;
 }
 
-/* CONTENIDO CRECE */
+    .navbar-login-area ul,
+    .navbar-login-area li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .navbar-login-area a {
+        color: #fff !important;
+        font-weight: 700;
+        text-decoration: none;
+        margin-left: 14px;
+        display: inline-flex;
+        align-items: center;
+        height: 40px;
+    }
+
+        .navbar-login-area a:hover {
+            color: #ffe7df !important;
+            text-decoration: none;
+        }
+
+.navbar-nav.mx-auto {
+    align-items: center;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
+
 .main-content {
     flex: 1;
+    position: relative;
+    z-index: 5;
+}
+
+.footer-arac {
+    background: linear-gradient(90deg, #8b1e24, #7a171d);
+    color: #fff;
+    padding: 28px 0 90px 0;
+    position: relative;
+    z-index: 20;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+    .footer-arac .footer-title {
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .footer-arac p,
+    .footer-arac h5,
+    .footer-arac span {
+        color: #fff;
+    }
+
+    .footer-arac hr {
+        border-top: 1px solid rgba(255,255,255,0.25);
+    }
+
+.social-icons span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 6px;
+    font-size: 1.2rem;
+}
+
+.dog-left,
+.dog-right {
+    position: absolute;
+    bottom: 0;
+    width: 110px;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+.dog-left {
+    left: 35px;
+}
+
+.dog-right {
+    right: 35px;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+.btn,
+.nav-link,
+.dropdown-menu,
+.dropdown-item {
+    position: relative;
+    z-index: 50;
+}
+
+@media (max-width: 991px) {
+    .navbar-arac .navbar-collapse {
+        align-items: flex-start;
+    }
+
+    .navbar-login-area {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+        .navbar-login-area a {
+            margin-left: 0;
+            margin-right: 14px;
+        }
+}
+
+@media (max-width: 768px) {
+    .dog-left,
+    .dog-right {
+        width: 80px;
+    }
+
+    .dog-left {
+        left: 10px;
+    }
+
+    .dog-right {
+        right: 10px;
+    }
+
+    .footer-arac {
+        padding-bottom: 70px;
+    }
 }

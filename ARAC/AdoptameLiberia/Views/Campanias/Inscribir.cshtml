@@ -1,45 +1,59 @@
 ﻿@model AdoptameLiberia.Models.Campanias.InscripcionCastracion
 
 @{
-    ViewBag.Title = "Registrar Mascota en Campaña";
+    ViewBag.Title = "Registrar Mascota";
 }
 
-<div class="container mt-4">
-    <h2>Registrar mascota en campaña</h2>
+<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
 
-    <div class="card shadow p-4">
-        <div class="mb-3">
-            <label class="form-label"><strong>Campaña</strong></label>
-            <input type="text" class="form-control" value="@ViewBag.CampaniaNombre" readonly />
+<div class="page-shell">
+    <div class="hero-campania">
+        <div class="hero-campania-content">
+            <h1>Registrar mascota en campaña</h1>
+            <p>Completa este formulario para inscribir a tu mascota en la campaña seleccionada.</p>
+        </div>
+    </div>
+
+    <div class="info-layout">
+        <div class="form-card">
+            @using (Html.BeginForm("Inscribir", "Campanias", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.CampaniaCastracionId)
+
+                <div class="form-grid">
+                    <div class="form-group-campania">
+                        <label>Campaña</label>
+                        <input type="text" value="@ViewBag.CampaniaNombre" readonly />
+                    </div>
+
+                    <div class="form-group-campania">
+                        <label>Fecha</label>
+                        <input type="text" value="@(((DateTime)ViewBag.CampaniaFecha).ToShortDateString())" readonly />
+                    </div>
+
+                    <div class="form-group-campania full">
+                        <label>Lugar</label>
+                        <input type="text" value="@ViewBag.CampaniaLugar" readonly />
+                    </div>
+
+                    <div class="form-group-campania full">
+                        <label>Seleccione la mascota</label>
+                        @Html.DropDownListFor(m => m.AnimalId, (SelectList)ViewBag.AnimalId, "Seleccione una mascota", new { @class = "" })
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+
+                <div class="page-actions">
+                    <button type="submit" class="btn-campania-success">Registrar mascota</button>
+                    <a href="@Url.Action("Index", "Campanias")" class="btn-campania-outline">Volver</a>
+                </div>
+            }
         </div>
 
-        <div class="mb-3">
-            <label class="form-label"><strong>Fecha</strong></label>
-            <input type="text" class="form-control" value="@(((DateTime)ViewBag.CampaniaFecha).ToShortDateString())" readonly />
+        <div class="side-image">
+            <img src="~/Content/img/mascotas-banner.jpg" alt="Mascotas" />
         </div>
-
-        <div class="mb-3">
-            <label class="form-label"><strong>Lugar</strong></label>
-            <input type="text" class="form-control" value="@ViewBag.CampaniaLugar" readonly />
-        </div>
-
-        @using (Html.BeginForm("Inscribir", "Campanias", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-
-            @Html.HiddenFor(m => m.CampaniaCastracionId)
-
-            <div class="form-group mb-3">
-                <label class="form-label">Seleccione la mascota</label>
-                @Html.DropDownListFor(m => m.AnimalId, (SelectList)ViewBag.AnimalId, "Seleccione una mascota", new { @class = "form-control" })
-            </div>
-
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            <div class="mt-3">
-                <button type="submit" class="btn btn-success">Registrar mascota</button>
-                <a href="@Url.Action("Index", "Campanias")" class="btn btn-secondary">Volver</a>
-            </div>
-        }
     </div>
 </div>

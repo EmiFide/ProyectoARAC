@@ -2,62 +2,111 @@
 
 @{
     ViewBag.Title = "Campañas de Castración";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.CampaniaCastracion>();
+    var cuposMap = ViewBag.CuposDisponibles as Dictionary<int, int> ?? new Dictionary<int, int>();
 }
 
-<div class="container mt-4">
-    <h2>Campañas de Castración</h2>
+<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
 
-    @if (User.IsInRole("Administrador"))
-    {
-        <p>
-            @Html.ActionLink("Nueva Campaña", "Create", "Campanias", null, new { @class = "btn btn-primary" })
-        </p>
-    }
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
+<div class="page-shell">
+    <div class="hero-campania">
+        <div class="hero-campania-content">
+            <h1>Campañas de Castración</h1>
+            <p>Consulta las campañas activas, revisa la información disponible y registra a tu mascota.</p>
         </div>
-    }
+    </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Fecha</th>
-                <th>Lugar</th>
-                <th>Cupos</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+    <div class="pet-cards">
+        <div class="pet-card">
+            <img src="~/Content/img/dog-card-1.jpg" alt="Perro feliz" />
+            <span>Cuidado canino</span>
+        </div>
+        <div class="pet-card">
+            <img src="~/Content/img/cat-card-1.jpg" alt="Gato tranquilo" />
+            <span>Bienestar felino</span>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <h4>Total de campañas</h4>
+            <p>@lista.Count</p>
+        </div>
+        <div class="stat-card">
+            <h4>Disponibles</h4>
+            <p>@lista.Count(x => x != null)</p>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="action-buttons">
+            @if (User.IsInRole("Administrador"))
             {
-                <tr>
-                    <td>@item.Nombre</td>
-                    <td>@item.Fecha.ToShortDateString()</td>
-                    <td>@item.Lugar</td>
-                    <td>@item.Cupos</td>
-                    <td>
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="btn btn-primary btn-sm">Ver inscripciones</a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="btn btn-success btn-sm">Registrar mascota</a>
-                        }
-                    </td>
-                </tr>
+                <a href="@Url.Action("Create", "Campanias")" class="btn-campania">Nueva Campaña</a>
             }
-        </tbody>
-    </table>
+            else
+            {
+                <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">Ver mis registros</a>
+            }
+        </div>
+    </div>
 
-    @if (!User.IsInRole("Administrador"))
-    {
-        <p>
-            <a href="@Url.Action("MisCampanias", "Campanias")" class="btn btn-info">Ver mis registros</a>
-        </p>
-    }
+    <div class="section-card">
+        <div class="table-shell">
+            <table class="table-campania">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Cupos disponibles</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (lista.Any())
+                    {
+                        foreach (var item in lista)
+                        {
+                            var inscritos = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : 0;
+                            var disponibles = item.Cupos - inscritos;
+                            if (disponibles < 0)
+                            {
+                                disponibles = 0;
+                            }
+
+                            <tr>
+                                <td><strong>@item.Nombre</strong></td>
+                                <td>@item.Fecha.ToShortDateString()</td>
+                                <td>@item.Lugar</td>
+                                <td><span class="badge-cupos">@disponibles</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        @if (User.IsInRole("Administrador"))
+                                        {
+                                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="btn-campania-info">Ver inscripciones</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="btn-campania-success">Registrar mascota</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    Todavía no hay campañas registradas.
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

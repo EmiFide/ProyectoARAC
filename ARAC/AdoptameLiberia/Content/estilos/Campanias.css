@@ -1,0 +1,379 @@
+﻿body {
+    background: linear-gradient(180deg, #fdf7f3 0%, #fffaf7 100%);
+}
+
+.page-shell {
+    max-width: 1200px;
+    margin: 30px auto 60px auto;
+    padding: 0 20px;
+}
+
+.hero-campania {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 270px;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    margin-bottom: 28px;
+    background: linear-gradient(135deg, rgba(64, 9, 11, 0.94), rgba(121, 69, 56, 0.88));
+    box-shadow: 0 18px 35px rgba(64, 9, 11, 0.16);
+}
+
+    .hero-campania::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('/Content/img/campanias-banner.jpg') center center / cover no-repeat;
+        opacity: 0.18;
+    }
+
+.hero-campania-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    color: #fff;
+}
+
+    .hero-campania-content h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .hero-campania-content p {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: rgba(255,255,255,0.92);
+    }
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 22px rgba(64, 9, 11, 0.08);
+    border: 1px solid rgba(64, 9, 11, 0.08);
+}
+
+    .stat-card h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #7c5649;
+        font-weight: 700;
+    }
+
+    .stat-card p {
+        margin: 10px 0 0 0;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #40090b;
+    }
+
+.section-card {
+    background: #fff;
+    border-radius: 22px;
+    padding: 24px;
+    box-shadow: 0 12px 28px rgba(64, 9, 11, 0.09);
+    margin-bottom: 24px;
+    border: 1px solid rgba(64, 9, 11, 0.07);
+}
+
+.pet-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.pet-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 190px;
+    box-shadow: 0 12px 25px rgba(64, 9, 11, 0.12);
+}
+
+    .pet-card img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .pet-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .pet-card span {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
+        background: rgba(64, 9, 11, 0.78);
+        color: #fff;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+.table-shell {
+    overflow-x: auto;
+}
+
+.table-campania {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+    .table-campania thead th {
+        background: #40090b;
+        color: #fff;
+        padding: 16px 14px;
+        font-weight: 700;
+        border: none;
+        white-space: nowrap;
+    }
+
+    .table-campania tbody tr {
+        background: #fff;
+        transition: background 0.18s ease;
+    }
+
+        .table-campania tbody tr:nth-child(even) {
+            background: #fff8f5;
+        }
+
+        .table-campania tbody tr:hover {
+            background: #fff0ea;
+        }
+
+    .table-campania td {
+        padding: 15px 14px;
+        border-top: 1px solid #f0e2db;
+        vertical-align: middle;
+    }
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-campania,
+.btn-campania-alt,
+.btn-campania-outline,
+.btn-campania-success,
+.btn-campania-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    font-weight: 700;
+    border: none;
+    transition: all 0.18s ease;
+    box-shadow: 0 8px 18px rgba(64, 9, 11, 0.10);
+}
+
+.btn-campania {
+    background: #40090b;
+    color: #fff !important;
+}
+
+    .btn-campania:hover {
+        background: #571214;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.btn-campania-alt {
+    background: #7d5246;
+    color: #fff !important;
+}
+
+    .btn-campania-alt:hover {
+        background: #6e473c;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.btn-campania-outline {
+    background: #fff;
+    color: #40090b !important;
+    border: 1px solid rgba(64, 9, 11, 0.16);
+}
+
+    .btn-campania-outline:hover {
+        background: #fff4ef;
+        color: #40090b !important;
+        transform: translateY(-1px);
+    }
+
+.btn-campania-success {
+    background: #5f8b66;
+    color: #fff !important;
+}
+
+    .btn-campania-success:hover {
+        background: #507657;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.btn-campania-info {
+    background: #5e87a5;
+    color: #fff !important;
+}
+
+    .btn-campania-info:hover {
+        background: #4d7490;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.badge-cupos,
+.badge-pendiente,
+.badge-ok {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.badge-cupos {
+    background: #f5dfd4;
+    color: #714034;
+}
+
+.badge-pendiente {
+    background: #fff1e2;
+    color: #b87717;
+}
+
+.badge-ok {
+    background: #edf7ee;
+    color: #4e7a54;
+}
+
+.form-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 14px 30px rgba(64, 9, 11, 0.10);
+    border: 1px solid rgba(64, 9, 11, 0.08);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.form-group-campania {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group-campania.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group-campania label {
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #5c392d;
+    }
+
+    .form-group-campania input,
+    .form-group-campania select,
+    .form-group-campania textarea {
+        border: 1px solid #e8d6cd;
+        border-radius: 16px;
+        padding: 12px 14px;
+        background: #fffaf8;
+        outline: none;
+        transition: all 0.18s ease;
+    }
+
+        .form-group-campania input:focus,
+        .form-group-campania select:focus,
+        .form-group-campania textarea:focus {
+            border-color: #946456;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(148, 100, 86, 0.12);
+        }
+
+    .form-group-campania textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.info-layout {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 22px;
+}
+
+.side-image {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(64, 9, 11, 0.12);
+    min-height: 100%;
+}
+
+    .side-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+.empty-state {
+    text-align: center;
+    padding: 32px 18px;
+    background: #fff8f4;
+    border: 1px dashed #e7d1c7;
+    border-radius: 18px;
+    color: #7e574a;
+}
+
+.validation-summary-errors,
+.text-danger {
+    color: #a32328 !important;
+    font-weight: 600;
+}
+
+@media (max-width: 991px) {
+    .info-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-campania {
+        padding: 28px 24px;
+    }
+
+    .hero-campania-content h1 {
+        font-size: 1.8rem;
+    }
+}

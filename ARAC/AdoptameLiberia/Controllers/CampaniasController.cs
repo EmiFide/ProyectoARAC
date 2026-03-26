@@ -1,5 +1,7 @@
 ﻿using AdoptameLiberia.Models.Campanias;
 using AdoptameLiberia.Models.Donaciones;
+using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -16,6 +18,12 @@ namespace AdoptameLiberia.Controllers
             var campanias = db.CampaniasCastracion
                 .OrderBy(c => c.Fecha)
                 .ToList();
+
+            var cuposDisponibles = db.InscripcionesCastracion
+                .GroupBy(i => i.CampaniaCastracionId)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            ViewBag.CuposDisponibles = cuposDisponibles;
 
             return View(campanias);
         }
@@ -109,6 +117,15 @@ namespace AdoptameLiberia.Controllers
                 return View(model);
             }
 
+            var userIdAsp = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == userIdAsp);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("", "No se encontró el usuario actual en la tabla Usuario.");
+                return View(model);
+            }
+
             var yaInscrito = db.InscripcionesCastracion.Any(i =>
                 i.CampaniaCastracionId == model.CampaniaCastracionId &&
                 i.AnimalId == model.AnimalId
@@ -132,6 +149,7 @@ namespace AdoptameLiberia.Controllers
             {
                 CampaniaCastracionId = model.CampaniaCastracionId,
                 AnimalId = model.AnimalId,
+                IdUsuario = usuario.ID_Usuario,
                 VeterinarioAsignado = null,
                 Resultado = null
             };
@@ -145,9 +163,18 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult MisCampanias()
         {
+            var userIdAsp = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == userIdAsp);
+
+            if (usuario == null)
+            {
+                return View(new List<InscripcionCastracion>());
+            }
+
             var inscripciones = db.InscripcionesCastracion
                 .Include(i => i.Animal)
                 .Include(i => i.Campania)
+                .Where(i => i.IdUsuario == usuario.ID_Usuario)
                 .OrderByDescending(i => i.Id)
                 .ToList();
 
