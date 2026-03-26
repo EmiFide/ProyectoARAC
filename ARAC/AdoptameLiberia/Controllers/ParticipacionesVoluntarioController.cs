@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using AdoptameLiberia.Models.Donaciones;
@@ -16,16 +17,45 @@ namespace AdoptameLiberia.Controllers
             var lista = db.ParticipacionesVoluntario
                 .Include(p => p.Voluntario)
                 .Include(p => p.Tarea)
+                .OrderByDescending(p => p.Fecha_Registro)
                 .ToList();
 
             return View(lista);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int? idVoluntario)
         {
-            ViewBag.ID_Voluntario = new SelectList(db.Voluntarios.Where(v => v.Estado), "ID_Voluntario", "Nombre");
-            ViewBag.ID_Tarea = new SelectList(db.TareasVoluntariado.Where(t => t.Estado), "ID_Tarea", "Titulo");
-            return View();
+            var voluntariosAsignadosIds = db.ParticipacionesVoluntario
+                .Select(p => p.ID_Voluntario)
+                .Distinct()
+                .ToList();
+
+            var voluntariosDisponibles = db.Voluntarios
+                .Where(v => v.Estado && !voluntariosAsignadosIds.Contains(v.ID_Voluntario))
+                .OrderBy(v => v.Nombre)
+                .ToList();
+
+            ViewBag.ID_Voluntario = new SelectList(
+                voluntariosDisponibles,
+                "ID_Voluntario",
+                "Nombre",
+                idVoluntario
+            );
+
+            ViewBag.ID_Tarea = new SelectList(
+                db.TareasVoluntariado.Where(t => t.Estado).OrderBy(t => t.Titulo),
+                "ID_Tarea",
+                "Titulo"
+            );
+
+            var model = new ParticipacionVoluntario
+            {
+                ID_Voluntario = idVoluntario ?? 0,
+                Asistio = false,
+                Fecha_Registro = DateTime.Now
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -34,13 +64,45 @@ namespace AdoptameLiberia.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Fecha_Registro = DateTime.Now;
                 db.ParticipacionesVoluntario.Add(model);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Voluntarios");
             }
 
-            ViewBag.ID_Voluntario = new SelectList(db.Voluntarios.Where(v => v.Estado), "ID_Voluntario", "Nombre", model.ID_Voluntario);
-            ViewBag.ID_Tarea = new SelectList(db.TareasVoluntariado.Where(t => t.Estado), "ID_Tarea", "Titulo", model.ID_Tarea);
+            var voluntariosAsignadosIds = db.ParticipacionesVoluntario
+                .Select(p => p.ID_Voluntario)
+                .Distinct()
+                .ToList();
+
+            var voluntariosDisponibles = db.Voluntarios
+                .Where(v => v.Estado && !voluntariosAsignadosIds.Contains(v.ID_Voluntario))
+                .OrderBy(v => v.Nombre)
+                .ToList();
+
+            if (model.ID_Voluntario > 0 && !voluntariosDisponibles.Any(v => v.ID_Voluntario == model.ID_Voluntario))
+            {
+                var voluntarioActual = db.Voluntarios.Find(model.ID_Voluntario);
+                if (voluntarioActual != null)
+                {
+                    voluntariosDisponibles.Add(voluntarioActual);
+                }
+            }
+
+            ViewBag.ID_Voluntario = new SelectList(
+                voluntariosDisponibles.OrderBy(v => v.Nombre),
+                "ID_Voluntario",
+                "Nombre",
+                model.ID_Voluntario
+            );
+
+            ViewBag.ID_Tarea = new SelectList(
+                db.TareasVoluntariado.Where(t => t.Estado).OrderBy(t => t.Titulo),
+                "ID_Tarea",
+                "Titulo",
+                model.ID_Tarea
+            );
+
             return View(model);
         }
     }

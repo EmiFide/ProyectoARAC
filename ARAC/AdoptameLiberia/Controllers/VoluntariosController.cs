@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -14,12 +16,40 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Voluntarios.ToList());
+            var voluntariosAsignadosIds = db.ParticipacionesVoluntario
+                .Select(p => p.ID_Voluntario)
+                .Distinct()
+                .ToList();
+
+            var voluntariosPendientes = db.Voluntarios
+                .Where(v => !voluntariosAsignadosIds.Contains(v.ID_Voluntario))
+                .OrderByDescending(v => v.Fecha_Registro)
+                .ToList();
+
+            var tareas = db.TareasVoluntariado
+                .OrderByDescending(t => t.Fecha)
+                .ThenBy(t => t.Hora)
+                .ToList();
+
+            var asignacionesPorTarea = db.ParticipacionesVoluntario
+                .GroupBy(p => p.ID_Tarea)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            ViewBag.TareasVoluntariado = tareas;
+            ViewBag.AsignacionesPorTarea = asignacionesPorTarea;
+
+            return View(voluntariosPendientes);
         }
 
         public ActionResult Create()
         {
-            return View();
+            var model = new Voluntario
+            {
+                Estado = true,
+                Fecha_Registro = DateTime.Now
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -28,6 +58,7 @@ namespace AdoptameLiberia.Controllers
         {
             if (ModelState.IsValid)
             {
+                voluntario.Fecha_Registro = DateTime.Now;
                 db.Voluntarios.Add(voluntario);
                 db.SaveChanges();
                 return RedirectToAction("Index");

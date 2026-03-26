@@ -22,7 +22,6 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav mx-auto">
-                    </li>
                     <li class="nav-item">
                         @Html.ActionLink("Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })
                     </li>
@@ -32,6 +31,10 @@
                     <li class="nav-item">
                         @Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })
                     </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Ser voluntario", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })
+                    </li>
+
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
                         <li class="nav-item dropdown">
@@ -44,6 +47,11 @@
                                 @Html.ActionLink("Inventario", "Index", "Inventario", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "dropdown-item" })
+
+                                <div class="dropdown-divider"></div>
+
+                                <h6 class="dropdown-header">Voluntariado</h6>
+                                @Html.ActionLink("Voluntarios", "Index", "Voluntarios", null, new { @class = "dropdown-item" })
 
                                 <div class="dropdown-divider"></div>
 

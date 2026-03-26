@@ -1,38 +1,84 @@
 ﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
+@using System.Collections.Generic
+@using AdoptameLiberia.Models.Voluntariado
 
 @{
     ViewBag.Title = "Detalle de tarea";
+    var voluntariosAsignados = ViewBag.VoluntariosAsignados as List<ParticipacionVoluntario>;
 }
 
-<h2>Detalle de tarea</h2>
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Título</dt>
-        <dd>@Model.Titulo</dd>
+<div class="vol-shell">
+    <div class="vol-detail-card">
+        <div class="vol-panel-title">Detalle de la tarea</div>
+        <div class="vol-panel-subtitle">Aquí puedes ver la información completa y los voluntarios asignados.</div>
 
-        <dt>Descripción</dt>
-        <dd>@Model.Descripcion</dd>
+        <div class="vol-detail-grid">
+            <div class="vol-detail-item">
+                <strong>Título</strong>
+                @Model.Titulo
+            </div>
 
-        <dt>Fecha</dt>
-        <dd>@Model.Fecha.ToShortDateString()</dd>
+            <div class="vol-detail-item">
+                <strong>Fecha</strong>
+                @Model.Fecha.ToShortDateString()
+            </div>
 
-        <dt>Hora</dt>
-        <dd>@(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "")</dd>
+            <div class="vol-detail-item">
+                <strong>Hora</strong>
+                @(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora")
+            </div>
 
-        <dt>Lugar</dt>
-        <dd>@Model.Lugar</dd>
+            <div class="vol-detail-item">
+                <strong>Lugar</strong>
+                @Model.Lugar
+            </div>
 
-        <dt>Estado</dt>
-        <dd>@(Model.Estado ? "Activa" : "Inactiva")</dd>
+            <div class="vol-detail-item full">
+                <strong>Estado</strong>
+                @(Model.Estado ? "Activa" : "Inactiva")
+            </div>
 
-        <dt>Fecha de registro</dt>
-        <dd>@Model.Fecha_Registro</dd>
-    </dl>
+            <div class="vol-detail-item full" style="grid-column: 1 / -1;">
+                <strong>Descripción</strong>
+                @Model.Descripcion
+            </div>
+        </div>
+
+        <div style="margin-top:24px;">
+            <div class="vol-panel-title" style="font-size:1.2rem;">Voluntarios asignados</div>
+
+            @if (voluntariosAsignados != null && voluntariosAsignados.Any())
+            {
+                <ul class="vol-list-clean">
+                    @foreach (var item in voluntariosAsignados)
+                    {
+                        var nombreCompleto = (item.Voluntario.Nombre + " " + item.Voluntario.Apellido1 + " " + item.Voluntario.Apellido2).Trim();
+
+                        <li>
+                            <strong style="color:#40090b;">@nombreCompleto</strong><br />
+                            Correo: @item.Voluntario.Correo<br />
+                            Teléfono: @item.Voluntario.Telefono<br />
+                            Asistió: @(item.Asistio ? "Sí" : "No")<br />
+                            Observaciones: @(string.IsNullOrWhiteSpace(item.Observaciones) ? "Sin observaciones" : item.Observaciones)
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="vol-empty">
+                    Esta tarea todavía no tiene voluntarios asignados.
+                </div>
+            }
+        </div>
+
+        <div class="vol-form-actions">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.ID_Tarea }, new { @class = "vol-btn-warning" })
+            @Html.ActionLink("Volver", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
+        </div>
+    </div>
 </div>
-
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.ID_Tarea }, new { @class = "btn btn-warning" })
-    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-secondary" })
-</p>
