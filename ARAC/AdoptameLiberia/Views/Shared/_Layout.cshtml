@@ -68,6 +68,11 @@
                         @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })
                     </li>
 
+                        @Html.ActionLink("Reporte Financiero", "Dashboard", "Reportes", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Noticias", "Index", "Noticia", null, new { @class = "nav-link" })
+                    </li>
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
                         <li class="nav-item dropdown">
@@ -83,11 +88,14 @@
                                 @Html.ActionLink("Voluntarios", "Index", "Voluntarios", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "dropdown-item" })
 
+
                                 <div class="dropdown-divider"></div>
 
                                 <h6 class="dropdown-header">Administración</h6>
                                 @Html.ActionLink("Usuarios", "Index", "AdminUsers", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Roles y permisos", "Index", "Roles", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Categorías", "Index", "Categorias", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Gastos", "Index", "Gastos", null, new { @class = "dropdown-item" })
                             </div>
                         </li>
                     }
