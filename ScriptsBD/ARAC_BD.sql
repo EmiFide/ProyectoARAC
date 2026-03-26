@@ -932,7 +932,12 @@ WHERE ID_Usuario = 1;
 ALTER TABLE Detalle_Donacion
 ADD Cantidad INT NOT NULL DEFAULT 1;
 
---Eliminar elementos duplicados 
+
+
+
+USE ARAC_DB;
+GO
+
 ;WITH TiposBase AS
 (
     SELECT
@@ -1010,7 +1015,11 @@ FROM Tipo_Donacion
 ORDER BY Nombre;
 GO
 
---Para las inscripciones de castracion 
+
+
+USE ARAC_DB;
+GO
+
 IF OBJECT_ID('dbo.Inscripcion_Castracion', 'U') IS NULL
 BEGIN
     CREATE TABLE dbo.Inscripcion_Castracion
@@ -1021,5 +1030,25 @@ BEGIN
         VeterinarioAsignado VARCHAR(150) NULL,
         Resultado VARCHAR(500) NULL
     );
+END
+GO
+
+
+IF COL_LENGTH('dbo.InscripcionesCastracion', 'IdUsuario') IS NULL
+BEGIN
+    ALTER TABLE dbo.InscripcionesCastracion
+    ADD IdUsuario INT NULL;
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.foreign_keys
+    WHERE name = 'FK_InscripcionesCastracion_Usuario'
+)
+BEGIN
+    ALTER TABLE dbo.InscripcionesCastracion
+    ADD CONSTRAINT FK_InscripcionesCastracion_Usuario
+    FOREIGN KEY (IdUsuario) REFERENCES dbo.Usuario(ID_Usuario);
 END
 GO
