@@ -12,7 +12,7 @@ namespace AdoptameLiberia.Controllers.Finanzas
         public ActionResult Index()
         {
             var gastos = db.Gastos.ToList();
-            return View(gastos);
+            return View("~/Views/Gasto/Index.cshtml", gastos);
         }
 
         public ActionResult Create()
@@ -22,7 +22,8 @@ namespace AdoptameLiberia.Controllers.Finanzas
                 "ID_Categoria",
                 "Nombre"
             );
-            return View();
+
+            return View("~/Views/Gasto/Create.cshtml");
         }
 
         [HttpPost]

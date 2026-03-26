@@ -11,7 +11,9 @@ namespace AdoptameLiberia.Controllers.Finanzas
 
         public ActionResult Index()
         {
-            return View(db.CategoriasFinancieras.ToList());
+            var lista = db.CategoriasFinancieras.ToList();
+
+            return View("~/Views/Categoria/Index.cshtml", lista);
         }
 
         public ActionResult Create()

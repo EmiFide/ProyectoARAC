@@ -18,6 +18,8 @@ namespace AdoptameLiberia.Models.Noticias
 
         public DateTime? Fecha_Publicacion { get; set; }
 
-        public bool? Estado { get; set; }
+        public bool Estado { get; set; }
+
+        public int Likes { get; set; } = 0;
     }
 }

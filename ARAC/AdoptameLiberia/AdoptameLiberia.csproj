@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Mascotas\AnimalController.cs" />
     <Compile Include="Controllers\Mascotas\HistorialMedicoController.cs" />
+    <Compile Include="Controllers\NoticiaController.cs" />
     <Compile Include="Controllers\ParticipacionesVoluntarioController.cs" />
     <Compile Include="Controllers\RazasController.cs" />
     <Compile Include="Controllers\SolicitudesVoluntariadoController.cs" />
@@ -373,6 +374,13 @@
     <Content Include="Views\Animal\Editar.cshtml" />
     <Content Include="Views\Campanias\RegistrarResultado.cshtml" />
     <Content Include="Views\Campanias\MisCampanias.cshtml" />
+    <Content Include="Views\Categoria\Index.cshtml" />
+    <Content Include="Views\Categoria\Create.cshtml" />
+    <Content Include="Views\Gasto\Index.cshtml" />
+    <Content Include="Views\Gasto\Create.cshtml" />
+    <Content Include="Views\Reporte\Dashboard.cshtml" />
+    <Content Include="Views\Noticia\Index.cshtml" />
+    <Content Include="Views\Noticia\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
