@@ -19,10 +19,13 @@ namespace AdoptameLiberia.Controllers
             return (nombre ?? string.Empty).Trim().ToLowerInvariant();
         }
 
-        private List<SelectListItem> ObtenerTiposDonacionUnicos(int? seleccionado = null)
+        private List<SelectListItem> ObtenerTiposDonacionPermitidos(int? seleccionado = null)
         {
+            var nombresPermitidos = new[] { "monetaria", "insumos" };
+
             var tipos = db.TiposDonacion
                 .AsEnumerable()
+                .Where(t => nombresPermitidos.Contains(NormalizarNombreTipo(t.Nombre)))
                 .GroupBy(t => NormalizarNombreTipo(t.Nombre))
                 .Select(g => g.OrderBy(x => x.IdTipoDonacion).First())
                 .OrderBy(t => t.Nombre)
@@ -74,7 +77,7 @@ namespace AdoptameLiberia.Controllers
 
         private void CargarCombos(DonacionCreateVM vm)
         {
-            vm.TiposDonacion = ObtenerTiposDonacionUnicos(vm.IdTipoDonacion == 0 ? (int?)null : vm.IdTipoDonacion);
+            vm.TiposDonacion = ObtenerTiposDonacionPermitidos(vm.IdTipoDonacion == 0 ? (int?)null : vm.IdTipoDonacion);
             vm.ItemsInventario = ObtenerItemsInventario();
             vm.MetodosPago = ObtenerMetodosPago();
 
@@ -86,9 +89,26 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Index(int? tipoDonacionId)
         {
+            bool esAdmin = User.IsInRole("Administrador");
+            string aspNetUserId = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == aspNetUserId);
+
             var donaciones = db.Donaciones
                 .Include(d => d.TipoDonacion)
+                .Include(d => d.Usuario)
                 .AsQueryable();
+
+            if (!esAdmin)
+            {
+                if (usuario == null)
+                {
+                    donaciones = donaciones.Where(d => false);
+                }
+                else
+                {
+                    donaciones = donaciones.Where(d => d.IdUsuario == usuario.ID_Usuario);
+                }
+            }
 
             if (tipoDonacionId.HasValue)
             {
@@ -101,14 +121,22 @@ namespace AdoptameLiberia.Controllers
                 }
             }
 
+            donaciones = donaciones.OrderByDescending(d => d.FechaRegistro);
+
+            var lista = esAdmin
+                ? donaciones.ToList()
+                : donaciones.Take(5).ToList();
+
             ViewBag.TiposDonacion = new SelectList(
-                ObtenerTiposDonacionUnicos(),
+                ObtenerTiposDonacionPermitidos(),
                 "Value",
                 "Text",
                 tipoDonacionId
             );
 
-            return View(donaciones.OrderByDescending(d => d.FechaRegistro).ToList());
+            ViewBag.EsAdmin = esAdmin;
+
+            return View(lista);
         }
 
         public ActionResult Create(decimal? monto)
@@ -143,7 +171,14 @@ namespace AdoptameLiberia.Controllers
                 return View(vm);
             }
 
-            bool esMonetaria = NormalizarNombreTipo(tipo.Nombre) == "monetaria";
+            var nombreTipo = NormalizarNombreTipo(tipo.Nombre);
+            if (nombreTipo != "monetaria" && nombreTipo != "insumos")
+            {
+                ModelState.AddModelError("", "Solo se permiten donaciones Monetaria e Insumos.");
+                return View(vm);
+            }
+
+            bool esMonetaria = nombreTipo == "monetaria";
 
             if (esMonetaria)
             {
@@ -246,15 +281,25 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Details(int id)
         {
+            bool esAdmin = User.IsInRole("Administrador");
+            string aspNetUserId = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == aspNetUserId);
+
             var donacion = db.Donaciones
                 .Include(d => d.TipoDonacion)
                 .Include(d => d.Detalles)
                 .Include(d => d.Observaciones)
+                .Include(d => d.Usuario)
                 .FirstOrDefault(d => d.IdDonacion == id);
 
             if (donacion == null)
             {
                 return HttpNotFound();
+            }
+
+            if (!esAdmin && (usuario == null || donacion.IdUsuario != usuario.ID_Usuario))
+            {
+                return new HttpUnauthorizedResult();
             }
 
             return View(donacion);
@@ -264,6 +309,22 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AgregarObservacion(int idDonacion, string comentario)
         {
+            bool esAdmin = User.IsInRole("Administrador");
+            string aspNetUserId = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == aspNetUserId);
+
+            var donacion = db.Donaciones.FirstOrDefault(d => d.IdDonacion == idDonacion);
+
+            if (donacion == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!esAdmin && (usuario == null || donacion.IdUsuario != usuario.ID_Usuario))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (string.IsNullOrWhiteSpace(comentario))
             {
                 return RedirectToAction("Details", new { id = idDonacion });
@@ -283,14 +344,24 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Comprobante(int id)
         {
+            bool esAdmin = User.IsInRole("Administrador");
+            string aspNetUserId = User.Identity.GetUserId();
+            var usuario = db.Usuarios.FirstOrDefault(u => u.IdAspNetUser == aspNetUserId);
+
             var donacion = db.Donaciones
                 .Include(d => d.TipoDonacion)
                 .Include(d => d.Detalles)
+                .Include(d => d.Usuario)
                 .FirstOrDefault(d => d.IdDonacion == id);
 
             if (donacion == null)
             {
                 return HttpNotFound();
+            }
+
+            if (!esAdmin && (usuario == null || donacion.IdUsuario != usuario.ID_Usuario))
+            {
+                return new HttpUnauthorizedResult();
             }
 
             return View(donacion);

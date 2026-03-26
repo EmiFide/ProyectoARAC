@@ -2,9 +2,10 @@
 @using System.Collections.Generic
 
 @{
-    ViewBag.Title = "Catálogo de Mascotas";
+    ViewBag.Title = "Mis mascotas";
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Mascotas.AnimalModel>();
     var favoritos = ViewBag.Favoritos as HashSet<int> ?? new HashSet<int>();
+    bool esAdmin = ViewBag.EsAdmin != null && (bool)ViewBag.EsAdmin;
 }
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
@@ -12,16 +13,34 @@
 <div class="mascota-shell">
     <div class="mascota-hero">
         <div class="mascota-hero-content">
-            <h1>Catálogo de mascotas</h1>
-            <p>Consulta las mascotas disponibles y guarda tus favoritas para revisarlas después.</p>
+            @if (Request.IsAuthenticated)
+            {
+                if (esAdmin)
+                {
+                    <h1>Gestión de mascotas</h1>
+                    <p>Aquí el administrador puede ver todas las mascotas registradas en el sistema.</p>
+                }
+                else
+                {
+                    <h1>Mis mascotas</h1>
+                    <p>Aquí ves únicamente las mascotas que registraste con tu cuenta.</p>
+                }
+            }
+            else
+            {
+                <h1>Catálogo de mascotas</h1>
+                <p>Aquí se muestran las mascotas públicas disponibles.</p>
+            }
         </div>
     </div>
 
     <div class="mascota-form-card">
-        @if (User.IsInRole("Administrador"))
+        @if (Request.IsAuthenticated)
         {
             <div class="mascota-actions" style="margin-top:0; margin-bottom:20px; justify-content:flex-end;">
-                <a href="@Url.Action("Crear", "Animal")" class="mascota-btn">Registrar mascota</a>
+                <a href="@Url.Action("Crear", "Animal")" class="mascota-btn">
+                    @(esAdmin ? "Registrar mascota" : "Registrar mi mascota")
+                </a>
             </div>
         }
 
@@ -51,10 +70,6 @@
                                     </button>
                                 }
                             }
-                            else
-                            {
-                                <a href="@Url.Action("Login", "Account", new { returnUrl = Url.Action("Catalogo", "Animal") })" class="favorito-toggle-btn" title="Inicia sesión para guardar favoritos">♡</a>
-                            }
                         </div>
 
                         <div class="favorito-card-body">
@@ -63,13 +78,18 @@
                             <p><strong>Sexo:</strong> @item.Sexo</p>
                             <p><strong>Tamaño:</strong> @item.Tamano</p>
                             <p><strong>Peso:</strong> @(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</p>
+                            <p><strong>Estado:</strong> @item.Estado</p>
                             <p><strong>Descripción:</strong> @item.Descripcion</p>
                         </div>
 
-                        @if (User.IsInRole("Administrador"))
+                        @if (Request.IsAuthenticated)
                         {
                             <div class="mascota-actions" style="margin-top:18px;">
                                 <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="mascota-btn-outline">Editar</a>
+                                <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })" class="mascota-btn-outline"
+                                   onclick="return confirm('¿Seguro que deseas desactivar esta mascota?');">
+                                    Desactivar
+                                </a>
                             </div>
                         }
                     </div>
@@ -79,7 +99,14 @@
         else
         {
             <div class="alert alert-light border" role="alert">
-                No hay mascotas registradas todavía.
+                @if (Request.IsAuthenticated)
+                {
+                    @:Todavía no tienes mascotas registradas.
+                }
+                else
+                {
+                    @:No hay mascotas públicas disponibles por el momento.
+                }
             </div>
         }
     </div>

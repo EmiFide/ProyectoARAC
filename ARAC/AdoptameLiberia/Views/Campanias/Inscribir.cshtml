@@ -39,7 +39,12 @@
 
                     <div class="form-group-campania full">
                         <label>Seleccione la mascota</label>
-                        @Html.DropDownListFor(m => m.AnimalId, (SelectList)ViewBag.AnimalId, "Seleccione una mascota", new { @class = "" })
+                        @Html.DropDownListFor(
+                            m => m.AnimalId,
+                            (SelectList)ViewBag.AnimalId,
+                            "Seleccione una mascota",
+                            new { @class = "" }
+                        )
                     </div>
                 </div>
 

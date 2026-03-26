@@ -17,23 +17,38 @@ namespace AdoptameLiberia.Controllers
         {
             var lista = new List<AnimalModel>();
             string userId = User.Identity.GetUserId();
+            bool esAdmin = User.IsInRole("Administrador");
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 string sql = @"
-                SELECT a.ID_Animal, a.Nombre_Animal, a.Edad, a.Sexo, a.Tamano, a.Peso,
-                       a.Descripcion, a.Estado,
-                       ISNULL(r.NombreRaza, a.NombreRaza) AS NombreRaza,
-                       ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
+                SELECT 
+                    a.ID_Animal,
+                    a.Nombre_Animal,
+                    a.Edad,
+                    a.Sexo,
+                    a.Tamano,
+                    a.Peso,
+                    a.Descripcion,
+                    a.Estado,
+                    ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
+                    ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
                 FROM Favorito f
                 INNER JOIN Animal a ON a.ID_Animal = f.ID_Animal
-                LEFT JOIN Razas r ON a.ID_Raza = r.ID_Raza
+                LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
                 LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
-                WHERE f.UserId = @UserId
+                WHERE 
+                    f.UserId = @UserId
+                    AND
+                    (
+                        @EsAdmin = 1
+                        OR a.UsuarioRegistroId = @UserId
+                    )
                 ORDER BY f.Fecha_Registro DESC, a.Nombre_Animal ASC";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@EsAdmin", esAdmin ? 1 : 0);
 
                 cn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -42,16 +57,16 @@ namespace AdoptameLiberia.Controllers
                 {
                     lista.Add(new AnimalModel
                     {
-                        ID_Animal = (int)dr["ID_Animal"],
+                        ID_Animal = Convert.ToInt32(dr["ID_Animal"]),
                         Nombre_Animal = dr["Nombre_Animal"].ToString(),
-                        Edad = dr["Edad"] as int?,
-                        Sexo = dr["Sexo"].ToString(),
-                        Tamano = dr["Tamano"].ToString(),
-                        Peso = dr["Peso"] as decimal?,
-                        Descripcion = dr["Descripcion"].ToString(),
-                        Estado = dr["Estado"].ToString(),
-                        NombreRaza = dr["NombreRaza"].ToString(),
-                        NombreTipo = dr["NombreTipo"].ToString()
+                        Edad = dr["Edad"] != DBNull.Value ? Convert.ToInt32(dr["Edad"]) : (int?)null,
+                        Sexo = dr["Sexo"]?.ToString(),
+                        Tamano = dr["Tamano"]?.ToString(),
+                        Peso = dr["Peso"] != DBNull.Value ? Convert.ToDecimal(dr["Peso"]) : (decimal?)null,
+                        Descripcion = dr["Descripcion"]?.ToString(),
+                        Estado = dr["Estado"]?.ToString(),
+                        NombreRaza = dr["NombreRaza"]?.ToString(),
+                        NombreTipo = dr["NombreTipo"]?.ToString()
                     });
                 }
             }
@@ -64,10 +79,32 @@ namespace AdoptameLiberia.Controllers
         public ActionResult Toggle(int idAnimal, string returnUrl)
         {
             string userId = User.Identity.GetUserId();
+            bool esAdmin = User.IsInRole("Administrador");
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
+
+                string sqlValidacion = @"
+                SELECT COUNT(1)
+                FROM Animal
+                WHERE ID_Animal = @ID_Animal
+                AND (
+                    @EsAdmin = 1
+                    OR UsuarioRegistroId = @UserId
+                )";
+
+                SqlCommand cmdValidacion = new SqlCommand(sqlValidacion, cn);
+                cmdValidacion.Parameters.AddWithValue("@ID_Animal", idAnimal);
+                cmdValidacion.Parameters.AddWithValue("@UserId", userId);
+                cmdValidacion.Parameters.AddWithValue("@EsAdmin", esAdmin ? 1 : 0);
+
+                bool permitido = Convert.ToInt32(cmdValidacion.ExecuteScalar()) > 0;
+
+                if (!permitido)
+                {
+                    return new HttpUnauthorizedResult();
+                }
 
                 string existeSql = "SELECT COUNT(1) FROM Favorito WHERE UserId = @UserId AND ID_Animal = @ID_Animal";
                 SqlCommand existeCmd = new SqlCommand(existeSql, cn);
