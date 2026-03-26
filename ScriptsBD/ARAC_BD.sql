@@ -1052,3 +1052,13 @@ BEGIN
     FOREIGN KEY (IdUsuario) REFERENCES dbo.Usuario(ID_Usuario);
 END
 GO
+---------------------------Bryan-------------------------------------
+ALTER TABLE Noticia
+ADD Likes INT DEFAULT 0;
+
+UPDATE Noticia
+SET Likes = 0
+WHERE Likes IS NULL;
+
+ALTER TABLE Noticia
+ALTER COLUMN Likes INT NOT NULL;
