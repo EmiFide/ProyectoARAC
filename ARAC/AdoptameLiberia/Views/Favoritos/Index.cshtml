@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Mascotas.AnimalModel>
-@using System.Collections.Generic
 
 @{
-    ViewBag.Title = "Catálogo de Mascotas";
+    ViewBag.Title = "Mis favoritos";
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Mascotas.AnimalModel>();
-    var favoritos = ViewBag.Favoritos as HashSet<int> ?? new HashSet<int>();
 }
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
@@ -12,26 +10,21 @@
 <div class="mascota-shell">
     <div class="mascota-hero">
         <div class="mascota-hero-content">
-            <h1>Catálogo de mascotas</h1>
-            <p>Consulta las mascotas disponibles y guarda tus favoritas para revisarlas después.</p>
+            <h1>Mis favoritos</h1>
+            <p>Aquí puedes consultar rápidamente las mascotas que guardaste.</p>
         </div>
     </div>
 
     <div class="mascota-form-card">
-        @if (User.IsInRole("Administrador"))
-        {
-            <div class="mascota-actions" style="margin-top:0; margin-bottom:20px; justify-content:flex-end;">
-                <a href="@Url.Action("Crear", "Animal")" class="mascota-btn">Registrar mascota</a>
-            </div>
-        }
+        <div class="mascota-actions" style="margin-top:0; margin-bottom:20px; justify-content:space-between;">
+            <a href="@Url.Action("Catalogo", "Animal")" class="mascota-btn-outline">Volver al catálogo</a>
+        </div>
 
         @if (lista.Any())
         {
             <div class="favoritos-grid">
                 @foreach (var item in lista)
                 {
-                    var esFavorito = favoritos.Contains(item.ID_Animal);
-
                     <div class="favorito-card">
                         <div class="favorito-card-header">
                             <div>
@@ -39,21 +32,14 @@
                                 <h3>@item.Nombre_Animal</h3>
                             </div>
 
-                            @if (Request.IsAuthenticated)
-                            {
+                            @{
                                 using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "favorito-form" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("idAnimal", item.ID_Animal)
                                     @Html.Hidden("returnUrl", Request.RawUrl)
-                                    <button type="submit" class="favorito-toggle-btn @(esFavorito ? "activo" : "")" title="@(esFavorito ? "Quitar de favoritos" : "Guardar en favoritos")">
-                                        @(esFavorito ? "❤" : "♡")
-                                    </button>
+                                    <button type="submit" class="favorito-toggle-btn activo" title="Quitar de favoritos">❤</button>
                                 }
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Login", "Account", new { returnUrl = Url.Action("Catalogo", "Animal") })" class="favorito-toggle-btn" title="Inicia sesión para guardar favoritos">♡</a>
                             }
                         </div>
 
@@ -63,15 +49,9 @@
                             <p><strong>Sexo:</strong> @item.Sexo</p>
                             <p><strong>Tamaño:</strong> @item.Tamano</p>
                             <p><strong>Peso:</strong> @(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</p>
+                            <p><strong>Estado:</strong> @item.Estado</p>
                             <p><strong>Descripción:</strong> @item.Descripcion</p>
                         </div>
-
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <div class="mascota-actions" style="margin-top:18px;">
-                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="mascota-btn-outline">Editar</a>
-                            </div>
-                        }
                     </div>
                 }
             </div>
@@ -79,7 +59,7 @@
         else
         {
             <div class="alert alert-light border" role="alert">
-                No hay mascotas registradas todavía.
+                Todavía no has guardado mascotas en favoritos.
             </div>
         }
     </div>

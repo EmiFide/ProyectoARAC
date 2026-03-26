@@ -1,4 +1,5 @@
 ﻿using AdoptameLiberia.Models.Mascotas;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,27 +8,27 @@ using System.Web.Mvc;
 
 namespace AdoptameLiberia.Controllers.Mascotas
 {
-    [Authorize]
     public class AnimalController : Controller
     {
-        string conexion = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private readonly string conexion = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        // H15 - Catálogo
         public ActionResult Catalogo()
         {
             List<AnimalModel> lista = new List<AnimalModel>();
+            HashSet<int> favoritos = new HashSet<int>();
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 string sql = @"
                 SELECT a.ID_Animal, a.Nombre_Animal, a.Edad, a.Sexo, a.Tamano, a.Peso,
                        a.Descripcion, a.Estado,
-                       r.NombreRaza AS NombreRaza,
-                       t.Nombre_Tipo_Animal AS NombreTipo
+                       ISNULL(r.NombreRaza, a.NombreRaza) AS NombreRaza,
+                       ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
                 FROM Animal a
                 LEFT JOIN Razas r ON a.ID_Raza = r.ID_Raza
                 LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
-                WHERE a.Estado = 'Disponible'";
+                WHERE a.Estado = 'Disponible'
+                ORDER BY a.Nombre_Animal";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 cn.Open();
@@ -50,16 +51,44 @@ namespace AdoptameLiberia.Controllers.Mascotas
                     });
                 }
             }
+
+            if (Request.IsAuthenticated)
+            {
+                string userId = User.Identity.GetUserId();
+
+                using (SqlConnection cn = new SqlConnection(conexion))
+                {
+                    string sqlFavoritos = @"
+                    SELECT ID_Animal
+                    FROM Favorito
+                    WHERE UserId = @UserId";
+
+                    SqlCommand cmdFavoritos = new SqlCommand(sqlFavoritos, cn);
+                    cmdFavoritos.Parameters.AddWithValue("@UserId", userId);
+
+                    cn.Open();
+                    SqlDataReader drFavoritos = cmdFavoritos.ExecuteReader();
+
+                    while (drFavoritos.Read())
+                    {
+                        favoritos.Add((int)drFavoritos["ID_Animal"]);
+                    }
+                }
+            }
+
+            ViewBag.Favoritos = favoritos;
             return View(lista);
         }
 
-        // H13 - Crear
+        [Authorize(Roles = "Administrador")]
         public ActionResult Crear()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
+        [ValidateAntiForgeryToken]
         public ActionResult Crear(AnimalModel model)
         {
             using (SqlConnection cn = new SqlConnection(conexion))
@@ -70,22 +99,23 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 (@Nombre, @ID_Raza, @ID_Tipo, @Edad, @Sexo, @Tamano, @Peso, @Descripcion, 'Disponible')";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
-                cmd.Parameters.AddWithValue("@Nombre", model.Nombre_Animal);
+                cmd.Parameters.AddWithValue("@Nombre", model.Nombre_Animal ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@ID_Raza", model.ID_Raza);
                 cmd.Parameters.AddWithValue("@ID_Tipo", model.ID_TipoAnimal);
                 cmd.Parameters.AddWithValue("@Edad", (object)model.Edad ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Sexo", model.Sexo);
-                cmd.Parameters.AddWithValue("@Tamano", model.Tamano);
+                cmd.Parameters.AddWithValue("@Sexo", model.Sexo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Tamano", model.Tamano ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Peso", (object)model.Peso ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Descripcion", model.Descripcion);
+                cmd.Parameters.AddWithValue("@Descripcion", model.Descripcion ?? (object)DBNull.Value);
 
                 cn.Open();
                 cmd.ExecuteNonQuery();
             }
+
             return RedirectToAction("Catalogo");
         }
 
-        // H14 - Editar
+        [Authorize(Roles = "Administrador")]
         public ActionResult Editar(int id)
         {
             AnimalModel model = new AnimalModel();
@@ -102,8 +132,8 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 {
                     model.ID_Animal = (int)dr["ID_Animal"];
                     model.Nombre_Animal = dr["Nombre_Animal"].ToString();
-                    model.ID_Raza = (int)dr["ID_Raza"];
-                    model.ID_TipoAnimal = (int)dr["ID_TipoAnimal"];
+                    model.ID_Raza = dr["ID_Raza"] != DBNull.Value ? (int)dr["ID_Raza"] : 0;
+                    model.ID_TipoAnimal = dr["ID_TipoAnimal"] != DBNull.Value ? (int)dr["ID_TipoAnimal"] : 0;
                     model.Edad = dr["Edad"] as int?;
                     model.Sexo = dr["Sexo"].ToString();
                     model.Tamano = dr["Tamano"].ToString();
@@ -111,10 +141,13 @@ namespace AdoptameLiberia.Controllers.Mascotas
                     model.Descripcion = dr["Descripcion"].ToString();
                 }
             }
+
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
+        [ValidateAntiForgeryToken]
         public ActionResult Editar(AnimalModel model)
         {
             using (SqlConnection cn = new SqlConnection(conexion))
@@ -131,33 +164,36 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 WHERE ID_Animal=@ID";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
-                cmd.Parameters.AddWithValue("@Nombre", model.Nombre_Animal);
+                cmd.Parameters.AddWithValue("@Nombre", model.Nombre_Animal ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@ID_Raza", model.ID_Raza);
                 cmd.Parameters.AddWithValue("@ID_Tipo", model.ID_TipoAnimal);
                 cmd.Parameters.AddWithValue("@Edad", (object)model.Edad ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Sexo", model.Sexo);
-                cmd.Parameters.AddWithValue("@Tamano", model.Tamano);
+                cmd.Parameters.AddWithValue("@Sexo", model.Sexo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Tamano", model.Tamano ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Peso", (object)model.Peso ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Descripcion", model.Descripcion);
+                cmd.Parameters.AddWithValue("@Descripcion", model.Descripcion ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@ID", model.ID_Animal);
 
                 cn.Open();
                 cmd.ExecuteNonQuery();
             }
+
             return RedirectToAction("Catalogo");
         }
 
-        // H17 - Eliminación lógica
+        [Authorize(Roles = "Administrador")]
         public ActionResult Desactivar(int id)
         {
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 SqlCommand cmd = new SqlCommand(
                     "UPDATE Animal SET Estado='Inactivo' WHERE ID_Animal=@id", cn);
+
                 cmd.Parameters.AddWithValue("@id", id);
                 cn.Open();
                 cmd.ExecuteNonQuery();
             }
+
             return RedirectToAction("Catalogo");
         }
     }
