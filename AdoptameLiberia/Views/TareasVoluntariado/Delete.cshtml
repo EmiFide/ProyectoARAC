@@ -1,0 +1,55 @@
+﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
+
+@{
+    ViewBag.Title = "Eliminar tarea";
+}
+
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
+
+<div class="vol-shell">
+    <div class="vol-detail-card">
+        <div class="vol-panel-title">Eliminar tarea</div>
+        <div class="vol-panel-subtitle">
+            Vas a eliminar esta tarea y también sus asignaciones relacionadas.
+        </div>
+
+        <div class="vol-detail-grid">
+            <div class="vol-detail-item">
+                <strong>Título</strong>
+                @Model.Titulo
+            </div>
+
+            <div class="vol-detail-item">
+                <strong>Fecha</strong>
+                @Model.Fecha.ToShortDateString()
+            </div>
+
+            <div class="vol-detail-item">
+                <strong>Hora</strong>
+                @(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora")
+            </div>
+
+            <div class="vol-detail-item">
+                <strong>Lugar</strong>
+                @Model.Lugar
+            </div>
+
+            <div class="vol-detail-item full" style="grid-column: 1 / -1;">
+                <strong>Descripción</strong>
+                @Model.Descripcion
+            </div>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="vol-form-actions">
+                <button type="submit" class="vol-btn-danger">Eliminar</button>
+                @Html.ActionLink("Cancelar", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
+            </div>
+        }
+    </div>
+</div>

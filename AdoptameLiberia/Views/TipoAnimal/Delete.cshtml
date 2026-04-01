@@ -1,0 +1,12 @@
+﻿@model AdoptameLiberia.Models.TiposAnimales.TipoAnimal
+
+<h2>Eliminar Tipo de Animal</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ID_TipoAnimal)
+
+    <p>Este registro será desactivado.</p>
+
+    <button type="submit">Confirmar</button>
+}

@@ -1,0 +1,97 @@
+﻿@model AdoptameLiberia.Models.Donaciones.VM.DonacionCreateVM
+
+<link href="~/Content/estilos/CreateDonacion.css" rel="stylesheet" />
+
+<div class="form-container">
+    <h2 class="titulo">💖 Registrar Donación</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Tipo de donación</label>
+                @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "input", id = "IdTipoDonacion" })
+                @Html.ValidationMessageFor(m => m.IdTipoDonacion, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group" id="grupoMetodo">
+                <label>Método</label>
+                @Html.DropDownListFor(m => m.Metodo, Model.MetodosPago, "-- Seleccione método --", new { @class = "input", id = "Metodo" })
+                @Html.ValidationMessageFor(m => m.Metodo, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Descripción general</label>
+                @Html.TextBoxFor(m => m.Descripcion, new { @class = "input", placeholder = "Detalle adicional de la donación" })
+            </div>
+
+            <div class="form-group full" id="grupoMonto">
+                <label>Monto</label>
+                @Html.TextBoxFor(m => m.Monto, new { @class = "input monto", id = "Monto", type = "number", step = "0.01", min = "0" })
+                @Html.ValidationMessageFor(m => m.Monto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="insumos" id="bloqueInsumos">
+            <h4>📦 Detalle de insumos donados</h4>
+
+            @for (int i = 0; i < Model.Insumos.Count; i++)
+            {
+                <div class="insumo-item">
+                    @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- artículo opcional --", new { @class = "input" })
+                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Ej: alimento, medicamento, juguetes..." })
+                    @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input", placeholder = "Cantidad", type = "number", min = "1" })
+                </div>
+            }
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+            <button type="submit" class="btn-guardar">Guardar Donación</button>
+            <a href="@Url.Action("Index", "Donaciones")" class="btn-guardar" style="text-decoration:none; background:#6c757d;">
+                Volver
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    function esMonetaria() {
+        var combo = document.getElementById("IdTipoDonacion");
+        if (!combo || combo.selectedIndex < 0) return false;
+        var texto = combo.options[combo.selectedIndex].text.toLowerCase().trim();
+        return texto === "monetaria";
+    }
+
+    function toggleTipoDonacion() {
+        var grupoMonto = document.getElementById("grupoMonto");
+        var grupoMetodo = document.getElementById("grupoMetodo");
+        var bloqueInsumos = document.getElementById("bloqueInsumos");
+        var monto = document.getElementById("Monto");
+        var metodo = document.getElementById("Metodo");
+
+        if (esMonetaria()) {
+            grupoMonto.style.display = "block";
+            grupoMetodo.style.display = "block";
+            bloqueInsumos.style.display = "none";
+            monto.removeAttribute("readonly");
+        } else {
+            grupoMonto.style.display = "none";
+            grupoMetodo.style.display = "none";
+            bloqueInsumos.style.display = "block";
+            monto.value = "";
+            metodo.value = "Entrega directa";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var combo = document.getElementById("IdTipoDonacion");
+        if (combo) {
+            combo.addEventListener("change", toggleTipoDonacion);
+        }
+        toggleTipoDonacion();
+    });
+</script>

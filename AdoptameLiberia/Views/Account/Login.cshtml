@@ -1,0 +1,53 @@
+﻿@model AdoptameLiberia.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Iniciar Sesión";
+}
+
+<link href="~/Content/estilos/Login.css" rel="stylesheet" />
+
+<div class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-left">
+                <img src="~/Content/img/Cachorro.png" alt="Perro login" />
+            </div>
+
+            <div class="login-right">
+                <h2 class="login-title">Iniciar Sesión</h2>
+                <div class="login-subtext">
+                    ¿Eres nuevo? <a href="@Url.Action("Register", "Account")">Regístrate</a>
+                </div>
+
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="login-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "ejemplo@gmail.com" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="login-group">
+                        @Html.LabelFor(m => m.Password, "Contraseña")
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "••••••" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="login-check">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        <span>Recordarme</span>
+                    </div>
+
+                    <button type="submit" class="login-button">Iniciar Sesión</button>
+
+                    <div class="login-links">
+                        <a href="@Url.Action("ForgotPassword", "Account")">¿Olvidaste tu contraseña?</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

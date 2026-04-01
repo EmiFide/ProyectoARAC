@@ -1,0 +1,76 @@
+﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
+
+@{
+    ViewBag.Title = "Editar tarea";
+}
+
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
+
+<div class="vol-shell">
+    <div class="vol-form-card">
+        <div class="vol-panel-title">Editar tarea</div>
+        <div class="vol-panel-subtitle">Actualiza la información y vuelve al módulo principal de voluntarios.</div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ID_Tarea)
+            @Html.HiddenFor(model => model.Fecha_Registro)
+
+            @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+
+            <div class="vol-form-grid">
+                <div class="vol-group full">
+                    @Html.LabelFor(model => model.Titulo)
+                    @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="vol-group full">
+                    @Html.LabelFor(model => model.Descripcion)
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 4 })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="vol-group">
+                    @Html.LabelFor(model => model.Fecha)
+                    @Html.TextBoxFor(model => model.Fecha, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="vol-group">
+                    @Html.LabelFor(model => model.Hora)
+                    @Html.TextBoxFor(model => model.Hora, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
+                    @Html.ValidationMessageFor(model => model.Hora, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="vol-group full">
+                    @Html.LabelFor(model => model.Lugar)
+                    @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="vol-group full">
+                    <div class="vol-info-strip">
+                        <strong>Estado de la tarea</strong>
+                        <div style="margin-top:10px;">
+                            @Html.CheckBoxFor(model => model.Estado)
+                            <span style="margin-left:8px;">Activa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vol-form-actions">
+                <button type="submit" class="vol-btn">Guardar cambios</button>
+                @Html.ActionLink("Volver", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

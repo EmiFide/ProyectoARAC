@@ -1,0 +1,26 @@
+﻿@model AdoptameLiberia.Models.ViewModels.ReporteFinancieroVM
+
+<h2>Dashboard Financiero</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="alert alert-success">
+            <h4>Ingresos</h4>
+            ₡ @Model.TotalIngresos
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="alert alert-danger">
+            <h4>Gastos</h4>
+            ₡ @Model.TotalGastos
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="alert alert-info">
+            <h4>Balance</h4>
+            ₡ @Model.Balance
+        </div>
+    </div>
+</div>

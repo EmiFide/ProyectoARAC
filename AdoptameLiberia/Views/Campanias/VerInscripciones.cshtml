@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.InscripcionCastracion>
+
+@{
+    ViewBag.Title = "Ver Inscripciones";
+}
+
+<div class="container mt-4">
+    <h2>Animales inscritos</h2>
+
+    <p>
+        <a href="@Url.Action("Index", "Campanias")" class="btn btn-secondary">Volver a campañas</a>
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Animal</th>
+                <th>Veterinario</th>
+                <th>Resultado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.Animal != null ? item.Animal.Nombre_Animal : "Sin animal")</td>
+                    <td>@item.VeterinarioAsignado</td>
+                    <td>@item.Resultado</td>
+                    <td>
+                        <a href="@Url.Action("AsignarVeterinario", "Campanias", new { id = item.Id })" class="btn btn-primary btn-sm">Asignar veterinario</a>
+                        <a href="@Url.Action("RegistrarResultado", "Campanias", new { id = item.Id })" class="btn btn-success btn-sm">Registrar resultado</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

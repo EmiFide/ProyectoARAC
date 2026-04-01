@@ -1,0 +1,145 @@
+﻿@model AdoptameLiberia.Models.IndexViewModel
+@{
+    ViewBag.Title = "Mi perfil";
+}
+
+@section styles {
+    <link href="~/Content/estilos/Perfil.css" rel="stylesheet" />
+}
+
+<div class="perfil-container">
+
+    <h2>🐾 Mi perfil</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.StatusMessage as string))
+    {
+        <div class="alert-custom">
+            @ViewBag.StatusMessage
+        </div>
+    }
+
+    <div class="perfil-grid">
+
+        <div class="perfil-box">
+            <div class="perfil-header">
+                <span>Mi información</span>
+
+                <button type="button"
+                        class="btn btn-edit"
+                        data-toggle="modal"
+                        data-target="#editarPerfilModal">
+                    Editar
+                </button>
+            </div>
+
+            <div class="perfil-item">
+                <span>Nombre</span>
+                <strong>@Model.Nombre</strong>
+            </div>
+
+            <div class="perfil-item">
+                <span>Correo</span>
+                <strong>@Model.Email</strong>
+            </div>
+
+            <div class="perfil-item">
+                <span>Teléfono</span>
+                <strong>
+                    @(string.IsNullOrEmpty(Model.PhoneNumber) ? "No registrado" : Model.PhoneNumber)
+                </strong>
+            </div>
+        </div>
+
+        <div class="perfil-box">
+            <div class="perfil-header">
+                <span>Seguridad</span>
+            </div>
+
+            <div class="perfil-item">
+                <span>Contraseña</span>
+                @if (Model.HasPassword)
+                {
+                    <strong class="ok">Configurada ✔</strong>
+                }
+                else
+                {
+                    <strong class="error">No configurada</strong>
+                }
+            </div>
+
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink(
+                    "Cambiar contraseña",
+                    "ChangePassword",
+                    "Manage",
+                    null,
+                    new { @class = "btn-secundario" })
+            }
+            else
+            {
+                @Html.ActionLink(
+                    "Establecer contraseña",
+                    "SetPassword",
+                    "Manage",
+                    null,
+                    new { @class = "btn-secundario" })
+            }
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="editarPerfilModal" tabindex="-1" role="dialog" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-custom">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarPerfilModalLabel">Editar perfil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("Index", "Manage", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Nombre)
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-save">
+                        Guardar
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

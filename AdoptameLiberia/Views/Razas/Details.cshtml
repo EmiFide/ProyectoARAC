@@ -1,0 +1,42 @@
+﻿@model AdoptameLiberia.Models.Raza
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Raza</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreRaza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreRaza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_Raza }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

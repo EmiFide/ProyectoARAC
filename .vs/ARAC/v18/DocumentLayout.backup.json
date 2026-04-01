@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\content\\estilos\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.css",
+              "DocumentMoniker": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Index.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Index.css",
+              "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Index.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Index.css",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAUwL4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-01T03:00:47.941Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Layout.css",
+              "DocumentMoniker": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAUwLYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-01T03:38:42.491Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAkwJsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T03:34:52.873Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

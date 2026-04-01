@@ -1,0 +1,42 @@
+@model AdoptameLiberia.Models.UserAssignRolesVM
+@{
+    ViewBag.Title = "Asignar roles";
+}
+
+<h2>Asignar roles</h2>
+
+<div class="mb-3">
+    <strong>Usuario:</strong> @Model.Email
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.Email)
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width:60px;">Asignar</th>
+                <th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.AvailableRoles.Count; i++)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleId)
+                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleName)
+                    @Html.CheckBoxFor(m => m.AvailableRoles[i].Selected)
+                </td>
+                <td>@Model.AvailableRoles[i].RoleName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Guardar cambios</button>
+    @Html.ActionLink("Volver", "Index", "AdminUsers", null, new { @class = "btn btn-secondary" })
+}

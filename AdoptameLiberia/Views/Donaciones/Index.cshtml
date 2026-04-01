@@ -1,0 +1,166 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Donaciones.Donacion>
+
+@{
+    ViewBag.Title = "Donaciones";
+    bool esAdmin = ViewBag.EsAdmin != null && (bool)ViewBag.EsAdmin;
+}
+
+<link href="~/Content/estilos/Donaciones.css" rel="stylesheet" />
+
+<div class="donaciones-container">
+
+    <h2 class="titulo">🐶 Donaciones</h2>
+
+    <div class="cards">
+
+        <div class="card-wrapper">
+            <div class="card-img">
+                <img src="~/Content/img/Cachorro.png" alt="Cachorro" />
+            </div>
+
+            <div class="card-donacion">
+                <h3>Económico</h3>
+                <p>Representa alimento básico para mascotas</p>
+                <div class="precio">₡5,000</div>
+                <a href="@Url.Action("Create", new { monto = 5000 })" class="btn-donar">
+                    Donar aquí
+                </a>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card-img">
+                <img src="~/Content/img/Perro.png" alt="Perro" />
+            </div>
+
+            <div class="card-donacion">
+                <h3>Estándar</h3>
+                <p>Apoyo en cuidado y campañas</p>
+                <div class="precio">₡10,000</div>
+                <a href="@Url.Action("Create", new { monto = 10000 })" class="btn-donar">
+                    Donar aquí
+                </a>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card-img">
+                <img src="~/Content/img/Refugio.png" alt="Refugio" />
+            </div>
+
+            <div class="card-donacion">
+                <h3>Premium</h3>
+                <p>Apoyo completo para rescates</p>
+                <div class="precio">₡20,000</div>
+                <a href="@Url.Action("Create", new { monto = 20000 })" class="btn-donar">
+                    Donar aquí
+                </a>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card-img">
+                <img src="~/Content/img/Gato.png" alt="Donación libre" />
+            </div>
+
+            <div class="card-donacion">
+                <h3>Donación libre</h3>
+                <p>Tú eliges el monto que deseas donar</p>
+
+                <input type="number"
+                       id="montoPersonalizado"
+                       class="input-monto"
+                       placeholder="₡ Ingresa monto"
+                       min="1000" />
+
+                <a href="#" class="btn-donar" onclick="donarPersonalizado(); return false;">
+                    Donar aquí
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    @using (Html.BeginForm("Index", "Donaciones", FormMethod.Get))
+    {
+        <div class="filtro">
+            <label>Filtrar por tipo de donación</label>
+
+            @Html.DropDownList(
+                "tipoDonacionId",
+                (SelectList)ViewBag.TiposDonacion,
+                "Todas",
+                new { @class = "form-control", onchange = "this.form.submit();" }
+            )
+        </div>
+    }
+
+    <div class="tabla-container">
+        <h3 class="subtitulo">
+            @(esAdmin ? "Historial completo de donaciones" : "Mis últimas 5 donaciones")
+        </h3>
+
+        <table class="tabla-donaciones">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Monto</th>
+                    <th>Método</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            No hay donaciones registradas
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var d in Model)
+                    {
+                        <tr>
+                            <td>@d.IdDonacion</td>
+                            <td>@d.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "Sin tipo")</td>
+                            <td class="monto">₡@d.Monto.ToString("N0")</td>
+                            <td>@d.Metodo</td>
+                            <td class="acciones">
+                                @Html.ActionLink("Detalles", "Details", new { id = d.IdDonacion })
+                                |
+                                @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion })
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        @if (!esAdmin)
+        {
+            <p style="margin-top:12px; color:#6b6b6b;">
+                Aquí solo se muestran tus 5 donaciones más recientes.
+            </p>
+        }
+    </div>
+
+</div>
+
+<script>
+    function donarPersonalizado() {
+        var monto = document.getElementById("montoPersonalizado").value;
+
+        if (!monto || parseFloat(monto) <= 0) {
+            alert("Por favor ingresa un monto válido");
+            return;
+        }
+
+        window.location.href = '@Url.Action("Create", "Donaciones")' + '?monto=' + monto;
+    }
+</script>
