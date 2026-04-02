@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\content\\estilos\\about.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\about.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\kirih\\desktop\\proyectoarac-main\\arac\\adoptameliberia\\views\\campanias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -18,21 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "About.css",
-              "DocumentMoniker": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\About.css",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\About.css",
-              "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\About.css",
-              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\About.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-01T05:19:17.598Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -41,9 +28,23 @@
               "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
               "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
               "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACQAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACMAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-01T04:57:19.601Z",
+              "WhenOpened": "2026-04-02T04:28:13.963Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Campanias.css",
+              "DocumentMoniker": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "ToolTip": "C:\\Users\\kirih\\Desktop\\ProyectoARAC-main\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "ViewState": "AgIAAFcAAAAAAAAAAADwv3cAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-02T04:28:32.135Z",
               "EditorCaption": ""
             }
           ]
