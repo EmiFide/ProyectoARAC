@@ -1,4 +1,5 @@
-﻿body {
+﻿
+body {
     background: linear-gradient(180deg, #fdf7f3 0%, #fffaf7 100%);
 }
 
@@ -113,10 +114,6 @@
         text-shadow: 0 3px 10px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 0, 0, 0.45);
     }
 
-.campanias-bottom {
-    max-width: 100%;
-    margin: 0 auto;
-}
 
 .stats-row {
     display: grid;
