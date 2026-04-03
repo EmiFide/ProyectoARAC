@@ -70,12 +70,15 @@
     color: #fff;
     transition: 0.3s;
 }
-
+a.card {
+    text-decoration: none;
+}
     /* efecto hover 🔥 */
     .card:hover {
         transform: translateY(-5px);
         background: #a8363c;
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        text-decoration: none;
     }
 
     .card .icon {
@@ -87,7 +90,6 @@
     .card.grande {
         grid-column: span 2;
     }
-
 /* CTA amarillo (lo dejamos pero más elegante) */
 .about-cta {
     margin-top: 30px;
