@@ -13,7 +13,7 @@ namespace AdoptameLiberia.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202603270550166_InicialCompleta"; }
+            get { return "202604060239566_InicialCompleta"; }
         }
         
         string IMigrationMetadata.Source

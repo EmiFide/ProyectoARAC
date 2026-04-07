@@ -1,4 +1,23 @@
-﻿body {
+﻿/*Scroll*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fdf7f3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d6bcaf;
+    border-radius: 10px;
+    border: 2px solid #fdf7f3;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #8b1e24;
+    }
+
+body {
     background: linear-gradient(180deg, #fdf7f3 0%, #fffaf7 100%);
 }
 
@@ -17,7 +36,8 @@
     align-items: center;
     padding: 40px;
     margin-bottom: 28px;
-    background: linear-gradient(135deg, rgba(64, 9, 11, 0.94), rgba(121, 69, 56, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #40090b 0%, #7a171d 100%);
     box-shadow: 0 18px 35px rgba(64, 9, 11, 0.16);
 }
 
@@ -27,6 +47,19 @@
         inset: 0;
         background: url('/Content/img/mascotas-banner.jpg') center center / cover no-repeat;
         opacity: 0.18;
+    }
+
+    .mascota-hero::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        filter: blur(80px);
+        border-radius: 50%;
+        pointer-events: none;
     }
 
 .mascota-hero-content {
@@ -56,17 +89,71 @@
 }
 
 .mascota-form-card {
+    max-width: 1250px;
+    margin: 0 auto;
     background: #fff;
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow: 0 14px 30px rgba(64, 9, 11, 0.10);
-    border: 1px solid rgba(64, 9, 11, 0.08);
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(64, 9, 11, 0.08);
 }
+
+.mascota-group input,
+.mascota-group select,
+.mascota-group textarea {
+    width: 100%;
+    padding: 18px 20px !important;
+    font-size: 1.1rem !important;
+    font-weight: 500;
+    color: #333 !important;
+    background-color: #fff !important;
+    border: 2px solid #eee1db !important;
+    border-radius: 15px !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+
+    .mascota-group input:focus,
+    .mascota-group select:focus {
+        border-color: #8b1e24 !important;
+        background-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(139, 30, 36, 0.1);
+        outline: none;
+    }
+    .mascota-group input:hover,
+    .mascota-group select:hover {
+        border-color: #d6bcaf !important;
+    }
+    .mascota-group input::placeholder {
+        color: #a0a0a0;
+    }
+    .mascota-group select option:first-child {
+        color: #888;
+    }
+
+.mascota-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #571214;
+    margin-bottom: 10px; 
+    margin-left: 5px;
+}
+
+.mascota-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    border-top: 1px solid #f5eee8;
+    padding-top: 25px;
+}
+
 
 .mascota-form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 10px 0;
 }
 
 .mascota-group {
@@ -169,11 +256,35 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
+    max-height: 70vh;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 15px; 
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
 }
+    .favoritos-grid::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .favoritos-grid::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .favoritos-grid::-webkit-scrollbar-thumb {
+        background: #8b1e24;
+        border-radius: 10px;
+    }
+
+        .favoritos-grid::-webkit-scrollbar-thumb:hover {
+            background: #571214;
+        }
 
 .favorito-card {
     background: #fffaf8;
-    border: 1px solid rgba(64, 9, 11, 0.10);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(64, 9, 11, 0.05);
     border-radius: 22px;
     padding: 20px;
     box-shadow: 0 10px 22px rgba(64, 9, 11, 0.08);
@@ -182,6 +293,11 @@
     justify-content: space-between;
     min-height: 280px;
 }
+    .favorito-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(64, 9, 11, 0.12);
+        border-color: rgba(139, 30, 36, 0.2);
+    }
 
 .favorito-card-header {
     display: flex;
@@ -200,8 +316,9 @@
 
 .favorito-badge {
     display: inline-block;
-    background: #f4dfd7;
-    color: #7a171d;
+    background: #fdf2f2;
+    color: #8b1e24;
+    border: 1px solid rgba(139, 30, 36, 0.1);
     border-radius: 999px;
     padding: 6px 12px;
     font-size: 0.85rem;

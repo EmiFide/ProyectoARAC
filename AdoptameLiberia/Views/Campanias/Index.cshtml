@@ -12,28 +12,26 @@
 
 <div class="campanias-container">
 
+    <!-- HERO -->
     <div class="hero-campania">
         <div class="hero-campania-content">
             <h1>Campañas de Castración</h1>
-            <p>Consulta las campañas activas, revisa la información disponible y registra a tu mascota.</p>
+            <p>Protege a tus mascotas y contribuye al bienestar animal.</p>
         </div>
     </div>
 
+    <!-- CARDS FLOTANTES -->
     <div class="pet-cards">
         <div class="pet-card pet-card-overlay">
-            <img src="~/Content/img/MitadPerro.png" alt="Bienestar Canino" />
-            <div class="pet-card-text">
-                <span>BIENESTAR CANINO</span>
-            </div>
+            <img src="~/Content/img/MitadPerro.png" alt="Canino" />
+            <div class="pet-card-text"><span>BIENESTAR CANINO</span></div>
         </div>
-
         <div class="pet-card pet-card-overlay">
-            <img src="~/Content/img/MitadGato.png" alt="Bienestar Felino" />
-            <div class="pet-card-text">
-                <span>BIENESTAR FELINO</span>
-            </div>
+            <img src="~/Content/img/MitadGato.png" alt="Felino" />
+            <div class="pet-card-text"><span>BIENESTAR FELINO</span></div>
         </div>
     </div>
+<<<<<<< Updated upstream
     
     <div class="campanias-bottom">
         <!-- con bottom agarra estilos feos -->
@@ -47,16 +45,37 @@
                 <p>@campaniasDisponibles</p>
             </div>
         </div>
+=======
+>>>>>>> Stashed changes
 
-        <div class="section-card">
+    <!-- STATS -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <h4>Total de campañas</h4>
+            <p>@totalCampanias</p>
+        </div>
+        <div class="stat-card">
+            <h4>Disponibles</h4>
+            <p>@campaniasDisponibles</p>
+        </div>
+    </div>
+
+    <!-- TABLA Y ACCIONES UNIFICADAS -->
+    <div class="section-card">
+        <div class="section-header">
+            <h3>Listado de Campañas</h3>
             <div class="action-buttons">
                 @if (User.IsInRole("Administrador"))
                 {
-                    <a href="@Url.Action("Create", "Campanias")" class="btn-campania">Nueva Campaña</a>
+                <a href="@Url.Action("Create", "Campanias")" class="btn-campania">
+                    <i class="fas fa-plus"></i> Nueva Campaña
+                </a>
                 }
                 else
                 {
-                    <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">Ver mis registros</a>
+                <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">
+                    Mis Registros
+                </a>
                 }
             </div>
         </div>
@@ -65,11 +84,11 @@
             <table class="table-campania">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Campaña</th>
                         <th>Fecha</th>
-                        <th>Lugar</th>
-                        <th>Cupos disponibles</th>
-                        <th>Acciones</th>
+                        <th>Ubicación</th>
+                        <th class="text-center">Cupos</th>
+                        <th class="text-right">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,40 +97,34 @@
                         foreach (var item in lista)
                         {
                             var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
-
-                            <tr>
-                                <td><strong>@item.Nombre</strong></td>
-                                <td>@item.Fecha.ToShortDateString()</td>
-                                <td>@item.Lugar</td>
-                                <td><span class="badge-cupos">@disponibles</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        @if (User.IsInRole("Administrador"))
-                                        {
-                                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="btn-campania-info">Ver inscripciones</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="btn-campania-success">Registrar mascota</a>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td><strong>@item.Nombre</strong></td>
+                        <td>@item.Fecha.ToShortDateString()</td>
+                        <td><i class="fas fa-map-marker-alt"></i> @item.Lugar</td>
+                        <td class="text-center"><span class="badge-cupos">@disponibles</span></td>
+                        <td class="text-right">
+                            @if (User.IsInRole("Administrador"))
+                                    {
+                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="btn-campania-info">Ver</a>
+                                    }
+                                    else
+                                    {
+                            <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="btn-campania-success">Inscribir</a>
+                                    }
+                        </td>
+                    </tr>
                         }
                     }
                     else
                     {
-                        <tr>
-                            <td colspan="5">
-                                <div class="empty-state">
-                                    Todavía no hay campañas registradas.
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">No hay campañas activas en este momento.</div>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
