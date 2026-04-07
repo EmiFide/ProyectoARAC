@@ -3,36 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\views\\campanias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\campanias\\verinscripciones.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\verinscripciones.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\controllers\\campaniascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\controllers\\campaniascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\views\\campanias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\content\\estilos\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -55,102 +51,92 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABXAAAAAAAAAA==",
+              "Title": "VerInscripciones.cshtml",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\VerInscripciones.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\VerInscripciones.cshtml",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\VerInscripciones.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\VerInscripciones.cshtml",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCQAAABxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-06T22:48:28.684Z",
+              "WhenOpened": "2026-04-07T04:54:27.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CampaniasController.cs",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Controllers\\CampaniasController.cs",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Controllers\\CampaniasController.cs",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Controllers\\CampaniasController.cs",
+              "RelativeToolTip": "AdoptameLiberia\\Controllers\\CampaniasController.cs",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAQwGgBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T04:09:04.868Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Layout.css",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Layout.css",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
-              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Layout.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAATAAAAAAAAAA==",
+              "Title": "Campanias.css",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
+              "ViewState": "AgIAAK4BAAAAAAAAAAAqwMMBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-06T02:08:53.729Z",
+              "WhenOpened": "2026-04-07T03:46:17.687Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-06T02:00:28.978Z",
+              "WhenOpened": "2026-04-07T03:45:02.072Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Index.css",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Index.css",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Index.css",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Index.css",
-              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Index.css",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAAJUAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-06T01:41:31.535Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Global.asax.cs",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Global.asax.cs",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Global.asax.cs",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Global.asax.cs",
-              "RelativeToolTip": "AdoptameLiberia\\Global.asax.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T01:27:12.411Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "packages.config",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\packages.config",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\packages.config",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\packages.config",
-              "RelativeToolTip": "AdoptameLiberia\\packages.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-04-06T01:27:08.495Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Startup.cs",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Startup.cs",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Startup.cs",
-              "RelativeToolTip": "AdoptameLiberia\\Startup.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T01:27:00.863Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Web.config",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Web.config",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Web.config",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Web.config",
-              "RelativeToolTip": "AdoptameLiberia\\Web.config",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAsAAABaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-04-06T01:26:48.104Z",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-07T03:45:00.592Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAHEAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-06T22:48:28.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Layout.css",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Layout.css",
+              "ViewState": "AgIAAAMBAAAAAAAAAAAkwBABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-06T02:08:53.729Z"
             }
           ]
         }

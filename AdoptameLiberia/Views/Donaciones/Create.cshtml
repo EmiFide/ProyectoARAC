@@ -2,60 +2,59 @@
 
 <link href="~/Content/estilos/CreateDonacion.css" rel="stylesheet" />
 
-<div class="form-container">
-    <h2 class="titulo">💖 Registrar Donación</h2>
+<div class="seccion-create-donacion">
+    <div class="form-container">
+        <h2 class="titulo">Registrar Donación</h2>
 
-    @using (Html.BeginForm())
-    {
+        @using (Html.BeginForm())
+        {
         @Html.AntiForgeryToken()
 
         <div class="form-grid">
             <div class="form-group">
                 <label>Tipo de donación</label>
-                @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "input", id = "IdTipoDonacion" })
+                @Html.DropDownListFor(m => m.IdTipoDonacion, Model.TiposDonacion, "-- Seleccione --", new { @class = "input-custom", id = "IdTipoDonacion" })
                 @Html.ValidationMessageFor(m => m.IdTipoDonacion, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group" id="grupoMetodo">
                 <label>Método</label>
-                @Html.DropDownListFor(m => m.Metodo, Model.MetodosPago, "-- Seleccione método --", new { @class = "input", id = "Metodo" })
+                @Html.DropDownListFor(m => m.Metodo, Model.MetodosPago, "-- Seleccione método --", new { @class = "input-custom", id = "Metodo" })
                 @Html.ValidationMessageFor(m => m.Metodo, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="form-group full">
                 <label>Descripción general</label>
-                @Html.TextBoxFor(m => m.Descripcion, new { @class = "input", placeholder = "Detalle adicional de la donación" })
+                @Html.TextBoxFor(m => m.Descripcion, new { @class = "input-custom", placeholder = "Detalle adicional de la donación" })
             </div>
 
             <div class="form-group full" id="grupoMonto">
                 <label>Monto</label>
-                @Html.TextBoxFor(m => m.Monto, new { @class = "input monto", id = "Monto", type = "number", step = "0.01", min = "0" })
+                @Html.TextBoxFor(m => m.Monto, new { @class = "input-custom monto-resaltado", id = "Monto", type = "number", step = "0.01", min = "0" })
                 @Html.ValidationMessageFor(m => m.Monto, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="insumos" id="bloqueInsumos">
+        <div class="insumos-container" id="bloqueInsumos">
             <h4>📦 Detalle de insumos donados</h4>
-
             @for (int i = 0; i < Model.Insumos.Count; i++)
-            {
-                <div class="insumo-item">
-                    @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- artículo opcional --", new { @class = "input" })
-                    @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input", placeholder = "Ej: alimento, medicamento, juguetes..." })
-                    @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input", placeholder = "Cantidad", type = "number", min = "1" })
-                </div>
-            }
+                {
+            <div class="insumo-item">
+                @Html.DropDownListFor(m => m.Insumos[i].IdItemInventario, Model.ItemsInventario, "-- artículo --", new { @class = "input-custom" })
+                @Html.TextBoxFor(m => m.Insumos[i].Descripcion, new { @class = "input-custom", placeholder = "Ej: alimento..." })
+                @Html.TextBoxFor(m => m.Insumos[i].Cantidad, new { @class = "input-custom", placeholder = "Cant", type = "number", min = "1" })
+            </div>
+                }
         </div>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
-            <button type="submit" class="btn-guardar">Guardar Donación</button>
-            <a href="@Url.Action("Index", "Donaciones")" class="btn-guardar" style="text-decoration:none; background:#6c757d;">
+        <div class="botones-flex">
+            <button type="submit" class="btn-primario-vino">Guardar Donación</button>
+            <a href="@Url.Action("Index", "Donaciones")" class="btn-secundario-outline">
                 Volver
             </a>
         </div>
-    }
+        }
+    </div>
 </div>
 
 <script>

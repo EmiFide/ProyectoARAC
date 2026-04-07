@@ -1,9 +1,12 @@
 ﻿/* HERO */
 .about-hero {
     background: #f5efe7;
-    padding: 40px;
+    padding: 60px 40px;
     border-radius: 20px;
     text-align: center;
+    max-width: 1100px;
+    margin: 20px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
     .about-hero h1 {
@@ -31,23 +34,15 @@
     transform: rotate(-5deg);
 }
 
-/* botón amarillo */
-.about-cta {
-    margin-top: 30px;
-    background: #f4c542;
-    padding: 15px;
-    border-radius: 30px;
-    font-weight: bold;
-}
-
 /* PROCESO */
 .proceso {
-    margin-top: 40px;
+    margin: 40px auto; 
     background: linear-gradient(135deg, #6f171a, #4a0f12);
-    padding: 40px;
-    border-radius: 20px;
+    padding: 60px 40px;
+    border-radius: 30px;
     color: white;
     text-align: center;
+    max-width: 1100px;
 }
 
     .proceso h2 {
@@ -58,18 +53,33 @@
 /* CARDS */
 .cards-proceso {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    max-width: 850px;
+    margin: 40px auto 0;
+    justify-content: center;
 }
 
 /* tarjeta */
 .card {
     background: #8e2a2f; /* vino claro */
-    padding: 25px;
+    padding: 15px 10px;
     border-radius: 15px;
     color: #fff;
     transition: 0.3s;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+    .card p {
+        margin-top: 10px;
+        font-size: 0.95rem; /* Letra un poco más pequeña para que no se amontone */
+        line-height: 1.2;
+        margin-bottom: 0;
+    }
+
 a.card {
     text-decoration: none;
 }
@@ -90,12 +100,52 @@ a.card {
     .card.grande {
         grid-column: span 2;
     }
-/* CTA amarillo (lo dejamos pero más elegante) */
+
 .about-cta {
-    margin-top: 30px;
     background: #e0b84c;
-    color: #4a0f12;
-    padding: 15px;
-    border-radius: 30px;
+    color: #4a0f12 !important;
+    padding: 15px 35px;
+    border-radius: 50px;
     font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(224, 184, 76, 0.3);
+}
+    .about-cta:hover {
+        background: #f4c542;
+        transform: scale(1.05);
+        text-decoration: none;
+    }
+
+.cta-container {
+    margin-top: 50px;
+}
+
+.about-img {
+    width: 350px;
+    max-width: 100%;
+    border-radius: 20px;
+    transform: rotate(-3deg);
+    transition: transform 0.5s ease;
+}
+
+    .about-img:hover {
+        transform: rotate(0deg) scale(1.02);
+    }
+
+.card .icon svg {
+    width: 38px;
+    height: 38px;
+}
+
+.card:hover .icon svg {
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .about-hero, .proceso {
+        margin: 10px;
+        padding: 30px 20px;
+    }
 }

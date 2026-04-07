@@ -9,7 +9,7 @@
 
 <div class="donaciones-container">
 
-    <h2 class="titulo">🐶 Donaciones</h2>
+    <h2 class="titulo">Donaciones</h2>
 
     <div class="cards">
 
@@ -100,20 +100,21 @@
             @(esAdmin ? "Historial completo de donaciones" : "Mis últimas 5 donaciones")
         </h3>
 
-        <table class="tabla-donaciones">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Fecha</th>
-                    <th>Tipo</th>
-                    <th>Monto</th>
-                    <th>Método</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+        <div class="tabla-responsive-scroll">
+            <table class="tabla-donaciones">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Monto</th>
+                        <th>Método</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                @if (Model == null || !Model.Any())
+                <tbody>
+                    @if (Model == null || !Model.Any())
                 {
                     <tr>
                         <td colspan="6" class="text-center">
@@ -125,22 +126,23 @@
                 {
                     foreach (var d in Model)
                     {
-                        <tr>
-                            <td>@d.IdDonacion</td>
-                            <td>@d.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "Sin tipo")</td>
-                            <td class="monto">₡@d.Monto.ToString("N0")</td>
-                            <td>@d.Metodo</td>
-                            <td class="acciones">
-                                @Html.ActionLink("Detalles", "Details", new { id = d.IdDonacion })
-                                |
-                                @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@d.IdDonacion</td>
+                        <td>@d.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "Sin tipo")</td>
+                        <td class="monto">₡@d.Monto.ToString("N0")</td>
+                        <td>@d.Metodo</td>
+                        <td class="acciones">
+                            @Html.ActionLink("Detalles", "Details", new { id = d.IdDonacion })
+                            |
+                            @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion })
+                        </td>
+                    </tr>
                     }
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
         @if (!esAdmin)
         {
@@ -148,7 +150,7 @@
                 Aquí solo se muestran tus 5 donaciones más recientes.
             </p>
         }
-    </div>
+        </div>
 
 </div>
 

@@ -3,52 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\controllers\\campaniascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\controllers\\campaniascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\content\\estilos\\voluntarios.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\voluntarios.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\campanias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\solicitudesvoluntariado\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\solicitudesvoluntariado\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\campanias.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\animal\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\animal\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\campanias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\campanias\\asignarveterinario.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\campanias\\asignarveterinario.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\models\\mascotas\\animalmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\models\\mascotas\\animalmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\content\\estilos\\mascotas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\mascotas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\animal\\catalogo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\animal\\catalogo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\tipoanimal\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\tipoanimal\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\content\\estilos\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|c:\\users\\aleja\\documents\\arac-bray\\arac\\adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57A319BF-B9EF-45F2-A8A1-EF78722E1C34}|AdoptameLiberia\\AdoptameLiberia.csproj|solutionrelative:adoptameliberia\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,150 +38,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\SolicitudesVoluntariado\\Create.cshtml",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\SolicitudesVoluntariado\\Create.cshtml",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\SolicitudesVoluntariado\\Create.cshtml",
+              "RelativeToolTip": "AdoptameLiberia\\Views\\SolicitudesVoluntariado\\Create.cshtml",
+              "ViewState": "AgIAADUAAAAAAAAAAAAgwF4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-07T06:06:27.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CampaniasController.cs",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Controllers\\CampaniasController.cs",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Controllers\\CampaniasController.cs",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Controllers\\CampaniasController.cs",
-              "RelativeToolTip": "AdoptameLiberia\\Controllers\\CampaniasController.cs",
-              "ViewState": "AgIAAEIBAAAAAAAAAAAQwGgBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T04:09:04.868Z",
+              "Title": "Voluntarios.css",
+              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Voluntarios.css",
+              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Voluntarios.css",
+              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Voluntarios.css",
+              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Voluntarios.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-07T06:05:03.522Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Campanias.css",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Campanias.css",
-              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Campanias.css",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAkwIIAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-07T03:46:17.687Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\Index.cshtml",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAgwFsAAACKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:45:02.072Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:45:00.592Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AsignarVeterinario.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\AsignarVeterinario.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Campanias\\AsignarVeterinario.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Campanias\\AsignarVeterinario.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Campanias\\AsignarVeterinario.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:44:59.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AnimalModel.cs",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Models\\Mascotas\\AnimalModel.cs",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Models\\Mascotas\\AnimalModel.cs",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Models\\Mascotas\\AnimalModel.cs",
-              "RelativeToolTip": "AdoptameLiberia\\Models\\Mascotas\\AnimalModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAowAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T03:40:30.247Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Crear.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Animal\\Crear.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Animal\\Crear.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Animal\\Crear.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Animal\\Crear.cshtml",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAgwBYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:25:08.924Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Catalogo.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Animal\\Catalogo.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Animal\\Catalogo.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Animal\\Catalogo.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\Animal\\Catalogo.cshtml",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAgwHAAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:21:13.646Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\TipoAnimal\\Index.cshtml",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\TipoAnimal\\Index.cshtml",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\TipoAnimal\\Index.cshtml",
-              "RelativeToolTip": "AdoptameLiberia\\Views\\TipoAnimal\\Index.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T03:20:34.52Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Mascotas.css",
-              "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Mascotas.css",
-              "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Mascotas.css",
-              "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Mascotas.css",
-              "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Mascotas.css",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAkwJoAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-07T02:31:22.818Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "AdoptameLiberia\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAB7AAAAAAAAAA==",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAgwHAAAABjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-06T22:48:28.684Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "Layout.css",
               "DocumentMoniker": "C:\\Users\\aleja\\Documents\\ARAC-Bray\\ARAC\\AdoptameLiberia\\Content\\estilos\\Layout.css",
               "RelativeDocumentMoniker": "AdoptameLiberia\\Content\\estilos\\Layout.css",
@@ -221,8 +85,7 @@
               "RelativeToolTip": "AdoptameLiberia\\Content\\estilos\\Layout.css",
               "ViewState": "AgIAAAMBAAAAAAAAAAAkwBABAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-06T02:08:53.729Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T02:08:53.729Z"
             }
           ]
         }
