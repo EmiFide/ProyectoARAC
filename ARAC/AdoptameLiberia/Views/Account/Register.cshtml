@@ -8,48 +8,91 @@
     <link href="~/Content/estilos/Login.css" rel="stylesheet" />
 }
 
-<div class="auth-shell">
-    <div class="auth-card">
-        <div class="auth-visual">
-            <div class="auth-visual-text">
-                <span class="auth-kicker">Únete a ARAC</span>
-                <h2>Crea tu cuenta</h2>
-                <p>Regístrate para adoptar, donar, participar en campañas y guardar tus mascotas favoritas.</p>
-            </div>
-            <div class="auth-visual-img-wrap">
-                <img src="~/Content/img/GatoPerro.png" alt="Mascota ARAC" />
-            </div>
-        </div>
+<div class="auth-page">
+    <div class="container auth-page-container">
+        <div class="auth-wrapper auth-wrapper-register">
 
-        <div class="auth-form-side">
-            <h1>Crear cuenta</h1>
-            <p class="auth-subtext">¿Ya tienes cuenta? <a href="@Url.Action("Login", "Account")">Inicia sesión aquí</a></p>
+            <section class="auth-showcase">
+                <div class="auth-showcase-badge">Únete a ARAC</div>
 
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
+                <h1>Crea tu cuenta</h1>
+                <p class="auth-showcase-text">
+                    Regístrate para adoptar, donar, participar en campañas y guardar tus mascotas favoritas desde una sola cuenta.
+                </p>
 
-                <div class="auth-group">
-                    @Html.LabelFor(m => m.Email, "Correo electrónico")
-                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control", autocomplete = "username" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <div class="auth-feature-list">
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Proceso simple y claro</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Acceso a funciones del refugio y comunidad</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Experiencia visual alineada con el sitio principal</span>
+                    </div>
                 </div>
 
-                <div class="auth-group">
-                    @Html.LabelFor(m => m.Password, "Contraseña")
-                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Crea tu contraseña", @class = "form-control", autocomplete = "new-password" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <div class="auth-showcase-image">
+                    <img src="~/Content/img/GatoPerro.png" alt="Mascotas de ARAC" />
+                </div>
+            </section>
+
+            <section class="auth-panel">
+                <div class="auth-panel-header">
+                    <span class="auth-mini-label">Nuevo acceso</span>
+                    <h2>Crear cuenta</h2>
+                    <p>
+                        ¿Ya tienes cuenta?
+                        <a href="@Url.Action("Login", "Account")">Inicia sesión aquí</a>
+                    </p>
                 </div>
 
-                <div class="auth-group">
-                    @Html.LabelFor(m => m.ConfirmPassword, "Confirmar contraseña")
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Repite tu contraseña", @class = "form-control", autocomplete = "new-password" })
-                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-                </div>
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
 
-                <button type="submit" class="auth-submit">Crear cuenta</button>
-            }
+                    <div class="auth-group">
+                        @Html.LabelFor(m => m.Email, "Correo electrónico", new { @class = "auth-label" })
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            @type = "email",
+                            @class = "auth-input",
+                            @placeholder = "correo@ejemplo.com",
+                            autocomplete = "username"
+                        })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger auth-validation" })
+                    </div>
+
+                    <div class="auth-group">
+                        @Html.LabelFor(m => m.Password, "Contraseña", new { @class = "auth-label" })
+                        @Html.PasswordFor(m => m.Password, new
+                        {
+                            @class = "auth-input",
+                            @placeholder = "Crea una contraseña",
+                            autocomplete = "new-password"
+                        })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger auth-validation" })
+                    </div>
+
+                    <div class="auth-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, "Confirmar contraseña", new { @class = "auth-label" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new
+                        {
+                            @class = "auth-input",
+                            @placeholder = "Repite tu contraseña",
+                            autocomplete = "new-password"
+                        })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger auth-validation" })
+                    </div>
+
+                    <button type="submit" class="auth-submit">Crear mi cuenta</button>
+                }
+            </section>
+
         </div>
     </div>
 </div>

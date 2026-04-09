@@ -8,51 +8,91 @@
     <link href="~/Content/estilos/Login.css" rel="stylesheet" />
 }
 
-<div class="auth-shell">
-    <div class="auth-card">
-        <div class="auth-visual">
-            <div class="auth-visual-text">
-                <span class="auth-kicker">ARAC Refugio</span>
-                <h2>Bienvenido de nuevo</h2>
-                <p>Ingresa para gestionar tus adopciones, favoritos, donaciones y acceso a tu cuenta.</p>
-            </div>
-            <div class="auth-visual-img-wrap">
-                <img src="~/Content/img/Cachorro.png" alt="Cachorro ARAC" />
-            </div>
-        </div>
+<div class="auth-page">
+    <div class="container auth-page-container">
+        <div class="auth-wrapper auth-wrapper-login">
 
-        <div class="auth-form-side">
-            <h1>Iniciar sesión</h1>
-            <p class="auth-subtext">¿No tienes cuenta? <a href="@Url.Action("Register", "Account")">Regístrate aquí</a></p>
+            <section class="auth-showcase">
+                <div class="auth-showcase-badge">ARAC Refugio · Liberia</div>
 
-            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
+                <h1>Bienvenido de nuevo</h1>
+                <p class="auth-showcase-text">
+                    Inicia sesión para gestionar adopciones, revisar tus favoritos, dar seguimiento a tus solicitudes y mantenerte cerca de cada historia de rescate.
+                </p>
 
-                <div class="auth-group">
-                    @Html.LabelFor(m => m.Email, "Correo electrónico")
-                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control", autocomplete = "username" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <div class="auth-feature-list">
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Acceso rápido a tu cuenta y tus procesos</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Seguimiento de adopciones y donaciones</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon">•</span>
+                        <span>Diseño limpio, profesional y fácil de usar</span>
+                    </div>
                 </div>
 
-                <div class="auth-group">
-                    @Html.LabelFor(m => m.Password, "Contraseña")
-                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Ingresa tu contraseña", @class = "form-control", autocomplete = "current-password" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <div class="auth-showcase-image">
+                    <img src="~/Content/img/PerroyGato.png" alt="Perro y gato de ARAC" />
+                </div>
+            </section>
+
+            <section class="auth-panel">
+                <div class="auth-panel-header">
+                    <span class="auth-mini-label">Acceso seguro</span>
+                    <h2>Iniciar sesión</h2>
+                    <p>
+                        ¿No tienes cuenta?
+                        <a href="@Url.Action("Register", "Account")">Regístrate aquí</a>
+                    </p>
                 </div>
 
-                <label class="auth-check">
-                    @Html.CheckBoxFor(m => m.RememberMe)
-                    <span>Recordarme</span>
-                </label>
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
 
-                <button type="submit" class="auth-submit">Entrar</button>
+                    <div class="auth-group">
+                        @Html.LabelFor(m => m.Email, "Correo electrónico", new { @class = "auth-label" })
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            @type = "email",
+                            @class = "auth-input",
+                            @placeholder = "correo@ejemplo.com",
+                            autocomplete = "username"
+                        })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger auth-validation" })
+                    </div>
 
-                <div class="auth-links">
-                    <a href="@Url.Action("ForgotPassword", "Account")">¿Olvidaste tu contraseña?</a>
-                </div>
-            }
+                    <div class="auth-group">
+                        @Html.LabelFor(m => m.Password, "Contraseña", new { @class = "auth-label" })
+                        @Html.PasswordFor(m => m.Password, new
+                        {
+                            @class = "auth-input",
+                            @placeholder = "Ingresa tu contraseña",
+                            autocomplete = "current-password"
+                        })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger auth-validation" })
+                    </div>
+
+                    <div class="auth-row">
+                        <label class="auth-check">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            <span>Recordarme</span>
+                        </label>
+
+                        <a class="auth-inline-link" href="@Url.Action("ForgotPassword", "Account")">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="auth-submit">Entrar a mi cuenta</button>
+                }
+            </section>
+
         </div>
     </div>
 </div>
