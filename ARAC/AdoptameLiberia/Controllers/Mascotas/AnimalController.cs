@@ -23,30 +23,35 @@ namespace AdoptameLiberia.Controllers.Mascotas
             HashSet<int> favoritos = new HashSet<int>();
             string currentUserId = User.Identity.GetUserId();
 
+            // 🔥 FILTRO DINÁMICO SEGÚN ROL
+            string filtroEstado = User.IsInRole("Administrador")
+                ? "WHERE a.Estado IS NULL OR a.Estado <> 'Inactivo'"
+                : "WHERE a.Estado = 'Disponible'";
+
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
 
-                string sql = @"
-                SELECT 
-                    a.ID_Animal,
-                    a.Nombre_Animal,
-                    a.ID_Raza,
-                    a.ID_TipoAnimal,
-                    a.Edad,
-                    a.Sexo,
-                    a.Tamano,
-                    a.Peso,
-                    a.Descripcion,
-                    a.Estado,
-                    a.UsuarioRegistroId,
-                    ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
-                    ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
-                FROM Animal a
-                LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
-                LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
-                WHERE a.Estado IS NULL OR a.Estado <> 'Inactivo'
-                ORDER BY a.ID_Animal DESC";
+                string sql = $@"
+        SELECT 
+            a.ID_Animal,
+            a.Nombre_Animal,
+            a.ID_Raza,
+            a.ID_TipoAnimal,
+            a.Edad,
+            a.Sexo,
+            a.Tamano,
+            a.Peso,
+            a.Descripcion,
+            a.Estado,
+            a.UsuarioRegistroId,
+            ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
+            ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
+        FROM Animal a
+        LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
+        LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
+        {filtroEstado}
+        ORDER BY a.ID_Animal DESC";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -72,14 +77,15 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 }
             }
 
+            // 🔥 CARGAR FAVORITOS
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
 
                 string sqlFavoritos = @"
-                SELECT ID_Animal
-                FROM Favorito
-                WHERE UserId = @UserId";
+        SELECT ID_Animal
+        FROM Favorito
+        WHERE UserId = @UserId";
 
                 SqlCommand cmdFavoritos = new SqlCommand(sqlFavoritos, cn);
                 cmdFavoritos.Parameters.AddWithValue("@UserId", (object)currentUserId ?? DBNull.Value);

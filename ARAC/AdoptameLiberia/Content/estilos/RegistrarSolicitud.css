@@ -1,0 +1,194 @@
+﻿.solicitud-wrap {
+    max-width: 980px;
+    margin: 40px auto 60px auto;
+    padding: 0 20px;
+}
+
+.solicitud-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 34px;
+    box-shadow: 0 18px 40px rgba(18, 38, 63, 0.10);
+    border: 1px solid #e6edf5;
+}
+
+.solicitud-header {
+    margin-bottom: 28px;
+}
+
+    .solicitud-header h2 {
+        margin: 0 0 10px 0;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #173b63;
+    }
+
+    .solicitud-header p {
+        margin: 0;
+        color: #5f7288;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+.solicitud-form {
+    width: 100%;
+}
+
+.solicitud-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #27496d;
+    }
+
+.form-control-custom {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #d7e2ee;
+    border-radius: 16px;
+    padding: 12px 14px;
+    font-size: 0.96rem;
+    color: #24364a;
+    background: #f9fbfd;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+    .form-control-custom:focus {
+        border-color: #55c7de;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(85, 199, 222, 0.12);
+    }
+
+.form-readonly {
+    background: #eef6fb;
+    color: #214a68;
+    font-weight: 600;
+}
+
+textarea.form-control-custom {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.checkbox-group {
+    margin-top: 4px;
+}
+
+.check-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: #27496d;
+    cursor: pointer;
+}
+
+    .check-inline input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+
+.solicitud-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.btn-solicitud-primary,
+.btn-solicitud-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 48px;
+    border-radius: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-solicitud-primary {
+    background: linear-gradient(135deg, #4cc9df, #31b7d3);
+    color: #ffffff;
+    box-shadow: 0 10px 24px rgba(76, 201, 223, 0.25);
+}
+
+    .btn-solicitud-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(76, 201, 223, 0.30);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+.btn-solicitud-secondary {
+    background: #eff4f8;
+    color: #24415f;
+    border: 1px solid #d8e2ec;
+}
+
+    .btn-solicitud-secondary:hover {
+        background: #e5eef6;
+        color: #1d3650;
+        text-decoration: none;
+    }
+
+.text-danger {
+    margin-top: 6px;
+    font-size: 0.88rem;
+    color: #d64545;
+}
+
+.alert {
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+}
+
+.alert-danger {
+    background: #fff1f1;
+    color: #a33a3a;
+    border: 1px solid #ffd3d3;
+}
+
+@media (max-width: 768px) {
+    .solicitud-card {
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .solicitud-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .solicitud-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .solicitud-actions {
+        flex-direction: column;
+    }
+
+    .btn-solicitud-primary,
+    .btn-solicitud-secondary {
+        width: 100%;
+    }
+}
