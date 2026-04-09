@@ -10,111 +10,134 @@
 <div class="don-shell">
     <section class="don-hero">
         <div class="don-hero-copy">
-            <span class="section-kicker">Apoyo al refugio</span>
-            <h1>Donaciones con mejor presentación y acceso rápido</h1>
-            <p>Elige un monto sugerido o realiza una donación libre para apoyar alimento, medicina y campañas.</p>
+            <span class="don-kicker">Apoyo al refugio</span>
+            <h1>Tu aporte ayuda a transformar vidas</h1>
+            <p>
+                Apoya con un monto sugerido o registra una contribución libre para alimento,
+                atención veterinaria, campañas y bienestar de las mascotas.
+            </p>
         </div>
+
         <div class="don-hero-image">
-            <img src="~/Content/img/Refugio.png" alt="Donaciones" />
+            <img src="~/Content/img/Refugio.png" alt="Apoyo al refugio" />
         </div>
     </section>
 
     <section class="don-pack-grid">
-        <div class="don-pack-card">
-            <img src="~/Content/img/Cachorro.png" alt="Económico" />
-            <h3>Económico</h3>
-            <p>Apoya alimento básico y necesidades diarias.</p>
+        <article class="don-pack-card">
+            <img src="~/Content/img/Cachorro.png" alt="Aporte básico" />
+            <h3>Aporte básico</h3>
+            <p>Ideal para apoyar alimento, limpieza y necesidades del día a día.</p>
             <strong>₡5,000</strong>
-            <a href="@Url.Action("Create", new { monto = 5000 })" class="don-btn-main">Donar</a>
-        </div>
+            <a href="@Url.Action("Create", new { monto = 5000 })" class="don-btn-main">Donar ahora</a>
+        </article>
 
-        <div class="don-pack-card">
-            <img src="~/Content/img/Perro.png" alt="Estándar" />
-            <h3>Estándar</h3>
-            <p>Apoya tratamientos, cuidados y campañas.</p>
+        <article class="don-pack-card">
+            <img src="~/Content/img/Perro.png" alt="Aporte solidario" />
+            <h3>Aporte solidario</h3>
+            <p>Ayuda con cuidados, medicamentos y apoyo constante al refugio.</p>
             <strong>₡10,000</strong>
-            <a href="@Url.Action("Create", new { monto = 10000 })" class="don-btn-main">Donar</a>
-        </div>
+            <a href="@Url.Action("Create", new { monto = 10000 })" class="don-btn-main">Donar ahora</a>
+        </article>
 
-        <div class="don-pack-card">
-            <img src="~/Content/img/Gato.png" alt="Premium" />
-            <h3>Premium</h3>
-            <p>Contribución alta para apoyo integral del refugio.</p>
+        <article class="don-pack-card">
+            <img src="~/Content/img/Gato.png" alt="Aporte integral" />
+            <h3>Aporte integral</h3>
+            <p>Contribuye de forma más fuerte en rescates y atención especializada.</p>
             <strong>₡20,000</strong>
-            <a href="@Url.Action("Create", new { monto = 20000 })" class="don-btn-main">Donar</a>
-        </div>
+            <a href="@Url.Action("Create", new { monto = 20000 })" class="don-btn-main">Donar ahora</a>
+        </article>
 
-        <div class="don-pack-card">
-            <img src="~/Content/img/Gatillo.png" alt="Libre" />
-            <h3>Donación libre</h3>
-            <p>Ingresa el monto que desees aportar.</p>
-            <input type="number" id="montoPersonalizado" class="input-monto-pro" placeholder="Ingresa monto" min="1000" />
+        <article class="don-pack-card">
+            <img src="~/Content/img/Gatillo.png" alt="Aporte personalizado" />
+            <h3>Aporte libre</h3>
+            <p>Ingresa el monto que deseas aportar según tus posibilidades.</p>
+
+            <input type="number" id="montoPersonalizado" class="don-input" placeholder="Monto en colones" min="1000" />
             <a href="#" class="don-btn-soft" onclick="donarPersonalizado(); return false;">Continuar</a>
-        </div>
+        </article>
     </section>
 
     @using (Html.BeginForm("Index", "Donaciones", FormMethod.Get, new { @class = "don-filter-panel" }))
     {
-        <div class="don-filter-head">
-            <h3>Filtrar historial</h3>
-            <p>Selecciona un tipo de donación para ordenar la vista.</p>
+        <div class="don-panel-head">
+            <div>
+                <h2>@(esAdmin ? "Registro de donaciones" : "Mis donaciones")</h2>
+                <p>Consulta y filtra los aportes registrados dentro del sistema.</p>
+            </div>
         </div>
 
-        @Html.DropDownList(
-            "tipoDonacionId",
-            (SelectList)ViewBag.TiposDonacion,
-            "Todas",
-            new { @class = "form-control", onchange = "this.form.submit();" }
-        )
+        <div class="don-filter-row">
+            @Html.DropDownList(
+                "tipoDonacionId",
+                (SelectList)ViewBag.TiposDonacion,
+                "Todos los tipos",
+                new { @class = "don-select", onchange = "this.form.submit();" }
+            )
+        </div>
     }
 
-    <section class="don-table-panel">
-        <div class="don-table-head">
-            <h2>@(esAdmin ? "Historial completo de donaciones" : "Mis últimas 5 donaciones")</h2>
-            <p>Consulta los registros realizados dentro del sistema.</p>
+    <section class="don-list-panel">
+        <div class="don-panel-head">
+            <div>
+                <h2>@(esAdmin ? "Historial general" : "Tus últimos aportes")</h2>
+                <p>Se muestra la información importante para el usuario, sin textos técnicos innecesarios.</p>
+            </div>
         </div>
 
-        <div class="tabla-container-pro">
-            <table class="tabla-donaciones">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Fecha</th>
-                        <th>Tipo</th>
-                        <th>Monto</th>
-                        <th>Método</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model == null || !Model.Any())
-                    {
+        @if (Model == null || !Model.Any())
+        {
+            <div class="don-empty">
+                Aún no hay donaciones registradas.
+            </div>
+        }
+        else
+        {
+            <div class="don-table-wrap">
+                <table class="don-table">
+                    <thead>
                         <tr>
-                            <td colspan="6" class="text-center">No hay donaciones registradas.</td>
+                            @if (esAdmin)
+                            {
+                                <th>Donante</th>
+                            }
+                            <th>Fecha</th>
+                            <th>Tipo de aporte</th>
+                            <th>Monto</th>
+                            <th>Método</th>
+                            <th>Acciones</th>
                         </tr>
-                    }
-                    else
-                    {
-                        foreach (var d in Model)
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model)
                         {
                             <tr>
-                                <td>@d.IdDonacion</td>
+                                @if (esAdmin)
+                                {
+                                    <td>
+                                        @(d.Usuario != null && !string.IsNullOrWhiteSpace(d.Usuario.Correo)
+                                            ? d.Usuario.Correo
+                                            : "Usuario registrado")
+                                    </td>
+                                }
                                 <td>@d.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "Sin tipo")</td>
-                                <td class="don-money">₡@d.Monto.ToString("N0")</td>
-                                <td>@d.Metodo</td>
+                                <td>@(d.TipoDonacion != null ? d.TipoDonacion.Nombre : "Sin categoría")</td>
+                                <td class="don-money">
+                                    @(d.Monto > 0 ? "₡" + d.Monto.ToString("N0") : "No aplica")
+                                </td>
+                                <td>@(string.IsNullOrWhiteSpace(d.Metodo) ? "No definido" : d.Metodo)</td>
                                 <td>
-                                    <div class="don-table-actions">
-                                        @Html.ActionLink("Detalles", "Details", new { id = d.IdDonacion }, new { @class = "don-btn-soft mini" })
+                                    <div class="don-actions">
+                                        @Html.ActionLink("Ver detalle", "Details", new { id = d.IdDonacion }, new { @class = "don-btn-soft mini" })
                                         @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion }, new { @class = "don-btn-main mini" })
                                     </div>
                                 </td>
                             </tr>
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        }
     </section>
 </div>
 
@@ -122,7 +145,7 @@
     function donarPersonalizado() {
         var monto = document.getElementById("montoPersonalizado").value;
         if (!monto || parseFloat(monto) <= 0) {
-            alert("Por favor ingresa un monto válido");
+            alert("Por favor ingresa un monto válido.");
             return;
         }
 
