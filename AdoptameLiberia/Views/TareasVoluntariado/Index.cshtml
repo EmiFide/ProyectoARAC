@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Voluntariado.TareaVoluntariado>
+
+@{
+    ViewBag.Title = "Tareas de Voluntariado";
+}
+
+<h2>Tareas de Voluntariado</h2>
+
+<p>
+    @Html.ActionLink("Nueva tarea", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+            <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+            <th>@Html.DisplayNameFor(model => model.Hora)</th>
+            <th>@Html.DisplayNameFor(model => model.Lugar)</th>
+            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Titulo</td>
+                <td>@item.Descripcion</td>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@(item.Hora.HasValue ? item.Hora.Value.ToString(@"hh\:mm") : "")</td>
+                <td>@item.Lugar</td>
+                <td>@(item.Estado ? "Activa" : "Inactiva")</td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-warning" })
+                    @Html.ActionLink("Detalles", "Details", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-info" })
+                    @Html.ActionLink(item.Estado ? "Desactivar" : "Activar", "CambiarEstado", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-secondary" })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

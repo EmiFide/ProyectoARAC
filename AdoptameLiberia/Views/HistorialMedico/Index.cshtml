@@ -1,0 +1,18 @@
+﻿@model List<AdoptameLiberia.Models.Mascotas.HistorialMedicoModel>
+
+<h2>Historial Médico</h2>
+
+@Html.ActionLink("Agregar Registro", "Crear", new { idAnimal = ViewBag.ID_Animal })
+
+<table border="1">
+    <tr><th>Fecha</th><th>Tipo</th><th>Detalle</th></tr>
+    @foreach (var h in Model)
+    {
+        <tr>
+            <td>@h.Fecha</td>
+            <td>@h.Tipo</td>
+            <td>@h.Detalle</td>
+        </tr>
+    }
+</table>
+

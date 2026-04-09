@@ -1,0 +1,190 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Voluntariado.Voluntario>
+@using System.Linq
+@using System.Collections.Generic
+@using AdoptameLiberia.Models.Voluntariado
+
+@{
+    ViewBag.Title = "Voluntarios";
+    var tareas = ViewBag.TareasVoluntariado as List<TareaVoluntariado>;
+    var asignacionesPorTarea = ViewBag.AsignacionesPorTarea as Dictionary<int, int>;
+
+    var totalVoluntarios = Model != null ? Model.Count() : 0;
+    var activos = Model != null ? Model.Count(x => x.Estado) : 0;
+    var inactivos = totalVoluntarios - activos;
+    var totalTareas = tareas != null ? tareas.Count : 0;
+}
+
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
+
+<div class="vol-shell">
+    <div class="vol-hero">
+        <div>
+            <h1>Gestión de voluntarios</h1>
+            <p>
+                Aquí administras las solicitudes pendientes de asignación y también las tareas de voluntariado,
+                todo en un mismo módulo y con la misma estética del sistema.
+            </p>
+        </div>
+        <div class="vol-hero-image">
+            <img src="~/Content/img/PerroyGato.png" alt="Voluntariado" />
+        </div>
+    </div>
+
+    <div class="vol-grid-stats">
+        <div class="vol-stat-card">
+            <div class="vol-stat-title">Pendientes por asignar</div>
+            <div class="vol-stat-number">@totalVoluntarios</div>
+        </div>
+        <div class="vol-stat-card">
+            <div class="vol-stat-title">Voluntarios activos</div>
+            <div class="vol-stat-number">@activos</div>
+        </div>
+        <div class="vol-stat-card">
+            <div class="vol-stat-title">Voluntarios inactivos</div>
+            <div class="vol-stat-number">@inactivos</div>
+        </div>
+        <div class="vol-stat-card">
+            <div class="vol-stat-title">Tareas registradas</div>
+            <div class="vol-stat-number">@totalTareas</div>
+        </div>
+    </div>
+
+    <div class="vol-actions">
+        @Html.ActionLink("Nuevo voluntario", "Create", null, new { @class = "vol-btn" })
+        @Html.ActionLink("Ver asignaciones", "Index", "ParticipacionesVoluntario", null, new { @class = "vol-btn-secondary" })
+        @Html.ActionLink("Nueva tarea", "Create", "TareasVoluntariado", null, new { @class = "vol-btn-outline" })
+    </div>
+
+    <div class="vol-layout">
+        <div class="vol-panel">
+            <div class="vol-panel-title">Lista de voluntarios</div>
+            <div class="vol-panel-subtitle">
+                Aquí solo se muestran los voluntarios que todavía no tienen una tarea asignada.
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="vol-table-wrap">
+                    <table class="vol-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Disponibilidad</th>
+                                <th>Habilidades</th>
+                                <th>Estado</th>
+                                <th style="min-width: 220px;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var nombreCompleto = (item.Nombre + " " + item.Apellido1 + " " + item.Apellido2).Trim();
+
+                                <tr>
+                                    <td><strong>@nombreCompleto</strong></td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Telefono</td>
+                                    <td>@item.Disponibilidad</td>
+                                    <td>@item.Habilidades</td>
+                                    <td>
+                                        @if (item.Estado)
+                                        {
+                                            <span class="vol-badge vol-badge-active">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="vol-badge vol-badge-inactive">Inactivo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="vol-mini-actions">
+                                            @Html.ActionLink("Editar", "Edit", new { id = item.ID_Voluntario }, new { @class = "vol-btn-outline" })
+                                            @Html.ActionLink(item.Estado ? "Inactivar" : "Activar", "CambiarEstado", new { id = item.ID_Voluntario }, new { @class = "vol-btn-warning" })
+                                            @Html.ActionLink("Asignar tarea", "Create", "ParticipacionesVoluntario", new { idVoluntario = item.ID_Voluntario }, new { @class = "vol-btn" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="vol-empty">
+                    No hay voluntarios pendientes por asignar.
+                </div>
+            }
+        </div>
+
+        <div class="vol-panel">
+            <div class="vol-panel-title">Tareas de voluntariado</div>
+            <div class="vol-panel-subtitle">
+                Aquí ves las tareas con el mismo estilo del panel de voluntarios.
+            </div>
+
+            @if (tareas != null && tareas.Any())
+            {
+                <div class="vol-table-wrap">
+                    <table class="vol-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Fecha</th>
+                                <th>Lugar</th>
+                                <th>Asignados</th>
+                                <th>Estado</th>
+                                <th style="min-width: 200px;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tarea in tareas)
+                            {
+                                var cantidadAsignados = 0;
+                                if (asignacionesPorTarea != null && asignacionesPorTarea.ContainsKey(tarea.ID_Tarea))
+                                {
+                                    cantidadAsignados = asignacionesPorTarea[tarea.ID_Tarea];
+                                }
+
+                                <tr>
+                                    <td><strong>@tarea.Titulo</strong></td>
+                                    <td>@tarea.Fecha.ToShortDateString()</td>
+                                    <td>@tarea.Lugar</td>
+                                    <td>@cantidadAsignados</td>
+                                    <td>
+                                        @if (tarea.Estado)
+                                        {
+                                            <span class="vol-badge vol-badge-active">Activa</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="vol-badge vol-badge-inactive">Inactiva</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="vol-mini-actions">
+                                            @Html.ActionLink("Editar", "Edit", "TareasVoluntariado", new { id = tarea.ID_Tarea }, new { @class = "vol-btn-outline" })
+                                            @Html.ActionLink("Detalles", "Details", "TareasVoluntariado", new { id = tarea.ID_Tarea }, new { @class = "vol-btn-info" })
+                                            @Html.ActionLink(tarea.Estado ? "Desactivar" : "Activar", "CambiarEstado", "TareasVoluntariado", new { id = tarea.ID_Tarea }, new { @class = "vol-btn-warning" })
+                                            @Html.ActionLink("Eliminar", "Delete", "TareasVoluntariado", new { id = tarea.ID_Tarea }, new { @class = "vol-btn-danger" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="vol-empty">
+                    No hay tareas registradas todavía.
+                </div>
+            }
+        </div>
+    </div>
+</div>

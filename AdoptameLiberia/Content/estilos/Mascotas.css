@@ -1,0 +1,377 @@
+﻿/*Scroll*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fdf7f3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d6bcaf;
+    border-radius: 10px;
+    border: 2px solid #fdf7f3;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #8b1e24;
+    }
+
+body {
+    background: linear-gradient(180deg, #fdf7f3 0%, #fffaf7 100%);
+}
+
+.mascota-shell {
+    max-width: 1150px;
+    margin: 30px auto 60px auto;
+    padding: 0 20px;
+}
+
+.mascota-hero {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 270px;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #40090b 0%, #7a171d 100%);
+    box-shadow: 0 18px 35px rgba(64, 9, 11, 0.16);
+}
+
+    .mascota-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('/Content/img/mascotas-banner.jpg') center center / cover no-repeat;
+        opacity: 0.18;
+    }
+
+    .mascota-hero::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        filter: blur(80px);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+.mascota-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    color: white;
+}
+
+    .mascota-hero-content h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .mascota-hero-content p {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: rgba(255,255,255,0.92);
+    }
+
+.mascota-layout {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 22px;
+}
+
+.mascota-form-card {
+    max-width: 1250px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(64, 9, 11, 0.08);
+}
+
+.mascota-group input,
+.mascota-group select,
+.mascota-group textarea {
+    width: 100%;
+    padding: 18px 20px !important;
+    font-size: 1.1rem !important;
+    font-weight: 500;
+    color: #333 !important;
+    background-color: #fff !important;
+    border: 2px solid #eee1db !important;
+    border-radius: 15px !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+
+    .mascota-group input:focus,
+    .mascota-group select:focus {
+        border-color: #8b1e24 !important;
+        background-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(139, 30, 36, 0.1);
+        outline: none;
+    }
+    .mascota-group input:hover,
+    .mascota-group select:hover {
+        border-color: #d6bcaf !important;
+    }
+    .mascota-group input::placeholder {
+        color: #a0a0a0;
+    }
+    .mascota-group select option:first-child {
+        color: #888;
+    }
+
+.mascota-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #571214;
+    margin-bottom: 10px; 
+    margin-left: 5px;
+}
+
+.mascota-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    border-top: 1px solid #f5eee8;
+    padding-top: 25px;
+}
+
+
+.mascota-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 10px 0;
+}
+
+.mascota-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .mascota-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .mascota-group label {
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #5c392d;
+    }
+
+    .mascota-group input,
+    .mascota-group select,
+    .mascota-group textarea {
+        border: 1px solid #e8d6cd;
+        border-radius: 16px;
+        padding: 12px 14px;
+        background: #fffaf8;
+        outline: none;
+        transition: all 0.18s ease;
+    }
+
+        .mascota-group input:focus,
+        .mascota-group select:focus,
+        .mascota-group textarea:focus {
+            border-color: #946456;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(148, 100, 86, 0.12);
+        }
+
+    .mascota-group textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+.mascota-side-photo {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(64, 9, 11, 0.12);
+}
+
+    .mascota-side-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+.mascota-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.mascota-btn,
+.mascota-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    font-weight: 700;
+    border: none;
+    transition: all 0.18s ease;
+    box-shadow: 0 8px 18px rgba(64, 9, 11, 0.10);
+}
+
+.mascota-btn {
+    background: #40090b;
+    color: #fff !important;
+}
+
+    .mascota-btn:hover {
+        background: #571214;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+.mascota-btn-outline {
+    background: #fff;
+    color: #40090b !important;
+    border: 1px solid rgba(64, 9, 11, 0.16);
+}
+
+    .mascota-btn-outline:hover {
+        background: #fff4ef;
+        color: #40090b !important;
+        transform: translateY(-1px);
+    }
+
+.favoritos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-height: 70vh;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 15px; 
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+}
+    .favoritos-grid::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .favoritos-grid::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .favoritos-grid::-webkit-scrollbar-thumb {
+        background: #8b1e24;
+        border-radius: 10px;
+    }
+
+        .favoritos-grid::-webkit-scrollbar-thumb:hover {
+            background: #571214;
+        }
+
+.favorito-card {
+    background: #fffaf8;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(64, 9, 11, 0.05);
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 10px 22px rgba(64, 9, 11, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+}
+    .favorito-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(64, 9, 11, 0.12);
+        border-color: rgba(139, 30, 36, 0.2);
+    }
+
+.favorito-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+    .favorito-card-header h3 {
+        margin: 8px 0 0 0;
+        color: #40090b;
+        font-weight: 800;
+        font-size: 1.35rem;
+    }
+
+.favorito-badge {
+    display: inline-block;
+    background: #fdf2f2;
+    color: #8b1e24;
+    border: 1px solid rgba(139, 30, 36, 0.1);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.favorito-card-body p {
+    margin-bottom: 10px;
+    color: #5c392d;
+    line-height: 1.5;
+}
+
+.favorito-form {
+    margin: 0;
+}
+
+.favorito-toggle-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(64, 9, 11, 0.16);
+    background: #fff;
+    color: #8b1e24 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+    .favorito-toggle-btn:hover {
+        transform: translateY(-1px) scale(1.03);
+        background: #fff0eb;
+    }
+
+    .favorito-toggle-btn.activo {
+        background: #8b1e24;
+        color: #fff !important;
+        border-color: #8b1e24;
+    }
+
+@media (max-width: 991px) {
+    .mascota-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mascota-hero {
+        padding: 28px 24px;
+    }
+
+    .mascota-hero-content h1 {
+        font-size: 1.8rem;
+    }
+}

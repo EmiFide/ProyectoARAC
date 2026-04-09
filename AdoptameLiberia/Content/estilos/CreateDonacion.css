@@ -1,0 +1,102 @@
+﻿.seccion-create-donacion {
+    padding: 20px;
+    background-color: #fcfaf8;
+    max-height: 50vh;
+}
+
+    .seccion-create-donacion .form-container {
+        max-width: 750px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .seccion-create-donacion .titulo {
+        color: #8e2a2f;
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .seccion-create-donacion .input-custom {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        background-color: #fdfaf5;
+        transition: all 0.3s;
+    }
+
+        .seccion-create-donacion .input-custom:focus {
+            border-color: #8e2a2f;
+            outline: none;
+            background-color: #fff;
+        }
+
+    .seccion-create-donacion .botones-flex {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .seccion-create-donacion .btn-primario-vino {
+        flex: 2;
+        background-color: #8e2a2f;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+        .seccion-create-donacion .btn-primario-vino:hover {
+            background-color: #a8363c;
+        }
+
+    .seccion-create-donacion .btn-secundario-outline {
+        flex: 1;
+        background-color: transparent;
+        color: #8e2a2f;
+        border: 2px solid #8e2a2f;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+        .seccion-create-donacion .btn-secundario-outline:hover {
+            background-color: #fdfaf5;
+            color: #a8363c;
+            border-color: #a8363c;
+        }
+
+    .seccion-create-donacion .insumos-container {
+        margin-top: 25px;
+        padding: 20px;
+        background: #fdfaf5;
+        border-radius: 15px;
+        border: 1px solid #eee;
+    }
+
+    .seccion-create-donacion .insumo-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr 80px;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .seccion-create-donacion .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .seccion-create-donacion .full {
+        grid-column: span 2;
+    }

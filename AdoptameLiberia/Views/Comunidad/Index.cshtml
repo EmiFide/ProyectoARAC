@@ -1,0 +1,100 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Comunidad.PublicacionComunidad>
+
+@{
+    ViewBag.Title = "Comunidad";
+}
+
+@section styles{
+    <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
+}
+
+<div class="com-shell">
+    <div class="com-hero">
+        <div>
+            <h1>Comunidad ARAC</h1>
+            <p>
+                Comparte ideas, experiencias, recomendaciones y mensajes con otras personas que
+                forman parte de la comunidad del refugio.
+            </p>
+        </div>
+        <div>
+            <img src="~/Content/img/PerroyGato.png" alt="Comunidad ARAC" />
+        </div>
+    </div>
+
+    @if (TempData["MensajeComunidad"] != null)
+    {
+        <div class="com-alert">@TempData["MensajeComunidad"]</div>
+    }
+
+    <div class="com-actions">
+        @Html.ActionLink("Nueva publicación", "Create", null, new { @class = "com-btn" })
+        @Html.ActionLink("Volver al inicio", "Index", "Home", null, new { @class = "com-btn-outline" })
+    </div>
+
+    <div class="com-grid">
+        <div class="com-panel">
+            <div class="com-panel-title">Publicaciones recientes</div>
+            <div class="com-panel-subtitle">
+                Aquí puedes ver lo que otras personas han compartido dentro de la comunidad.
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="com-post-list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="com-post-card">
+                            <h3>@item.Titulo</h3>
+                            <div class="com-post-meta">
+                                Publicado el @item.Fecha.ToString("dd/MM/yyyy hh:mm tt")
+                            </div>
+                            <div class="com-post-body">
+                                @(item.Contenido != null && item.Contenido.Length > 220
+                                    ? item.Contenido.Substring(0, 220) + "..."
+                                    : item.Contenido)
+                            </div>
+
+                            @Html.ActionLink("Ver publicación", "Details", new { id = item.ID_Publicacion }, new { @class = "com-btn-info" })
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="com-empty">
+                    Todavía no hay publicaciones en la comunidad.
+                </div>
+            }
+        </div>
+
+        <div class="com-panel">
+            <div class="com-panel-title">Espacio comunitario</div>
+            <div class="com-panel-subtitle">
+                Usa este módulo para compartir mensajes útiles para otras personas.
+            </div>
+
+            <div class="com-side-card">
+                <h4>¿Qué puedes publicar?</h4>
+                <p>
+                    Consejos, experiencias, avisos, mensajes de apoyo, historias de adopción o cualquier
+                    contenido relacionado con el refugio.
+                </p>
+            </div>
+
+            <div class="com-side-card">
+                <h4>Participación</h4>
+                <p>
+                    También puedes entrar a una publicación y dejar comentarios para seguir la conversación.
+                </p>
+            </div>
+
+            <div class="com-side-card">
+                <h4>Acceso del usuario</h4>
+                <p>
+                    Esta sección está disponible para usuarios que hayan iniciado sesión dentro del sistema.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

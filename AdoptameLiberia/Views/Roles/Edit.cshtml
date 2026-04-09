@@ -1,0 +1,30 @@
+@model AdoptameLiberia.Models.RoleCreateEditVM
+@{
+    ViewBag.Title = "Editar rol";
+}
+
+<h2>Editar rol</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.Partial("_RoleForm", Model)
+
+    <button type="submit" class="btn btn-success">Guardar cambios</button>
+    @Html.ActionLink("Volver", "Index", "Roles", null, new { @class = "btn btn-secondary" })
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).on('change', '.perm-write', function () {
+            var row = $(this).closest('tr');
+            if ($(this).is(':checked')) {
+                row.find('.perm-read').prop('checked', true);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.InscripcionCastracion>
+
+@{
+    ViewBag.Title = "Ver Inscripciones";
+}
+
+<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+
+<div class="campanias-container">
+    <div class="section-card">
+        <div class="section-header">
+            <div>
+                <h2 style="color: #40090b; font-weight: 800; margin: 0;">Animales inscritos</h2>
+                <p style="color: #7d5246; margin: 5px 0 0 0;">Gestión de pacientes y resultados de la campaña</p>
+            </div>
+            <div class="action-buttons">
+                <a href="@Url.Action("Index", "Campanias")" class="btn-campania-outline">
+                    <i class="fas fa-arrow-left"></i> Volver a campañas
+                </a>
+            </div>
+        </div>
+
+        <div class="table-shell">
+            <table class="table-campania">
+                <thead>
+                    <tr>
+                        <th>Animal</th>
+                        <th>Veterinario</th>
+                        <th>Resultado</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>
+                            <strong>@(item.Animal != null ? item.Animal.Nombre_Animal : "Sin animal")</strong>
+                        </td>
+                        <td>
+                            <span class="badge-pendiente">
+                                <i class="fas fa-user-md"></i> @(string.IsNullOrEmpty(item.VeterinarioAsignado) ? "Pendiente de asignar" : item.VeterinarioAsignado)
+                            </span>
+                        </td>
+                        <td>
+                            @if (string.IsNullOrEmpty(item.Resultado))
+                                    {
+                            <span class="text-muted">Esperando cirugía...</span>
+                                    }
+                                    else
+                                    {
+                            <span class="badge-ok">@item.Resultado</span>
+                                    }
+                        </td>
+                        <td class="text-right">
+                            <div class="action-buttons" style="justify-content: flex-end;">
+                                <a href="@Url.Action("AsignarVeterinario", "Campanias", new { id = item.Id })" class="btn-campania-info" title="Asignar">
+                                    Asignar Médico
+                                </a>
+                                <a href="@Url.Action("RegistrarResultado", "Campanias", new { id = item.Id })" class="btn-campania-success" title="Resultado">
+                                    Registrar Fin
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">Aún no hay animales inscritos en esta campaña.</div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

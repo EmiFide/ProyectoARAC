@@ -1,0 +1,50 @@
+﻿@model AdoptameLiberia.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Registro";
+}
+
+<link href="~/Content/estilos/Login.css" rel="stylesheet" />
+
+<div class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-left">
+                <img src="~/Content/img/Cachorro.png" alt="Perro registro" />
+            </div>
+
+            <div class="login-right">
+                <h2 class="login-title">Crear Cuenta</h2>
+                <div class="login-subtext">
+                    ¿Ya tienes cuenta? <a href="@Url.Action("Login", "Account")">Inicia sesión</a>
+                </div>
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="login-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "ejemplo@gmail.com" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="login-group">
+                        @Html.LabelFor(m => m.Password, "Contraseña")
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "••••••" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="login-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, "Confirmar contraseña")
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "••••••" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+
+                    <button type="submit" class="login-button">Registrarse</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

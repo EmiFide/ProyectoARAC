@@ -1,0 +1,110 @@
+﻿@model AdoptameLiberia.Models.Donaciones.Donacion
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+
+        <h2 class="text-center mb-4">
+            ❤️ Detalle Donación #@Model.IdDonacion
+        </h2>
+
+        <hr />
+
+        <!-- INFO PRINCIPAL -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>📧 Correo:</strong> @Model.Usuario.Correo</p>
+                <p><strong>📦 Tipo:</strong> @Model.TipoDonacion.Nombre</p>
+                <p><strong>💳 Método:</strong> @Model.Metodo</p>
+            </div>
+
+            <div class="col-md-6">
+                <p><strong>💰 Monto:</strong> ₡@Model.Monto.ToString("N2")</p>
+                <p><strong>📝 Descripción:</strong> @Model.Descripcion</p>
+                <p><strong>📅 Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- INSUMOS -->
+        <h4 class="mb-3">📦 Detalles de Insumos</h4>
+
+        @if (Model.Detalles != null && Model.Detalles.Any())
+        {
+            <ul class="list-group mb-3">
+                @foreach (var det in Model.Detalles)
+                {
+                    <li class="list-group-item">
+                        @det.Descripcion
+                        @if (det.IdItemInventario != null)
+                        {
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-light">
+                No hay detalles.
+            </div>
+        }
+
+        <hr />
+
+        <!-- OBSERVACIONES -->
+        <h4 class="mb-3">🗒️ Observaciones</h4>
+
+        @using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
+
+            <div class="form-group mb-2">
+                <textarea class="form-control" name="comentario" rows="3"
+                          placeholder="Escriba una observación..."></textarea>
+            </div>
+
+            <button class="btn btn-success mb-3" type="submit">
+                ➕ Agregar
+            </button>
+        }
+
+        @if (Model.Observaciones != null && Model.Observaciones.Any())
+        {
+            <ul class="list-group">
+                @foreach (var o in Model.Observaciones.OrderByDescending(x => x.Fecha))
+                {
+                    <li class="list-group-item">
+                        <strong>@o.Fecha.ToString("dd/MM/yyyy HH:mm")</strong><br />
+                        @o.Comentario
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-light">
+                Sin observaciones.
+            </div>
+        }
+
+        <hr />
+
+        <!-- BOTONES -->
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })"
+               class="btn btn-primary me-2">
+                📄 Comprobante
+            </a>
+
+            <a href="@Url.Action("Index", "Donaciones")"
+               class="btn btn-secondary">
+                🔙 Volver
+            </a>
+        </div>
+
+    </div>
+
+</div>
