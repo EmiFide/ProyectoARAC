@@ -224,9 +224,8 @@ namespace AdoptameLiberia.Controllers
             // Buscar usuario por email (en la plantilla, UserName = Email)
             var user = await UserManager.FindByNameAsync(model.Email);
 
-            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+            if (user == null)
             {
-                
                 return View("ForgotPasswordConfirmation");
             }
 

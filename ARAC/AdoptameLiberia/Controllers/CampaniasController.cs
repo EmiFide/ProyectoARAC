@@ -1,6 +1,9 @@
-﻿using AdoptameLiberia.Models.Campanias;
+﻿using AdoptameLiberia.Models;
+using AdoptameLiberia.Models.Campanias;
 using AdoptameLiberia.Models.Donaciones;
+using AdoptameLiberia.Models.Mascotas;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -92,11 +95,7 @@ namespace AdoptameLiberia.Controllers
             ViewBag.CampaniaLugar = campania.Lugar;
             ViewBag.CampaniaId = campania.Id;
 
-            ViewBag.AnimalId = new SelectList(
-                db.Animales.OrderBy(a => a.Nombre_Animal).ToList(),
-                "ID_Animal",
-                "Nombre_Animal"
-            );
+            CargarMascotasPermitidas(null);
 
             var model = new InscripcionCastracion
             {
@@ -122,12 +121,7 @@ namespace AdoptameLiberia.Controllers
             ViewBag.CampaniaLugar = campania.Lugar;
             ViewBag.CampaniaId = campania.Id;
 
-            ViewBag.AnimalId = new SelectList(
-                db.Animales.OrderBy(a => a.Nombre_Animal).ToList(),
-                "ID_Animal",
-                "Nombre_Animal",
-                model.AnimalId
-            );
+            CargarMascotasPermitidas(model.AnimalId);
 
             if (!ModelState.IsValid)
             {
@@ -143,14 +137,20 @@ namespace AdoptameLiberia.Controllers
                 return View(model);
             }
 
-            var yaInscrito = db.InscripcionesCastracion.Any(i =>
-                i.CampaniaCastracionId == model.CampaniaCastracionId &&
-                i.AnimalId == model.AnimalId
-            );
-
-            if (yaInscrito)
+            if (!UsuarioPuedeUsarMascota(model.AnimalId))
             {
-                ModelState.AddModelError("", "Esta mascota ya está inscrita en esta campaña.");
+                ModelState.AddModelError("", "No puedes inscribir una mascota que no pertenece a tu usuario.");
+                return View(model);
+            }
+
+            var mascotaYaRegistradaEnAlgunaCampania = db.InscripcionesCastracion.Any(i =>
+    i.AnimalId == model.AnimalId
+);
+
+            if (mascotaYaRegistradaEnAlgunaCampania)
+            {
+                ModelState.AddModelError("", "Esta mascota ya fue registrada en una campaña y no puede volver a inscribirse.");
+                CargarMascotasPermitidas(model.AnimalId);
                 return View(model);
             }
 
@@ -264,6 +264,88 @@ namespace AdoptameLiberia.Controllers
             db.SaveChanges();
 
             return RedirectToAction("VerInscripciones", new { id = inscripcion.CampaniaCastracionId });
+        }
+
+        private void CargarMascotasPermitidas(int? animalSeleccionado)
+        {
+            var userIdAsp = User.Identity.GetUserId();
+            var esAdmin = User.IsInRole("Administrador");
+
+            List<AnimalModel> mascotas;
+
+            if (esAdmin)
+            {
+                mascotas = db.Database.SqlQuery<AnimalModel>(@"
+            SELECT 
+                a.ID_Animal,
+                a.Nombre_Animal,
+                a.ID_Raza,
+                a.ID_TipoAnimal,
+                a.Edad,
+                a.Sexo,
+                a.Tamano,
+                a.Peso,
+                a.Descripcion,
+                a.Estado
+            FROM Animal a
+            WHERE a.Estado = 'Disponible'
+              AND NOT EXISTS (
+                    SELECT 1
+                    FROM InscripcionesCastracion ic
+                    WHERE ic.AnimalId = a.ID_Animal
+              )
+            ORDER BY a.Nombre_Animal
+        ").ToList();
+            }
+            else
+            {
+                mascotas = db.Database.SqlQuery<AnimalModel>(@"
+            SELECT 
+                a.ID_Animal,
+                a.Nombre_Animal,
+                a.ID_Raza,
+                a.ID_TipoAnimal,
+                a.Edad,
+                a.Sexo,
+                a.Tamano,
+                a.Peso,
+                a.Descripcion,
+                a.Estado
+            FROM Animal a
+            WHERE a.Estado = 'Disponible'
+              AND a.UsuarioRegistroId = @p0
+              AND NOT EXISTS (
+                    SELECT 1
+                    FROM InscripcionesCastracion ic
+                    WHERE ic.AnimalId = a.ID_Animal
+              )
+            ORDER BY a.Nombre_Animal
+        ", userIdAsp).ToList();
+            }
+
+            ViewBag.AnimalId = new SelectList(mascotas, "ID_Animal", "Nombre_Animal", animalSeleccionado);
+        }
+
+        private bool UsuarioPuedeUsarMascota(int animalId)
+        {
+            var userIdAsp = User.Identity.GetUserId();
+            var esAdmin = User.IsInRole("Administrador");
+
+            if (esAdmin)
+            {
+                return db.Database.SqlQuery<int>(@"
+                    SELECT COUNT(1)
+                    FROM Animal
+                    WHERE ID_Animal = @p0
+                ", animalId).FirstOrDefault() > 0;
+            }
+
+            return db.Database.SqlQuery<int>(@"
+                SELECT COUNT(1)
+                FROM Animal
+                WHERE ID_Animal = @p0
+                  AND UsuarioRegistroId = @p1
+            ", animalId, userIdAsp).FirstOrDefault() > 0;
         }
 
         protected override void Dispose(bool disposing)
