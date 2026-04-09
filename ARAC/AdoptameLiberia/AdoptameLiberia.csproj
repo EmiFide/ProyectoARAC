@@ -272,6 +272,7 @@
     <Content Include="Content\estilos\About.css" />
     <Content Include="Content\estilos\Layout.css" />
     <Content Include="Content\estilos\Index.css" />
+    <Content Include="Content\img\MascotaHero.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -401,7 +402,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

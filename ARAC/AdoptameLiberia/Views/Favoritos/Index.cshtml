@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Mascotas.AnimalModel>
+@using System.Collections.Generic
+@using System.Linq
 
 @{
     ViewBag.Title = "Mis favoritos";
@@ -7,60 +9,100 @@
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
 
-<div class="mascota-shell">
-    <div class="mascota-hero">
-        <div class="mascota-hero-content">
-            <h1>Mis favoritos</h1>
-            <p>Aquí puedes consultar rápidamente las mascotas que guardaste.</p>
+<div class="favorites-shell">
+    <section class="favorites-hero">
+        <div class="favorites-copy">
+            <span class="favorites-kicker">Tu espacio favorito</span>
+            <h1>Mis mascotas favoritas</h1>
+            <p>
+                Aquí puedes ver todas las mascotas que has guardado, en una vista más limpia,
+                moderna y ordenada para revisar cada una sin que se vea como CRUD.
+            </p>
+
+            <div class="favorites-hero-actions">
+                <a href="@Url.Action("Catalogo", "Animal")" class="catalog-btn-main">Volver al catálogo</a>
+            </div>
         </div>
-    </div>
 
-    <div class="mascota-form-card">
-        <div class="mascota-actions" style="margin-top:0; margin-bottom:20px; justify-content:space-between;">
-            <a href="@Url.Action("Catalogo", "Animal")" class="mascota-btn-outline">Volver al catálogo</a>
+        <div class="favorites-visual">
+            <div class="favorites-visual-card">
+                <img src="~/Content/img/FavoritosMascotas.png" alt="Favoritos mascotas" />
+            </div>
         </div>
+    </section>
 
-        @if (lista.Any())
-        {
-            <div class="favoritos-grid">
-                @foreach (var item in lista)
-                {
-                    <div class="favorito-card">
-                        <div class="favorito-card-header">
-                            <div>
-                                <span class="favorito-badge">@(!string.IsNullOrWhiteSpace(item.NombreTipo) ? item.NombreTipo : "Mascota")</span>
-                                <h3>@item.Nombre_Animal</h3>
-                            </div>
+    @if (lista.Any())
+    {
+        <section class="favorites-grid">
+            @foreach (var item in lista)
+            {
+                <article class="favorite-card">
+                    <div class="favorite-card-media">
+                        <img src="@(item.NombreTipo == "Gato" ? Url.Content("~/Content/img/Gatillo.png") : Url.Content("~/Content/img/Cachorro.png"))" alt="@item.Nombre_Animal" />
 
-                            @{
-                                using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "favorito-form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("idAnimal", item.ID_Animal)
-                                    @Html.Hidden("returnUrl", Request.RawUrl)
-                                    <button type="submit" class="favorito-toggle-btn activo" title="Quitar de favoritos">❤</button>
-                                }
+                        <span class="favorite-chip">
+                            @(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)
+                        </span>
+
+                        @using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "favorite-heart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("idAnimal", item.ID_Animal)
+                            @Html.Hidden("returnUrl", Request.RawUrl)
+
+                            <button type="submit" class="favorite-heart-btn active" title="Quitar de favoritos">
+                                <span class="heart-icon">❤</span>
+                            </button>
+                        }
+                    </div>
+
+                    <div class="favorite-card-body">
+                        <h3>@item.Nombre_Animal</h3>
+
+                        <p class="favorite-description">
+                            @(string.IsNullOrWhiteSpace(item.Descripcion) ? "Mascota guardada en tu lista de favoritos." : item.Descripcion)
+                        </p>
+
+                        <div class="favorite-data-grid">
+                            <div><span>Raza</span><strong>@(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</strong></div>
+                            <div><span>Edad</span><strong>@(item.Edad.HasValue ? item.Edad + " años" : "No registrada")</strong></div>
+                            <div><span>Sexo</span><strong>@(string.IsNullOrWhiteSpace(item.Sexo) ? "No registrado" : item.Sexo)</strong></div>
+                            <div><span>Tamaño</span><strong>@(string.IsNullOrWhiteSpace(item.Tamano) ? "No registrado" : item.Tamano)</strong></div>
+                            <div><span>Peso</span><strong>@(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</strong></div>
+                            <div><span>Estado</span><strong>@(string.IsNullOrWhiteSpace(item.Estado) ? "Disponible" : item.Estado)</strong></div>
+                        </div>
+
+                        <div class="favorite-card-actions">
+                            <a href="@Url.Action("Catalogo", "Animal")" class="catalog-btn-soft">Ver catálogo</a>
+
+                            @using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "favorite-remove-form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("idAnimal", item.ID_Animal)
+                                @Html.Hidden("returnUrl", Request.RawUrl)
+
+                                <button type="submit" class="catalog-btn-danger favorite-remove-btn">
+                                    Quitar de favoritos
+                                </button>
                             }
                         </div>
-
-                        <div class="favorito-card-body">
-                            <p><strong>Raza:</strong> @(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</p>
-                            <p><strong>Edad:</strong> @(item.Edad.HasValue ? item.Edad + " años" : "No registrada")</p>
-                            <p><strong>Sexo:</strong> @item.Sexo</p>
-                            <p><strong>Tamaño:</strong> @item.Tamano</p>
-                            <p><strong>Peso:</strong> @(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</p>
-                            <p><strong>Estado:</strong> @item.Estado</p>
-                            <p><strong>Descripción:</strong> @item.Descripcion</p>
-                        </div>
                     </div>
-                }
+                </article>
+            }
+        </section>
+    }
+    else
+    {
+        <section class="favorites-empty">
+            <div class="favorites-empty-card">
+                <h3>Aún no has guardado mascotas</h3>
+                <p>
+                    Cuando marques una mascota con el corazón rosado, aparecerá aquí en tu lista
+                    de favoritos.
+                </p>
+
+                <a href="@Url.Action("Catalogo", "Animal")" class="catalog-btn-main">Explorar mascotas</a>
             </div>
-        }
-        else
-        {
-            <div class="alert alert-light border" role="alert">
-                Todavía no has guardado mascotas en favoritos.
-            </div>
-        }
-    </div>
+        </section>
+    }
 </div>
