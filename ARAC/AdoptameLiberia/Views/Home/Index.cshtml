@@ -2,174 +2,105 @@
     ViewBag.Title = "Inicio";
 }
 
-<link href="~/Content/estilos/Index.css" rel="stylesheet" />
-
 <div class="home-shell">
-    <section class="hero-skilline">
-        <div class="hero-copy">
-            <span class="hero-kicker">ARAC Refugio</span>
-            <h1>
-                Una plataforma más clara para
-                <span>adoptar, ayudar y participar</span>
-                en el bienestar animal
-            </h1>
-            <p>
-                ARAC reúne mascotas en adopción, campañas de castración, donaciones,
-                noticias y comunidad en un solo lugar, con una interfaz más moderna,
-                limpia y fácil de recorrer.
-            </p>
 
-            <div class="hero-actions">
-                <a href="@Url.Action("Catalogo", "Animal")" class="hero-btn primary">Ver mascotas</a>
-                <a href="@Url.Action("Index", "Campanias")" class="hero-btn secondary">Explorar campañas</a>
-                @if (Request.IsAuthenticated)
-                {
-                    <a href="@Url.Action("Index", "Comunidad")" class="hero-link-action">Ir a comunidad</a>
-                }
+    <section class="home-hero-section">
+        <div class="container">
+            <div class="home-hero-grid">
+                <div class="home-hero-copy">
+                    <span class="hero-mini">Refugio Animal · Liberia, Costa Rica</span>
+                    <h1>Rescatamos, cuidamos<br><strong>y encontramos hogar</strong></h1>
+                    <p>
+                        ARAC es el refugio de animales de Liberia. Trabajamos cada día para rescatar perros y gatos en situación de calle, brindarles atención veterinaria y conectarlos con familias que los quieran para siempre.
+                    </p>
+                </div>
+                <div class="home-hero-visual">
+                    <img src="~/Content/img/PerroyGato.png" alt="Perro y gato ARAC" />
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="hero-stats">
-                <div class="hero-stat-card">
+    <section class="home-stats-section">
+        <div class="container">
+            <div class="home-stats-grid">
+                <div class="home-stat-item">
                     <strong>Adopciones</strong>
-                    <span>Consulta perfiles de mascotas disponibles y toma decisiones responsables.</span>
+                    <span>Perfiles detallados de perros y gatos disponibles para adoptar</span>
                 </div>
-                <div class="hero-stat-card">
+                <div class="home-stat-item">
                     <strong>Donaciones</strong>
-                    <span>Apoya con insumos, recursos y ayuda para el refugio.</span>
+                    <span>Tu apoyo económico llega directamente al cuidado de los animales</span>
                 </div>
-                <div class="hero-stat-card">
+                <div class="home-stat-item">
                     <strong>Comunidad</strong>
-                    <span>Participa en publicaciones, campañas y noticias del refugio.</span>
+                    <span>Voluntarios, adoptantes y colaboradores unidos por los animales</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="hero-visual">
-            <div class="hero-image-card">
-                <img src="~/Content/img/Refugio.png" alt="ARAC Refugio" />
-            </div>
-            <div class="floating-card floating-card-top">
-                <h4>Campañas activas</h4>
-                <p>Consulta cupos, fechas y registro de mascotas para castración.</p>
-            </div>
-            <div class="floating-card floating-card-bottom">
-                <h4>Adopta con confianza</h4>
-                <p>Accede a información organizada y navega más rápido entre vistas.</p>
+    <section class="home-categories-section">
+        <div class="container">
+            <div class="section-label">¿Qué podés hacer?</div>
+            <div class="home-cats-grid">
+
+                <a href="@Url.Action("Index", "Noticias")" class="home-cat-item">
+                    <div class="cat-icon-wrap">📰</div>
+                    <h3>Noticias</h3>
+                    <p>Enterate de las últimas novedades del refugio y la comunidad animal de Liberia.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Campanias")" class="home-cat-item">
+                    <div class="cat-icon-wrap">🐾</div>
+                    <h3>Bienestar Animal</h3>
+                    <p>Campañas de castración, vacunación y seguimiento de salud para mascotas.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Donaciones")" class="home-cat-item">
+                    <div class="cat-icon-wrap">💚</div>
+                    <h3>Donaciones</h3>
+                    <p>Apoya al refugio con una donación y ayudanos a seguir rescatando animales.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Comunidad")" class="home-cat-item">
+                    <div class="cat-icon-wrap">🤝</div>
+                    <h3>Comunidad</h3>
+                    <p>Publicaciones y red de apoyo entre adoptantes, voluntarios y colaboradores.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
             </div>
         </div>
     </section>
 
-    <section class="trusted-section">
-        <p class="section-label">SECCIONES PRINCIPALES</p>
-        <div class="trusted-grid">
-            <span>Mascotas</span>
-            <span>Campañas</span>
-            <span>Donaciones</span>
-            <span>Comunidad</span>
-            <span>Noticias</span>
-            <span>Voluntariado</span>
-        </div>
-    </section>
-
-    <section class="feature-intro text-center">
-        <h2>Una experiencia visual alineada con la referencia que compartiste</h2>
-        <p>
-            Se mantiene la lógica de tu proyecto ASP.NET MVC, pero con una presentación más cercana
-            al estilo de landing page moderna: bloques amplios, tarjetas blancas, botones redondeados,
-            fondos claros y jerarquía visual marcada. fileciteturn1file2 fileciteturn1file4
-        </p>
-    </section>
-
-    <section class="feature-grid three-cols">
-        <article class="feature-card">
-            <div class="icon-badge blue">01</div>
-            <h3>Adopta con orden</h3>
-            <p>La vista de mascotas sigue funcionando igual, pero con una entrada visual más limpia y profesional.</p>
-            <a href="@Url.Action("Catalogo", "Animal")">Ir a mascotas</a>
-        </article>
-
-        <article class="feature-card">
-            <div class="icon-badge orange">02</div>
-            <h3>Campañas más visibles</h3>
-            <p>Las campañas conservan sus acciones y formularios, pero el sitio se siente más moderno desde el inicio.</p>
-            <a href="@Url.Action("Index", "Campanias")">Ver campañas</a>
-        </article>
-
-        <article class="feature-card">
-            <div class="icon-badge cyan">03</div>
-            <h3>Donar es más claro</h3>
-            <p>La sección de donaciones sigue intacta en funcionalidad, con una identidad visual más consistente.</p>
-            <a href="@Url.Action("Index", "Donaciones")">Ir a donaciones</a>
-        </article>
-    </section>
-
-    <section class="split-section">
-        <div class="split-copy">
-            <p class="section-label left">NAVEGACIÓN</p>
-            <h2>Todo lo que ya hace tu sistema, ahora con mejor presencia</h2>
-            <p>
-                No estoy cambiando controladores, rutas, modelos ni formularios funcionales. La idea aquí es que el proyecto
-                mantenga exactamente sus acciones, pero que el layout y la vista principal se vean más cercanos a la referencia:
-                hero amplio, bloques informativos, tarjetas flotantes y footer estilizado. fileciteturn1file2
-            </p>
-            <div class="bullet-stack">
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Mascotas y adopciones</strong>
-                        <p>La navegación principal las mantiene visibles desde el menú superior.</p>
+    <section class="home-about-section">
+        <div class="container">
+            <div class="home-about-grid">
+                <div class="home-about-copy">
+                    <span class="hero-mini">Sobre ARAC</span>
+                    <h2>Un refugio que trabaja<br><strong>por cada vida animal</strong></h2>
+                    <p>
+                        Desde Liberia, Guanacaste, el equipo de ARAC rescata animales abandonados, les brinda atención veterinaria y los prepara para ser adoptados por familias responsables.
+                    </p>
+                    <p>
+                        Creemos que cada perro y cada gato merece una segunda oportunidad. Por eso ofrecemos seguimiento post-adopción, campañas de salud accesibles y un espacio para que la comunidad participe activamente.
+                    </p>
+                    <div class="home-about-list">
+                        <div>Rescate y atención veterinaria para animales en situación de calle</div>
+                        <div>Proceso de adopción responsable con evaluación y seguimiento</div>
+                        <div>Campañas de castración y vacunación para la comunidad</div>
+                        <div>Red de voluntarios y donantes que hacen posible el refugio</div>
                     </div>
                 </div>
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Comunidad y noticias</strong>
-                        <p>Quedan integradas dentro de la misma estética visual para que no se vean desconectadas.</p>
-                    </div>
+                <div class="home-about-visual">
+                    <img src="~/Content/img/Refugio.png" alt="Refugio ARAC Liberia" />
                 </div>
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Administración</strong>
-                        <p>El dropdown para administrador sigue funcionando, solo cambia el estilo.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="split-visual">
-            <div class="video-card">
-                <img src="~/Content/img/PerroyGato.png" alt="Perro y gato" />
-                <div class="play-circle"></div>
             </div>
         </div>
     </section>
 
-    <section class="stack-section">
-        <div class="stack-row reverse-mobile">
-            <div class="stack-image">
-                <img src="~/Content/img/GatoPerro.png" alt="Mascotas en refugio" />
-            </div>
-            <div class="stack-copy">
-                <h2>Secciones listas para seguir estilizando</h2>
-                <p>
-                    Con este cambio, ya dejas montada la base visual general. Después de esto, lo ideal es continuar por vistas clave
-                    como catálogo de mascotas, campañas, donaciones, comunidad y login para que todo el sitio mantenga la misma línea.
-                </p>
-            </div>
-        </div>
-
-        <div class="stack-row">
-            <div class="stack-copy">
-                <h2>Botones, tablas y formularios más consistentes</h2>
-                <p>
-                    El nuevo CSS global también estiliza tablas, formularios, cards y botones para que muchas vistas del proyecto
-                    mejoren sin tocar la lógica interna.
-                </p>
-            </div>
-            <div class="stack-image">
-                <img src="~/Content/img/MitadPerro.png" alt="Perro ARAC" />
-            </div>
-        </div>
-    </section>
 </div>

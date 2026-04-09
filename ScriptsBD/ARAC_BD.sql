@@ -486,7 +486,7 @@ VALUES
 (12, 'Alta', 'Media', 'Activo', 'Adultos', 'Ninguno', 'Juguetes', 'Muy juguetón'),
 (13, 'Baja', 'Media', 'Reservado', 'Adultos', 'Ninguno', 'Ambiente tranquilo', 'Muy calmado'),
 (14, 'Media', 'Alta', 'Elegante', 'Familia', 'Ninguno', 'Cepillado', 'Muy limpio'),
-(15, 'Alta', 'Alta', 'Sociable', 'Familia', 'Ninguno', 'Protección térmica', 'Muy amigable');
+(0, 'Alta', 'Alta', 'Sociable', 'Familia', 'Ninguno', 'Protección térmica', 'Muy amigable');
 GO
 
 INSERT INTO Publicacion_Comunidad
@@ -704,7 +704,7 @@ VALUES
 (14, 3, 'Casa con patio y tiempo para paseos diarios', 'Desea un perro pequeño y cariñoso', 0, NULL, 'Pendiente'),
 (15, 14, 'Casa tranquila con ventanas protegidas', 'Busca una gata elegante y dócil para compañía', 1, 'Un gato macho adulto', 'Aprobada'),
 (16, 6, 'Casa con jardín amplio', 'Quiere adoptar un perro curioso y sociable', 0, NULL, 'En revisión'),
-(17, 15, 'Apartamento con ambiente cálido y seguro', 'Desea una gata muy sociable y de fácil convivencia', 0, NULL, 'Pendiente'),
+(17, 0, 'Apartamento con ambiente cálido y seguro', 'Desea una gata muy sociable y de fácil convivencia', 0, NULL, 'Pendiente'),
 (18, 1, 'Casa familiar con patio grande', 'Busca un perro juguetón y amigable para toda la familia', 1, 'Un perro senior tranquilo', 'Aprobada');
 GO
 
@@ -732,7 +732,7 @@ VALUES
 (12, GETDATE(), 'Tratamiento', 'Revisión general satisfactoria'),
 (13, GETDATE(), 'Vacuna', 'Esquema básico completo'),
 (14, GETDATE(), 'Desparasitacion', 'Desparasitación externa aplicada'),
-(15, GETDATE(), 'Tratamiento', 'Control de peso recomendado');
+(0, GETDATE(), 'Tratamiento', 'Control de peso recomendado');
 GO
 
 -- CONFIGURACIÓN DE IDENTITY
@@ -1116,5 +1116,48 @@ BEGIN
     ALTER TABLE dbo.Animal
     ADD CONSTRAINT FK_Animal_AspNetUsers_UsuarioRegistro
     FOREIGN KEY (UsuarioRegistroId) REFERENCES dbo.AspNetUsers(Id);
+END
+GO
+---nuevo+---------------------------------------------------------------------
+USE ARAC_DB;
+GO
+
+IF OBJECT_ID('dbo.Seguimiento_Adopcion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Seguimiento_Adopcion
+    (
+        ID_Seguimiento INT IDENTITY(1,1) PRIMARY KEY,
+        ID_Adopcion INT NOT NULL,
+        ID_Usuario INT NULL,
+        Fecha_Seguimiento DATETIME NOT NULL DEFAULT(GETDATE()),
+        Tipo_Seguimiento VARCHAR(50) NOT NULL,
+        Estado_Mascota VARCHAR(100) NULL,
+        Estado_Hogar VARCHAR(100) NULL,
+        Comentario VARCHAR(500) NOT NULL,
+        Proxima_Accion VARCHAR(200) NULL,
+        CONSTRAINT FK_Seguimiento_Adopcion 
+            FOREIGN KEY (ID_Adopcion) REFERENCES dbo.Adopcion(ID_Adopcion),
+        CONSTRAINT FK_Seguimiento_Usuario
+            FOREIGN KEY (ID_Usuario) REFERENCES dbo.Usuario(ID_Usuario)
+    );
+END
+GO
+
+IF OBJECT_ID('dbo.Devolucion_Adopcion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Devolucion_Adopcion
+    (
+        ID_Devolucion INT IDENTITY(1,1) PRIMARY KEY,
+        ID_Adopcion INT NOT NULL,
+        ID_Usuario_Registro INT NULL,
+        Fecha_Devolucion DATETIME NOT NULL DEFAULT(GETDATE()),
+        Motivo VARCHAR(500) NOT NULL,
+        Observacion VARCHAR(500) NULL,
+        Estado_Final_Animal VARCHAR(50) NOT NULL DEFAULT('Disponible'),
+        CONSTRAINT FK_Devolucion_Adopcion
+            FOREIGN KEY (ID_Adopcion) REFERENCES dbo.Adopcion(ID_Adopcion),
+        CONSTRAINT FK_Devolucion_Usuario
+            FOREIGN KEY (ID_Usuario_Registro) REFERENCES dbo.Usuario(ID_Usuario)
+    );
 END
 GO

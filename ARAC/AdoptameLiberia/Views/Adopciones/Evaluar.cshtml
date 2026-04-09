@@ -1,0 +1,36 @@
+﻿@model AdoptameLiberia.Models.ViewModel.EvaluarSolicitudVM
+
+@{
+    ViewBag.Title = "Evaluar solicitud";
+}
+
+<div class="container mt-4">
+    <h2>Evaluar solicitud #@Model.ID_Solicitud</h2>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <p><strong>Usuario:</strong> @Model.UsuarioNombre</p>
+            <p><strong>Animal:</strong> @Model.AnimalNombre</p>
+            <p><strong>Motivo:</strong> @Model.Motivo_Adopcion</p>
+            <p><strong>Condiciones del hogar:</strong> @Model.Condiciones_Hogar</p>
+            <p><strong>Otros animales:</strong> @(Model.Otros_Animales ? "Sí" : "No")</p>
+            <p><strong>Detalle:</strong> @Model.Detalle_Otros_Animales</p>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID_Solicitud)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Estado)
+            @Html.DropDownListFor(m => m.Estado, (SelectList)ViewBag.Estados, "Seleccione", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Estado, "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-warning">Guardar evaluación</button>
+        @Html.ActionLink("Volver", "Solicitudes", null, new { @class = "btn btn-secondary" })
+    }
+</div>
+

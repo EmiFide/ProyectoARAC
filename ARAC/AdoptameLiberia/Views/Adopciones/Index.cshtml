@@ -1,57 +1,58 @@
-﻿@model IEnumerable<AdoptameLiberia.Models.Adopcion>
+﻿@model IEnumerable<AdoptameLiberia.Models.ViewModel.AdopcionResumenVM>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Adopciones";
 }
 
-<h2>Index</h2>
+<div class="container mt-4">
+    <h2>Adopciones registradas</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Animal.Nombre_Animal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Solicitud.ID_Usuario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha_Adopcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado_Adopcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Seguimiento_Inicial)
-        </th>
-        <th></th>
-    </tr>
+    @if (TempData["ok"] != null)
+    {
+        <div class="alert alert-success">@TempData["ok"]</div>
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Animal.Nombre_Animal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Solicitud.ID_Usuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Adopcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado_Adopcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Seguimiento_Inicial)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_Adopcion }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID_Adopcion }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_Adopcion })
-        </td>
-    </tr>
-}
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["error"]</div>
+    }
 
-</table>
+    <p>
+        @Html.ActionLink("Ver solicitudes", "Solicitudes", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Reporte de adopciones", "ReporteAdopciones", null, new { @class = "btn btn-info" })
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID Adopción</th>
+                <th>Solicitud</th>
+                <th>Usuario</th>
+                <th>Animal</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Seguimiento inicial</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID_Adopcion</td>
+                    <td>@item.ID_Solicitud</td>
+                    <td>@item.UsuarioNombre</td>
+                    <td>@item.AnimalNombre</td>
+                    <td>@item.Fecha_Adopcion.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Estado_Adopcion</td>
+                    <td>@item.Seguimiento_Inicial</td>
+                    <td>
+                        @Html.ActionLink("Seguimiento", "RegistrarSeguimiento", new { id = item.ID_Adopcion }, new { @class = "btn btn-sm btn-success" })
+                        @Html.Raw(" ")
+                        @Html.ActionLink("Devolución", "RegistrarDevolucion", new { id = item.ID_Adopcion }, new { @class = "btn btn-sm btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

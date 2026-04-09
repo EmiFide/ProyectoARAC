@@ -1,0 +1,56 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.ViewModel.SolicitudResumenVM>
+
+@{
+    ViewBag.Title = "Solicitudes de adopción";
+}
+
+<div class="container mt-4">
+    <h2>Solicitudes de adopción</h2>
+
+    @if (TempData["ok"] != null)
+    {
+        <div class="alert alert-success">@TempData["ok"]</div>
+    }
+
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["error"]</div>
+    }
+
+    <p>
+        @Html.ActionLink("Registrar solicitud", "RegistrarSolicitud", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Ver adopciones", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Animal</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Motivo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID_Solicitud</td>
+                    <td>@item.UsuarioNombre</td>
+                    <td>@item.AnimalNombre</td>
+                    <td>@(item.Fecha_Solicitud.HasValue ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@item.Estado</td>
+                    <td>@item.Motivo_Adopcion</td>
+                    <td>
+                        @Html.ActionLink("Evaluar", "Evaluar", new { id = item.ID_Solicitud }, new { @class = "btn btn-sm btn-warning" })
+                        @Html.Raw(" ")
+                        @Html.ActionLink("Asignar animal", "AsignarAnimal", new { id = item.ID_Solicitud }, new { @class = "btn btn-sm btn-success" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
