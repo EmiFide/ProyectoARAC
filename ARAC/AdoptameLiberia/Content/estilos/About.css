@@ -1,100 +1,215 @@
-﻿/* HERO */
-.about-hero {
-    background: #f5efe7;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
+﻿/* ================= HERO ================= */
+.hero {
+    background: linear-gradient(135deg, #dfeef5, #f5efe7);
+    padding: 70px 60px;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
 }
 
-    .about-hero h1 {
-        font-family: cursive;
-        color: #2c3e63;
-        margin-bottom: 30px;
+    /* glow suave detrás */
+    .hero::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        top: -100px;
+        left: -100px;
     }
 
-/* contenido superior */
-.about-top {
+.hero-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
+    gap: 40px;
+    position: relative;
 }
 
-    .about-top p {
-        width: 40%;
-        text-align: left;
-        color: #333;
-    }
-
-.about-img {
-    width: 350px;
-    border-radius: 20px;
-    transform: rotate(-5deg);
+.hero-text h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #1f2c4c;
 }
 
-/* botón amarillo */
-.about-cta {
-    margin-top: 30px;
-    background: #f4c542;
-    padding: 15px;
-    border-radius: 30px;
-    font-weight: bold;
+.hero-text p {
+    margin: 20px 0;
+    color: #4f5d75;
+    font-size: 1.1rem;
 }
 
-/* PROCESO */
-.proceso {
-    margin-top: 40px;
-    background: linear-gradient(135deg, #6f171a, #4a0f12);
-    padding: 40px;
-    border-radius: 20px;
+/* BOTONES */
+.btn-primary {
+    background: linear-gradient(135deg, #1da1a8, #167d85);
     color: white;
-    text-align: center;
-}
-
-    .proceso h2 {
-        margin-bottom: 30px;
-        color: #f5efe7;
-    }
-
-/* CARDS */
-.cards-proceso {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-/* tarjeta */
-.card {
-    background: #8e2a2f; /* vino claro */
-    padding: 25px;
-    border-radius: 15px;
-    color: #fff;
+    padding: 12px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
     transition: 0.3s;
 }
 
-    /* efecto hover 🔥 */
-    .card:hover {
-        transform: translateY(-5px);
-        background: #a8363c;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .card .icon {
-        font-size: 40px;
+.btn-secondary {
+    background: #e5e7eb;
+    padding: 12px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #555;
+    transition: 0.3s;
+}
+
+    .btn-secondary:hover {
+        background: #d6d8db;
+    }
+
+/* imagen */
+.hero-image img {
+    width: 380px;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+}
+
+
+/* ================= CATEGORIAS ================= */
+.categorias {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.categoria-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+    /* 🔥 efecto moderno */
+    .categoria-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    }
+
+    .categoria-card .icon {
+        font-size: 45px;
         margin-bottom: 10px;
     }
 
-    /* card grande */
-    .card.grande {
-        grid-column: span 2;
+
+/* ================= CONTENIDO ================= */
+.contenido {
+    margin-top: 60px;
+}
+
+    .contenido h2 {
+        font-size: 1.8rem;
+        color: #1f2c4c;
+        margin-bottom: 20px;
     }
 
-/* CTA amarillo (lo dejamos pero más elegante) */
-.about-cta {
-    margin-top: 30px;
-    background: #e0b84c;
-    color: #4a0f12;
-    padding: 15px;
-    border-radius: 30px;
-    font-weight: bold;
+/* GRID */
+.contenido-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 320px;
+    gap: 25px;
+}
+
+
+/* ================= CARDS ================= */
+.contenido-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #000;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+    .contenido-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .contenido-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .contenido-card h3 {
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+
+    .contenido-card p {
+        padding: 0 12px 15px;
+        color: #555;
+    }
+
+
+/* ================= CONSEJO ================= */
+.tip-card {
+    background: linear-gradient(135deg, #eef4f8, #ffffff);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-left: 6px solid #1da1a8;
+}
+
+    .tip-card h3 {
+        color: #1f2c4c;
+    }
+
+    .tip-card p {
+        margin: 15px 0;
+        color: #555;
+    }
+
+    .tip-card a {
+        color: #1da1a8;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1000px) {
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .categorias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contenido-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-image img {
+        width: 250px;
+    }
+}
+
+.icon i {
+    font-size: 40px;
+    color: #1da1a8;
+    transition: 0.3s;
+}
+
+/* efecto hover 🔥 */
+.categoria-card:hover .icon i {
+    transform: scale(1.2);
+    color: #167d85;
 }

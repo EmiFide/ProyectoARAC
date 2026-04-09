@@ -2,91 +2,214 @@
 
 @{
     ViewBag.Title = "Dashboard Financiero";
-}
 
-<h2 class="mb-4">📊 Transparencia de Donaciones</h2>
-
-<!-- RESUMEN -->
-<div class="row text-center mb-4">
-
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3 bg-success text-white rounded">
-            <h5>💰 Total Donado</h5>
-            <h3>₡ @Model.TotalIngresos.ToString("N2")</h3>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3 bg-danger text-white rounded">
-            <h5>🧾 Total Utilizado</h5>
-            <h3>₡ @Model.TotalGastos.ToString("N2")</h3>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3 bg-info text-white rounded">
-            <h5>🐾 Disponible</h5>
-            <h3>₡ @Model.Balance.ToString("N2")</h3>
-        </div>
-    </div>
-
-</div>
-
-<!-- EXPLICACIÓN -->
-<div class="alert alert-light border mb-4">
-    <strong>¿Cómo se usan las donaciones?</strong><br />
-    Las donaciones se destinan a cubrir alimentación, atención veterinaria,
-    medicamentos y mantenimiento del refugio.
-</div>
-
-<!-- BARRA DE USO -->
-@{
     var total = Model.TotalIngresos == 0 ? 1 : Model.TotalIngresos;
     var porcentaje = (Model.TotalGastos / total) * 100;
 }
 
-<h5>📊 Uso de las donaciones</h5>
+@section styles {
+    <link href="~/Content/estilos/Dashboard.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+}
 
-<div class="progress mb-4">
-    <div class="progress-bar bg-danger" style="width:@porcentaje%">
-        @porcentaje.ToString("0")%
+<h2 class="titulo">
+    <i class="fas fa-chart-pie"></i> Transparencia de Donaciones
+</h2>
+
+<!-- KPI -->
+<div class="kpi-container">
+
+    <div class="kpi-card">
+        <i class="fas fa-coins"></i>
+        <h5>Total Donado</h5>
+        <h2>₡ @Model.TotalIngresos.ToString("N2")</h2>
     </div>
+
+    <div class="kpi-card">
+        <i class="fas fa-file-invoice"></i>
+        <h5>Total Utilizado</h5>
+        <h2>₡ @Model.TotalGastos.ToString("N2")</h2>
+    </div>
+
+    <div class="kpi-card">
+        <i class="fas fa-wallet"></i>
+        <h5>Disponible</h5>
+        <h2>₡ @Model.Balance.ToString("N2")</h2>
+    </div>
+
 </div>
 
-<!-- TABLA -->
-<h4>🐾 ¿En qué se usan los fondos?</h4>
+<!-- INFO -->
+<div class="info-box">
+    <strong>¿Cómo se usan las donaciones?</strong><br />
+    Alimentación, atención veterinaria, medicamentos y mantenimiento del refugio.
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Categoría</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-        </tr>
-    </thead>
-    <tbody>
+<!-- PROGRESO -->
+<div class="uso-section">
 
-        @foreach (var item in Model.Gastos)
-        {
-            <tr>
-                <!-- CATEGORÍA -->
-                <td>
-                    @(item.Categoria != null
-                ? item.Categoria.Nombre
-                : "Sin categoría")
-                </td>
+    <div class="uso-header">
+        <h5>Uso de las donaciones</h5>
+        <span>@porcentaje.ToString("0")% utilizado</span>
+    </div>
 
-                <!-- MONTO -->
-                <td class="fw-bold text-success">
-                    ₡ @(item.Monto.HasValue
-                ? item.Monto.Value.ToString("N2")
-                : "0.00")
-                </td>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" style="width:@porcentaje%"></div>
+    </div>
 
-                <!-- DESCRIPCIÓN -->
-                <td>@item.Descripcion</td>
-            </tr>
+    <div class="uso-labels">
+        <span>Utilizado: ₡ @Model.TotalGastos.ToString("N2")</span>
+        <span>Disponible: ₡ @Model.Balance.ToString("N2")</span>
+    </div>
+
+</div>
+
+<!-- GRID -->
+<div class="dashboard-grid">
+
+    <!-- GRAFICO -->
+    <div class="card">
+        <h5>
+            <i class="fas fa-chart-pie"></i> Distribución de gastos
+        </h5>
+        <canvas id="grafico"></canvas>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card">
+        <h5>¿En qué se usan los fondos?</h5>
+
+        <table class="tabla-pro">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.Gastos)
+                {
+                    <tr>
+                        <td>
+                            @(item.Categoria != null ? item.Categoria.Nombre : "Sin categoría")
+                        </td>
+
+                        <td class="monto">
+                            ₡ @(item.Monto.HasValue ? item.Monto.Value.ToString("N2") : "0.00")
+                        </td>
+
+                        <td>@item.Descripcion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var labels = [];
+    var data = [];
+    var colores = [];
+
+    @{
+        var grupos = Model.Gastos
+            .GroupBy(g => g.Categoria != null ? g.Categoria.Nombre : "Otros")
+            .Select(g => new {
+                Nombre = g.Key,
+                Total = g.Sum(x => x.Monto ?? 0)
+            })
+            .ToList();
+
+        var colorList = new List<string> {
+            "#3B82F6",
+            "#10B981",
+            "#F59E0B",
+            "#8B5CF6",
+            "#EF4444"
+        };
+
+        int i = 0;
+    }
+
+    @foreach (var item in grupos)
+    {
+        var color = colorList[i % colorList.Count];
+        i++;
+
+        <text>
+            labels.push("@item.Nombre");
+            data.push(@item.Total);
+            colores.push("@color");
+        </text>
+    }
+
+    const centerText = {
+        id: 'centerText',
+        beforeDraw(chart) {
+            const { width, height, ctx } = chart;
+
+            ctx.restore();
+
+            let total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+
+            ctx.font = "bold 18px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#2c3e63";
+
+            ctx.fillText("₡" + total.toLocaleString(), width / 2, height / 2);
+
+            ctx.save();
         }
+    };
 
-    </tbody>
-</table>
+    const ctx = document.getElementById('grafico');
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colores,
+                borderWidth: 0,
+                hoverOffset: 18
+            }]
+        },
+        options: {
+            cutout: '72%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 18
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let value = context.raw;
+                            let percentage = ((value / total) * 100).toFixed(1);
+
+                            return context.label + ': ₡' + value.toLocaleString() +
+                                   ' (' + percentage + '%)';
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1200
+            }
+        },
+        plugins: [centerText]
+    });
+</script>
