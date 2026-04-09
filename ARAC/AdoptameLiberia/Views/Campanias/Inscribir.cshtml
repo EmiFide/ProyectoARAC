@@ -4,61 +4,93 @@
     ViewBag.Title = "Registrar Mascota";
 }
 
-<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
 <div class="page-shell">
-    <div class="hero-campania">
-        <div class="hero-campania-content">
-            <h1>Registrar mascota en campaña</h1>
-            <p>Completa este formulario para inscribir a tu mascota en la campaña seleccionada.</p>
-        </div>
-    </div>
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Inscripción</span>
+                <h1>Registrar mascota en campaña</h1>
+                <p>
+                    Completa el formulario para asociar una de tus mascotas disponibles a la campaña seleccionada.
+                </p>
+            </div>
 
-    <div class="info-layout">
-        <div class="form-card">
-            @using (Html.BeginForm("Inscribir", "Campanias", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(m => m.CampaniaCastracionId)
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/Gato.png")" alt="Registrar mascota" />
+            </div>
+        </section>
 
-                <div class="form-grid">
-                    <div class="form-group-campania">
-                        <label>Campaña</label>
-                        <input type="text" value="@ViewBag.CampaniaNombre" readonly />
-                    </div>
-
-                    <div class="form-group-campania">
-                        <label>Fecha</label>
-                        <input type="text" value="@(((DateTime)ViewBag.CampaniaFecha).ToShortDateString())" readonly />
-                    </div>
-
-                    <div class="form-group-campania full">
-                        <label>Lugar</label>
-                        <input type="text" value="@ViewBag.CampaniaLugar" readonly />
-                    </div>
-
-                    <div class="form-group-campania full">
-                        <label>Seleccione la mascota</label>
-                        @Html.DropDownListFor(
-                            m => m.AnimalId,
-                            (SelectList)ViewBag.AnimalId,
-                            "Seleccione una mascota",
-                            new { @class = "" }
-                        )
-                    </div>
+        <section class="info-card-grid">
+            <div class="form-shell-card">
+                <div class="form-shell-header">
+                    <h2>Información de la inscripción</h2>
+                    <p>Revisa los datos de la campaña y selecciona la mascota que deseas registrar.</p>
                 </div>
 
-                @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+                <div class="form-shell-body">
+                    @using (Html.BeginForm("Inscribir", "Campanias", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.CampaniaCastracionId)
 
-                <div class="page-actions">
-                    <button type="submit" class="btn-campania-success">Registrar mascota</button>
-                    <a href="@Url.Action("Index", "Campanias")" class="btn-campania-outline">Volver</a>
+                        <div class="form-grid-camp">
+                            <div class="form-group-camp">
+                                <label>Campaña</label>
+                                <input type="text" class="form-readonly" value="@ViewBag.CampaniaNombre" readonly />
+                            </div>
+
+                            <div class="form-group-camp">
+                                <label>Fecha</label>
+                                <input type="text" class="form-readonly" value="@(((DateTime)ViewBag.CampaniaFecha).ToString("dd/MM/yyyy"))" readonly />
+                            </div>
+
+                            <div class="form-group-camp full">
+                                <label>Lugar</label>
+                                <input type="text" class="form-readonly" value="@ViewBag.CampaniaLugar" readonly />
+                            </div>
+
+                            <div class="form-group-camp full">
+                                <label>Seleccione la mascota</label>
+                                @Html.DropDownListFor(
+                                    m => m.AnimalId,
+                                    (SelectList)ViewBag.AnimalId,
+                                    "Seleccione una mascota",
+                                    new { }
+                                )
+                            </div>
+                        </div>
+
+                        @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+
+                        <div class="form-actions-row">
+                            <a href="@Url.Action("Index", "Campanias")" class="camp-btn-light">Volver</a>
+                            <button type="submit" class="camp-btn-success">Registrar mascota</button>
+                        </div>
+                    }
                 </div>
-            }
-        </div>
+            </div>
 
-        <div class="side-image">
-            <img src="~/Content/img/Gato.png" alt="Mascotas" />
-        </div>
+            <aside class="side-panel-card">
+                <div class="side-panel-visual">
+                    <img src="@Url.Content("~/Content/img/PerroyGato.png")" alt="Mascotas" />
+                </div>
+
+                <h3>Importante</h3>
+                <p>
+                    Solo podrás registrar mascotas permitidas por el sistema según tu usuario y la disponibilidad actual.
+                </p>
+
+                <div class="notice-banner">
+                    <div>
+                        <strong>Revisión previa</strong>
+                        Asegúrate de seleccionar la mascota correcta antes de confirmar el registro.
+                    </div>
+                </div>
+            </aside>
+        </section>
     </div>
 </div>

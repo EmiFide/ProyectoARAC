@@ -4,38 +4,79 @@
     ViewBag.Title = "Registrar Resultado";
 }
 
-<div class="container mt-4">
-    <h2>Registrar resultado</h2>
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
-    @using (Html.BeginForm("RegistrarResultado", "Campanias", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-
-        @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m => m.CampaniaCastracionId)
-        @Html.HiddenFor(m => m.AnimalId)
-        @Html.HiddenFor(m => m.VeterinarioAsignado)
-
-        <div class="card shadow p-4">
-            <div class="form-group mb-3">
-                <label class="form-label">Mascota</label>
-                <input type="text" class="form-control" value="@(Model.Animal != null ? Model.Animal.Nombre_Animal : "Sin nombre")" readonly />
+<div class="page-shell">
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Administración</span>
+                <h1>Registrar resultado del procedimiento</h1>
+                <p>
+                    Guarda el resultado del procedimiento realizado para mantener actualizado el seguimiento de la inscripción.
+                </p>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Veterinario asignado</label>
-                <input type="text" class="form-control" value="@Model.VeterinarioAsignado" readonly />
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/Gato.png")" alt="Registrar resultado" />
+            </div>
+        </section>
+
+        <section class="info-card-grid">
+            <div class="form-shell-card">
+                <div class="form-shell-header">
+                    <h2>Resultado del procedimiento</h2>
+                    <p>Completa esta información para dejar constancia del estado final del registro.</p>
+                </div>
+
+                <div class="form-shell-body">
+                    @using (Html.BeginForm("RegistrarResultado", "Campanias", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.CampaniaCastracionId)
+                        @Html.HiddenFor(m => m.AnimalId)
+                        @Html.HiddenFor(m => m.VeterinarioAsignado)
+
+                        <div class="form-grid-camp">
+                            <div class="form-group-camp">
+                                <label>Mascota</label>
+                                <input type="text" class="form-readonly" value="@(Model.Animal != null ? Model.Animal.Nombre_Animal : "Sin nombre")" readonly />
+                            </div>
+
+                            <div class="form-group-camp">
+                                <label>Veterinario asignado</label>
+                                <input type="text" class="form-readonly" value="@Model.VeterinarioAsignado" readonly />
+                            </div>
+
+                            <div class="form-group-camp full">
+                                <label>Resultado del procedimiento</label>
+                                @Html.TextAreaFor(m => m.Resultado, new { rows = "6", placeholder = "Describe el resultado del procedimiento realizado" })
+                                @Html.ValidationMessageFor(m => m.Resultado, "", new { @class = "form-error" })
+                            </div>
+                        </div>
+
+                        <div class="form-actions-row">
+                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = Model.CampaniaCastracionId })" class="camp-btn-light">Volver</a>
+                            <button type="submit" class="camp-btn-success">Guardar resultado</button>
+                        </div>
+                    }
+                </div>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Resultado del procedimiento</label>
-                @Html.TextAreaFor(m => m.Resultado, new { @class = "form-control", rows = "5", placeholder = "Escriba aquí el resultado del procedimiento realizado" })
-            </div>
+            <aside class="side-panel-card">
+                <div class="side-panel-visual">
+                    <img src="@Url.Content("~/Content/img/MitadGato.png")" alt="Resultado" />
+                </div>
 
-            <div class="mt-3">
-                <button type="submit" class="btn btn-success">Guardar resultado</button>
-                <a href="@Url.Action("VerInscripciones", "Campanias", new { id = Model.CampaniaCastracionId })" class="btn btn-secondary">Volver</a>
-            </div>
-        </div>
-    }
+                <h3>Registro final</h3>
+                <p>
+                    Esta información ayuda a llevar un control más claro del procedimiento realizado en la campaña.
+                </p>
+            </aside>
+        </section>
+    </div>
 </div>
