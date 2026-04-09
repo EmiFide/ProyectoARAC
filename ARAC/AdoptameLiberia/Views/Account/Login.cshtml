@@ -1,19 +1,23 @@
 ﻿@model AdoptameLiberia.Models.LoginViewModel
 
 @{
-    ViewBag.Title = "Iniciar Sesión";
+    ViewBag.Title = "Iniciar sesión";
 }
 
-<link href="~/Content/estilos/Login.css" rel="stylesheet" />
+@section Styles {
+    <link href="~/Content/estilos/Login.css" rel="stylesheet" />
+}
 
 <div class="auth-shell">
     <div class="auth-card">
         <div class="auth-visual">
-            <div class="auth-visual-inner">
+            <div class="auth-visual-text">
                 <span class="auth-kicker">ARAC Refugio</span>
                 <h2>Bienvenido de nuevo</h2>
-                <p>Accede a tus donaciones, publicaciones, favoritos y gestión de mascotas desde una interfaz más limpia.</p>
-                <img src="~/Content/img/Cachorro.png" alt="Iniciar sesión" />
+                <p>Ingresa para gestionar tus adopciones, favoritos, donaciones y acceso a tu cuenta.</p>
+            </div>
+            <div class="auth-visual-img-wrap">
+                <img src="~/Content/img/Cachorro.png" alt="Cachorro ARAC" />
             </div>
         </div>
 
@@ -24,24 +28,24 @@
             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
 
                 <div class="auth-group">
-                    @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control" })
+                    @Html.LabelFor(m => m.Email, "Correo electrónico")
+                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control", autocomplete = "username" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="auth-group">
                     @Html.LabelFor(m => m.Password, "Contraseña")
-                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Ingresa tu contraseña", @class = "form-control" })
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Ingresa tu contraseña", @class = "form-control", autocomplete = "current-password" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="auth-check">
+                <label class="auth-check">
                     @Html.CheckBoxFor(m => m.RememberMe)
                     <span>Recordarme</span>
-                </div>
+                </label>
 
                 <button type="submit" class="auth-submit">Entrar</button>
 
@@ -52,3 +56,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

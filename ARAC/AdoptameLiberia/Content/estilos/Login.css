@@ -1,139 +1,85 @@
-﻿.auth-shell {
-    min-height: calc(100vh - 220px);
+﻿/* LOGIN Y REGISTER - ESTILO PROFESIONAL AZUL */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f5f9ff, #e6f0ff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-container {
+    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px 0 30px;
+    align-items: center;
 }
 
 .auth-card {
-    width: min(1180px, 100%);
-    display: grid;
-    grid-template-columns: .95fr 1.05fr;
-    background: #fff;
-    border: 1px solid #dcecf2;
-    border-radius: 34px;
-    overflow: hidden;
-    box-shadow: 0 22px 40px rgba(17, 92, 109, .12);
+    background: #ffffff;
+    padding: 40px;
+    width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-.auth-visual {
-    background: linear-gradient(135deg, #0d4c5a, #1498b9 65%, #62dbef);
-    color: #fff;
-    padding: 34px;
-    display: flex;
-    align-items: center;
+    .auth-card h2 {
+        margin-bottom: 25px;
+        text-align: center;
+        color: #1e3a8a;
+    }
+
+.form-group {
+    margin-bottom: 20px;
 }
 
-.auth-visual-inner {
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #333;
+        font-size: 14px;
+    }
+
+.form-control {
     width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d0d7e2;
+    font-size: 14px;
+    transition: border 0.3s;
 }
 
-.auth-kicker {
-    display: inline-block;
-    margin-bottom: 12px;
-    font-size: .84rem;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    font-weight: 700;
-}
+    .form-control:focus {
+        border-color: #2563eb;
+        outline: none;
+    }
 
-.auth-visual h2 {
-    color: #fff;
-    font-size: clamp(2rem, 3vw, 3rem);
-    margin-bottom: 14px;
-}
-
-.auth-visual p {
-    color: rgba(255,255,255,.92);
-    line-height: 1.8;
-    margin-bottom: 22px;
-}
-
-.auth-visual img {
+.btn-auth {
     width: 100%;
-    max-width: 420px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 26px;
-    background: rgba(255,255,255,.12);
-    padding: 8px;
-}
-
-.auth-form-side {
-    padding: 42px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-    .auth-form-side h1 {
-        margin-bottom: 8px;
-        font-size: 2rem;
-    }
-
-.auth-subtext {
-    margin-bottom: 26px;
-    color: #67818c;
-}
-
-    .auth-subtext a,
-    .auth-links a {
-        color: #1498b9;
-        font-weight: 700;
-    }
-
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.auth-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.auth-check {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #4f6772;
-    font-weight: 600;
-}
-
-    .auth-check input {
-        width: auto;
-        min-height: auto;
-    }
-
-.auth-submit {
+    padding: 12px;
     border: none;
-    min-height: 54px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #0d4c5a, #1498b9);
-    color: #fff;
-    font-weight: 800;
-    margin-top: 8px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.auth-links {
-    margin-top: 10px;
-}
-
-@media (max-width: 992px) {
-    .auth-card {
-        grid-template-columns: 1fr;
+    .btn-auth:hover {
+        background: #1d4ed8;
     }
 
-    .auth-visual {
-        min-height: 280px;
-    }
+.auth-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
 }
 
-@media (max-width: 768px) {
-    .auth-form-side,
-    .auth-visual {
-        padding: 24px 18px;
+    .auth-link a {
+        color: #2563eb;
+        text-decoration: none;
     }
-}
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
