@@ -1118,3 +1118,46 @@ BEGIN
     FOREIGN KEY (UsuarioRegistroId) REFERENCES dbo.AspNetUsers(Id);
 END
 GO
+---nuevo+---------------------------------------------------------------------
+USE ARAC_DB;
+GO
+
+IF OBJECT_ID('dbo.Seguimiento_Adopcion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Seguimiento_Adopcion
+    (
+        ID_Seguimiento INT IDENTITY(1,1) PRIMARY KEY,
+        ID_Adopcion INT NOT NULL,
+        ID_Usuario INT NULL,
+        Fecha_Seguimiento DATETIME NOT NULL DEFAULT(GETDATE()),
+        Tipo_Seguimiento VARCHAR(50) NOT NULL,
+        Estado_Mascota VARCHAR(100) NULL,
+        Estado_Hogar VARCHAR(100) NULL,
+        Comentario VARCHAR(500) NOT NULL,
+        Proxima_Accion VARCHAR(200) NULL,
+        CONSTRAINT FK_Seguimiento_Adopcion 
+            FOREIGN KEY (ID_Adopcion) REFERENCES dbo.Adopcion(ID_Adopcion),
+        CONSTRAINT FK_Seguimiento_Usuario
+            FOREIGN KEY (ID_Usuario) REFERENCES dbo.Usuario(ID_Usuario)
+    );
+END
+GO
+
+IF OBJECT_ID('dbo.Devolucion_Adopcion', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Devolucion_Adopcion
+    (
+        ID_Devolucion INT IDENTITY(1,1) PRIMARY KEY,
+        ID_Adopcion INT NOT NULL,
+        ID_Usuario_Registro INT NULL,
+        Fecha_Devolucion DATETIME NOT NULL DEFAULT(GETDATE()),
+        Motivo VARCHAR(500) NOT NULL,
+        Observacion VARCHAR(500) NULL,
+        Estado_Final_Animal VARCHAR(50) NOT NULL DEFAULT('Disponible'),
+        CONSTRAINT FK_Devolucion_Adopcion
+            FOREIGN KEY (ID_Adopcion) REFERENCES dbo.Adopcion(ID_Adopcion),
+        CONSTRAINT FK_Devolucion_Usuario
+            FOREIGN KEY (ID_Usuario_Registro) REFERENCES dbo.Usuario(ID_Usuario)
+    );
+END
+GO
