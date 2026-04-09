@@ -2,91 +2,113 @@
     ViewBag.Title = "Inicio";
 }
 
-<link href="~/Content/estilos/Index.css" rel="stylesheet" />
-
 <div class="home-shell">
-    <section class="home-hero">
-        <div class="home-hero-copy">
-            <span class="hero-mini">Cuidado, adopción y apoyo</span>
-            <h1>Un refugio digital con una imagen más moderna, clara y profesional</h1>
-            <p>
-                Explora mascotas disponibles, campañas de castración, donaciones, noticias y comunidad
-                desde una sola plataforma con mejor navegación y presencia visual.
-            </p>
 
-            <div class="home-hero-actions">
-                <a href="@Url.Action("Catalogo", "Animal")" class="home-btn home-btn-primary">Ver mascotas</a>
-                <a href="@Url.Action("Index", "Campanias")" class="home-btn home-btn-light">Ver campañas</a>
+    <section class="home-hero-section">
+        <div class="container">
+            <div class="home-hero-grid">
+                <div class="home-hero-copy">
+                    <span class="hero-mini">Refugio Animal · Liberia, Costa Rica</span>
+                    <h1>Rescatamos, cuidamos<br><strong>y encontramos hogar</strong></h1>
+                    <p>
+                        ARAC es el refugio de animales de Liberia. Trabajamos cada día para rescatar perros y gatos en situación de calle, brindarles atención veterinaria y conectarlos con familias que los quieran para siempre.
+                    </p>
+                    <div class="home-hero-actions">
+                        <a href="@Url.Action("Catalogo", "Animal")" class="home-btn home-btn-primary">Ver mascotas</a>
+                        <a href="@Url.Action("Register", "Account")" class="home-btn home-btn-outline">Registrarme</a>
+                    </div>
+                </div>
+                <div class="home-hero-visual">
+                    <img src="~/Content/img/PerroyGato.png" alt="Perro y gato ARAC" />
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="home-stat-strip">
-                <div class="home-stat">
+    <section class="home-stats-section">
+        <div class="container">
+            <div class="home-stats-grid">
+                <div class="home-stat-item">
                     <strong>Adopciones</strong>
-                    <span>Perfiles claros de perros y gatos</span>
+                    <span>Perfiles detallados de perros y gatos disponibles para adoptar</span>
                 </div>
-                <div class="home-stat">
+                <div class="home-stat-item">
                     <strong>Donaciones</strong>
-                    <span>Apoyo rápido y ordenado</span>
+                    <span>Tu apoyo económico llega directamente al cuidado de los animales</span>
                 </div>
-                <div class="home-stat">
+                <div class="home-stat-item">
                     <strong>Comunidad</strong>
-                    <span>Publicaciones y noticias del refugio</span>
+                    <span>Voluntarios, adoptantes y colaboradores unidos por los animales</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="home-hero-visual">
-            <div class="hero-circle hero-circle-lg">
-                <img src="~/Content/img/PerroyGato.png" alt="Mascotas" />
+    <section class="home-categories-section">
+        <div class="container">
+            <div class="section-label">¿Qué podés hacer?</div>
+            <div class="home-cats-grid">
+
+                <a href="@Url.Action("Index", "Noticias")" class="home-cat-item">
+                    <div class="cat-icon-wrap">📰</div>
+                    <h3>Noticias</h3>
+                    <p>Enterate de las últimas novedades del refugio y la comunidad animal de Liberia.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Campanias")" class="home-cat-item">
+                    <div class="cat-icon-wrap">🐾</div>
+                    <h3>Bienestar Animal</h3>
+                    <p>Campañas de castración, vacunación y seguimiento de salud para mascotas.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Donaciones")" class="home-cat-item">
+                    <div class="cat-icon-wrap">💚</div>
+                    <h3>Donaciones</h3>
+                    <p>Apoya al refugio con una donación y ayudanos a seguir rescatando animales.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
+                <a href="@Url.Action("Index", "Comunidad")" class="home-cat-item">
+                    <div class="cat-icon-wrap">🤝</div>
+                    <h3>Comunidad</h3>
+                    <p>Publicaciones y red de apoyo entre adoptantes, voluntarios y colaboradores.</p>
+                    <div class="cat-arrow">→</div>
+                </a>
+
             </div>
-            <div class="hero-circle hero-circle-sm">
-                <img src="~/Content/img/Cachorro.png" alt="Veterinaria" />
-            </div>
-            <div class="hero-pill hero-pill-top">Adopción responsable</div>
-            <div class="hero-pill hero-pill-bottom">Campañas y donaciones</div>
         </div>
     </section>
 
-    <section class="home-categories">
-        <a href="@Url.Action("Catalogo", "Animal")" class="home-cat-card">
-            <h3>Mascotas</h3>
-            <p>Consulta perros y gatos disponibles</p>
-        </a>
-
-        <a href="@Url.Action("Index", "Campanias")" class="home-cat-card">
-            <h3>Campañas</h3>
-            <p>Inscripciones y seguimiento</p>
-        </a>
-
-        <a href="@Url.Action("Index", "Donaciones")" class="home-cat-card">
-            <h3>Donaciones</h3>
-            <p>Apoya económicamente al refugio</p>
-        </a>
-
-        <a href="@Url.Action("Index", "Comunidad")" class="home-cat-card">
-            <h3>Comunidad</h3>
-            <p>Publicaciones, mensajes y apoyo</p>
-        </a>
-    </section>
-
-    <section class="home-showcase">
-        <div class="showcase-copy">
-            <span class="section-kicker">Una sola línea visual</span>
-            <h2>Las vistas dejan de verse como CRUD y pasan a sentirse como un sitio real</h2>
-            <p>
-                La lógica sigue funcionando igual, pero la presentación cambia con héroes visuales,
-                tarjetas grandes, fondos limpios y botones más modernos.
-            </p>
-
-            <div class="showcase-list">
-                <div><span></span>Catálogo más visual para adopciones</div>
-                <div><span></span>Campañas con apariencia más clara y usable</div>
-                <div><span></span>Donaciones y comunidad con mejor jerarquía</div>
+    <section class="home-about-section">
+        <div class="container">
+            <div class="home-about-grid">
+                <div class="home-about-copy">
+                    <span class="hero-mini">Sobre ARAC</span>
+                    <h2>Un refugio que trabaja<br><strong>por cada vida animal</strong></h2>
+                    <p>
+                        Desde Liberia, Guanacaste, el equipo de ARAC rescata animales abandonados, les brinda atención veterinaria y los prepara para ser adoptados por familias responsables.
+                    </p>
+                    <p>
+                        Creemos que cada perro y cada gato merece una segunda oportunidad. Por eso ofrecemos seguimiento post-adopción, campañas de salud accesibles y un espacio para que la comunidad participe activamente.
+                    </p>
+                    <div class="home-about-list">
+                        <div>Rescate y atención veterinaria para animales en situación de calle</div>
+                        <div>Proceso de adopción responsable con evaluación y seguimiento</div>
+                        <div>Campañas de castración y vacunación para la comunidad</div>
+                        <div>Red de voluntarios y donantes que hacen posible el refugio</div>
+                    </div>
+                    <div class="home-hero-actions" style="margin-top:28px;">
+                        <a href="@Url.Action("Index", "Donaciones")" class="home-btn home-btn-primary">Donar ahora</a>
+                        <a href="@Url.Action("Index", "Voluntarios")" class="home-btn home-btn-outline">Ser voluntario</a>
+                    </div>
+                </div>
+                <div class="home-about-visual">
+                    <img src="~/Content/img/Refugio.png" alt="Refugio ARAC Liberia" />
+                </div>
             </div>
         </div>
-
-        <div class="showcase-image">
-            <img src="~/Content/img/Refugio.png" alt="Refugio" />
-        </div>
     </section>
+
 </div>

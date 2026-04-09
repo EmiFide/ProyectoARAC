@@ -2,65 +2,96 @@
     <link href="~/Content/estilos/About.css" rel="stylesheet" />
 }
 
-<!-- HERO EDUCATIVO -->
-<div class="about-hero">
+<!-- HERO -->
+<div class="hero">
 
-    <h1>Bienestar Animal y Tenencia Responsable</h1>
+    <div class="hero-content">
 
-    <div class="about-top">
-        <p>
-            Si te interesa el bienestar animal, este espacio es para ti.
-            Aquí podrás acceder a contenido educativo gracias a links confiables diseñados para ayudarte
-            a comprender cómo cuidar mejor a tus mascotas y brindarles una vida saludable,
-            segura y llena de amor.
-        </p>
+        <div class="hero-text">
+            <h1>Aprende a cuidar mejor <br /> a tu mascota 🐾</h1>
 
-        <img src="@Url.Content("~/Content/img/Refugio.png")" class="about-img" />
+            <p>
+                Descubre cómo mantener a tus mascotas saludables, felices y seguras
+                con consejos y guías de cuidado responsable.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#contenido" class="btn-primary">Explorar contenido</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="@Url.Content("~/Content/img/Refugio.png")" />
+        </div>
+
     </div>
-
-    <a href="#contenido" class="about-cta">
-        📚 Explorar contenido educativo
-    </a>
 
 </div>
 
-<!-- CONTENIDO EDUCATIVO -->
-<div id="contenido" class="proceso">
+
+<!-- CATEGORÍAS -->
+<div class="categorias">
+
+    <div class="categoria-card">
+        <div class="icon"><i class="fas fa-bone"></i></div>
+        <h3>Alimentación</h3>
+    </div>
+
+    <div class="categoria-card">
+        <div class="icon"><i class="fas fa-syringe"></i></div>
+        <h3>Salud</h3>
+    </div>
+
+    <div class="categoria-card">
+        <div class="icon"><i class="fas fa-soap"></i></div>
+        <h3>Higiene</h3>
+    </div>
+
+    <div class="categoria-card">
+        <div class="icon"><i class="fas fa-house"></i></div>
+        <h3>Ambiente</h3>
+    </div>
+
+    <div class="categoria-card">
+        <div class="icon"><i class="fas fa-heart"></i></div>
+        <h3>Bienestar emocional</h3>
+    </div>
+
+</div>
+
+<!-- CONTENIDO -->
+<div id="contenido" class="contenido">
 
     <h2>Contenido educativo disponible</h2>
 
-    <div class="cards-proceso">
+    <div class="contenido-grid">
 
-        <a href="https://www.hillspet.co.cr/"
-           target="_blank" class="card">
-            <div class="icon">🍖</div>
-            <p>Alimentación adecuada</p>
+        <a href="https://www.hillspet.co.cr/" target="_blank" class="contenido-card">
+            <img src="https://placedog.net/400/250?id=1" />
+            <h3>Alimentación adecuada</h3>
+            <p>Consejos para una dieta balanceada.</p>
         </a>
 
-        <a href="https://purina.co.cr/purina/perros/vacunas-para-perros"
-           target="_blank" class="card">
-            <div class="icon">💉</div>
-            <p>Cuidados de salud y vacunación</p>
+        <a href="https://purina.co.cr/purina/perros/vacunas-para-perros" target="_blank" class="contenido-card">
+            <img src="https://placedog.net/400/250?id=2" />
+            <h3>Cuidados de salud</h3>
+            <p>Vacunación y revisiones importantes.</p>
         </a>
 
-        <a href="https://purina.co.cr/purina/perros/higiene-de-mascotas"
-           target="_blank" class="card">
-            <div class="icon">🧼</div>
-            <p>Higiene y cuidados básicos</p>
+        <a href="https://purina.co.cr/purina/perros/higiene-de-mascotas" target="_blank" class="contenido-card">
+            <img src="https://placedog.net/400/250?id=3" />
+            <h3>Higiene y vacunación</h3>
+            <p>Rutinas básicas de limpieza.</p>
         </a>
 
-        <a href="https://atrevia.vet/importancia-crear-ambiente-de-descanso-para-mascota/#:~:text=Ubicaci%C3%B3n%3A%20Elige%20un%20lugar%20tranquilo,las%20necesidades%20de%20tu%20mascota."
-           target="_blank" class="card">
-            <div class="icon">🏠</div>
-            <p>Cómo crear un ambiente adecuado</p>
-        </a>
-
-        <a href="https://natukabarf.com/blogs/news/como-cuidar-la-salud-mental-y-emocional-de-tu-perro-o-gato"
-           target="_blank" class="card">
-            <div class="icon">❤️</div>
-            <p>Bienestar emocional de tu mascota</p>
-        </a>
-
+        <!-- CONSEJO -->
+        <div class="tip-card">
+            <h3>✔ Consejo del día 🐶</h3>
+            <p>
+                El ejercicio diario es clave para mantener a tu mascota saludable
+                y feliz. ¡Dale su paseo diario!
+            </p>
+        </div>
 
     </div>
 

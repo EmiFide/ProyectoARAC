@@ -4,43 +4,47 @@
     ViewBag.Title = "Registro";
 }
 
-<link href="~/Content/estilos/Login.css" rel="stylesheet" />
+@section Styles {
+    <link href="~/Content/estilos/Login.css" rel="stylesheet" />
+}
 
 <div class="auth-shell">
     <div class="auth-card">
         <div class="auth-visual">
-            <div class="auth-visual-inner">
+            <div class="auth-visual-text">
                 <span class="auth-kicker">Únete a ARAC</span>
                 <h2>Crea tu cuenta</h2>
-                <p>Accede a adopciones, campañas, donaciones, comunidad y más desde un solo lugar.</p>
-                <img src="~/Content/img/GatoPerro.png" alt="Registro" />
+                <p>Regístrate para adoptar, donar, participar en campañas y guardar tus mascotas favoritas.</p>
+            </div>
+            <div class="auth-visual-img-wrap">
+                <img src="~/Content/img/GatoPerro.png" alt="Mascota ARAC" />
             </div>
         </div>
 
         <div class="auth-form-side">
-            <h1>Registro</h1>
-            <p class="auth-subtext">¿Ya tienes cuenta? <a href="@Url.Action("Login", "Account")">Inicia sesión</a></p>
+            <h1>Crear cuenta</h1>
+            <p class="auth-subtext">¿Ya tienes cuenta? <a href="@Url.Action("Login", "Account")">Inicia sesión aquí</a></p>
 
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", @class = "auth-form" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger auth-summary" })
 
                 <div class="auth-group">
-                    @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control" })
+                    @Html.LabelFor(m => m.Email, "Correo electrónico")
+                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "correo@ejemplo.com", @class = "form-control", autocomplete = "username" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="auth-group">
                     @Html.LabelFor(m => m.Password, "Contraseña")
-                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Crea tu contraseña", @class = "form-control" })
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Crea tu contraseña", @class = "form-control", autocomplete = "new-password" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="auth-group">
                     @Html.LabelFor(m => m.ConfirmPassword, "Confirmar contraseña")
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirma tu contraseña", @class = "form-control" })
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Repite tu contraseña", @class = "form-control", autocomplete = "new-password" })
                     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
 
@@ -49,3 +53,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
