@@ -79,9 +79,17 @@
                             <div><span>Sexo</span><strong>@(string.IsNullOrWhiteSpace(item.Sexo) ? "No registrado" : item.Sexo)</strong></div>
                             <div><span>Tamaño</span><strong>@(string.IsNullOrWhiteSpace(item.Tamano) ? "No registrado" : item.Tamano)</strong></div>
                             <div><span>Peso</span><strong>@(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</strong></div>
-                            <div><span>Estado</span><strong>@(string.IsNullOrWhiteSpace(item.Estado) ? "Disponible" : item.Estado)</strong></div>
+
+                            <!-- 🔥 ESTADO CON BADGE -->
+                            <div>
+                                <span>Estado</span>
+                                <strong class="badge-estado @(item.Estado == "Disponible" ? "ok" : "no")">
+                                    @(string.IsNullOrWhiteSpace(item.Estado) ? "Disponible" : item.Estado)
+                                </strong>
+                            </div>
                         </div>
 
+                        <!-- ADMIN -->
                         @if (esAdmin)
                         {
                             <div class="pet-card-actions">
@@ -93,6 +101,25 @@
                                 </a>
                             </div>
                         }
+
+                        <!-- 🔥 BOTÓN ADOPTAR CONTROLADO -->
+                        <div class="pet-card-actions">
+
+                            @if (item.Estado == "Disponible")
+                            {
+                                <a href="@Url.Action("RegistrarSolicitud", "Adopciones", new { idAnimal = item.ID_Animal })"
+                                   class="catalog-btn-main">
+                                    Adoptar
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="catalog-btn-disabled">
+                                    No disponible
+                                </span>
+                            }
+
+                        </div>
                     </div>
                 </article>
             }

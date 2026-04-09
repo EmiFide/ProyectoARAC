@@ -2,7 +2,8 @@
 
 @{
     ViewBag.Title = "Detalle de donación";
-}
+    bool esAdmin = User.IsInRole("Administrador");
+    }
 
 <link href="~/Content/estilos/Donaciones.css" rel="stylesheet" />
 
@@ -96,17 +97,28 @@
             <p>Agrega comentarios para complementar la información del aporte.</p>
         </div>
 
-        @using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
+        <!-- 🔥 SOLO ADMIN PUEDE AGREGAR -->
+        @if (esAdmin)
         {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
+            using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
 
-            <div class="don-observation-form">
-                <textarea class="don-textarea" name="comentario" rows="4" placeholder="Escribe una observación..."></textarea>
-                <button class="don-btn-main" type="submit">Agregar observación</button>
+                <div class="don-observation-form">
+                    <textarea class="don-textarea" name="comentario" rows="4" placeholder="Escribe una observación..."></textarea>
+                    <button class="don-btn-main" type="submit">Agregar observación</button>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="don-info">
+                Solo el personal autorizado puede agregar observaciones.
             </div>
         }
 
+        <!-- LISTADO DE OBSERVACIONES -->
         @if (Model.Observaciones != null && Model.Observaciones.Any())
         {
             <div class="don-observation-list">
@@ -128,7 +140,18 @@
     </section>
 
     <div class="don-bottom-actions">
-        <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })" class="don-btn-main">Ver comprobante</a>
-        <a href="@Url.Action("Index", "Donaciones")" class="don-btn-soft">Volver</a>
+
+        <!-- 🔥 SOLO ADMIN VE COMPROBANTE -->
+        @if (esAdmin)
+        {
+            <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })"
+               class="don-btn-main">
+                Ver comprobante
+            </a>
+        }
+
+        <a href="@Url.Action("Index", "Donaciones")" class="don-btn-soft">
+            Volver
+        </a>
     </div>
 </div>

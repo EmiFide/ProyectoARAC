@@ -129,7 +129,11 @@
                                 <td>
                                     <div class="don-actions">
                                         @Html.ActionLink("Ver detalle", "Details", new { id = d.IdDonacion }, new { @class = "don-btn-soft mini" })
-                                        @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion }, new { @class = "don-btn-main mini" })
+
+                                        @if (esAdmin)
+                                        {
+                                            @Html.ActionLink("Comprobante", "Comprobante", new { id = d.IdDonacion }, new { @class = "don-btn-main mini" })
+                                        }
                                     </div>
                                 </td>
                             </tr>

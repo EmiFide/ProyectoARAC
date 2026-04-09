@@ -1,57 +1,125 @@
-﻿
-@model AdoptameLiberia.Models.ViewModel.SolicitudAdopcionFormVM
+﻿@model AdoptameLiberia.Models.ViewModel.SolicitudAdopcionFormVM
 
 @{
-    ViewBag.Title = "Registrar solicitud";
+    ViewBag.Title = "Registrar solicitud de adopción";
 }
 
-<div class="container mt-4">
-    <h2>Registrar solicitud de adopción</h2>
+<link href="~/Content/estilos/RegistrarSolicitud.css" rel="stylesheet" />
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.ID_Usuario)
-                @Html.DropDownList("ID_Usuario", null, "Seleccione un usuario", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ID_Usuario, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.ID_Animal)
-                @Html.DropDownList("ID_Animal", null, "Seleccione un animal", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ID_Animal, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Condiciones_Hogar)
-                @Html.TextAreaFor(m => m.Condiciones_Hogar, new { @class = "form-control", rows = 3 })
-                @Html.ValidationMessageFor(m => m.Condiciones_Hogar, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Motivo_Adopcion)
-                @Html.TextAreaFor(m => m.Motivo_Adopcion, new { @class = "form-control", rows = 3 })
-                @Html.ValidationMessageFor(m => m.Motivo_Adopcion, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(m => m.Otros_Animales, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.Otros_Animales, new { @class = "form-check-label" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Detalle_Otros_Animales)
-                @Html.TextBoxFor(m => m.Detalle_Otros_Animales, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Detalle_Otros_Animales, "", new { @class = "text-danger" })
-            </div>
-
-            <button type="submit" class="btn btn-primary">Guardar solicitud</button>
-            @Html.ActionLink("Volver", "Solicitudes", null, new { @class = "btn btn-secondary" })
+<div class="solicitud-wrap">
+    <div class="solicitud-card">
+        <div class="solicitud-header">
+            <h2>Registrar solicitud de adopción</h2>
+            <p>
+                Completa la información para iniciar el proceso de adopción de forma responsable.
+            </p>
         </div>
-    }
+
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["error"]
+            </div>
+        }
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+            </div>
+        }
+
+        @using (Html.BeginForm("RegistrarSolicitud", "Adopciones", FormMethod.Post, new { @class = "solicitud-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(m => m.ID_Usuario, new { Value = ViewBag.ID_UsuarioSeleccionado })
+            @Html.HiddenFor(m => m.ID_Animal, new { Value = ViewBag.ID_AnimalSeleccionado })
+
+            <div class="solicitud-grid">
+                <div class="form-group full">
+                    <label>Usuario adoptante</label>
+                    <input type="text"
+                           class="form-control-custom form-readonly"
+                           value="@ViewBag.NombreUsuario"
+                           readonly />
+                </div>
+
+                <div class="form-group full">
+                    <label>Animal solicitado</label>
+                    <input type="text"
+                           class="form-control-custom form-readonly"
+                           value="@ViewBag.NombreAnimal"
+                           readonly />
+                </div>
+
+                <div class="form-group full">
+                    <label for="Condiciones_Hogar">Condiciones del hogar</label>
+                    @Html.TextAreaFor(m => m.Condiciones_Hogar, new
+                    {
+                        @class = "form-control-custom",
+                        rows = "4",
+                        placeholder = "Describe el espacio, seguridad, rutina y condiciones donde vivirá la mascota."
+                    })
+                    @Html.ValidationMessageFor(m => m.Condiciones_Hogar, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group full">
+                    <label for="Motivo_Adopcion">Motivo de adopción</label>
+                    @Html.TextAreaFor(m => m.Motivo_Adopcion, new
+                    {
+                        @class = "form-control-custom",
+                        rows = "4",
+                        placeholder = "Cuéntanos por qué deseas adoptar y cómo planeas cuidar a la mascota."
+                    })
+                    @Html.ValidationMessageFor(m => m.Motivo_Adopcion, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group full checkbox-group">
+                    <label class="check-inline">
+                        @Html.CheckBoxFor(m => m.Otros_Animales, new { id = "chkOtrosAnimales" })
+                        <span>¿Tiene otros animales?</span>
+                    </label>
+                </div>
+
+                <div class="form-group full" id="detalleOtrosAnimalesBox">
+                    <label for="Detalle_Otros_Animales">Detalle de otros animales</label>
+                    @Html.TextBoxFor(m => m.Detalle_Otros_Animales, new
+                    {
+                        @class = "form-control-custom",
+                        placeholder = "Ejemplo: un perro adulto tranquilo, dos gatos esterilizados, etc."
+                    })
+                    @Html.ValidationMessageFor(m => m.Detalle_Otros_Animales, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="solicitud-actions">
+                <button type="submit" class="btn-solicitud-primary">
+                    Guardar solicitud
+                </button>
+
+                <a href="@Url.Action("Catalogo", "Animal")" class="btn-solicitud-secondary">
+                    Volver
+                </a>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    (function () {
+        var chk = document.getElementById("chkOtrosAnimales");
+        var box = document.getElementById("detalleOtrosAnimalesBox");
+
+        function toggleDetalle() {
+            if (!chk || !box) return;
+            box.style.display = chk.checked ? "block" : "none";
+        }
+
+        toggleDetalle();
+
+        if (chk) {
+            chk.addEventListener("change", toggleDetalle);
+        }
+    })();
+</script>
