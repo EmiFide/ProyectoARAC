@@ -49,6 +49,7 @@
                         <li class="nav-item">@Html.ActionLink("Bienestar Animal", "About", "Home", null, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("Reporte Financiero", "Dashboard", "Reportes", null, new { @class = "nav-link" })</li>
 
+
                         @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                         {
                             <li class="nav-item dropdown">
@@ -70,6 +71,7 @@
                                     @Html.ActionLink("Roles y permisos", "Index", "Roles", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Categorías", "Index", "Categorias", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Gastos", "Index", "Gastos", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Adopciones", "Solicitudes", "Adopciones", null, new { @class = "dropdown-item" })
                                 </div>
                             </li>
                         }

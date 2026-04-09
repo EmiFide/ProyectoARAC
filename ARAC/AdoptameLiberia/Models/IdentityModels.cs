@@ -41,6 +41,10 @@ namespace AdoptameLiberia.Models
         public DbSet<Adopcion> Adopcion { get; set; }
         public DbSet<SolicitudAdopcion> SolicitudAdopcion { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<SeguimientoAdopcion> SeguimientosAdopcion { get; set; }
+        public DbSet<DevolucionAdopcion> DevolucionesAdopcion { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
