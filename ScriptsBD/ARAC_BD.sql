@@ -486,7 +486,7 @@ VALUES
 (12, 'Alta', 'Media', 'Activo', 'Adultos', 'Ninguno', 'Juguetes', 'Muy juguetón'),
 (13, 'Baja', 'Media', 'Reservado', 'Adultos', 'Ninguno', 'Ambiente tranquilo', 'Muy calmado'),
 (14, 'Media', 'Alta', 'Elegante', 'Familia', 'Ninguno', 'Cepillado', 'Muy limpio'),
-(15, 'Alta', 'Alta', 'Sociable', 'Familia', 'Ninguno', 'Protección térmica', 'Muy amigable');
+(0, 'Alta', 'Alta', 'Sociable', 'Familia', 'Ninguno', 'Protección térmica', 'Muy amigable');
 GO
 
 INSERT INTO Publicacion_Comunidad
@@ -704,7 +704,7 @@ VALUES
 (14, 3, 'Casa con patio y tiempo para paseos diarios', 'Desea un perro pequeño y cariñoso', 0, NULL, 'Pendiente'),
 (15, 14, 'Casa tranquila con ventanas protegidas', 'Busca una gata elegante y dócil para compañía', 1, 'Un gato macho adulto', 'Aprobada'),
 (16, 6, 'Casa con jardín amplio', 'Quiere adoptar un perro curioso y sociable', 0, NULL, 'En revisión'),
-(17, 15, 'Apartamento con ambiente cálido y seguro', 'Desea una gata muy sociable y de fácil convivencia', 0, NULL, 'Pendiente'),
+(17, 0, 'Apartamento con ambiente cálido y seguro', 'Desea una gata muy sociable y de fácil convivencia', 0, NULL, 'Pendiente'),
 (18, 1, 'Casa familiar con patio grande', 'Busca un perro juguetón y amigable para toda la familia', 1, 'Un perro senior tranquilo', 'Aprobada');
 GO
 
@@ -732,7 +732,7 @@ VALUES
 (12, GETDATE(), 'Tratamiento', 'Revisión general satisfactoria'),
 (13, GETDATE(), 'Vacuna', 'Esquema básico completo'),
 (14, GETDATE(), 'Desparasitacion', 'Desparasitación externa aplicada'),
-(15, GETDATE(), 'Tratamiento', 'Control de peso recomendado');
+(0, GETDATE(), 'Tratamiento', 'Control de peso recomendado');
 GO
 
 -- CONFIGURACIÓN DE IDENTITY
