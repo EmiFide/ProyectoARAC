@@ -24,31 +24,66 @@
 
             <nav class="site-nav">
                 <ul class="nav-list nav-full">
-                    <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                    <li><a href="@Url.Action("Catalogo", "Animal")">Mascotas</a></li>
-                    <li><a href="@Url.Action("Index", "Campanias")">Campañas</a></li>
-                    <li><a href="@Url.Action("Index", "Donaciones")">Donaciones</a></li>
-                    <li><a href="@Url.Action("Index", "Comunidad")">Comunidad</a></li>
-                    <li><a href="@Url.Action("Index", "Noticia")">Noticias</a></li>
-                    <li><a href="@Url.Action("Index", "Voluntarios")">Voluntariado</a></li>
-                    <li><a href="@Url.Action("About", "Home")">Bienestar Animal</a></li>
-                    <li><a href="@Url.Action("Index", "Adopciones")">Reporte Financiero</a></li>
-                    <li><a href="@Url.Action("Index", "Administracion")">Administración</a></li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Mascotas", "Catalogo", "Animal", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Campañas", "Index", "Campanias", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Bienestar Animal", "About", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Ser voluntario", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Reporte Financiero", "Dashboard", "Reportes", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Noticias", "Index", "Noticia", null, new { @class = "nav-link" })
+                    </li>
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item dropdown-custom">
+
+                            <!-- BOTÓN -->
+                            <span class="nav-link" id="adminMenuBtn">
+                                Administración ▾
+                            </span>
+
+                            <!-- DROPDOWN -->
+                            <div class="dropdown-content" id="adminDropdown">
+
+                                <span class="dropdown-title">Gestión</span>
+                                @Html.ActionLink("Inventario", "Index", "Inventario")
+                                @Html.ActionLink("Campañas", "Index", "Campanias")
+                                @Html.ActionLink("Registrar Mascota", "Crear", "Animal")
+                                @Html.ActionLink("Voluntarios", "Index", "Voluntarios")
+                                @Html.ActionLink("Comunidad", "Index", "Comunidad")
+
+                                <hr />
+
+                                <span class="dropdown-title">Administración</span>
+                                @Html.ActionLink("Usuarios", "Index", "AdminUsers")
+                                @Html.ActionLink("Roles y permisos", "Index", "Roles")
+                                @Html.ActionLink("Categorías", "Index", "Categorias")
+                                @Html.ActionLink("Gastos", "Index", "Gastos")
+
+                            </div>
+                        </li>
+                    }
                 </ul>
             </nav>
 
             <div class="header-actions">
-                @if (Request.IsAuthenticated)
-                {
-                    <div class="user-menu">
-                        <span class="account-name">Hola, @User.Identity.GetUserName()</span>
-                    </div>
-                }
-                else
-                {
-                    <a href="@Url.Action("Login", "Account")" class="nav-btn-outline">Login</a>
-                    <a href="@Url.Action("Register", "Account")" class="nav-btn-solid">Registro</a>
-                }
+                @Html.Partial("_LoginPartial")
             </div>
 
         </div>
@@ -128,5 +163,43 @@
     </footer>
 
     @RenderSection("Scripts", required: false)
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const userBtn = document.getElementById("userMenuBtn");
+        const userDropdown = document.getElementById("userDropdown");
+
+        const adminBtn = document.getElementById("adminMenuBtn");
+        const adminDropdown = document.getElementById("adminDropdown");
+
+        // ===== USER =====
+        if (userBtn && userDropdown) {
+            userBtn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle("active");
+
+                if (adminDropdown) adminDropdown.classList.remove("active");
+            });
+        }
+
+        // ===== ADMIN =====
+        if (adminBtn && adminDropdown) {
+            adminBtn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                adminDropdown.classList.toggle("active");
+
+                if (userDropdown) userDropdown.classList.remove("active");
+            });
+        }
+
+        // ===== CLICK AFUERA =====
+        document.addEventListener("click", function () {
+            if (userDropdown) userDropdown.classList.remove("active");
+            if (adminDropdown) adminDropdown.classList.remove("active");
+        });
+
+    });
+</script>
 </body>
 </html>
