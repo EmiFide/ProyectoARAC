@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+@section styles {
+    <link href="~/Content/estilos/Index.css?v=2" rel="stylesheet" />
+}
+
+<div class="home-shell">
+    <section class="home-hero">
+        <div class="home-hero-left">
+            <div class="home-badge">🐾 ARAC Refugio</div>
+
+            <h1 class="home-hero-title">
+                Cuidamos vidas,
+                conectamos
+                mascotas con un
+                nuevo hogar
+            </h1>
+
+            <p class="home-hero-text">
+                En ARAC Refugio trabajamos por el rescate, la protección y la adopción responsable de perros y gatos.
+                Queremos que cada visita al sistema se sienta más humana, clara y cercana.
+            </p>
+
+            <div class="home-actions">
+                <a href="@Url.Action("Catalogo", "Animal")" class="home-btn-alt">Ver Mascotas Disponibles</a>
+
+                @if (Request.IsAuthenticated)
+                {
+                <a href="@Url.Action("Index", "Comunidad")" class="home-btn-alt">Ir a Comunidad</a>
+                }
+            </div>
+
+            <div class="home-mini-stats">
+                <div class="home-mini-stat">
+                    <strong>+15</strong>
+                    <span>Mascotas registradas</span>
+                </div>
+                <div class="home-mini-stat">
+                    <strong>+12</strong>
+                    <span>Tipos de donación</span>
+                </div>
+                <div class="home-mini-stat">
+                    <strong>24/7</strong>
+                    <span>Apoyo y gestión</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-hero-right">
+            <img src="~/Content/img/Refugio.png" alt="Mascotas ARAC" />
+            <div class="home-hero-float">
+                <h4>Adopta, ayuda y transforma</h4>
+                <p>
+                    Cada acción cuenta: adoptar, donar, participar en campañas o compartir una historia puede cambiar la vida de un animal.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-split">
+        <div class="home-photo-panel">
+            <div class="home-section-kicker">Nuestro compromiso</div>
+            <h2>Un espacio más claro, cálido y útil</h2>
+            <p>
+                Este sistema fue pensado para que cualquier persona pueda encontrar rápido lo que
+                necesita: adoptar, apoyar al refugio, revisar campañas o formar parte de la comunidad.
+            </p>
+            <img src="~/Content/img/PerroyGato.png" alt="Perro y gato" />
+        </div>
+
+        <div class="home-info-panel">
+
+            <div class="home-list-item">
+                <span>
+                    <svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#67171c" stroke-width="2" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9932 5.13581C9.9938 2.7984 6.65975 2.16964 4.15469 4.31001C1.64964 6.45038 1.29697 10.029 3.2642 12.5604C4.89982 14.6651 9.84977 19.1041 11.4721 20.5408C11.6536 20.7016 11.7444 20.7819 11.8502 20.8135C11.9426 20.8411 12.0437 20.8411 12.1361 20.8135C12.2419 20.7819 12.3327 20.7016 12.5142 20.5408C14.1365 19.1041 19.0865 14.6651 20.7221 12.5604C22.6893 10.029 22.3797 6.42787 19.8316 4.31001C17.2835 2.19216 13.9925 2.7984 11.9932 5.13581Z" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <div>
+                    <strong>Adopción responsable</strong>
+                    <p>Conecta a las mascotas con familias que sí puedan darles estabilidad y cariño.</p>
+                </div>
+            </div>
+
+            <div class="home-list-item">
+                <span>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 11V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V11" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M6 4.5C6 3.11929 7.11929 2 8.5 2V2C10.433 2 12 3.567 12 5.5V7H8.5C7.11929 7 6 5.88071 6 4.5V4.5Z" stroke="#67171c" stroke-linejoin="round" />
+                        <path d="M18 4.5C18 3.11929 16.8807 2 15.5 2V2C13.567 2 12 3.567 12 5.5V7H15.5C16.8807 7 18 5.88071 18 4.5V4.5Z" stroke="#67171c" stroke-linejoin="round" />
+                        <path d="M3 7H21V11H3V7Z" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 11V21" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <div>
+                    <strong>Apoyo real al refugio</strong>
+                    <p>Desde insumos hasta medicina, cada ayuda suma al bienestar diario de los animales.</p>
+                </div>
+            </div>
+
+            <div class="home-list-item">
+                <span>
+                    <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-width="3" stroke="#67171c" fill="none">
+                        <path d="M11.51,20.66h8.38a0,0,0,0,1,0,0V37.21a0,0,0,0,1,0,0H11.51a2,2,0,0,1-2-2V22.66A2,2,0,0,1,11.51,20.66Z" />
+                        <path d="M19.89,37.21V20.66s4.37.1,11.64,0,15.78-4.7,21.31-9.4a1,1,0,0,1,1.65.75V45.9a1,1,0,0,1-1.61.79c-3.56-2.8-12.42-9.06-21-9.32C26.86,37.21,22.8,37.21,19.89,37.21Z" />
+                        <path d="M23.29,53h-4.8a2,2,0,0,1-2-2l-1-13.78h8.8l1,13.78A2,2,0,0,1,23.29,53Z" />
+                    </svg>
+                </span>
+                <div>
+                    <strong>Comunidad activa</strong>
+                    <p>Campañas, comunidad y donaciones en un solo lugar, con navegación más clara.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="home-grid-3">
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#67171c"><path d="M21 6h-2l-1.27-1.27A2.49 2.49 0 0 0 16 4h-2.5A2.64 2.64 0 0 0 11 2v6.36a4.38 4.38 0 0 0 1.13 2.72 6.57 6.57 0 0 0 4.13 1.82l3.45-1.38a3 3 0 0 0 1.73-1.84L22 8.15a1.06 1.06 0 0 0 0-.31V7a1 1 0 0 0-1-1zm-5 2a1 1 0 1 1 1-1 1 1 0 0 1-1 1z" fill="#67171c" /><path d="M11.38 11.74A5.24 5.24 0 0 1 10.07 9H6a1.88 1.88 0 0 1-2-2 1 1 0 0 0-2 0 4.69 4.69 0 0 0 .48 2A3.58 3.58 0 0 0 4 10.53V22h3v-5h6v5h3v-8.13a7.35 7.35 0 0 1-4.62-2.13z" fill="#67171c" /></svg>
+            </div>
+            <h3>Adopta con confianza</h3>
+            <p>
+                Explora mascotas disponibles y conoce perfiles más claros para tomar una decisión responsable.
+            </p>
+            <a href="@Url.Action("Catalogo", "Animal")">Ir a Adopta</a>
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M34 16C34 21.5228 29.5228 26 24 26C18.4772 26 14 21.5228 14 16C14 10.4772 18.4772 6 24 6C29.5228 6 34 10.4772 34 16ZM32 16C32 20.4183 28.4183 24 24 24C19.5817 24 16 20.4183 16 16C16 11.5817 19.5817 8 24 8C28.4183 8 32 11.5817 32 16Z" fill="#67171c" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9141 28.8551C17.9178 28.8625 17.9215 28.8698 17.9252 28.8771C17.9507 28.9281 17.9756 28.9774 18 29.0237H22.0639C22.9708 29.0235 23.4235 29.0236 23.8769 29.0237H23.9017C24.3455 29.0238 24.798 29.0239 25.6851 29.0237H29.7493C29.9775 28.5902 30.4972 27.8981 31 28.0126C32.1296 28.2699 33.2676 28.6285 34.3611 29.0694L34.3944 29.0528L34.4053 29.0748L34.4127 29.0903C38.5281 30.7615 42 33.5962 42 36.5699V42H6V36.5699C6 32.7946 11.5958 29.2434 17 28.0126C17.4413 27.9121 17.7025 28.4331 17.9141 28.8551ZM32.7043 30.5826C32.2749 30.4325 31.8398 30.2965 31.4029 30.176L30.9566 31.0237H25.6851C24.7785 31.0239 24.3313 31.0238 23.8896 31.0237C23.4375 31.0236 22.9912 31.0235 22.0644 31.0237H16.7927L16.3788 30.2375C16.2584 30.2722 16.1382 30.3081 16.0182 30.345C16.0116 30.4109 16.0064 30.4853 16.0033 30.5687C15.9903 30.9137 16.0161 31.3228 16.0729 31.7399C16.1296 32.1557 16.2139 32.5546 16.3077 32.8762C16.3226 32.9273 16.3375 32.9754 16.3521 33.0204C17.8431 33.1948 19 34.4623 19 36C19 37.6569 17.6569 39 16 39C14.3431 39 13 37.6569 13 36C13 34.9331 13.557 33.9962 14.396 33.4644L14.3877 33.4362C14.2628 33.0079 14.1596 32.5109 14.0913 32.0101C14.0498 31.7062 14.02 31.3916 14.0071 31.0819C12.7705 31.6098 11.6185 32.2478 10.6523 32.9527C8.72972 34.3554 8 35.6669 8 36.5699V40H40V36.5699C40 35.6669 39.2703 34.3554 37.3477 32.9527C36.5634 32.3805 35.6567 31.8524 34.6818 31.3915C34.666 31.5994 34.6435 31.8071 34.6158 32.0101C34.5697 32.3485 34.5076 32.6851 34.4336 33H35C35.3788 33 35.725 33.214 35.8944 33.5528L36.8944 35.5528C36.9639 35.6916 37 35.8448 37 36V38C37 38.5523 36.5523 39 36 39H34V37H35V36.2361L34.382 35H31.618L31 36.2361V37H32V39H30C29.4477 39 29 38.5523 29 38V36C29 35.8448 29.0361 35.6916 29.1056 35.5528L30.1056 33.5528C30.275 33.214 30.6212 33 31 33H32.3616C32.3741 32.9609 32.3867 32.9197 32.3994 32.8762C32.4932 32.5546 32.5775 32.1557 32.6342 31.7399C32.6903 31.3284 32.7161 30.9246 32.7043 30.5826ZM17 36C17 36.5742 16.5384 37.0147 16 37.0147C15.4616 37.0147 15 36.5742 15 36C15 35.4258 15.4616 34.9853 16 34.9853C16.5384 34.9853 17 35.4258 17 36Z" fill="#67171c" />
+                </svg>
+            </div>
+            <h3>Campañas activas</h3>
+            <p>
+                Consulta campañas de castración, revisa cupos y registra a tu mascota de una forma sencilla.
+            </p>
+            <a href="@Url.Action("Index", "Campanias")">Ver campañas</a>
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 11V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V11" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M6 4.5C6 3.11929 7.11929 2 8.5 2V2C10.433 2 12 3.567 12 5.5V7H8.5C7.11929 7 6 5.88071 6 4.5V4.5Z" stroke="#67171c" stroke-linejoin="round" />
+                    <path d="M18 4.5C18 3.11929 16.8807 2 15.5 2V2C13.567 2 12 3.567 12 5.5V7H15.5C16.8807 7 18 5.88071 18 4.5V4.5Z" stroke="#67171c" stroke-linejoin="round" />
+                    <path d="M3 7H21V11H3V7Z" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 11V21" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h3>Apoya al refugio</h3>
+            <p>
+                Las donaciones ayudan con alimento, medicina, higiene, transporte y cuidado diario.
+            </p>
+            <a href="@Url.Action("Index", "Donaciones")">Ir a donaciones</a>
+        </article>
+    </section>
+
+    <section class="home-grid-3" style="margin-top: 24px;">
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20.9999C16.9706 20.9999 21 16.9705 21 11.9999C21 7.02938 16.9706 2.99994 12 2.99994C7.02944 2.99994 3 7.02938 3 11.9999C3 13.4876 3.36093 14.8909 4 16.1271L3 20.9999L7.8728 19.9999C9.10904 20.639 10.5124 20.9999 12 20.9999Z" stroke="#67171c" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h3>Comunidad ARAC</h3>
+            <p>
+                Comparte publicaciones, experiencias, consejos y comentarios con otras personas que apoyan al refugio.
+            </p>
+
+            @if (Request.IsAuthenticated)
+            {
+            <a href="@Url.Action("Index", "Comunidad")">Entrar a comunidad</a>
+            }
+            else
+            {
+            <a href="@Url.Action("Login", "Account")">Inicia sesión para entrar</a>
+            }
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.41377 17.859C4.77159 17.6504 5.23081 17.7713 5.43947 18.1291C6.26633 19.5471 7.53043 20.6193 9.0893 21.3151C9.46755 21.4839 9.63733 21.9274 9.46851 22.3057C9.29969 22.6839 8.85621 22.8537 8.47796 22.6849C6.66645 21.8764 5.14664 20.6046 4.14369 18.8847C3.93503 18.5269 4.05595 18.0677 4.41377 17.859Z" fill="#67171c" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9058 3.92194C17.8919 2.88646 16.4459 2.50452 15.0303 2.9073C14.6319 3.02066 14.2171 2.78959 14.1037 2.39119C13.9904 1.99279 14.2214 1.57792 14.6198 1.46456C16.558 0.913072 18.5745 1.43959 19.9775 2.8725C20.2673 3.16846 20.2623 3.64331 19.9664 3.9331C19.6704 4.2229 19.1956 4.2179 18.9058 3.92194Z" fill="#67171c" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1901 3.30839C10.9761 2.94131 10.3523 2.7187 9.71858 3.08085C9.08722 3.44168 8.97618 4.07772 9.18651 4.4384L11.7122 8.76952C11.9208 9.12734 11.7999 9.58656 11.4421 9.79522C11.0843 10.0039 10.6251 9.88296 10.4164 9.52514L7.04885 3.75032C6.83479 3.38324 6.21098 3.16063 5.57731 3.52278C4.94595 3.88361 4.83491 4.51965 5.04525 4.88033L8.83373 11.377C9.04239 11.7348 8.92147 12.1941 8.56365 12.4027C8.20583 12.6114 7.74661 12.4905 7.53795 12.1326L5.85418 9.24522C5.64012 8.87814 5.01631 8.65553 4.38264 9.01768C3.75128 9.37851 3.64024 10.0145 3.85058 10.3752L7.63906 16.8719C9.248 19.631 13.2184 20.5264 16.5853 18.6021C19.95 16.6792 21.146 12.8377 19.5408 10.085L17.0152 5.75387C16.8011 5.38679 16.1773 5.16418 15.5436 5.52633C14.9123 5.88716 14.8012 6.5232 15.0116 6.88389L16.6953 9.7713C16.7961 9.94411 16.8237 10.15 16.7719 10.3432C16.7201 10.5365 16.5933 10.701 16.4196 10.8003C14.8771 11.6818 14.4044 13.3863 15.0797 14.5443C15.2884 14.9022 15.1675 15.3614 14.8096 15.57C14.4518 15.7787 13.9926 15.6578 13.7839 15.3C12.8712 13.7348 13.24 11.8501 14.4189 10.5181C14.7485 10.1457 14.8613 9.60396 14.6108 9.17438L11.1901 3.30839Z" fill="#67171c" />
+                </svg>
+            </div>
+            <h3>Voluntariado</h3>
+            <p>
+                Forma parte de las actividades del refugio y apoya en eventos, cuidado y acompañamiento.
+            </p>
+            <a href="@Url.Action("Create", "SolicitudesVoluntariado")">Ser voluntario</a>
+        </article>
+
+        <article class="home-card">
+            <div class="home-card-icon">
+                <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-width="3" stroke="#67171c" fill="none"><path d="M11.51,20.66h8.38a0,0,0,0,1,0,0V37.21a0,0,0,0,1,0,0H11.51a2,2,0,0,1-2-2V22.66A2,2,0,0,1,11.51,20.66Z" /><path d="M19.89,37.21V20.66s4.37.1,11.64,0,15.78-4.7,21.31-9.4a1,1,0,0,1,1.65.75V45.9a1,1,0,0,1-1.61.79c-3.56-2.8-12.42-9.06-21-9.32C26.86,37.21,22.8,37.21,19.89,37.21Z" /><path d="M23.29,53h-4.8a2,2,0,0,1-2-2l-1-13.78h8.8l1,13.78A2,2,0,0,1,23.29,53Z" /></svg>
+            </div>
+            <h3>Participa más fácil</h3>
+            <p>
+                El sistema reúne adopciones, campañas, comunidad, donaciones y apoyo voluntario en un solo lugar.
+            </p>
+            <a href="@Url.Action("Index", "Home")">Seguir explorando</a>
+        </article>
+    </section>
+</div>

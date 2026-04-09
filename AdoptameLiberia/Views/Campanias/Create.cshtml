@@ -1,0 +1,51 @@
+﻿@model AdoptameLiberia.Models.Campanias.CampaniaCastracion
+
+@{
+    ViewBag.Title = "Nueva Campaña";
+}
+
+<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+
+<div class="campania-form-wrapper">
+    <div class="campania-card-center">
+
+        <h2>Registrar Nueva Campaña</h2>
+        <p class="subtitle">Complete los detalles para aperturar una nueva jornada de castración.</p>
+
+        @using (Html.BeginForm())
+        {
+        @Html.AntiForgeryToken()
+
+        <div class="campania-input-group">
+            @Html.LabelFor(model => model.Nombre, "Nombre de la Campaña")
+            @Html.TextBoxFor(model => model.Nombre, new { placeholder = "Ej: Gran Campaña Liberia 2024", required = "required" })
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="campania-input-group">
+                @Html.LabelFor(model => model.Fecha)
+                @Html.TextBoxFor(model => model.Fecha, "{0:yyyy-MM-dd}", new { type = "date" })
+            </div>
+
+            <div class="campania-input-group">
+                @Html.LabelFor(model => model.Cupos, "Cupos Disponibles")
+                @Html.TextBoxFor(model => model.Cupos, new { type = "number", placeholder = "Cantidad total" })
+            </div>
+        </div>
+
+        <div class="campania-input-group">
+            @Html.LabelFor(model => model.Lugar, "Ubicación / Dirección")
+            @Html.TextBoxFor(model => model.Lugar, new { placeholder = "Dirección exacta del evento" })
+        </div>
+
+        <div class="campania-btn-container">
+            <a href="@Url.Action("Index", "Campanias")" class="btn-cancelar">
+                Cancelar
+            </a>
+            <button type="submit" class="btn-guardar-campania">
+                Guardar Campaña
+            </button>
+        </div>
+        }
+    </div>
+</div>
