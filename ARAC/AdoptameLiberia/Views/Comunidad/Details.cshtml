@@ -8,65 +8,120 @@
     var comentarios = ViewBag.Comentarios as List<ComentarioPublicacion>;
 }
 
-@section styles{
+@section Styles{
     <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
 }
 
-<div class="com-shell">
-    <div class="com-detail-card">
-        <div class="com-detail-title">@Model.Titulo</div>
-        <div class="com-detail-meta">
-            Publicado el @Model.Fecha.ToString("dd/MM/yyyy hh:mm tt")
-        </div>
+<div class="community-detail-page">
+    <section class="community-detail-layout">
+        <div class="community-detail-main">
+            <article class="community-detail-card">
+                <div class="community-detail-top">
+                    <span class="community-chip">Publicación</span>
+                    <span class="community-detail-date">
+                        @Model.Fecha.ToString("dd/MM/yyyy hh:mm tt")
+                    </span>
+                </div>
 
-        <div class="com-detail-body">
-            @Model.Contenido
-        </div>
+                <h1>@Model.Titulo</h1>
 
-        @if (TempData["MensajeComentario"] != null)
-        {
-            <div class="com-alert">@TempData["MensajeComentario"]</div>
-        }
+                <div class="community-detail-body">
+                    @Html.Raw((Model.Contenido ?? "").Replace(Environment.NewLine, "<br />"))
+                </div>
+            </article>
 
-        <div class="com-comments-title">Comentarios</div>
+            @if (TempData["MensajeComentario"] != null)
+            {
+                <div class="community-alert-success">
+                    @TempData["MensajeComentario"]
+                </div>
+            }
 
-        @if (comentarios != null && comentarios.Any())
-        {
-            <div class="com-comment-list">
-                @foreach (var c in comentarios)
+            <section class="community-comments-section">
+                <div class="community-section-head">
+                    <div>
+                        <span class="community-section-mini">Conversación</span>
+                        <h2>Comentarios</h2>
+                        <p>Participa y mantén activa la comunidad.</p>
+                    </div>
+                </div>
+
+                @if (comentarios != null && comentarios.Any())
                 {
-                    <div class="com-comment-card">
-                        <div class="com-comment-body">@c.Contenido</div>
-                        <div class="com-comment-date">@c.Fecha.ToString("dd/MM/yyyy hh:mm tt")</div>
+                    <div class="community-comments-list">
+                        @foreach (var c in comentarios)
+                        {
+                            <div class="community-comment-card">
+                                <div class="community-comment-avatar">
+                                    @(string.IsNullOrWhiteSpace(c.Contenido) ? "A" : c.Contenido.Substring(0, 1).ToUpper())
+                                </div>
+
+                                <div class="community-comment-content">
+                                    <p>@c.Contenido</p>
+                                    <span>@c.Fecha.ToString("dd/MM/yyyy hh:mm tt")</span>
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
+                else
+                {
+                    <div class="community-empty-state small">
+                        <h3>Aún no hay comentarios</h3>
+                        <p>Esta publicación todavía no tiene respuestas. Sé la primera persona en comentar.</p>
+                    </div>
+                }
+            </section>
+
+            <section class="community-comment-form-card">
+                <div class="community-section-head">
+                    <div>
+                        <span class="community-section-mini">Participación</span>
+                        <h2>Agregar comentario</h2>
+                        <p>Escribe un comentario claro y respetuoso.</p>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("Comentar", "Comunidad", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="idPublicacion" value="@Model.ID_Publicacion" />
+
+                    <div class="community-field">
+                        <label for="contenido">Comentario</label>
+                        <textarea name="contenido"
+                                  id="contenido"
+                                  class="community-input textarea"
+                                  rows="6"
+                                  placeholder="Escribe tu comentario aquí..."></textarea>
+                    </div>
+
+                    <div class="community-form-actions">
+                        <button type="submit" class="community-btn-primary">Comentar</button>
+                        @Html.ActionLink("Volver a comunidad", "Index", null, new { @class = "community-btn-secondary" })
+                    </div>
+                }
+            </section>
+        </div>
+
+        <aside class="community-detail-side">
+            <div class="community-side-card highlight">
+                <span class="community-side-mini">Comunidad ARAC</span>
+                <h4>Publicación activa</h4>
+                <p>
+                    Lee el contenido completo, revisa los comentarios y participa en la conversación.
+                </p>
             </div>
-        }
-        else
-        {
-            <div class="com-empty">
-                No hay comentarios todavía en esta publicación.
-            </div>
-        }
 
-        <div class="com-comments-title" style="margin-top: 24px;">Agregar comentario</div>
-
-        @using (Html.BeginForm("Comentar", "Comunidad", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="idPublicacion" value="@Model.ID_Publicacion" />
-
-            <div class="com-form-grid">
-                <div class="com-group">
-                    <label for="contenido">Comentario</label>
-                    <textarea name="contenido" id="contenido" class="form-control" placeholder="Escribe tu comentario..."></textarea>
+            <div class="community-side-card">
+                <h4>Regresar al listado</h4>
+                <p>
+                    Puedes volver a la vista principal de comunidad para seguir navegando entre publicaciones.
+                </p>
+                <div class="community-side-action">
+                    @Html.ActionLink("Ir a comunidad", "Index", null, new { @class = "community-btn-secondary full" })
                 </div>
             </div>
-
-            <div class="com-actions" style="margin-top: 20px;">
-                <button type="submit" class="com-btn">Comentar</button>
-                @Html.ActionLink("Volver a comunidad", "Index", null, new { @class = "com-btn-outline" })
-            </div>
-        }
-    </div>
+        </aside>
+    </section>
 </div>

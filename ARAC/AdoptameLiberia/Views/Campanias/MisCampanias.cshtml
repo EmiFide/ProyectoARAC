@@ -5,80 +5,108 @@
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.InscripcionCastracion>();
 }
 
-<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
 <div class="page-shell">
-    <div class="hero-campania">
-        <div class="hero-campania-content">
-            <h1>Mis registros en campañas</h1>
-            <p>Aquí puedes revisar las mascotas que has inscrito y ver el estado de cada una.</p>
-        </div>
-    </div>
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Seguimiento</span>
+                <h1>Mis registros en campañas</h1>
+                <p>
+                    Revisa las mascotas que has inscrito, el veterinario asignado y el estado del procedimiento.
+                </p>
+            </div>
 
-    <div class="section-card">
-        <div class="action-buttons">
-            <a href="@Url.Action("Index", "Campanias")" class="btn-campania-outline">Volver a campañas</a>
-        </div>
-    </div>
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/MitadPerro.png")" alt="Mis campañas" />
+            </div>
+        </section>
 
-    <div class="section-card">
-        <div class="table-shell">
-            <table class="table-campania">
-                <thead>
-                    <tr>
-                        <th>Campaña</th>
-                        <th>Fecha</th>
-                        <th>Lugar</th>
-                        <th>Mascota</th>
-                        <th>Veterinario</th>
-                        <th>Resultado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (lista.Any())
-                    {
-                        foreach (var item in lista)
-                        {
-                            <tr>
-                                <td><strong>@(item.Campania != null ? item.Campania.Nombre : "")</strong></td>
-                                <td>@(item.Campania != null ? item.Campania.Fecha.ToShortDateString() : "")</td>
-                                <td>@(item.Campania != null ? item.Campania.Lugar : "")</td>
-                                <td>@(item.Animal != null ? item.Animal.Nombre_Animal : "")</td>
-                                <td>
-                                    @if (!string.IsNullOrWhiteSpace(item.VeterinarioAsignado))
-                                    {
-                                        <span class="badge-ok">@item.VeterinarioAsignado</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge-pendiente">Pendiente</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (!string.IsNullOrWhiteSpace(item.Resultado))
-                                    {
-                                        <span class="badge-ok">@item.Resultado</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge-pendiente">Sin resultado</span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    Aún no tienes mascotas registradas en campañas.
+        @if (TempData["Success"] != null)
+        {
+            <div class="success-banner">
+                @TempData["Success"]
+            </div>
+        }
+
+        <section class="campanias-actions-bar">
+            <div class="campanias-section-title">
+                <h2>Registros realizados</h2>
+                <p>Consulta el detalle de cada inscripción asociada a tu cuenta.</p>
+            </div>
+
+            <div class="campanias-button-group">
+                <a href="@Url.Action("Index", "Campanias")" class="camp-btn-secondary">Volver a campañas</a>
+            </div>
+        </section>
+
+        @if (lista.Any())
+        {
+            <section class="records-grid">
+                @foreach (var item in lista)
+                {
+                    <article class="record-card">
+                        <div class="record-card-visual">
+                            <img src="@Url.Content("~/Content/img/GatoPerro.png")" alt="Registro" />
+                        </div>
+
+                        <div class="record-card-body">
+                            <div class="record-card-top">
+                                <div>
+                                    <h3 class="record-card-title">@(item.Campania != null ? item.Campania.Nombre : "Campaña")</h3>
+                                    <p class="record-card-subtext">
+                                        @(item.Animal != null ? item.Animal.Nombre_Animal : "Mascota sin nombre")
+                                    </p>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Resultado))
+                                {
+                                    <span class="camp-status-badge">Con resultado</span>
+                                }
+                                else
+                                {
+                                    <span class="camp-empty-badge">Pendiente</span>
+                                }
+                            </div>
+
+                            <div class="record-card-grid">
+                                <div class="record-mini">
+                                    <span>Fecha</span>
+                                    <strong>@(item.Campania != null ? item.Campania.Fecha.ToString("dd/MM/yyyy") : "")</strong>
+                                </div>
+
+                                <div class="record-mini">
+                                    <span>Lugar</span>
+                                    <strong>@(item.Campania != null ? item.Campania.Lugar : "")</strong>
+                                </div>
+
+                                <div class="record-mini">
+                                    <span>Veterinario</span>
+                                    <strong>@(!string.IsNullOrWhiteSpace(item.VeterinarioAsignado) ? item.VeterinarioAsignado : "Pendiente")</strong>
+                                </div>
+
+                                <div class="record-mini">
+                                    <span>Resultado</span>
+                                    <strong>@(!string.IsNullOrWhiteSpace(item.Resultado) ? item.Resultado : "Sin resultado")</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </section>
+        }
+        else
+        {
+            <section class="empty-shell">
+                <h3>Aún no tienes mascotas registradas</h3>
+                <p>
+                    Cuando completes una inscripción en alguna campaña, aquí podrás revisar su información y seguimiento.
+                </p>
+                <a href="@Url.Action("Index", "Campanias")" class="camp-btn-primary">Ir a campañas</a>
+            </section>
+        }
     </div>
 </div>

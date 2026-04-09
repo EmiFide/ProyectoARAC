@@ -4,92 +4,105 @@
     ViewBag.Title = "Nueva Campaña";
 }
 
-<div class="container mt-5">
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
+<div class="page-shell">
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Administración</span>
+                <h1>Registrar nueva campaña</h1>
+                <p>
+                    Completa los datos principales para publicar una nueva jornada de castración
+                    dentro del sistema.
+                </p>
+            </div>
 
-            <div class="card shadow border-0">
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/Refugio.png")" alt="Nueva campaña" />
+            </div>
+        </section>
 
-                <div class="card-header text-white" style="background-color: #40090b;">
-                    <h4 class="mb-0">Registrar Nueva Campaña de Castración</h4>
+        <section class="info-card-grid">
+            <div class="form-shell-card">
+                <div class="form-shell-header">
+                    <h2>Datos de la campaña</h2>
+                    <p>Completa la información básica que verán los usuarios al momento de inscribirse.</p>
                 </div>
 
-                <div class="card-body bg-light">
-
+                <div class="form-shell-body">
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Nombre, new { @class = "font-weight-bold" })
-                            @Html.TextBoxFor(model => model.Nombre,
-                                new
-                                     {
-                                    @class = "form-control",
-                                    placeholder = "Nombre de la campaña",
-                                    required = "required"
+                        <div class="form-grid-camp">
+                            <div class="form-group-camp full">
+                                @Html.LabelFor(model => model.Nombre)
+                                @Html.TextBoxFor(model => model.Nombre, new
+                                {
+                                    @placeholder = "Nombre de la campaña"
                                 })
-                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                        </div>
+                                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "form-error" })
+                            </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Fecha, new { @class = "font-weight-bold" })
-                            @Html.TextBoxFor(model => model.Fecha,
-                                "{0:yyyy-MM-dd}",
-                                new
-                                     {
-                                    @class = "form-control",
+                            <div class="form-group-camp">
+                                @Html.LabelFor(model => model.Fecha)
+                                @Html.TextBoxFor(model => model.Fecha, "{0:yyyy-MM-dd}", new
+                                {
                                     type = "date"
                                 })
-                            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-                        </div>
+                                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "form-error" })
+                            </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Lugar, new { @class = "font-weight-bold" })
-                            @Html.TextBoxFor(model => model.Lugar,
-                                new
-                                     {
-                                    @class = "form-control",
-                                    placeholder = "Lugar donde se realizará la campaña"
-                                })
-                            @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Cupos, new { @class = "font-weight-bold" })
-                            @Html.TextBoxFor(model => model.Cupos,
-                                new
-                                     {
-                                    @class = "form-control",
+                            <div class="form-group-camp">
+                                @Html.LabelFor(model => model.Cupos)
+                                @Html.TextBoxFor(model => model.Cupos, new
+                                {
                                     type = "number",
                                     min = "0",
-                                    placeholder = "Cantidad de cupos disponibles"
+                                    placeholder = "Cantidad de cupos"
                                 })
-                            @Html.ValidationMessageFor(model => model.Cupos, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Cupos, "", new { @class = "form-error" })
+                            </div>
+
+                            <div class="form-group-camp full">
+                                @Html.LabelFor(model => model.Lugar)
+                                @Html.TextBoxFor(model => model.Lugar, new
+                                {
+                                    @placeholder = "Lugar donde se realizará la campaña"
+                                })
+                                @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "form-error" })
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
-
-                            <a href="@Url.Action("Index", "CampaniaCastracion")"
-                               class="btn btn-outline-secondary">
-                                ← Volver
-                            </a>
-
-                            <button type="submit"
-                                    class="btn text-white"
-                                    style="background-color: #40090b;">
-                                Guardar
-                            </button>
-
+                        <div class="form-actions-row">
+                            <a href="@Url.Action("Index", "Campanias")" class="camp-btn-light">Volver</a>
+                            <button type="submit" class="camp-btn-primary">Guardar campaña</button>
                         </div>
                     }
-
                 </div>
-
             </div>
 
-        </div>
-    </div>
+            <aside class="side-panel-card">
+                <div class="side-panel-visual">
+                    <img src="@Url.Content("~/Content/img/Perro.png")" alt="Campaña" />
+                </div>
 
+                <h3>Antes de guardar</h3>
+                <p>
+                    Verifica el nombre, la fecha, el lugar y la cantidad de cupos para evitar
+                    confusión al momento de registrar mascotas.
+                </p>
+
+                <div class="notice-banner">
+                    <div>
+                        <strong>Recomendación</strong>
+                        Define una ubicación clara y una cantidad realista de cupos para facilitar la organización.
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </div>
 </div>

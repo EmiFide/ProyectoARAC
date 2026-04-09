@@ -2,37 +2,106 @@
 
 @{
     ViewBag.Title = "Ver Inscripciones";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.InscripcionCastracion>();
 }
 
-<div class="container mt-4">
-    <h2>Animales inscritos</h2>
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
-    <p>
-        <a href="@Url.Action("Index", "Campanias")" class="btn btn-secondary">Volver a campañas</a>
-    </p>
+<div class="page-shell">
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Administración</span>
+                <h1>Animales inscritos en la campaña</h1>
+                <p>
+                    Revisa los registros asociados a la campaña y accede a las acciones de asignación y resultado.
+                </p>
+            </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Animal</th>
-                <th>Veterinario</th>
-                <th>Resultado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@(item.Animal != null ? item.Animal.Nombre_Animal : "Sin animal")</td>
-                    <td>@item.VeterinarioAsignado</td>
-                    <td>@item.Resultado</td>
-                    <td>
-                        <a href="@Url.Action("AsignarVeterinario", "Campanias", new { id = item.Id })" class="btn btn-primary btn-sm">Asignar veterinario</a>
-                        <a href="@Url.Action("RegistrarResultado", "Campanias", new { id = item.Id })" class="btn btn-success btn-sm">Registrar resultado</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/MitadGato.png")" alt="Inscripciones" />
+            </div>
+        </section>
+
+        <section class="campanias-actions-bar">
+            <div class="campanias-section-title">
+                <h2>Listado de inscripciones</h2>
+                <p>Gestiona cada registro desde una vista más clara y ordenada.</p>
+            </div>
+
+            <div class="campanias-button-group">
+                <a href="@Url.Action("Index", "Campanias")" class="camp-btn-light">Volver a campañas</a>
+            </div>
+        </section>
+
+        @if (lista.Any())
+        {
+            <section class="list-grid">
+                @foreach (var item in lista)
+                {
+                    <article class="list-item-card">
+                        <div class="list-item-top">
+                            <div class="list-item-visual">
+                                <img src="@Url.Content("~/Content/img/Perro.png")" alt="Animal inscrito" />
+                            </div>
+
+                            <div class="list-item-body">
+                                <div class="list-item-title-row">
+                                    <div>
+                                        <h3 class="list-item-title">@(item.Animal != null ? item.Animal.Nombre_Animal : "Sin animal")</h3>
+                                        <p class="list-item-text">
+                                            Información del registro dentro de la campaña seleccionada.
+                                        </p>
+                                    </div>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Resultado))
+                                    {
+                                        <span class="camp-status-badge">Procedimiento registrado</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="camp-empty-badge">Pendiente</span>
+                                    }
+                                </div>
+
+                                <div class="list-item-meta">
+                                    <div class="record-mini">
+                                        <span>Veterinario</span>
+                                        <strong>@(!string.IsNullOrWhiteSpace(item.VeterinarioAsignado) ? item.VeterinarioAsignado : "Sin asignar")</strong>
+                                    </div>
+
+                                    <div class="record-mini">
+                                        <span>Resultado</span>
+                                        <strong>@(!string.IsNullOrWhiteSpace(item.Resultado) ? item.Resultado : "Sin resultado")</strong>
+                                    </div>
+
+                                    <div class="record-mini">
+                                        <span>Estado</span>
+                                        <strong>@(!string.IsNullOrWhiteSpace(item.Resultado) ? "Completado" : "En proceso")</strong>
+                                    </div>
+                                </div>
+
+                                <div class="camp-card-actions">
+                                    <a href="@Url.Action("AsignarVeterinario", "Campanias", new { id = item.Id })" class="camp-btn-secondary">Asignar veterinario</a>
+                                    <a href="@Url.Action("RegistrarResultado", "Campanias", new { id = item.Id })" class="camp-btn-success">Registrar resultado</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </section>
+        }
+        else
+        {
+            <section class="empty-shell">
+                <h3>No hay inscripciones registradas</h3>
+                <p>
+                    Cuando los usuarios registren mascotas en esta campaña, aparecerán aquí para su gestión.
+                </p>
+                <a href="@Url.Action("Index", "Campanias")" class="camp-btn-primary">Volver</a>
+            </section>
+        }
+    </div>
 </div>

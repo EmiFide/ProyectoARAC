@@ -4,55 +4,69 @@
     ViewBag.Title = "Nueva publicación";
 }
 
-@section styles{
+@section Styles{
     <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
 }
 
-<div class="com-shell">
-    <div class="com-hero">
-        <div>
-            <h1>Nueva publicación</h1>
+<div class="community-form-page">
+    <section class="community-form-hero">
+        <div class="community-form-hero-copy">
+            <span class="community-chip">Nueva publicación</span>
+            <h1>Comparte algo importante con la comunidad</h1>
             <p>
-                Comparte un mensaje dentro de la comunidad de ARAC y ayuda a mantener un espacio
-                más cercano, útil y participativo.
+                Publica mensajes claros, cercanos y útiles para que otras personas del refugio
+                puedan leer, comentar y participar.
             </p>
         </div>
-        <div>
-            <img src="~/Content/img/GatoPerro.png" alt="Nueva publicación" />
-        </div>
-    </div>
 
-    <div class="com-form-card">
-        <div class="com-panel-title">Formulario de publicación</div>
-        <div class="com-panel-subtitle">
-            Escribe un título claro y el contenido que deseas compartir con la comunidad.
+        <div class="community-form-hero-visual">
+            <img src="~/Content/img/GatoPerro.png" alt="Nueva publicación en comunidad" />
+        </div>
+    </section>
+
+    <section class="community-form-card">
+        <div class="community-section-head">
+            <div>
+                <span class="community-section-mini">Formulario</span>
+                <h2>Crear publicación</h2>
+                <p>Completa la información y publica tu mensaje.</p>
+            </div>
         </div>
 
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+            @Html.ValidationSummary(true, "", new { @class = "community-validation-summary" })
 
-            <div class="com-form-grid">
-                <div class="com-group">
-                    @Html.LabelFor(m => m.Titulo)
-                    @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control", placeholder = "Escribe un título para tu publicación" })
-                    @Html.ValidationMessageFor(m => m.Titulo, "", new { @class = "text-danger" })
+            <div class="community-form-grid">
+                <div class="community-field">
+                    @Html.LabelFor(m => m.Titulo, "Título")
+                    @Html.TextBoxFor(m => m.Titulo, new
+                    {
+                        @class = "community-input",
+                        placeholder = "Escribe un título claro para tu publicación"
+                    })
+                    @Html.ValidationMessageFor(m => m.Titulo, "", new { @class = "community-field-error" })
                 </div>
 
-                <div class="com-group">
-                    @Html.LabelFor(m => m.Contenido)
-                    @Html.TextAreaFor(m => m.Contenido, new { @class = "form-control", placeholder = "Comparte tu mensaje con la comunidad..." })
-                    @Html.ValidationMessageFor(m => m.Contenido, "", new { @class = "text-danger" })
+                <div class="community-field">
+                    @Html.LabelFor(m => m.Contenido, "Contenido")
+                    @Html.TextAreaFor(m => m.Contenido, new
+                    {
+                        @class = "community-input textarea",
+                        placeholder = "Comparte aquí tu mensaje con la comunidad...",
+                        rows = "8"
+                    })
+                    @Html.ValidationMessageFor(m => m.Contenido, "", new { @class = "community-field-error" })
                 </div>
             </div>
 
-            <div class="com-actions" style="margin-top: 20px;">
-                <button type="submit" class="com-btn">Publicar</button>
-                @Html.ActionLink("Volver", "Index", null, new { @class = "com-btn-outline" })
+            <div class="community-form-actions">
+                <button type="submit" class="community-btn-primary">Publicar</button>
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "community-btn-secondary" })
             </div>
         }
-    </div>
+    </section>
 </div>
 
 @section Scripts {
