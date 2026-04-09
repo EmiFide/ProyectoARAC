@@ -2,7 +2,7 @@
 @using System.Collections.Generic
 
 @{
-    ViewBag.Title = "Mis mascotas";
+    ViewBag.Title = "Mascotas";
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Mascotas.AnimalModel>();
     var favoritos = ViewBag.Favoritos as HashSet<int> ?? new HashSet<int>();
     bool esAdmin = ViewBag.EsAdmin != null && (bool)ViewBag.EsAdmin;
@@ -10,104 +10,108 @@
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
 
-<div class="mascota-shell">
-    <div class="mascota-hero">
-        <div class="mascota-hero-content">
+<div class="catalog-shell">
+    <section class="catalog-hero">
+        <div class="catalog-copy">
+            <span class="section-kicker">Catálogo ARAC</span>
+
             @if (Request.IsAuthenticated)
             {
                 if (esAdmin)
                 {
                     <h1>Gestión de mascotas</h1>
-                    <p>Aquí el administrador puede ver todas las mascotas registradas en el sistema.</p>
+                    <p>Administra las mascotas registradas dentro del refugio con una vista más limpia y profesional.</p>
                 }
                 else
                 {
-                    <h1>Mis mascotas</h1>
-                    <p>Aquí ves únicamente las mascotas que registraste con tu cuenta.</p>
+                    <h1>Mis mascotas registradas</h1>
+                    <p>Consulta y administra las mascotas asociadas a tu cuenta desde un catálogo visual.</p>
                 }
             }
             else
             {
-                <h1>Catálogo de mascotas</h1>
-                <p>Aquí se muestran las mascotas públicas disponibles.</p>
+                <h1>Encuentra tu próxima compañía</h1>
+                <p>Explora perros y gatos disponibles en adopción con información clara y accesible.</p>
+            }
+
+            @if (Request.IsAuthenticated)
+            {
+                <div class="catalog-hero-actions">
+                    <a href="@Url.Action("Crear", "Animal")" class="catalog-btn-main">
+                        @(esAdmin ? "Registrar mascota" : "Registrar mi mascota")
+                    </a>
+                    <a href="@Url.Action("Index", "Favoritos")" class="catalog-btn-soft">Ver favoritos</a>
+                </div>
             }
         </div>
-    </div>
 
-    <div class="mascota-form-card">
-        @if (Request.IsAuthenticated)
-        {
-            <div class="mascota-actions" style="margin-top:0; margin-bottom:20px; justify-content:flex-end;">
-                <a href="@Url.Action("Crear", "Animal")" class="mascota-btn">
-                    @(esAdmin ? "Registrar mascota" : "Registrar mi mascota")
-                </a>
+        <div class="catalog-visual">
+            <div class="catalog-visual-card">
+                <img src="~/Content/img/GatoPerro.png" alt="Mascotas ARAC" />
             </div>
-        }
+        </div>
+    </section>
 
-        @if (lista.Any())
-        {
-            <div class="favoritos-grid">
-                @foreach (var item in lista)
-                {
-                    var esFavorito = favoritos.Contains(item.ID_Animal);
+    @if (lista.Any())
+    {
+        <section class="catalog-grid">
+            @foreach (var item in lista)
+            {
+                var esFavorito = favoritos.Contains(item.ID_Animal);
 
-                    <div class="favorito-card">
-                        <div class="favorito-card-header">
-                            <div>
-                                <span class="favorito-badge">@(!string.IsNullOrWhiteSpace(item.NombreTipo) ? item.NombreTipo : "Mascota")</span>
-                                <h3>@item.Nombre_Animal</h3>
-                            </div>
+                <article class="pet-card-pro">
+                    <div class="pet-card-media">
+                        <img src="@(item.NombreTipo == "Gato" ? Url.Content("~/Content/img/Gatillo.png") : Url.Content("~/Content/img/Cachorro.png"))" alt="@item.Nombre_Animal" />
+                        <span class="pet-chip">@(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)</span>
 
-                            @if (Request.IsAuthenticated)
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "pet-fav-form" }))
                             {
-                                using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "favorito-form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("idAnimal", item.ID_Animal)
-                                    @Html.Hidden("returnUrl", Request.RawUrl)
-                                    <button type="submit" class="favorito-toggle-btn @(esFavorito ? "activo" : "")" title="@(esFavorito ? "Quitar de favoritos" : "Guardar en favoritos")">
-                                        @(esFavorito ? "❤" : "♡")
-                                    </button>
-                                }
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("idAnimal", item.ID_Animal)
+                                @Html.Hidden("returnUrl", Request.RawUrl)
+                                <button type="submit" class="pet-fav-btn @(esFavorito ? "active" : "")" title="Favorito">
+                                    @(esFavorito ? "Quitar" : "Guardar")
+                                </button>
                             }
-                        </div>
+                        }
+                    </div>
 
-                        <div class="favorito-card-body">
-                            <p><strong>Raza:</strong> @(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</p>
-                            <p><strong>Edad:</strong> @(item.Edad.HasValue ? item.Edad + " años" : "No registrada")</p>
-                            <p><strong>Sexo:</strong> @item.Sexo</p>
-                            <p><strong>Tamaño:</strong> @item.Tamano</p>
-                            <p><strong>Peso:</strong> @(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</p>
-                            <p><strong>Estado:</strong> @item.Estado</p>
-                            <p><strong>Descripción:</strong> @item.Descripcion</p>
+                    <div class="pet-card-body">
+                        <h3>@item.Nombre_Animal</h3>
+                        <p class="pet-description">@(string.IsNullOrWhiteSpace(item.Descripcion) ? "Mascota disponible en el refugio." : item.Descripcion)</p>
+
+                        <div class="pet-data-grid">
+                            <div><span>Raza</span><strong>@(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</strong></div>
+                            <div><span>Edad</span><strong>@(item.Edad.HasValue ? item.Edad + " años" : "No registrada")</strong></div>
+                            <div><span>Sexo</span><strong>@(string.IsNullOrWhiteSpace(item.Sexo) ? "No registrado" : item.Sexo)</strong></div>
+                            <div><span>Tamaño</span><strong>@(string.IsNullOrWhiteSpace(item.Tamano) ? "No registrado" : item.Tamano)</strong></div>
+                            <div><span>Peso</span><strong>@(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</strong></div>
+                            <div><span>Estado</span><strong>@(string.IsNullOrWhiteSpace(item.Estado) ? "Disponible" : item.Estado)</strong></div>
                         </div>
 
                         @if (Request.IsAuthenticated)
                         {
-                            <div class="mascota-actions" style="margin-top:18px;">
-                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="mascota-btn-outline">Editar</a>
-                                <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })" class="mascota-btn-outline"
+                            <div class="pet-card-actions">
+                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="catalog-btn-soft">Editar</a>
+                                <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })"
+                                   class="catalog-btn-danger"
                                    onclick="return confirm('¿Seguro que deseas desactivar esta mascota?');">
                                     Desactivar
                                 </a>
                             </div>
                         }
                     </div>
-                }
-            </div>
-        }
-        else
-        {
-            <div class="alert alert-light border" role="alert">
-                @if (Request.IsAuthenticated)
-                {
-                    @:Todavía no tienes mascotas registradas.
-                }
-                else
-                {
-                    @:No hay mascotas públicas disponibles por el momento.
-                }
-            </div>
-        }
-    </div>
+                </article>
+            }
+        </section>
+    }
+    else
+    {
+        <section class="catalog-empty">
+            <h3>No hay mascotas disponibles por el momento</h3>
+            <p>Cuando se registren nuevas mascotas aparecerán aquí con este mismo diseño.</p>
+        </section>
+    }
 </div>

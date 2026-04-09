@@ -16,14 +16,6 @@
 </head>
 <body class="arac-body">
 
-    <a href="@(Request.IsAuthenticated ? Url.Action("Index", "Favoritos") : Url.Action("Login", "Account", new { returnUrl = Url.Action("Index", "Favoritos") }))"
-       class="favoritos-float"
-       title="Favoritos"
-       aria-label="Favoritos">
-        <span class="favoritos-float-icon">❤</span>
-        <span class="favoritos-float-text">Favoritos</span>
-    </a>
-
     <header class="site-header-wrap">
         <nav class="navbar navbar-expand-xl navbar-light arac-navbar">
             <div class="container-fluid arac-navbar-container">
@@ -62,9 +54,7 @@
                                     @Html.ActionLink("Registrar Mascota", "Crear", "Animal", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Voluntarios", "Index", "Voluntarios", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "dropdown-item" })
-
                                     <div class="dropdown-divider"></div>
-
                                     <h6 class="dropdown-header">Administración</h6>
                                     @Html.ActionLink("Usuarios", "Index", "AdminUsers", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Roles y permisos", "Index", "Roles", null, new { @class = "dropdown-item" })
@@ -83,49 +73,46 @@
         </nav>
     </header>
 
-    <main class="main-container arac-main-container">
+    <a href="@(Request.IsAuthenticated ? Url.Action("Index", "Favoritos") : Url.Action("Login", "Account", new { returnUrl = Url.Action("Index", "Favoritos") }))"
+       class="favoritos-float"
+       title="Favoritos">
+        <span>Favoritos</span>
+    </a>
+
+    <main class="arac-main-container">
         @RenderBody()
     </main>
 
     <footer class="arac-footer">
         <div class="container arac-footer-container">
-            <div class="arac-footer-top">
-                <div class="arac-footer-brand">
+            <div class="arac-footer-grid">
+                <div>
                     <div class="arac-footer-logo">
                         <span class="arac-brand-mark"></span>
                         <strong>ARAC Refugio</strong>
                     </div>
-                    <p>
-                        Plataforma para adopción, campañas, donaciones y participación comunitaria,
-                        con una experiencia visual más moderna y ordenada.
+                    <p class="arac-footer-text">
+                        Plataforma para adopción, campañas, donaciones, noticias y comunidad en una sola experiencia visual.
                     </p>
                 </div>
 
-                <div class="arac-footer-subscribe">
-                    <h5>Mantente informado</h5>
-                    <p>Explora noticias, campañas activas y nuevas oportunidades para ayudar.</p>
-                    <div class="arac-footer-actions">
-                        <a href="@Url.Action("Index", "Campanias")" class="arac-footer-btn primary">Ver campañas</a>
-                        <a href="@Url.Action("Index", "Donaciones")" class="arac-footer-btn secondary">Donar</a>
-                    </div>
+                <div class="arac-footer-actions">
+                    <a href="@Url.Action("Catalogo", "Animal")" class="footer-btn footer-btn-light">Ver mascotas</a>
+                    <a href="@Url.Action("Index", "Campanias")" class="footer-btn footer-btn-light">Ver campañas</a>
+                    <a href="@Url.Action("Index", "Donaciones")" class="footer-btn footer-btn-accent">Donar</a>
                 </div>
             </div>
 
             <div class="arac-footer-bottom">
-                <div>
-                    <span>Contacto:</span>
-                    <span> administracion@ARAC_Refugio.org</span>
-                    <span class="mx-2">|</span>
-                    <span>8755-5475</span>
-                </div>
-                <div>© @DateTime.Now.Year - ARAC Refugio</div>
+                <span>Contacto: administracion@aracrefugio.org</span>
+                <span>8755-5475</span>
+                <span>© @DateTime.Now.Year ARAC Refugio</span>
             </div>
         </div>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -5,171 +5,88 @@
 <link href="~/Content/estilos/Index.css" rel="stylesheet" />
 
 <div class="home-shell">
-    <section class="hero-skilline">
-        <div class="hero-copy">
-            <span class="hero-kicker">ARAC Refugio</span>
-            <h1>
-                Una plataforma más clara para
-                <span>adoptar, ayudar y participar</span>
-                en el bienestar animal
-            </h1>
+    <section class="home-hero">
+        <div class="home-hero-copy">
+            <span class="hero-mini">Cuidado, adopción y apoyo</span>
+            <h1>Un refugio digital con una imagen más moderna, clara y profesional</h1>
             <p>
-                ARAC reúne mascotas en adopción, campañas de castración, donaciones,
-                noticias y comunidad en un solo lugar, con una interfaz más moderna,
-                limpia y fácil de recorrer.
+                Explora mascotas disponibles, campañas de castración, donaciones, noticias y comunidad
+                desde una sola plataforma con mejor navegación y presencia visual.
             </p>
 
-            <div class="hero-actions">
-                <a href="@Url.Action("Catalogo", "Animal")" class="hero-btn primary">Ver mascotas</a>
-                <a href="@Url.Action("Index", "Campanias")" class="hero-btn secondary">Explorar campañas</a>
-                @if (Request.IsAuthenticated)
-                {
-                    <a href="@Url.Action("Index", "Comunidad")" class="hero-link-action">Ir a comunidad</a>
-                }
+            <div class="home-hero-actions">
+                <a href="@Url.Action("Catalogo", "Animal")" class="home-btn home-btn-primary">Ver mascotas</a>
+                <a href="@Url.Action("Index", "Campanias")" class="home-btn home-btn-light">Ver campañas</a>
             </div>
 
-            <div class="hero-stats">
-                <div class="hero-stat-card">
+            <div class="home-stat-strip">
+                <div class="home-stat">
                     <strong>Adopciones</strong>
-                    <span>Consulta perfiles de mascotas disponibles y toma decisiones responsables.</span>
+                    <span>Perfiles claros de perros y gatos</span>
                 </div>
-                <div class="hero-stat-card">
+                <div class="home-stat">
                     <strong>Donaciones</strong>
-                    <span>Apoya con insumos, recursos y ayuda para el refugio.</span>
+                    <span>Apoyo rápido y ordenado</span>
                 </div>
-                <div class="hero-stat-card">
+                <div class="home-stat">
                     <strong>Comunidad</strong>
-                    <span>Participa en publicaciones, campañas y noticias del refugio.</span>
+                    <span>Publicaciones y noticias del refugio</span>
                 </div>
             </div>
         </div>
 
-        <div class="hero-visual">
-            <div class="hero-image-card">
-                <img src="~/Content/img/Refugio.png" alt="ARAC Refugio" />
+        <div class="home-hero-visual">
+            <div class="hero-circle hero-circle-lg">
+                <img src="~/Content/img/PerroyGato.png" alt="Mascotas" />
             </div>
-            <div class="floating-card floating-card-top">
-                <h4>Campañas activas</h4>
-                <p>Consulta cupos, fechas y registro de mascotas para castración.</p>
+            <div class="hero-circle hero-circle-sm">
+                <img src="~/Content/img/Cachorro.png" alt="Veterinaria" />
             </div>
-            <div class="floating-card floating-card-bottom">
-                <h4>Adopta con confianza</h4>
-                <p>Accede a información organizada y navega más rápido entre vistas.</p>
-            </div>
+            <div class="hero-pill hero-pill-top">Adopción responsable</div>
+            <div class="hero-pill hero-pill-bottom">Campañas y donaciones</div>
         </div>
     </section>
 
-    <section class="trusted-section">
-        <p class="section-label">SECCIONES PRINCIPALES</p>
-        <div class="trusted-grid">
-            <span>Mascotas</span>
-            <span>Campañas</span>
-            <span>Donaciones</span>
-            <span>Comunidad</span>
-            <span>Noticias</span>
-            <span>Voluntariado</span>
-        </div>
+    <section class="home-categories">
+        <a href="@Url.Action("Catalogo", "Animal")" class="home-cat-card">
+            <h3>Mascotas</h3>
+            <p>Consulta perros y gatos disponibles</p>
+        </a>
+
+        <a href="@Url.Action("Index", "Campanias")" class="home-cat-card">
+            <h3>Campañas</h3>
+            <p>Inscripciones y seguimiento</p>
+        </a>
+
+        <a href="@Url.Action("Index", "Donaciones")" class="home-cat-card">
+            <h3>Donaciones</h3>
+            <p>Apoya económicamente al refugio</p>
+        </a>
+
+        <a href="@Url.Action("Index", "Comunidad")" class="home-cat-card">
+            <h3>Comunidad</h3>
+            <p>Publicaciones, mensajes y apoyo</p>
+        </a>
     </section>
 
-    <section class="feature-intro text-center">
-        <h2>Una experiencia visual alineada con la referencia que compartiste</h2>
-        <p>
-            Se mantiene la lógica de tu proyecto ASP.NET MVC, pero con una presentación más cercana
-            al estilo de landing page moderna: bloques amplios, tarjetas blancas, botones redondeados,
-            fondos claros y jerarquía visual marcada. fileciteturn1file2 fileciteturn1file4
-        </p>
-    </section>
-
-    <section class="feature-grid three-cols">
-        <article class="feature-card">
-            <div class="icon-badge blue">01</div>
-            <h3>Adopta con orden</h3>
-            <p>La vista de mascotas sigue funcionando igual, pero con una entrada visual más limpia y profesional.</p>
-            <a href="@Url.Action("Catalogo", "Animal")">Ir a mascotas</a>
-        </article>
-
-        <article class="feature-card">
-            <div class="icon-badge orange">02</div>
-            <h3>Campañas más visibles</h3>
-            <p>Las campañas conservan sus acciones y formularios, pero el sitio se siente más moderno desde el inicio.</p>
-            <a href="@Url.Action("Index", "Campanias")">Ver campañas</a>
-        </article>
-
-        <article class="feature-card">
-            <div class="icon-badge cyan">03</div>
-            <h3>Donar es más claro</h3>
-            <p>La sección de donaciones sigue intacta en funcionalidad, con una identidad visual más consistente.</p>
-            <a href="@Url.Action("Index", "Donaciones")">Ir a donaciones</a>
-        </article>
-    </section>
-
-    <section class="split-section">
-        <div class="split-copy">
-            <p class="section-label left">NAVEGACIÓN</p>
-            <h2>Todo lo que ya hace tu sistema, ahora con mejor presencia</h2>
+    <section class="home-showcase">
+        <div class="showcase-copy">
+            <span class="section-kicker">Una sola línea visual</span>
+            <h2>Las vistas dejan de verse como CRUD y pasan a sentirse como un sitio real</h2>
             <p>
-                No estoy cambiando controladores, rutas, modelos ni formularios funcionales. La idea aquí es que el proyecto
-                mantenga exactamente sus acciones, pero que el layout y la vista principal se vean más cercanos a la referencia:
-                hero amplio, bloques informativos, tarjetas flotantes y footer estilizado. fileciteturn1file2
+                La lógica sigue funcionando igual, pero la presentación cambia con héroes visuales,
+                tarjetas grandes, fondos limpios y botones más modernos.
             </p>
-            <div class="bullet-stack">
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Mascotas y adopciones</strong>
-                        <p>La navegación principal las mantiene visibles desde el menú superior.</p>
-                    </div>
-                </div>
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Comunidad y noticias</strong>
-                        <p>Quedan integradas dentro de la misma estética visual para que no se vean desconectadas.</p>
-                    </div>
-                </div>
-                <div class="bullet-item">
-                    <span></span>
-                    <div>
-                        <strong>Administración</strong>
-                        <p>El dropdown para administrador sigue funcionando, solo cambia el estilo.</p>
-                    </div>
-                </div>
+
+            <div class="showcase-list">
+                <div><span></span>Catálogo más visual para adopciones</div>
+                <div><span></span>Campañas con apariencia más clara y usable</div>
+                <div><span></span>Donaciones y comunidad con mejor jerarquía</div>
             </div>
         </div>
 
-        <div class="split-visual">
-            <div class="video-card">
-                <img src="~/Content/img/PerroyGato.png" alt="Perro y gato" />
-                <div class="play-circle"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="stack-section">
-        <div class="stack-row reverse-mobile">
-            <div class="stack-image">
-                <img src="~/Content/img/GatoPerro.png" alt="Mascotas en refugio" />
-            </div>
-            <div class="stack-copy">
-                <h2>Secciones listas para seguir estilizando</h2>
-                <p>
-                    Con este cambio, ya dejas montada la base visual general. Después de esto, lo ideal es continuar por vistas clave
-                    como catálogo de mascotas, campañas, donaciones, comunidad y login para que todo el sitio mantenga la misma línea.
-                </p>
-            </div>
-        </div>
-
-        <div class="stack-row">
-            <div class="stack-copy">
-                <h2>Botones, tablas y formularios más consistentes</h2>
-                <p>
-                    El nuevo CSS global también estiliza tablas, formularios, cards y botones para que muchas vistas del proyecto
-                    mejoren sin tocar la lógica interna.
-                </p>
-            </div>
-            <div class="stack-image">
-                <img src="~/Content/img/MitadPerro.png" alt="Perro ARAC" />
-            </div>
+        <div class="showcase-image">
+            <img src="~/Content/img/Refugio.png" alt="Refugio" />
         </div>
     </section>
 </div>

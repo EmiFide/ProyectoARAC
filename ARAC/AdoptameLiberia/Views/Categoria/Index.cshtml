@@ -1,165 +1,105 @@
-﻿@model IEnumerable<AdoptameLiberia.Models.Finanzas.CategoriaFinanciera>
+﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.CampaniaCastracion>
 
 @{
-    ViewBag.Title = "Categorías Financieras";
+    ViewBag.Title = "Campañas";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.CampaniaCastracion>();
+    var cuposMap = ViewBag.CuposDisponibles as Dictionary<int, int> ?? new Dictionary<int, int>();
+    var totalCampanias = ViewBag.TotalCampanias != null ? (int)ViewBag.TotalCampanias : lista.Count;
+    var campaniasDisponibles = ViewBag.CampaniasDisponibles != null ? (int)ViewBag.CampaniasDisponibles : 0;
 }
 
-<h2 class="mb-4">💰 Categorías Financieras</h2>
+<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
 
-<div class="mb-3">
-    @Html.ActionLink("➕ Nueva Categoría", "Create", null, new { @class = "btn-crear" })
-</div>
+<div class="camp-shell">
+    <section class="camp-hero">
+        <div class="camp-hero-copy">
+            <span class="section-kicker">Castración responsable</span>
+            <h1>Campañas con mejor orden, presencia y navegación</h1>
+            <p>Consulta fechas, lugares, cupos disponibles y registra mascotas con una interfaz más clara.</p>
+        </div>
+        <div class="camp-hero-image">
+            <img src="~/Content/img/MitadPerro.png" alt="Campañas" />
+        </div>
+    </section>
 
-<!-- RESUMEN -->
-<div class="resumen">
+    <section class="camp-stats">
+        <div class="camp-stat-card">
+            <strong>@totalCampanias</strong>
+            <span>Total de campañas</span>
+        </div>
+        <div class="camp-stat-card">
+            <strong>@campaniasDisponibles</strong>
+            <span>Disponibles</span>
+        </div>
+        <div class="camp-stat-card">
+            <strong>@lista.Count</strong>
+            <span>Mostradas</span>
+        </div>
+    </section>
 
-    <div class="box azul">
-        <h6>Total</h6>
-        <h3>@Model.Count()</h3>
-    </div>
-
-    <div class="box verde">
-        <h6>Ingresos</h6>
-        <h3>@Model.Count(c => c.Tipo == "Ingreso")</h3>
-    </div>
-
-    <div class="box rojo">
-        <h6>Gastos</h6>
-        <h3>@Model.Count(c => c.Tipo == "Gasto")</h3>
-    </div>
-
-</div>
-
-<!-- TABLA -->
-<table class="tabla">
-    <thead>
-        <tr>
-            <th>📌 Nombre</th>
-            <th>💱 Tipo</th>
-            <th>⚙ Estado</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
+    <section class="camp-actions-panel">
+        @if (User.IsInRole("Administrador"))
         {
-            <tr>
+            <a href="@Url.Action("Create", "Campanias")" class="camp-btn-main">Nueva campaña</a>
+        }
+        else
+        {
+            <a href="@Url.Action("MisCampanias", "Campanias")" class="camp-btn-main">Ver mis registros</a>
+        }
+    </section>
 
-                <!-- NOMBRE -->
-                <td>
-                    <b>@item.Nombre</b>
-                </td>
+    <section class="camp-table-panel">
+        <div class="camp-table-head">
+            <h2>Próximas campañas</h2>
+            <p>Listado principal de jornadas disponibles en el sistema.</p>
+        </div>
 
-                <!-- TIPO -->
-                <td>
-                    @if (item.Tipo == "Ingreso")
+        <div class="camp-table-wrap">
+            <table class="table-campania">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Cupos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (lista.Any())
                     {
-                        <span class="tag verde">Ingreso</span>
+                        foreach (var item in lista)
+                        {
+                            var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
+
+                            <tr>
+                                <td><strong>@item.Nombre</strong></td>
+                                <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Lugar</td>
+                                <td><span class="camp-cupo">@disponibles</span></td>
+                                <td>
+                                    @if (User.IsInRole("Administrador"))
+                                    {
+                                        <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="camp-btn-soft">Ver inscripciones</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="camp-btn-register">Registrar mascota</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                     else
                     {
-                        <span class="tag rojo">Gasto</span>
+                        <tr>
+                            <td colspan="5">
+                                <div class="camp-empty">Todavía no hay campañas registradas.</div>
+                            </td>
+                        </tr>
                     }
-                </td>
-
-                <!-- ESTADO -->
-                <td>
-                    @if (item.Estado == true)
-                    {
-                        <span class="tag azul">Activo</span>
-                    }
-                    else
-                    {
-                        <span class="tag gris">Inactivo</span>
-                    }
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>
-
-<!-- ESTILOS -->
-<style>
-    /* BOTÓN */
-    .btn-crear {
-        background: #28a745;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-        .btn-crear:hover {
-            background: #218838;
-            color: white;
-        }
-
-    /* RESUMEN */
-    .resumen {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 25px;
-    }
-
-    .box {
-        flex: 1;
-        padding: 20px;
-        border-radius: 12px;
-        color: white;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .azul {
-        background: #007bff;
-    }
-
-    .verde {
-        background: #28a745;
-    }
-
-    .rojo {
-        background: #dc3545;
-    }
-
-    .gris {
-        background: #6c757d;
-    }
-
-    /* TABLA */
-    .tabla {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-        .tabla th {
-            background: #8b0000;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .tabla td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .tabla tr:hover {
-            background: #f5f5f5;
-            transition: 0.2s;
-        }
-
-    /* TAGS */
-    .tag {
-        padding: 6px 12px;
-        border-radius: 12px;
-        color: white;
-        font-size: 12px;
-        font-weight: bold;
-    }
-</style>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
