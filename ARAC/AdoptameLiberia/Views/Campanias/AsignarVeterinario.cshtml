@@ -1,25 +1,79 @@
 ﻿@model AdoptameLiberia.Models.Campanias.InscripcionCastracion
 
-
-<h2>Asignar Veterinario</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken() 
-
-    @Html.HiddenFor(m => m.Id)
-
-    <div>
-        <label>Veterinario</label>
-        @Html.TextBoxFor(m => m.VeterinarioAsignado, new { @class = "form-control" })
-    </div>
-
-    <div>
-        <label>Resultado</label>
-        @Html.TextBoxFor(m => m.Resultado, new { @class = "form-control" })
-    </div>
-
-    <br />
-
-    <button type="submit" class="btn btn-primary">Guardar</button>
+@{
+    ViewBag.Title = "Asignar Veterinario";
 }
+
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
+
+<div class="page-shell">
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Administración</span>
+                <h1>Asignar veterinario</h1>
+                <p>
+                    Define el profesional a cargo del procedimiento para este registro de campaña.
+                </p>
+            </div>
+
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/Perro.png")" alt="Asignar veterinario" />
+            </div>
+        </section>
+
+        <section class="info-card-grid">
+            <div class="form-shell-card">
+                <div class="form-shell-header">
+                    <h2>Datos del registro</h2>
+                    <p>Asigna el veterinario responsable y, si lo deseas, deja un resultado preliminar.</p>
+                </div>
+
+                <div class="form-shell-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="form-grid-camp">
+                            <div class="form-group-camp full">
+                                <label>Mascota</label>
+                                <input type="text" class="form-readonly" value="@(Model.Animal != null ? Model.Animal.Nombre_Animal : "Sin nombre")" readonly />
+                            </div>
+
+                            <div class="form-group-camp full">
+                                <label>Veterinario</label>
+                                @Html.TextBoxFor(m => m.VeterinarioAsignado, new { placeholder = "Nombre del veterinario asignado" })
+                                @Html.ValidationMessageFor(m => m.VeterinarioAsignado, "", new { @class = "form-error" })
+                            </div>
+
+                            <div class="form-group-camp full">
+                                <label>Resultado</label>
+                                @Html.TextAreaFor(m => m.Resultado, new { rows = "5", placeholder = "Observación o resultado preliminar" })
+                                @Html.ValidationMessageFor(m => m.Resultado, "", new { @class = "form-error" })
+                            </div>
+                        </div>
+
+                        <div class="form-actions-row">
+                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = Model.CampaniaCastracionId })" class="camp-btn-light">Volver</a>
+                            <button type="submit" class="camp-btn-primary">Guardar cambios</button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <aside class="side-panel-card">
+                <div class="side-panel-visual">
+                    <img src="@Url.Content("~/Content/img/MitadPerro.png")" alt="Veterinario" />
+                </div>
+
+                <h3>Gestión del registro</h3>
+                <p>
+                    Esta vista permite dejar asignado el veterinario para facilitar el seguimiento de cada inscripción.
+                </p>
+            </aside>
+        </section>
+    </div>
+</div>

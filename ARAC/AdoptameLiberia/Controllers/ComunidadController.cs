@@ -10,13 +10,33 @@ namespace AdoptameLiberia.Controllers
     public class ComunidadController : Controller
     {
         private ARACDbContext db = new ARACDbContext();
+        private const int PageSize = 6;
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var publicaciones = db.PublicacionesComunidad
+            if (page < 1) page = 1;
+
+            var query = db.PublicacionesComunidad
                 .Where(p => p.Estado)
-                .OrderByDescending(p => p.Fecha)
+                .OrderByDescending(p => p.Fecha);
+
+            var totalPublicaciones = query.Count();
+            var totalPaginas = (int)Math.Ceiling((double)totalPublicaciones / PageSize);
+
+            if (totalPaginas == 0)
+                totalPaginas = 1;
+
+            if (page > totalPaginas)
+                page = totalPaginas;
+
+            var publicaciones = query
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
                 .ToList();
+
+            ViewBag.PaginaActual = page;
+            ViewBag.TotalPaginas = totalPaginas;
+            ViewBag.TotalPublicaciones = totalPublicaciones;
 
             return View(publicaciones);
         }
@@ -49,7 +69,8 @@ namespace AdoptameLiberia.Controllers
 
         public ActionResult Details(int id)
         {
-            var publicacion = db.PublicacionesComunidad.FirstOrDefault(p => p.ID_Publicacion == id && p.Estado);
+            var publicacion = db.PublicacionesComunidad
+                .FirstOrDefault(p => p.ID_Publicacion == id && p.Estado);
 
             if (publicacion == null)
                 return HttpNotFound();

@@ -8,109 +8,161 @@
     var campaniasDisponibles = ViewBag.CampaniasDisponibles != null ? (int)ViewBag.CampaniasDisponibles : 0;
 }
 
-<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+@section Styles {
+    <link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+}
 
-<div class="campanias-container">
+<div class="campanias-shell">
+    <div class="campanias-wrap">
+        <section class="campanias-hero">
+            <div class="campanias-hero-copy">
+                <span class="campanias-kicker">Campañas activas</span>
+                <h1>Campañas de castración con una vista más clara y útil</h1>
+                <p>
+                    Consulta las jornadas disponibles, revisa la fecha, el lugar y los cupos,
+                    y registra a tu mascota desde una vista más ordenada y fácil de usar.
+                </p>
 
-    <div class="hero-campania">
-        <div class="hero-campania-content">
-            <h1>Campañas de Castración</h1>
-            <p>Consulta las campañas activas, revisa la información disponible y registra a tu mascota.</p>
-        </div>
-    </div>
-
-    <div class="pet-cards">
-        <div class="pet-card pet-card-overlay">
-            <img src="~/Content/img/MitadPerro.png" alt="Bienestar Canino" />
-            <div class="pet-card-text">
-                <span>BIENESTAR CANINO</span>
-            </div>
-        </div>
-
-        <div class="pet-card pet-card-overlay">
-            <img src="~/Content/img/MitadGato.png" alt="Bienestar Felino" />
-            <div class="pet-card-text">
-                <span>BIENESTAR FELINO</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="campanias-bottom">
-        <div class="stats-row">
-            <div class="stat-card">
-                <h4>Total de campañas</h4>
-                <p>@totalCampanias</p>
-            </div>
-            <div class="stat-card">
-                <h4>Disponibles</h4>
-                <p>@campaniasDisponibles</p>
-            </div>
-        </div>
-
-        <div class="section-card">
-            <div class="action-buttons">
-                @if (User.IsInRole("Administrador"))
-                {
-                    <a href="@Url.Action("Create", "Campanias")" class="btn-campania">Nueva Campaña</a>
-                }
-                else
-                {
-                    <a href="@Url.Action("MisCampanias", "Campanias")" class="btn-campania-alt">Ver mis registros</a>
-                }
-            </div>
-        </div>
-
-        <div class="table-shell">
-            <table class="table-campania">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Lugar</th>
-                        <th>Cupos disponibles</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (lista.Any())
+                <div class="campanias-hero-actions">
+                    @if (User.IsInRole("Administrador"))
                     {
-                        foreach (var item in lista)
-                        {
-                            var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
-
-                            <tr>
-                                <td><strong>@item.Nombre</strong></td>
-                                <td>@item.Fecha.ToShortDateString()</td>
-                                <td>@item.Lugar</td>
-                                <td><span class="badge-cupos">@disponibles</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        @if (User.IsInRole("Administrador"))
-                                        {
-                                            <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="btn-campania-info">Ver inscripciones</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="btn-campania-success">Registrar mascota</a>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                        <a href="@Url.Action("Create", "Campanias")" class="camp-btn-primary">Crear nueva campaña</a>
                     }
                     else
                     {
-                        <tr>
-                            <td colspan="5">
-                                <div class="empty-state">
-                                    Todavía no hay campañas registradas.
-                                </div>
-                            </td>
-                        </tr>
+                        <a href="@Url.Action("MisCampanias", "Campanias")" class="camp-btn-primary">Ver mis registros</a>
                     }
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+                </div>
+            </div>
+
+            <div class="campanias-hero-image">
+                <img src="@Url.Content("~/Content/img/PerroyGato.png")" alt="Campañas de castración" />
+            </div>
+        </section>
+
+        <section class="campanias-summary">
+            <div class="campanias-panel">
+                <div class="campanias-panel-title">Información general</div>
+                <p class="campanias-panel-text">
+                    Este espacio reúne las campañas disponibles para esterilización responsable.
+                    Cada campaña muestra sus datos principales y la acción disponible según tu rol.
+                </p>
+            </div>
+
+            <div class="campanias-stats">
+                <div class="campanias-stat-card">
+                    <span class="campanias-stat-label">Total de campañas</span>
+                    <strong class="campanias-stat-value">@totalCampanias</strong>
+                </div>
+
+                <div class="campanias-stat-card">
+                    <span class="campanias-stat-label">Con cupos disponibles</span>
+                    <strong class="campanias-stat-value">@campaniasDisponibles</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="campanias-actions-bar" id="listado-campanias">
+            <div class="campanias-section-title">
+                <h2>Listado de campañas</h2>
+                <p>Revisa la información disponible y accede a la acción correspondiente.</p>
+            </div>
+
+            <div class="campanias-button-group">
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a href="@Url.Action("Create", "Campanias")" class="camp-btn-primary">Registrar campaña</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("MisCampanias", "Campanias")" class="camp-btn-light">Mis campañas</a>
+                }
+            </div>
+        </section>
+
+        @if (lista.Any())
+        {
+            <section class="campanias-grid">
+                @foreach (var item in lista)
+                {
+                    var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
+                    var tieneCupo = disponibles > 0;
+
+                    <article class="camp-card">
+                        <div class="camp-card-visual">
+                            <span class="camp-card-badge">Campaña programada</span>
+                            <img src="@Url.Content((item.Id % 2 == 0) ? "~/Content/img/MitadPerro.png" : "~/Content/img/MitadGato.png")" alt="Campaña" />
+                        </div>
+
+                        <div class="camp-card-body">
+                            <div class="camp-card-header">
+                                <h3 class="camp-card-title">@item.Nombre</h3>
+                                <p class="camp-card-subtitle">
+                                    Jornada de castración programada para facilitar el acceso a una atención responsable.
+                                </p>
+                            </div>
+
+                            <div class="camp-meta-list">
+                                <div class="camp-meta-item">
+                                    <span class="camp-meta-label">Fecha</span>
+                                    <span class="camp-meta-value">@item.Fecha.ToString("dd/MM/yyyy")</span>
+                                </div>
+
+                                <div class="camp-meta-item">
+                                    <span class="camp-meta-label">Lugar</span>
+                                    <span class="camp-meta-value">@item.Lugar</span>
+                                </div>
+
+                                <div class="camp-meta-item">
+                                    <span class="camp-meta-label">Cupos disponibles</span>
+                                    @if (tieneCupo)
+                                    {
+                                        <span class="camp-cupo-badge">@disponibles</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="camp-empty-badge">Sin cupos</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="camp-card-actions">
+                                @if (User.IsInRole("Administrador"))
+                                {
+                                    <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="camp-btn-secondary">Ver inscripciones</a>
+                                }
+                                else
+                                {
+                                    if (tieneCupo)
+                                    {
+                                        <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="camp-btn-success">Registrar mascota</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("MisCampanias", "Campanias")" class="camp-btn-light">Ver mis registros</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </article>
+                }
+            </section>
+        }
+        else
+        {
+            <section class="empty-shell">
+                <h3>No hay campañas registradas por ahora</h3>
+                <p>
+                    En este momento no existen campañas creadas. Cuando se registren nuevas jornadas,
+                    aparecerán aquí con su información y la acción correspondiente.
+                </p>
+
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a href="@Url.Action("Create", "Campanias")" class="camp-btn-primary">Crear la primera campaña</a>
+                }
+            </section>
+        }
+    </div>
 </div>

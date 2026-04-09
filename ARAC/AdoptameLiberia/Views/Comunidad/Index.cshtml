@@ -1,23 +1,30 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Comunidad.PublicacionComunidad>
+@using System.Linq
 
 @{
     ViewBag.Title = "Comunidad";
+    int paginaActual = ViewBag.PaginaActual != null ? (int)ViewBag.PaginaActual : 1;
+    int totalPaginas = ViewBag.TotalPaginas != null ? (int)ViewBag.TotalPaginas : 1;
+    int totalPublicaciones = ViewBag.TotalPublicaciones != null ? (int)ViewBag.TotalPublicaciones : 0;
 }
 
-@section styles{
+@section Styles{
     <link href="~/Content/estilos/Comunidad.css" rel="stylesheet" />
 }
 
-<div class="community-shell">
+<div class="community-page">
     <section class="community-hero">
         <div class="community-hero-copy">
-            <span class="section-kicker">Comunidad ARAC</span>
-            <h1>Un espacio para compartir historias, apoyo y experiencias</h1>
-            <p>Consulta publicaciones recientes y participa con contenido útil para la comunidad del refugio.</p>
+            <span class="community-chip">Comunidad ARAC</span>
+            <h1>Historias, apoyo y publicaciones que conectan a nuestra comunidad</h1>
+            <p>
+                Comparte experiencias, consejos, mensajes útiles y noticias del refugio en un espacio
+                más ordenado, visual y agradable para navegar.
+            </p>
 
             <div class="community-hero-actions">
-                @Html.ActionLink("Nueva publicación", "Create", null, new { @class = "community-btn-main" })
-                @Html.ActionLink("Volver al inicio", "Index", "Home", null, new { @class = "community-btn-soft" })
+                @Html.ActionLink("Crear publicación", "Create", null, new { @class = "community-btn-primary" })
+                @Html.ActionLink("Volver al inicio", "Index", "Home", null, new { @class = "community-btn-secondary" })
             </div>
         </div>
 
@@ -28,59 +35,134 @@
 
     @if (TempData["MensajeComunidad"] != null)
     {
-        <div class="community-alert">@TempData["MensajeComunidad"]</div>
+        <div class="community-alert-success">
+            @TempData["MensajeComunidad"]
+        </div>
     }
 
-    <section class="community-layout">
-        <div class="community-main-panel">
-            <div class="community-panel-head">
-                <h2>Publicaciones recientes</h2>
-                <p>Mensajes y aportes compartidos dentro del refugio.</p>
+    <section class="community-top-stats">
+        <div class="community-stat-card">
+            <span class="community-stat-label">Publicaciones</span>
+            <strong>@totalPublicaciones</strong>
+        </div>
+
+        <div class="community-stat-card">
+            <span class="community-stat-label">Página actual</span>
+            <strong>@paginaActual</strong>
+        </div>
+
+        <div class="community-stat-card">
+            <span class="community-stat-label">Total de páginas</span>
+            <strong>@totalPaginas</strong>
+        </div>
+    </section>
+
+    <section class="community-content-layout">
+        <div class="community-feed-panel">
+            <div class="community-section-head">
+                <div>
+                    <span class="community-section-mini">Panel de comunidad</span>
+                    <h2>Publicaciones recientes</h2>
+                    <p>Un espacio más visual y limpio, sin apariencia de CRUD.</p>
+                </div>
             </div>
 
             @if (Model != null && Model.Any())
             {
-                <div class="community-post-grid">
+                <div class="community-posts-list">
                     @foreach (var item in Model)
                     {
                         <article class="community-post-card">
-                            <div class="community-post-top">
-                                <span class="community-post-date">@item.Fecha.ToString("dd/MM/yyyy hh:mm tt")</span>
+                            <div class="community-post-card-top">
+                                <span class="community-date-badge">@item.Fecha.ToString("dd/MM/yyyy")</span>
+                                <span class="community-time-badge">@item.Fecha.ToString("hh:mm tt")</span>
                             </div>
 
-                            <h3>@item.Titulo</h3>
+                            <div class="community-post-main">
+                                <h3>@item.Titulo</h3>
 
-                            <p>
-                                @(item.Contenido != null && item.Contenido.Length > 220
-                                    ? item.Contenido.Substring(0, 220) + "..."
-                                    : item.Contenido)
-                            </p>
+                                <p>
+                                    @(item.Contenido != null && item.Contenido.Length > 230
+                                        ? item.Contenido.Substring(0, 230) + "..."
+                                        : item.Contenido)
+                                </p>
+                            </div>
 
-                            @Html.ActionLink("Ver publicación", "Details", new { id = item.ID_Publicacion }, new { @class = "community-btn-main mini" })
+                            <div class="community-post-actions">
+                                @Html.ActionLink("Ver publicación", "Details", new { id = item.ID_Publicacion }, new { @class = "community-btn-primary small" })
+                            </div>
                         </article>
                     }
                 </div>
+
+                if (totalPaginas > 1)
+                {
+                    <div class="community-pagination-wrap">
+                        <nav class="community-pagination">
+                            @if (paginaActual > 1)
+                            {
+                                <a class="community-page-arrow"
+                                   href="@Url.Action("Index", new { page = paginaActual - 1 })"
+                                   aria-label="Página anterior">‹</a>
+                            }
+                            else
+                            {
+                                <span class="community-page-arrow disabled">‹</span>
+                            }
+
+                            @for (int i = 1; i <= totalPaginas; i++)
+                            {
+                                if (i == paginaActual)
+                                {
+                                    <span class="community-page-number active">@i</span>
+                                }
+                                else
+                                {
+                                    <a class="community-page-number"
+                                       href="@Url.Action("Index", new { page = i })">@i</a>
+                                }
+                            }
+
+                            @if (paginaActual < totalPaginas)
+                            {
+                                <a class="community-page-arrow"
+                                   href="@Url.Action("Index", new { page = paginaActual + 1 })"
+                                   aria-label="Página siguiente">›</a>
+                            }
+                            else
+                            {
+                                <span class="community-page-arrow disabled">›</span>
+                            }
+                        </nav>
+                    </div>
+                }
             }
             else
             {
-                <div class="community-empty">Todavía no hay publicaciones en la comunidad.</div>
+                <div class="community-empty-state">
+                    <div class="community-empty-icon">Comunidad</div>
+                    <h3>Aún no hay publicaciones</h3>
+                    <p>Empieza la conversación compartiendo la primera publicación de esta sección.</p>
+                    @Html.ActionLink("Crear publicación", "Create", null, new { @class = "community-btn-primary" })
+                </div>
             }
         </div>
 
         <aside class="community-side-panel">
-            <div class="community-side-card">
-                <h4>Qué puedes compartir</h4>
-                <p>Consejos, historias de adopción, experiencias, avisos y mensajes relacionados con el refugio.</p>
+            <div class="community-side-card highlight">
+                <span class="community-side-mini">Espacio activo</span>
+                <h4>¿Qué puedes publicar?</h4>
+                <p>
+                    Historias de adopción, consejos, avisos, experiencias con mascotas
+                    y mensajes de apoyo para la comunidad.
+                </p>
             </div>
 
             <div class="community-side-card">
-                <h4>Participación activa</h4>
-                <p>Entra a cada publicación para ver más detalle y continuar la conversación.</p>
-            </div>
-
-            <div class="community-side-card">
-                <h4>Espacio organizado</h4>
-                <p>Esta vista se mantiene funcional, pero ahora se integra con el resto del diseño del sitio.</p>
+                <h4>PROHIBIDO</h4>
+                <p>
+                   Subir publicaciones que puedan ofender a otros o se concideren ofensivas
+                </p>
             </div>
         </aside>
     </section>
