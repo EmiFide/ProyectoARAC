@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Mascotas.AnimalModel>
 @using System.Collections.Generic
+@using System.Linq
 
 @{
     ViewBag.Title = "Mascotas";
@@ -13,36 +14,20 @@
 <div class="catalog-shell">
     <section class="catalog-hero">
         <div class="catalog-copy">
-            <span class="section-kicker">Catálogo ARAC</span>
+            <h1>Catálogo de mascotas</h1>
+            <p>
+                Explora perros y gatos registrados en la plataforma en una vista más compacta,
+                ordenada y cómoda de usar.
+            </p>
 
-            @if (Request.IsAuthenticated)
-            {
-                if (esAdmin)
+            <div class="catalog-hero-actions">
+                @if (esAdmin)
                 {
-                    <h1>Gestión de mascotas</h1>
-                    <p>Administra las mascotas registradas dentro del refugio con una vista más limpia y profesional.</p>
+                    <a href="@Url.Action("Crear", "Animal")" class="catalog-btn-main">Registrar mascota</a>
                 }
-                else
-                {
-                    <h1>Mis mascotas registradas</h1>
-                    <p>Consulta y administra las mascotas asociadas a tu cuenta desde un catálogo visual.</p>
-                }
-            }
-            else
-            {
-                <h1>Encuentra tu próxima compañía</h1>
-                <p>Explora perros y gatos disponibles en adopción con información clara y accesible.</p>
-            }
 
-            @if (Request.IsAuthenticated)
-            {
-                <div class="catalog-hero-actions">
-                    <a href="@Url.Action("Crear", "Animal")" class="catalog-btn-main">
-                        @(esAdmin ? "Registrar mascota" : "Registrar mi mascota")
-                    </a>
-                    <a href="@Url.Action("Index", "Favoritos")" class="catalog-btn-soft">Ver favoritos</a>
-                </div>
-            }
+                <a href="@Url.Action("Index", "Favoritos")" class="catalog-btn-soft">Ver favoritos</a>
+            </div>
         </div>
 
         <div class="catalog-visual">
@@ -62,25 +47,31 @@
                 <article class="pet-card-pro">
                     <div class="pet-card-media">
                         <img src="@(item.NombreTipo == "Gato" ? Url.Content("~/Content/img/Gatillo.png") : Url.Content("~/Content/img/Cachorro.png"))" alt="@item.Nombre_Animal" />
-                        <span class="pet-chip">@(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)</span>
 
-                        @if (Request.IsAuthenticated)
+                        <span class="pet-chip">
+                            @(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)
+                        </span>
+
+                        @using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "pet-fav-form" }))
                         {
-                            using (Html.BeginForm("Toggle", "Favoritos", FormMethod.Post, new { @class = "pet-fav-form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("idAnimal", item.ID_Animal)
-                                @Html.Hidden("returnUrl", Request.RawUrl)
-                                <button type="submit" class="pet-fav-btn @(esFavorito ? "active" : "")" title="Favorito">
-                                    @(esFavorito ? "Quitar" : "Guardar")
-                                </button>
-                            }
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("idAnimal", item.ID_Animal)
+                            @Html.Hidden("returnUrl", Request.RawUrl)
+
+                            <button type="submit"
+                                    class="pet-fav-btn @(esFavorito ? "active" : "")"
+                                    title="Agregar a favoritos">
+                                <span class="heart-icon">❤</span>
+                            </button>
                         }
                     </div>
 
                     <div class="pet-card-body">
                         <h3>@item.Nombre_Animal</h3>
-                        <p class="pet-description">@(string.IsNullOrWhiteSpace(item.Descripcion) ? "Mascota disponible en el refugio." : item.Descripcion)</p>
+
+                        <p class="pet-description">
+                            @(string.IsNullOrWhiteSpace(item.Descripcion) ? "Mascota disponible en el refugio." : item.Descripcion)
+                        </p>
 
                         <div class="pet-data-grid">
                             <div><span>Raza</span><strong>@(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</strong></div>
@@ -91,14 +82,14 @@
                             <div><span>Estado</span><strong>@(string.IsNullOrWhiteSpace(item.Estado) ? "Disponible" : item.Estado)</strong></div>
                         </div>
 
-                        @if (Request.IsAuthenticated)
+                        @if (esAdmin)
                         {
                             <div class="pet-card-actions">
-                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="catalog-btn-soft">Editar</a>
+                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="catalog-btn-link">Editar</a>
                                 <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })"
                                    class="catalog-btn-danger"
-                                   onclick="return confirm('¿Seguro que deseas desactivar esta mascota?');">
-                                    Desactivar
+                                   onclick="return confirm('¿Seguro que deseas quitar esta mascota?');">
+                                    Quitar
                                 </a>
                             </div>
                         }

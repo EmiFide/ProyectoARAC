@@ -35,5 +35,6 @@ namespace AdoptameLiberia.Models.Mascotas
 
         [NotMapped]
         public bool EstaAdoptado { get; set; }
+        public string UsuarioRegistroId { get; set; }
     }
 }

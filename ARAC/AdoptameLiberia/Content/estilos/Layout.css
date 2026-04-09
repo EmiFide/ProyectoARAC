@@ -861,11 +861,13 @@ img {
 .nav-btn-solid {
     padding: 8px 16px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    /* 🔥 azul más suave */
+    background: linear-gradient(135deg, #5b8def, #3b6fd8);
     color: white;
     font-weight: 700;
     font-size: 0.85rem;
 }
+
 .site-header,
 .site-header-clean,
 .site-header-full {
@@ -1006,15 +1008,19 @@ img {
     min-height: 40px;
     padding: 0 16px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    /* 🔥 COLOR MÁS SUAVE Y ELEGANTE */
+    background: #dae6fd;
     color: #fff;
     font-size: 0.88rem;
     font-weight: 800;
-    box-shadow: 0 10px 18px rgba(37, 99, 235, 0.16);
+    /* 🔥 SOMBRA MÁS SUAVE */
+    box-shadow: 0 4px 10px rgba(45, 108, 223, 0.15);
+    transition: all 0.2s ease;
 }
 
     .nav-btn-outline:hover,
     .nav-btn-solid:hover {
+        background: #4a7be0;
         transform: translateY(-1px);
     }
 
@@ -1064,4 +1070,129 @@ img {
         .nav-full a {
             font-size: 0.88rem;
         }
+}
+
+/* DROPDOWN MODERNO */
+.dropdown-custom {
+    position: relative;
+}
+
+    .dropdown-custom .nav-link {
+        cursor: pointer;
+    }
+
+/* CONTENEDOR */
+.dropdown-content {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    min-width: 230px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    padding: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 999;
+}
+
+    /* 🔥 SOLO SE MUESTRA CUANDO JS AGREGA "active" */
+    .dropdown-content.active {
+        display: flex;
+    }
+
+    /* ITEMS */
+    .dropdown-content a {
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #4b5f75;
+    }
+
+        .dropdown-content a:hover {
+            background: #eaf2ff;
+            color: #2d6cdf;
+        }
+
+/* TITULOS */
+.dropdown-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9aaec4;
+    padding: 6px 10px;
+}
+
+/* LINEA */
+.dropdown-content hr {
+    border: none;
+    height: 1px;
+    background: #e5edf6;
+    margin: 6px 0;
+}
+
+/* =========================
+   DROPDOWN POR CLICK
+========================= */
+
+.account-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.account-name {
+    cursor: pointer;
+}
+
+/* DROPDOWN */
+.dropdown-content {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    min-width: 240px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+    /* ACTIVO (CLICK) */
+    .dropdown-content.active {
+        display: flex;
+    }
+
+    /* LINKS */
+    .dropdown-content a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #4b5f75;
+    }
+
+        .dropdown-content a:hover {
+            background: #eaf2ff;
+            color: #2d6cdf;
+        }
+
+/* TITULO */
+.dropdown-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9aaec4;
+    padding: 6px 10px;
+}
+
+/* LINEA */
+.dropdown-content hr {
+    border: none;
+    height: 1px;
+    background: #e5edf6;
+    margin: 6px 0;
 }

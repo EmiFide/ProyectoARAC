@@ -14,6 +14,11 @@ namespace AdoptameLiberia.Controllers.Mascotas
 
         public ActionResult Catalogo()
         {
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { ReturnUrl = Url.Action("Catalogo", "Animal") });
+            }
+
             List<AnimalModel> lista = new List<AnimalModel>();
             HashSet<int> favoritos = new HashSet<int>();
             string currentUserId = User.Identity.GetUserId();
@@ -40,27 +45,10 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 FROM Animal a
                 LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
                 LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
-                WHERE
-                    (
-                        @EsAdmin = 1
-                        OR
-                        (
-                            @UserId IS NOT NULL
-                            AND a.UsuarioRegistroId = @UserId
-                        )
-                        OR
-                        (
-                            @UserId IS NULL
-                            AND a.UsuarioRegistroId IS NULL
-                            AND a.Estado = 'Disponible'
-                        )
-                    )
+                WHERE a.Estado IS NULL OR a.Estado <> 'Inactivo'
                 ORDER BY a.ID_Animal DESC";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
-                cmd.Parameters.AddWithValue("@EsAdmin", User.IsInRole("Administrador") ? 1 : 0);
-                cmd.Parameters.AddWithValue("@UserId", (object)currentUserId ?? DBNull.Value);
-
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
@@ -78,41 +66,38 @@ namespace AdoptameLiberia.Controllers.Mascotas
                         Descripcion = dr["Descripcion"]?.ToString(),
                         Estado = dr["Estado"]?.ToString(),
                         NombreRaza = dr["NombreRaza"]?.ToString(),
-                        NombreTipo = dr["NombreTipo"]?.ToString()
+                        NombreTipo = dr["NombreTipo"]?.ToString(),
+                        UsuarioRegistroId = dr["UsuarioRegistroId"]?.ToString()
                     });
                 }
             }
 
-            if (Request.IsAuthenticated)
+            using (SqlConnection cn = new SqlConnection(conexion))
             {
-                using (SqlConnection cn = new SqlConnection(conexion))
+                cn.Open();
+
+                string sqlFavoritos = @"
+                SELECT ID_Animal
+                FROM Favorito
+                WHERE UserId = @UserId";
+
+                SqlCommand cmdFavoritos = new SqlCommand(sqlFavoritos, cn);
+                cmdFavoritos.Parameters.AddWithValue("@UserId", (object)currentUserId ?? DBNull.Value);
+
+                SqlDataReader drFavoritos = cmdFavoritos.ExecuteReader();
+                while (drFavoritos.Read())
                 {
-                    cn.Open();
-
-                    string sqlFavoritos = @"
-                    SELECT ID_Animal
-                    FROM Favorito
-                    WHERE UserId = @UserId";
-
-                    SqlCommand cmdFavoritos = new SqlCommand(sqlFavoritos, cn);
-                    cmdFavoritos.Parameters.AddWithValue("@UserId", currentUserId);
-
-                    SqlDataReader drFavoritos = cmdFavoritos.ExecuteReader();
-                    while (drFavoritos.Read())
-                    {
-                        favoritos.Add(Convert.ToInt32(drFavoritos["ID_Animal"]));
-                    }
+                    favoritos.Add(Convert.ToInt32(drFavoritos["ID_Animal"]));
                 }
             }
 
             ViewBag.Favoritos = favoritos;
-            ViewBag.CurrentUserId = currentUserId;
             ViewBag.EsAdmin = User.IsInRole("Administrador");
 
             return View(lista);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Crear()
         {
             CargarCatalogos();
@@ -120,7 +105,7 @@ namespace AdoptameLiberia.Controllers.Mascotas
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public ActionResult Crear(AnimalModel model)
         {
@@ -180,12 +165,10 @@ namespace AdoptameLiberia.Controllers.Mascotas
             return RedirectToAction("Catalogo");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Editar(int id)
         {
             AnimalModel model = null;
-            string currentUserId = User.Identity.GetUserId();
-            bool esAdmin = User.IsInRole("Administrador");
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
@@ -213,13 +196,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
 
                 if (dr.Read())
                 {
-                    string dueño = dr["UsuarioRegistroId"] != DBNull.Value ? dr["UsuarioRegistroId"].ToString() : null;
-
-                    if (!esAdmin && dueño != currentUserId)
-                    {
-                        return new HttpUnauthorizedResult();
-                    }
-
                     model = new AnimalModel
                     {
                         ID_Animal = Convert.ToInt32(dr["ID_Animal"]),
@@ -231,7 +207,8 @@ namespace AdoptameLiberia.Controllers.Mascotas
                         Tamano = dr["Tamano"]?.ToString(),
                         Peso = dr["Peso"] != DBNull.Value ? Convert.ToDecimal(dr["Peso"]) : (decimal?)null,
                         Descripcion = dr["Descripcion"]?.ToString(),
-                        Estado = dr["Estado"]?.ToString()
+                        Estado = dr["Estado"]?.ToString(),
+                        UsuarioRegistroId = dr["UsuarioRegistroId"]?.ToString()
                     };
                 }
             }
@@ -246,13 +223,10 @@ namespace AdoptameLiberia.Controllers.Mascotas
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public ActionResult Editar(AnimalModel model)
         {
-            string currentUserId = User.Identity.GetUserId();
-            bool esAdmin = User.IsInRole("Administrador");
-
             ValidarCatalogos(model);
 
             if (!ModelState.IsValid)
@@ -264,23 +238,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
-
-                string sqlOwner = "SELECT UsuarioRegistroId FROM Animal WHERE ID_Animal = @ID_Animal";
-                SqlCommand cmdOwner = new SqlCommand(sqlOwner, cn);
-                cmdOwner.Parameters.AddWithValue("@ID_Animal", model.ID_Animal);
-
-                object ownerObj = cmdOwner.ExecuteScalar();
-                if (ownerObj == null)
-                {
-                    return HttpNotFound();
-                }
-
-                string ownerId = ownerObj != DBNull.Value ? ownerObj.ToString() : null;
-
-                if (!esAdmin && ownerId != currentUserId)
-                {
-                    return new HttpUnauthorizedResult();
-                }
 
                 string sql = @"
                 UPDATE Animal
@@ -312,32 +269,12 @@ namespace AdoptameLiberia.Controllers.Mascotas
             return RedirectToAction("Catalogo");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Desactivar(int id)
         {
-            string currentUserId = User.Identity.GetUserId();
-            bool esAdmin = User.IsInRole("Administrador");
-
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
-
-                string sqlOwner = "SELECT UsuarioRegistroId FROM Animal WHERE ID_Animal = @ID_Animal";
-                SqlCommand cmdOwner = new SqlCommand(sqlOwner, cn);
-                cmdOwner.Parameters.AddWithValue("@ID_Animal", id);
-
-                object ownerObj = cmdOwner.ExecuteScalar();
-                if (ownerObj == null)
-                {
-                    return HttpNotFound();
-                }
-
-                string ownerId = ownerObj != DBNull.Value ? ownerObj.ToString() : null;
-
-                if (!esAdmin && ownerId != currentUserId)
-                {
-                    return new HttpUnauthorizedResult();
-                }
 
                 string sql = "UPDATE Animal SET Estado = 'Inactivo' WHERE ID_Animal = @ID_Animal";
                 SqlCommand cmd = new SqlCommand(sql, cn);
