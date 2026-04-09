@@ -1,0 +1,128 @@
+﻿@model AdoptameLiberia.Models.ViewModel.MiPerfilAdopcionVM
+
+@{
+    ViewBag.Title = "Mi perfil de adopción";
+}
+
+<div class="container mt-4">
+    <h2>Mi perfil de adopción</h2>
+    <p><strong>Usuario:</strong> @Model.NombreUsuario</p>
+
+    @if (TempData["ok"] != null)
+    {
+        <div class="alert alert-success">@TempData["ok"]</div>
+    }
+
+    <h3 class="mt-4">Mis solicitudes</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Animal</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Solicitudes)
+            {
+                <tr>
+                    <td>@item.ID_Solicitud</td>
+                    <td>@item.AnimalNombre</td>
+                    <td>@(item.Fecha_Solicitud.HasValue ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@item.Estado</td>
+                    <td>@item.Motivo_Adopcion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3 class="mt-4">Mis adopciones</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Adopción</th>
+                <th>Animal</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Seguimiento inicial</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Adopciones)
+            {
+                <tr>
+                    <td>@item.ID_Adopcion</td>
+                    <td>@item.AnimalNombre</td>
+                    <td>@item.Fecha_Adopcion.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Estado_Adopcion</td>
+                    <td>@item.Seguimiento_Inicial</td>
+                    <td>
+                        @Html.ActionLink("Registrar seguimiento", "RegistrarSeguimiento", new { id = item.ID_Adopcion }, new { @class = "btn btn-sm btn-success" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3 class="mt-4">Seguimientos registrados</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Animal</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Estado mascota</th>
+                <th>Estado hogar</th>
+                <th>Comentario</th>
+                <th>Próxima acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Seguimientos)
+            {
+                <tr>
+                    <td>@item.AnimalNombre</td>
+                    <td>@item.Fecha_Seguimiento.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Tipo_Seguimiento</td>
+                    <td>@item.Estado_Mascota</td>
+                    <td>@item.Estado_Hogar</td>
+                    <td>@item.Comentario</td>
+                    <td>@item.Proxima_Accion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.Devoluciones != null && Model.Devoluciones.Any())
+    {
+        <h3 class="mt-4">Devoluciones</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Animal</th>
+                    <th>Fecha</th>
+                    <th>Motivo</th>
+                    <th>Estado final animal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Devoluciones)
+                {
+                    <tr>
+                        <td>@item.AnimalNombre</td>
+                        <td>@item.Fecha_Devolucion.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Motivo</td>
+                        <td>@item.Estado_Final_Animal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <p>
+        @Html.ActionLink("Ver reporte", "ReporteAdopciones", null, new { @class = "btn btn-info" })
+    </p>
+</div>

@@ -199,6 +199,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\Adopcion.cs" />
+    <Compile Include="Models\DevolucionAdopcion.cs" />
+    <Compile Include="Models\SeguimientoAdopcion.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Campanias\CampaniasCastracion.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Models\SolicitudAdopcion.cs" />
     <Compile Include="Models\TiposAnimales\TipoAnimal.cs" />
     <Compile Include="Models\SecurityModels.cs" />
+    <Compile Include="Models\ViewModel\AdopcionesViewModels.cs" />
     <Compile Include="Models\Voluntariado\ParticipacionVoluntario.cs" />
     <Compile Include="Models\Voluntariado\TareaVoluntariado.cs" />
     <Compile Include="Models\Voluntariado\Voluntario.cs" />
@@ -385,6 +388,14 @@
     <Content Include="Views\Noticia\Index.cshtml" />
     <Content Include="Views\Noticia\Create.cshtml" />
     <Content Include="Views\Favoritos\Index.cshtml" />
+    <Content Include="Views\Adopciones\Solicitudes.cshtml" />
+    <Content Include="Views\Adopciones\RegistrarSolicitud.cshtml" />
+    <Content Include="Views\Adopciones\Evaluar.cshtml" />
+    <Content Include="Views\Adopciones\AsignarAnimal.cshtml" />
+    <Content Include="Views\Adopciones\MiPerfil.cshtml" />
+    <Content Include="Views\Adopciones\RegistrarSeguimiento.cshtml" />
+    <Content Include="Views\Adopciones\RegistrarDevolucion.cshtml" />
+    <Content Include="Views\Adopciones\ReporteAdopciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

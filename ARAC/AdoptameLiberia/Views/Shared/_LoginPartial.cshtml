@@ -1,4 +1,9 @@
-﻿@using Microsoft.AspNet.Identity
+﻿﻿@using Microsoft.AspNet.Identity
+<!--Aqui se selecciona el nombre de usuario antes del arroba con split-->
+@{
+    var userName = User.Identity.GetUserName();
+    var displayName = userName != null && userName.Contains("@") ? userName.Split('@')[0] : userName;
+}
 
 @if (Request.IsAuthenticated)
 {
@@ -6,20 +11,32 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="navbar-nav navbar-right arac-user-nav">
-            <li>
-                @Html.ActionLink("Mi perfil", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Perfil", @class = "nav-link user-pill" })
-            </li>
-            <li>
-                <a class="nav-link user-pill logout-pill" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
-            </li>
-        </ul>
+<ul class="navbar-nav navbar-right">
+    <!--Dropdown-->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle user-dropdown-btn" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hola, <strong>@displayName</strong>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userMenu">
+            @Html.ActionLink("Gestionar Cuenta", "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "dropdown-item" })
+            @Html.ActionLink("Reporte de adopciones", "ReporteAdopciones", "Adopciones", null, new { @class = "dropdown-item" })
+            @Html.ActionLink("Mi perfil de adopción", "MiPerfil", "Adopciones", null, new { @class = "dropdown-item" })
+
+
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item text-danger" href="javascript:document.getElementById('logoutForm').submit()">
+                Cerrar sesión
+            </a>
+        </div>
+    </li>
+</ul>
     }
 }
 else
 {
-    <ul class="navbar-nav navbar-right arac-user-nav">
-        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link user-pill register-pill" })</li>
-        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link user-pill login-pill" })</li>
-    </ul>
+<ul class="navbar-nav navbar-right">
+    <li class="nav-item">@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+    <li class="nav-item">@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link" })</li>
+</ul>
 }

@@ -1,0 +1,50 @@
+﻿@model AdoptameLiberia.Models.ViewModel.RegistrarSeguimientoVM
+
+@{
+    ViewBag.Title = "Registrar seguimiento";
+}
+
+<div class="container mt-4">
+    <h2>Registrar seguimiento post-adopción</h2>
+
+    <div class="alert alert-info">
+        @Model.AdopcionInfo
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID_Adopcion)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Tipo_Seguimiento)
+            @Html.DropDownListFor(m => m.Tipo_Seguimiento, (SelectList)ViewBag.TiposSeguimiento, "Seleccione", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Tipo_Seguimiento, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Estado_Mascota)
+            @Html.TextBoxFor(m => m.Estado_Mascota, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Estado_Hogar)
+            @Html.TextBoxFor(m => m.Estado_Hogar, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Comentario)
+            @Html.TextAreaFor(m => m.Comentario, new { @class = "form-control", rows = 4 })
+            @Html.ValidationMessageFor(m => m.Comentario, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Proxima_Accion)
+            @Html.TextBoxFor(m => m.Proxima_Accion, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar seguimiento</button>
+        @Html.ActionLink("Volver", "MiPerfil", null, new { @class = "btn btn-secondary" })
+    }
+</div>
+
