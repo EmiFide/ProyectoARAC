@@ -1,110 +1,134 @@
 ﻿@model AdoptameLiberia.Models.Donaciones.Donacion
 
-<div class="container mt-5">
+@{
+    ViewBag.Title = "Detalle de donación";
+}
 
-    <div class="card shadow-lg p-4">
+<link href="~/Content/estilos/Donaciones.css" rel="stylesheet" />
 
-        <h2 class="text-center mb-4">
-            ❤️ Detalle Donación #@Model.IdDonacion
-        </h2>
-
-        <hr />
-
-        <!-- INFO PRINCIPAL -->
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <p><strong>📧 Correo:</strong> @Model.Usuario.Correo</p>
-                <p><strong>📦 Tipo:</strong> @Model.TipoDonacion.Nombre</p>
-                <p><strong>💳 Método:</strong> @Model.Metodo</p>
-            </div>
-
-            <div class="col-md-6">
-                <p><strong>💰 Monto:</strong> ₡@Model.Monto.ToString("N2")</p>
-                <p><strong>📝 Descripción:</strong> @Model.Descripcion</p>
-                <p><strong>📅 Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
-            </div>
+<div class="don-shell">
+    <section class="don-detail-hero">
+        <div class="don-detail-hero-copy">
+            <span class="don-kicker">Detalle del aporte</span>
+            <h1>Información de la donación</h1>
+            <p>
+                Consulta los datos registrados, el detalle de artículos entregados
+                y agrega observaciones cuando sea necesario.
+            </p>
         </div>
 
-        <hr />
+        <div class="don-detail-hero-image">
+            <img src="~/Content/img/PerroyGato.png" alt="Detalle de donación" />
+        </div>
+    </section>
 
-        <!-- INSUMOS -->
-        <h4 class="mb-3">📦 Detalles de Insumos</h4>
+    <section class="don-detail-panel">
+        <div class="don-detail-grid">
+            <div class="don-info-card">
+                <h3>Información general</h3>
+                <ul class="don-info-list">
+                    <li>
+                        <span>Correo</span>
+                        <strong>@(Model.Usuario != null ? Model.Usuario.Correo : "No disponible")</strong>
+                    </li>
+                    <li>
+                        <span>Tipo de aporte</span>
+                        <strong>@(Model.TipoDonacion != null ? Model.TipoDonacion.Nombre : "No definido")</strong>
+                    </li>
+                    <li>
+                        <span>Método</span>
+                        <strong>@(string.IsNullOrWhiteSpace(Model.Metodo) ? "No definido" : Model.Metodo)</strong>
+                    </li>
+                    <li>
+                        <span>Monto</span>
+                        <strong>@(Model.Monto > 0 ? "₡" + Model.Monto.ToString("N2") : "No aplica")</strong>
+                    </li>
+                    <li>
+                        <span>Fecha</span>
+                        <strong>@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="don-info-card">
+                <h3>Descripción</h3>
+                <div class="don-description-box">
+                    @(string.IsNullOrWhiteSpace(Model.Descripcion) ? "No se agregó una descripción adicional." : Model.Descripcion)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="don-detail-panel">
+        <div class="don-panel-head">
+            <h2>Detalle de insumos</h2>
+            <p>Se muestran únicamente los artículos asociados a esta donación.</p>
+        </div>
 
         @if (Model.Detalles != null && Model.Detalles.Any())
         {
-            <ul class="list-group mb-3">
+            <div class="don-chip-list">
                 @foreach (var det in Model.Detalles)
                 {
-                    <li class="list-group-item">
-                        @det.Descripcion
-                        @if (det.IdItemInventario != null)
+                    <div class="don-chip-card">
+                        <div class="don-chip-title">
+                            @(string.IsNullOrWhiteSpace(det.Descripcion) ? "Artículo registrado" : det.Descripcion)
+                        </div>
+                        @if (det.Cantidad > 0)
                         {
+                            <div class="don-chip-meta">Cantidad: @det.Cantidad</div>
                         }
-                    </li>
+                    </div>
                 }
-            </ul>
+            </div>
         }
         else
         {
-            <div class="alert alert-light">
-                No hay detalles.
+            <div class="don-empty">
+                Esta donación no tiene artículos registrados.
             </div>
         }
+    </section>
 
-        <hr />
-
-        <!-- OBSERVACIONES -->
-        <h4 class="mb-3">🗒️ Observaciones</h4>
+    <section class="don-detail-panel">
+        <div class="don-panel-head">
+            <h2>Observaciones</h2>
+            <p>Agrega comentarios para complementar la información del aporte.</p>
+        </div>
 
         @using (Html.BeginForm("AgregarObservacion", "Donaciones", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <input type="hidden" name="idDonacion" value="@Model.IdDonacion" />
 
-            <div class="form-group mb-2">
-                <textarea class="form-control" name="comentario" rows="3"
-                          placeholder="Escriba una observación..."></textarea>
+            <div class="don-observation-form">
+                <textarea class="don-textarea" name="comentario" rows="4" placeholder="Escribe una observación..."></textarea>
+                <button class="don-btn-main" type="submit">Agregar observación</button>
             </div>
-
-            <button class="btn btn-success mb-3" type="submit">
-                ➕ Agregar
-            </button>
         }
 
         @if (Model.Observaciones != null && Model.Observaciones.Any())
         {
-            <ul class="list-group">
+            <div class="don-observation-list">
                 @foreach (var o in Model.Observaciones.OrderByDescending(x => x.Fecha))
                 {
-                    <li class="list-group-item">
-                        <strong>@o.Fecha.ToString("dd/MM/yyyy HH:mm")</strong><br />
-                        @o.Comentario
-                    </li>
+                    <article class="don-observation-card">
+                        <div class="don-observation-date">@o.Fecha.ToString("dd/MM/yyyy HH:mm")</div>
+                        <p>@o.Comentario</p>
+                    </article>
                 }
-            </ul>
+            </div>
         }
         else
         {
-            <div class="alert alert-light">
-                Sin observaciones.
+            <div class="don-empty">
+                Todavía no hay observaciones registradas.
             </div>
         }
+    </section>
 
-        <hr />
-
-        <!-- BOTONES -->
-        <div class="text-center mt-3">
-            <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })"
-               class="btn btn-primary me-2">
-                📄 Comprobante
-            </a>
-
-            <a href="@Url.Action("Index", "Donaciones")"
-               class="btn btn-secondary">
-                🔙 Volver
-            </a>
-        </div>
-
+    <div class="don-bottom-actions">
+        <a href="@Url.Action("Comprobante", "Donaciones", new { id = Model.IdDonacion })" class="don-btn-main">Ver comprobante</a>
+        <a href="@Url.Action("Index", "Donaciones")" class="don-btn-soft">Volver</a>
     </div>
-
 </div>
