@@ -17,7 +17,6 @@ namespace AdoptameLiberia.Controllers
         {
             var lista = new List<AnimalModel>();
             string userId = User.Identity.GetUserId();
-            bool esAdmin = User.IsInRole("Administrador");
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
@@ -39,16 +38,11 @@ namespace AdoptameLiberia.Controllers
                 LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
                 WHERE 
                     f.UserId = @UserId
-                    AND
-                    (
-                        @EsAdmin = 1
-                        OR a.UsuarioRegistroId = @UserId
-                    )
+                    AND (a.Estado IS NULL OR a.Estado <> 'Inactivo')
                 ORDER BY f.Fecha_Registro DESC, a.Nombre_Animal ASC";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@EsAdmin", esAdmin ? 1 : 0);
 
                 cn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -58,7 +52,7 @@ namespace AdoptameLiberia.Controllers
                     lista.Add(new AnimalModel
                     {
                         ID_Animal = Convert.ToInt32(dr["ID_Animal"]),
-                        Nombre_Animal = dr["Nombre_Animal"].ToString(),
+                        Nombre_Animal = dr["Nombre_Animal"]?.ToString(),
                         Edad = dr["Edad"] != DBNull.Value ? Convert.ToInt32(dr["Edad"]) : (int?)null,
                         Sexo = dr["Sexo"]?.ToString(),
                         Tamano = dr["Tamano"]?.ToString(),
@@ -79,7 +73,6 @@ namespace AdoptameLiberia.Controllers
         public ActionResult Toggle(int idAnimal, string returnUrl)
         {
             string userId = User.Identity.GetUserId();
-            bool esAdmin = User.IsInRole("Administrador");
 
             using (SqlConnection cn = new SqlConnection(conexion))
             {
@@ -89,15 +82,10 @@ namespace AdoptameLiberia.Controllers
                 SELECT COUNT(1)
                 FROM Animal
                 WHERE ID_Animal = @ID_Animal
-                AND (
-                    @EsAdmin = 1
-                    OR UsuarioRegistroId = @UserId
-                )";
+                AND (Estado IS NULL OR Estado <> 'Inactivo')";
 
                 SqlCommand cmdValidacion = new SqlCommand(sqlValidacion, cn);
                 cmdValidacion.Parameters.AddWithValue("@ID_Animal", idAnimal);
-                cmdValidacion.Parameters.AddWithValue("@UserId", userId);
-                cmdValidacion.Parameters.AddWithValue("@EsAdmin", esAdmin ? 1 : 0);
 
                 bool permitido = Convert.ToInt32(cmdValidacion.ExecuteScalar()) > 0;
 
