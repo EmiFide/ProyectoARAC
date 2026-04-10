@@ -1,0 +1,69 @@
+name: Build and deploy ASP.NET Framework 4.8 MVC App
+
+env:
+  AZURE_WEBAPP_NAME: ARACWeb
+  SOLUTION_PATH: './ARAC.sln'
+  WEB_PROJECT_PATH: './AdoptameLiberia/AdoptameLiberia.csproj'
+  BUILD_CONFIGURATION: Release
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore ${{ env.SOLUTION_PATH }}
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build and package web app
+        run: |
+          msbuild ${{ env.WEB_PROJECT_PATH }} `
+            /p:Configuration=${{ env.BUILD_CONFIGURATION }} `
+            /p:DeployOnBuild=true `
+            /p:WebPublishMethod=FileSystem `
+            /p:PublishUrl="${{ github.workspace }}\publish" `
+            /p:DeleteExistingFiles=true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mvc-app
+          path: ${{ github.workspace }}\publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: Production
+      url: ${{ steps.deploy.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mvc-app
+          path: ./publish
+
+      - name: Deploy to Azure Web App
+        id: deploy
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
