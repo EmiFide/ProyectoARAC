@@ -108,32 +108,80 @@ namespace AdoptameLiberia.Controllers
             return View(lista);
         }
 
-        [Authorize(Roles = "Administrador")]
-        public ActionResult RegistrarSolicitud()
+        [Authorize]
+        public ActionResult RegistrarSolicitud(int? idAnimal)
         {
-            CargarUsuarios();
-            CargarAnimalesDisponibles();
+            int? idUsuarioActual = ObtenerIdUsuarioActual();
+
+            if (idUsuarioActual == null)
+            {
+                TempData["error"] = "No se encontró el usuario logueado.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var usuario = db.Usuarios.FirstOrDefault(u => u.ID_Usuario == idUsuarioActual);
+            var animal = db.Animals.FirstOrDefault(a => a.ID_Animal == idAnimal);
+
+            if (animal == null || animal.Estado != "Disponible")
+            {
+                TempData["error"] = "El animal no está disponible.";
+                return RedirectToAction("Catalogo", "Animal");
+            }
+
+            // Datos para la vista
+            ViewBag.ID_UsuarioSeleccionado = idUsuarioActual;
+            ViewBag.NombreUsuario = NombreCompletoUsuario(usuario);
+
+            ViewBag.ID_AnimalSeleccionado = idAnimal;
+            ViewBag.NombreAnimal = animal.Nombre_Animal;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrador")]
+        [Authorize]
         public ActionResult RegistrarSolicitud(SolicitudAdopcionFormVM model)
         {
+            int? idUsuarioActual = ObtenerIdUsuarioActual();
+
+            if (idUsuarioActual == null)
+            {
+                TempData["error"] = "No se encontró el usuario logueado.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // 🔥 Forzar usuario logueado
+            model.ID_Usuario = idUsuarioActual.Value;
+
             if (!ModelState.IsValid)
             {
-                CargarUsuarios(model.ID_Usuario);
-                CargarAnimalesDisponibles(model.ID_Animal);
+                ViewBag.ID_UsuarioSeleccionado = model.ID_Usuario;
+                ViewBag.ID_AnimalSeleccionado = model.ID_Animal;
                 return View(model);
             }
 
             var animal = db.Animals.FirstOrDefault(a => a.ID_Animal == model.ID_Animal);
+
             if (animal == null || animal.Estado != "Disponible")
             {
                 ModelState.AddModelError("", "El animal seleccionado no está disponible.");
-                CargarUsuarios(model.ID_Usuario);
-                CargarAnimalesDisponibles(model.ID_Animal);
+                ViewBag.ID_UsuarioSeleccionado = model.ID_Usuario;
+                ViewBag.ID_AnimalSeleccionado = model.ID_Animal;
+                return View(model);
+            }
+
+            // 🔥 Validación PRO (evitar duplicados)
+            bool yaExiste = db.SolicitudAdopcion.Any(s =>
+                s.ID_Usuario == model.ID_Usuario &&
+                s.ID_Animal == model.ID_Animal &&
+                s.Estado != "Rechazada");
+
+            if (yaExiste)
+            {
+                ModelState.AddModelError("", "Ya tienes una solicitud para este animal.");
+                ViewBag.ID_UsuarioSeleccionado = model.ID_Usuario;
+                ViewBag.ID_AnimalSeleccionado = model.ID_Animal;
                 return View(model);
             }
 
@@ -152,8 +200,8 @@ namespace AdoptameLiberia.Controllers
             db.SolicitudAdopcion.Add(solicitud);
             db.SaveChanges();
 
-            TempData["ok"] = "La solicitud de adopción fue registrada correctamente.";
-            return RedirectToAction("Solicitudes");
+            TempData["ok"] = "Solicitud enviada correctamente 🐾";
+            return RedirectToAction("MiPerfil");
         }
 
         [Authorize(Roles = "Administrador")]
