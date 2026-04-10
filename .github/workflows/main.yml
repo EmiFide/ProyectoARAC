@@ -2,8 +2,8 @@ name: Build and deploy ASP.NET Framework 4.8 MVC App
 
 env:
   AZURE_WEBAPP_NAME: ARACWeb
-  SOLUTION_PATH: './ARAC.sln'
-  WEB_PROJECT_PATH: './AdoptameLiberia/AdoptameLiberia.csproj'
+  SOLUTION_PATH: '.ARAC/ARAC.sln'
+  WEB_PROJECT_PATH: '.ARAC/AdoptameLiberia/AdoptameLiberia.csproj'
   BUILD_CONFIGURATION: Release
 
 on:
