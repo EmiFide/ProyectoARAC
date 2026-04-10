@@ -31,14 +31,17 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Build and package web app
+      - name: Build and publish MVC app
         run: |
           msbuild ${{ env.WEB_PROJECT_PATH }} `
+            /t:Build;Publish `
             /p:Configuration=${{ env.BUILD_CONFIGURATION }} `
-            /p:DeployOnBuild=true `
             /p:WebPublishMethod=FileSystem `
             /p:PublishUrl="${{ github.workspace }}\publish" `
             /p:DeleteExistingFiles=true
+
+      - name: Verify publish output
+        run: Get-ChildItem "${{ github.workspace }}\publish" -Recurse
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
