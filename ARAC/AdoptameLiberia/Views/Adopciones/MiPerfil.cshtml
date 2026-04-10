@@ -49,7 +49,7 @@
         <div class="stat-card">
             <div class="stat-icon bg-red">⚠️</div>
             <div>
-                <strong>@(Model.Devoluciones?.Count() ?? 0)</strong>
+                <strong>@(Model.Devoluciones != null ? Model.Devoluciones.Count() : 0)</strong>
                 <small>Devoluciones</small>
             </div>
         </div>
@@ -73,7 +73,7 @@
             {
                 <div class="list-row">
                     <div>@item.AnimalNombre</div>
-                    <div>@(item.Fecha_Solicitud?.ToString("dd/MM/yyyy"))</div>
+                    <div>@(item.Fecha_Solicitud != null ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</div>
                     <div>
                         <span class="badge-custom estado-@item.Estado.ToLower()">
                             @item.Estado

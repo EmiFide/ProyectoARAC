@@ -66,7 +66,7 @@
                         <td>@item.ID_Solicitud</td>
                         <td>@item.UsuarioNombre</td>
                         <td>@item.AnimalNombre</td>
-                        <td>@(item.Fecha_Solicitud?.ToString("dd/MM/yyyy"))</td>
+                        <td>@(item.Fecha_Solicitud != null ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
 
                         <td>
                             <span class="badge-estado @item.Estado.ToLower()">
