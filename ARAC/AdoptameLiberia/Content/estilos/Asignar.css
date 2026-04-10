@@ -1,0 +1,98 @@
+﻿/* CONTENEDOR */
+.asignar-container {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+/* HERO */
+.asignar-hero {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    padding: 25px;
+    border-radius: 20px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+    .asignar-hero h1 {
+        margin: 0;
+    }
+
+    .asignar-hero p {
+        margin: 5px 0 0;
+        opacity: 0.9;
+    }
+
+/* INFO */
+.info-box {
+    background: #ecfdf5;
+    border-left: 5px solid #22c55e;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* CARD */
+.asignar-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* GRID */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* INPUTS */
+.form-group-modern {
+    margin-bottom: 15px;
+}
+
+.input-modern,
+.select-modern,
+.textarea-modern {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: 0.2s;
+}
+
+    .input-modern:focus,
+    .select-modern:focus,
+    .textarea-modern:focus {
+        border-color: #22c55e;
+        outline: none;
+    }
+
+/* BOTONES */
+.acciones {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .btn-guardar:hover {
+        transform: translateY(-1px);
+    }
+
+.btn-volver {
+    background: #e5e7eb;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #333;
+}
