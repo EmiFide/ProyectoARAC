@@ -26,6 +26,79 @@ namespace AdoptameLiberia.Controllers
                 .FirstOrDefault();
         }
 
+        public ActionResult AsignarVeterinario(int id)
+        {
+            var inscripcion = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .FirstOrDefault(i => i.Id == id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
+            return View(inscripcion); // 🔥 IMPORTANTE
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AsignarVeterinario(InscripcionCastracion model)
+        {
+            var inscripcion = db.InscripcionesCastracion
+                .FirstOrDefault(i => i.Id == model.Id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
+            // 🔥 Guardar datos
+            inscripcion.VeterinarioAsignado = model.VeterinarioAsignado;
+            inscripcion.Resultado = model.Resultado;
+
+            db.SaveChanges();
+
+            return RedirectToAction("VerInscripciones", new { id = inscripcion.CampaniaCastracionId });
+        }
+
+        public ActionResult RegistrarResultado(int id)
+        {
+            var inscripcion = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .FirstOrDefault(i => i.Id == id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
+            return View(inscripcion);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarResultado(InscripcionCastracion model)
+        {
+            var inscripcion = db.InscripcionesCastracion
+                .FirstOrDefault(i => i.Id == model.Id);
+
+            if (inscripcion == null)
+                return HttpNotFound();
+
+            // 🔥 SOLO ACTUALIZAS EL RESULTADO
+            inscripcion.Resultado = model.Resultado;
+
+            db.SaveChanges();
+
+            return RedirectToAction("VerInscripciones", new { id = inscripcion.CampaniaCastracionId });
+        }
+
+
+        public ActionResult VerInscripciones(int id)
+        {
+            var inscripciones = db.InscripcionesCastracion
+                .Include(i => i.Animal)
+                .Include(i => i.Campania)
+                .Where(i => i.CampaniaCastracionId == id)
+                .ToList();
+
+            return View(inscripciones);
+        }
+
         public ActionResult Index()
         {
             var campanias = db.CampaniasCastracion
