@@ -10,54 +10,54 @@
 
 <link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
 
-<div class="mascota-shell">
-    <div class="mascota-hero">
-        <div class="mascota-hero-content">
-            <h1>Registrar mascota</h1>
-            <p>Completa la información de tu mascota. Solo tú y el administrador podrán verla.</p>
-        </div>
-    </div>
+<div class="edit-shell">
 
-    <div class="mascota-form-card">
+    <div class="edit-card">
+        <div class="edit-header">
+            <h2>Registrar mascota 🐾</h2>
+            <p>Completa la información de la mascota registrada</p>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
-            <div class="mascota-form-grid">
-                <div class="mascota-group">
-                    <label>Nombre de la mascota</label>
-                    @Html.TextBoxFor(m => m.Nombre_Animal, new { @class = "form-control" })
+            <div class="edit-grid">
+
+                <div class="edit-group">
+                    <label>Nombre</label>
+                    @Html.TextBoxFor(m => m.Nombre_Animal, new { @class = "edit-input" })
                     @Html.ValidationMessageFor(m => m.Nombre_Animal, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="mascota-group">
+                <div class="edit-group">
                     <label>Raza</label>
                     @Html.DropDownListFor(
                         m => m.ID_Raza,
-                        new SelectList(listaRazas, "Value", "Text", Model != null ? Model.ID_Raza : 0),
+                        new SelectList(listaRazas, "Value", "Text"),
                         "Seleccione una raza",
-                        new { @class = "form-control" }
+                        new { @class = "edit-input" }
                     )
-                    @Html.ValidationMessageFor(m => m.ID_Raza, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="mascota-group">
-                    <label>Tipo de animal</label>
+                <div class="edit-group">
+                    <label>Tipo</label>
                     @Html.DropDownListFor(
                         m => m.ID_TipoAnimal,
-                        new SelectList(listaTipos, "Value", "Text", Model != null ? Model.ID_TipoAnimal : 0),
+                        new SelectList(listaTipos, "Value", "Text"),
                         "Seleccione un tipo",
-                        new { @class = "form-control" }
+                        new { @class = "edit-input" }
                     )
-                    @Html.ValidationMessageFor(m => m.ID_TipoAnimal, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="mascota-group">
+                <div class="edit-group">
                     <label>Edad</label>
-                    @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    @Html.TextBoxFor(m => m.Edad, new { @class = "edit-input", type = "number" })
                 </div>
 
-                <div class="mascota-group">
+                <div class="edit-group">
                     <label>Sexo</label>
                     @Html.DropDownListFor(
                         m => m.Sexo,
@@ -66,12 +66,12 @@
                             new SelectListItem { Text = "Macho", Value = "Macho" },
                             new SelectListItem { Text = "Hembra", Value = "Hembra" }
                         },
-                        "Seleccione el sexo",
-                        new { @class = "form-control" }
+                        "Seleccione",
+                        new { @class = "edit-input" }
                     )
                 </div>
 
-                <div class="mascota-group">
+                <div class="edit-group">
                     <label>Tamaño</label>
                     @Html.DropDownListFor(
                         m => m.Tamano,
@@ -81,25 +81,31 @@
                             new SelectListItem { Text = "Mediano", Value = "Mediano" },
                             new SelectListItem { Text = "Grande", Value = "Grande" }
                         },
-                        "Seleccione el tamaño",
-                        new { @class = "form-control" }
+                        "Seleccione",
+                        new { @class = "edit-input" }
                     )
                 </div>
 
-                <div class="mascota-group">
-                    <label>Peso kg</label>
-                    @Html.TextBoxFor(m => m.Peso, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                <div class="edit-group">
+                    <label>Peso (kg)</label>
+                    @Html.TextBoxFor(m => m.Peso, new { @class = "edit-input", type = "number", step = "0.01" })
                 </div>
 
-                <div class="mascota-group full">
+                <div class="edit-group full">
                     <label>Descripción</label>
-                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "5" })
+                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "edit-input", rows = "4" })
                 </div>
+
             </div>
 
-            <div class="mascota-actions">
-                <button type="submit" class="mascota-btn">Guardar mascota</button>
-                <a href="@Url.Action("Catalogo", "Animal")" class="mascota-btn-outline">Volver</a>
+            <div class="edit-actions">
+                <button type="submit" class="edit-btn-primary">
+                    Guardar mascota
+                </button>
+
+                <a href="@Url.Action("Catalogo", "Animal")" class="edit-btn-secondary">
+                    Volver
+                </a>
             </div>
         }
     </div>
