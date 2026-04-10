@@ -40,14 +40,14 @@ jobs:
             /p:SkipInvalidConfigurations=true `
             /p:PackageLocation="${{ github.workspace }}\publish"
 
-      - name: Verify publish output
+      - name: Verify PackageTmp output
         run: Get-ChildItem "${{ github.workspace }}\publish" -Recurse
 
-      - name: Upload artifact
+      - name: Upload extracted MVC site
         uses: actions/upload-artifact@v4
         with:
           name: mvc-app
-          path: ${{ github.workspace }}\publish
+          path: ${{ github.workspace }}\publish\**\PackageTmp
 
   deploy:
     runs-on: windows-latest
@@ -57,13 +57,13 @@ jobs:
       url: ${{ steps.deploy.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact
+      - name: Download website artifact
         uses: actions/download-artifact@v4
         with:
           name: mvc-app
           path: ./publish
 
-      - name: Deploy to Azure Web App
+      - name: Deploy real MVC site to Azure
         id: deploy
         uses: azure/webapps-deploy@v3
         with:
