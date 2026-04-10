@@ -261,6 +261,7 @@
     <Content Include="Content\estilos\Dashboard.css" />
     <Content Include="Content\estilos\Comunidad.css" />
     <Content Include="Content\estilos\Manage.css" />
+    <Content Include="Content\estilos\Noticias.css" />
     <Content Include="Content\estilos\Voluntarios.css" />
     <Content Include="Content\estilos\Mascotas.css" />
     <Content Include="Content\estilos\Inventario.css" />
@@ -273,6 +274,8 @@
     <Content Include="Content\estilos\Layout.css" />
     <Content Include="Content\estilos\Index.css" />
     <Content Include="Content\img\MascotaHero.jpg" />
+    <Content Include="Content\img\VoluntariadoHero.png" />
+    <Content Include="Content\img\Voluntariohero2.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

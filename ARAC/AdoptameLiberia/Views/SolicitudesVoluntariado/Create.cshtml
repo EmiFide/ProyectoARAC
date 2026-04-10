@@ -10,27 +10,132 @@
 
 <div class="vol-shell">
     <div class="vol-hero">
-        <div>
+        <div class="vol-hero-main">
+            <span class="vol-hero-kicker">ARAC · Voluntariado</span>
             <h1>Ser voluntario</h1>
             <p>
-                Gracias por querer apoyar a ARAC. Completa este formulario con tus datos,
-                disponibilidad y habilidades para enviarnos tu solicitud de voluntariado.
+                Sumarte como voluntario significa apoyar actividades, jornadas, rescates y tareas
+                que ayudan directamente al bienestar animal. Completa el formulario con tus datos,
+                tu disponibilidad y tus habilidades para que el equipo pueda revisar tu solicitud.
             </p>
+
+            <div class="vol-hero-actions">
+                <img src="~/Content/img/Voluntariohero2.jpg" alt="Voluntariado ARAC" />
+                
+            </div>
         </div>
-        <div class="vol-hero-image">
-            <img src="~/Content/img/GatoPerro.png" alt="Ser voluntario" />
+
+        <div class="vol-hero-side">
+            <div class="vol-hero-image">
+                <img src="~/Content/img/VoluntariadoHero.png" alt="Voluntariado ARAC" />
+            </div>
+
+            <div>
+                <h2 class="vol-side-card-title">¿Cómo puedes ayudar?</h2>
+                <p class="vol-side-card-text">
+                    Puedes participar en eventos, apoyo logístico, atención al público, acompañamiento
+                    en campañas, traslados, limpieza y bienestar de animales.
+                </p>
+            </div>
+
+            <ul class="vol-side-list">
+                <li>Horarios flexibles según disponibilidad</li>
+                <li>Participación en campañas y actividades</li>
+                <li>Apoyo real al refugio y a la comunidad</li>
+            </ul>
         </div>
     </div>
 
-    <div class="vol-form-card">
-        <div class="vol-panel-title">Formulario de solicitud</div>
-        <div class="vol-panel-subtitle">
-            Llena la información correctamente para que el equipo pueda revisar tu solicitud.
+    <div class="vol-grid-2">
+        <section class="vol-section">
+            <div class="vol-section-header">
+                <div>
+                    <h2 class="vol-section-title">¿Qué pasa después de enviar la solicitud?</h2>
+                    <p class="vol-section-subtitle">
+                        El proceso es simple y está pensado para que la experiencia sea clara.
+                    </p>
+                </div>
+            </div>
+
+            <div class="vol-card-grid">
+                <div class="vol-step-card">
+                    <div class="vol-step-number">1</div>
+                    <h3>Envías tu información</h3>
+                    <p>
+                        Registras tus datos, tu disponibilidad y las habilidades con las que puedes apoyar.
+                    </p>
+                </div>
+
+                <div class="vol-step-card">
+                    <div class="vol-step-number">2</div>
+                    <h3>Revisamos tu solicitud</h3>
+                    <p>
+                        El equipo valida tu información y determina en qué actividades encaja mejor tu apoyo.
+                    </p>
+                </div>
+
+                <div class="vol-step-card">
+                    <div class="vol-step-number">3</div>
+                    <h3>Te contactamos</h3>
+                    <p>
+                        Cuando haya una oportunidad adecuada, se te contactará por correo o teléfono.
+                    </p>
+                </div>
+
+                <div class="vol-step-card">
+                    <div class="vol-step-number">4</div>
+                    <h3>Te integras al voluntariado</h3>
+                    <p>
+                        Una vez aprobado, podrás participar en tareas y actividades de apoyo de ARAC.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="vol-section">
+            <div class="vol-section-header">
+                <div>
+                    <h2 class="vol-section-title">Perfil ideal</h2>
+                    <p class="vol-section-subtitle">
+                        No ocupas experiencia profesional; lo importante es tu disposición.
+                    </p>
+                </div>
+            </div>
+
+            <div class="vol-info-card" style="margin-bottom:16px;">
+                <h3>Recomendado para personas que:</h3>
+                <div class="vol-chip-list">
+                    <span class="vol-chip">Tienen empatía</span>
+                    <span class="vol-chip">Pueden apoyar en eventos</span>
+                    <span class="vol-chip">Quieren ayudar a animales</span>
+                    <span class="vol-chip">Tienen buena actitud</span>
+                    <span class="vol-chip">Saben trabajar en equipo</span>
+                </div>
+            </div>
+
+            <div class="vol-soft-card">
+                <h3>Importante</h3>
+                <p>
+                    Procura escribir bien tu correo, teléfono y disponibilidad. Esa información es la que
+                    permitirá al equipo contactarte y ubicarte en una tarea adecuada.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <section class="vol-form-card" id="formSolicitud">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Formulario de solicitud</h2>
+                <p class="vol-section-subtitle">
+                    Completa cada campo para enviar tu solicitud de voluntariado.
+                </p>
+            </div>
         </div>
 
         @if (TempData["Mensaje"] != null)
         {
-            <div class="alert-vol">@TempData["Mensaje"]</div>
+            <div class="vol-alert-success">@TempData["Mensaje"]</div>
         }
 
         @using (Html.BeginForm())
@@ -41,43 +146,45 @@
             <div class="vol-form-grid">
                 <div class="vol-group">
                     @Html.LabelFor(m => m.Nombre)
-                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Ingresa tu nombre" })
                     @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(m => m.Apellido1)
-                    @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control", placeholder = "Primer apellido" })
                     @Html.ValidationMessageFor(m => m.Apellido1, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(m => m.Apellido2)
-                    @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control", placeholder = "Segundo apellido" })
                     @Html.ValidationMessageFor(m => m.Apellido2, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(m => m.Correo)
-                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", type = "email" })
+                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", type = "email", placeholder = "correo@ejemplo.com" })
                     @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="vol-group">
+                <div class="vol-group full">
                     @Html.LabelFor(m => m.Telefono)
-                    @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", placeholder = "Número de contacto" })
                     @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
                     @Html.LabelFor(m => m.Disponibilidad)
-                    @Html.TextAreaFor(m => m.Disponibilidad, new { @class = "form-control", rows = 4, placeholder = "Ejemplo: fines de semana, tardes, apoyo en eventos..." })
+                    @Html.TextAreaFor(m => m.Disponibilidad, new { @class = "form-control", rows = 4, placeholder = "Ejemplo: fines de semana, tardes, apoyo en campañas o eventos..." })
+                    <div class="vol-form-hint">Detalla los días, horarios o tipo de disponibilidad que tienes.</div>
                     @Html.ValidationMessageFor(m => m.Disponibilidad, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
                     @Html.LabelFor(m => m.Habilidades)
-                    @Html.TextAreaFor(m => m.Habilidades, new { @class = "form-control", rows = 4, placeholder = "Ejemplo: limpieza, atención, traslado, apoyo con animales..." })
+                    @Html.TextAreaFor(m => m.Habilidades, new { @class = "form-control", rows = 4, placeholder = "Ejemplo: atención al público, limpieza, apoyo logístico, transporte, cuidado animal..." })
+                    <div class="vol-form-hint">Puedes indicar experiencia previa o tareas en las que te gustaría ayudar.</div>
                     @Html.ValidationMessageFor(m => m.Habilidades, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -87,7 +194,7 @@
                 @Html.ActionLink("Volver al inicio", "Index", "Home", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>
 
 @section Scripts {

@@ -1,5 +1,6 @@
 ﻿@model AdoptameLiberia.Models.Voluntariado.TareaVoluntariado
 @using System.Collections.Generic
+@using System.Linq
 @using AdoptameLiberia.Models.Voluntariado
 
 @{
@@ -12,44 +13,62 @@
 }
 
 <div class="vol-shell">
-    <div class="vol-detail-card">
-        <div class="vol-panel-title">Detalle de la tarea</div>
-        <div class="vol-panel-subtitle">Aquí puedes ver la información completa y los voluntarios asignados.</div>
+    <section class="vol-detail-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Detalle de la tarea</h2>
+                <p class="vol-section-subtitle">
+                    Consulta la información completa y los voluntarios vinculados a esta actividad.
+                </p>
+            </div>
+        </div>
 
         <div class="vol-detail-grid">
             <div class="vol-detail-item">
                 <strong>Título</strong>
-                @Model.Titulo
+                <span>@Model.Titulo</span>
+            </div>
+
+            <div class="vol-detail-item">
+                <strong>Estado</strong>
+                @if (Model.Estado)
+                {
+                    <span class="vol-badge vol-badge-active">Activa</span>
+                }
+                else
+                {
+                    <span class="vol-badge vol-badge-inactive">Inactiva</span>
+                }
             </div>
 
             <div class="vol-detail-item">
                 <strong>Fecha</strong>
-                @Model.Fecha.ToShortDateString()
+                <span>@Model.Fecha.ToShortDateString()</span>
             </div>
 
             <div class="vol-detail-item">
                 <strong>Hora</strong>
-                @(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora")
-            </div>
-
-            <div class="vol-detail-item">
-                <strong>Lugar</strong>
-                @Model.Lugar
+                <span>@(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora registrada")</span>
             </div>
 
             <div class="vol-detail-item full">
-                <strong>Estado</strong>
-                @(Model.Estado ? "Activa" : "Inactiva")
+                <strong>Lugar</strong>
+                <span>@Model.Lugar</span>
             </div>
 
-            <div class="vol-detail-item full" style="grid-column: 1 / -1;">
+            <div class="vol-detail-item full">
                 <strong>Descripción</strong>
-                @Model.Descripcion
+                <p>@Model.Descripcion</p>
             </div>
         </div>
 
-        <div style="margin-top:24px;">
-            <div class="vol-panel-title" style="font-size:1.2rem;">Voluntarios asignados</div>
+        <div style="margin-top:26px;">
+            <div class="vol-section-header">
+                <div>
+                    <h2 class="vol-section-title" style="font-size:1.3rem;">Voluntarios asignados</h2>
+                    <p class="vol-section-subtitle">Listado actual de participantes relacionados con esta tarea.</p>
+                </div>
+            </div>
 
             @if (voluntariosAsignados != null && voluntariosAsignados.Any())
             {
@@ -59,11 +78,13 @@
                         var nombreCompleto = (item.Voluntario.Nombre + " " + item.Voluntario.Apellido1 + " " + item.Voluntario.Apellido2).Trim();
 
                         <li>
-                            <strong style="color:#40090b;">@nombreCompleto</strong><br />
-                            Correo: @item.Voluntario.Correo<br />
-                            Teléfono: @item.Voluntario.Telefono<br />
-                            Asistió: @(item.Asistio ? "Sí" : "No")<br />
-                            Observaciones: @(string.IsNullOrWhiteSpace(item.Observaciones) ? "Sin observaciones" : item.Observaciones)
+                            <strong style="display:block; color:#1c2d44; margin-bottom:8px;">@nombreCompleto</strong>
+                            <div style="color:#56667a; line-height:1.8;">
+                                <div><strong style="display:inline; margin:0;">Correo:</strong> @item.Voluntario.Correo</div>
+                                <div><strong style="display:inline; margin:0;">Teléfono:</strong> @item.Voluntario.Telefono</div>
+                                <div><strong style="display:inline; margin:0;">Asistió:</strong> @(item.Asistio ? "Sí" : "No")</div>
+                                <div><strong style="display:inline; margin:0;">Observaciones:</strong> @(string.IsNullOrWhiteSpace(item.Observaciones) ? "Sin observaciones" : item.Observaciones)</div>
+                            </div>
                         </li>
                     }
                 </ul>
@@ -71,14 +92,15 @@
             else
             {
                 <div class="vol-empty">
-                    Esta tarea todavía no tiene voluntarios asignados.
+                    <strong>Esta tarea todavía no tiene voluntarios asignados.</strong>
+                    Cuando realices una asignación, aparecerá aquí.
                 </div>
             }
         </div>
 
         <div class="vol-form-actions">
-            @Html.ActionLink("Editar", "Edit", new { id = Model.ID_Tarea }, new { @class = "vol-btn-warning" })
+            @Html.ActionLink("Editar", "Edit", new { id = Model.ID_Tarea }, new { @class = "vol-btn" })
             @Html.ActionLink("Volver", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
         </div>
-    </div>
+    </section>
 </div>

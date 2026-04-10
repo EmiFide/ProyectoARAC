@@ -10,21 +10,35 @@
 
 <div class="vol-shell">
     <div class="vol-hero">
-        <div class="vol-hero-content">
+        <div class="vol-hero-main">
+            <span class="vol-hero-kicker">Edición</span>
             <h1>Editar voluntario</h1>
             <p>
-                Actualiza la información del voluntario y mantén el módulo administrativo
-                siempre al día.
+                Actualiza la información del voluntario para mantener el módulo ordenado y al día.
             </p>
         </div>
-        <div class="vol-hero-image">
-            <img src="~/Content/img/Cachorro.png" alt="Editar voluntario" />
+
+        <div class="vol-hero-side">
+            <div class="vol-hero-image">
+                <img src="~/Content/img/Cachorro.png" alt="Editar voluntario" />
+            </div>
+
+            <div>
+                <h2 class="vol-side-card-title">Consejo</h2>
+                <p class="vol-side-card-text">
+                    Revisa bien el correo, teléfono, disponibilidad y habilidades antes de guardar cambios.
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="vol-form-card">
-        <div class="vol-panel-title">Actualización de datos</div>
-        <div class="vol-panel-subtitle">Modifica la información necesaria y guarda los cambios.</div>
+    <section class="vol-form-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Actualizar datos</h2>
+                <p class="vol-section-subtitle">Modifica solo la información necesaria y guarda los cambios.</p>
+            </div>
+        </div>
 
         @using (Html.BeginForm())
         {
@@ -37,42 +51,42 @@
             <div class="vol-form-grid">
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Nombre)
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre" })
                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Apellido1)
-                    @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control", placeholder = "Primer apellido" })
                     @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Apellido2)
-                    @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control", placeholder = "Segundo apellido" })
                     @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Correo)
-                    @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", type = "email" })
+                    @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", type = "email", placeholder = "correo@ejemplo.com" })
                     @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Telefono)
-                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", placeholder = "Teléfono" })
                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Estado)
-                    <div class="vol-info-strip">
-                        <strong>Estado del voluntario:</strong>
-                        <div style="margin-top:10px;">
+                    <div class="vol-switch-card">
+                        <strong>Estado actual</strong>
+                        <label class="vol-check-row">
                             @Html.CheckBoxFor(model => model.Estado)
-                            <span style="margin-left:8px;">Activo</span>
-                        </div>
+                            <span>Voluntario activo</span>
+                        </label>
                     </div>
                     @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
                 </div>
@@ -95,5 +109,5 @@
                 @Html.ActionLink("Volver", "Index", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>

@@ -1,36 +1,112 @@
-@model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+@model AdoptameLiberia.Models.Inventario.HistorialInventario
+
 @{
-    ViewBag.Title = "Alertas por stock mínimo";
+    ViewBag.Title = "Historial de movimientos";
 }
 
-<h2>Alertas por stock mínimo</h2>
+@section styles{
+    <link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
+}
 
-<p class="text-muted">
-    Esta lista muestra los artículos cuyo stock actual es menor o igual al stock mínimo configurado.
-</p>
+<div class="inventory-shell">
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Historial de movimientos</h2>
+                <p>Puedes filtrar los movimientos por usuario y por rango de fechas.</p>
+            </div>
+        </div>
 
-<p>
-    @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn-inventario" })
-</p>
-
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Artículo</th>
-            <th>Categoría</th>
-            <th>Stock actual</th>
-            <th>Stock mínimo</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+        @if (TempData["Success"] != null)
         {
-            <tr class="danger">
-                <td>@item.Nombre</td>
-                <td>@item.Categoria</td>
-                <td>@item.StockActual</td>
-                <td>@item.StockMinimo</td>
-            </tr>
+            <div class="alert-success">@TempData["Success"]</div>
         }
-    </tbody>
-</table>
+
+        @using (Html.BeginForm("Historial", "Inventario", FormMethod.Get))
+        {
+            <div class="inventory-filter-grid">
+                <div class="inventory-group">
+                    <label>Usuario</label>
+                    <input type="text" name="UsuarioEmail" value="@Model.Filter.UsuarioEmail" class="form-control" placeholder="Ej: admin@correo.com" />
+                </div>
+
+                <div class="inventory-group">
+                    <label>Desde</label>
+                    @Html.TextBoxFor(m => m.Filter.Desde, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                </div>
+
+                <div class="inventory-group">
+                    <label>Hasta</label>
+                    @Html.TextBoxFor(m => m.Filter.Hasta, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="inventory-form-actions" style="margin-top:0;">
+                <button type="submit" class="inventory-btn">Buscar</button>
+                @Html.ActionLink("Limpiar", "Historial", "Inventario", null, new { @class = "inventory-btn-outline" })
+                @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "inventory-btn-alt" })
+            </div>
+        }
+    </section>
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h3>Movimientos registrados</h3>
+                <p>Consulta entradas, salidas y ajustes realizados en el inventario.</p>
+            </div>
+        </div>
+
+        @if (Model.Movimientos != null && Model.Movimientos.Any())
+        {
+            <div class="inventory-table-shell">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Artículo</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Stock anterior</th>
+                            <th>Stock nuevo</th>
+                            <th>Destino / uso</th>
+                            <th>Motivo</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.Movimientos)
+                        {
+                            <tr>
+                                <td>@m.Fecha.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@m.Item</td>
+                                <td>
+                                    @m.Tipo
+                                    @if (m.Tipo == "Ajuste")
+                                    {
+                                        <div style="margin-top:8px;">
+                                            <span class="inventory-badge">Auditoría</span>
+                                        </div>
+                                    }
+                                </td>
+                                <td>@m.Cantidad</td>
+                                <td>@(m.StockAnterior.HasValue ? m.StockAnterior.Value.ToString() : "—")</td>
+                                <td>@(m.StockNuevo.HasValue ? m.StockNuevo.Value.ToString() : "—")</td>
+                                <td>@(string.IsNullOrWhiteSpace(m.Destinatario) ? "—" : m.Destinatario)</td>
+                                <td>@(string.IsNullOrWhiteSpace(m.Motivo) ? "—" : m.Motivo)</td>
+                                <td>@(string.IsNullOrWhiteSpace(m.UsuarioEmail) ? "—" : m.UsuarioEmail)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="inventory-empty">
+                <strong>No hay movimientos registrados con ese filtro.</strong>
+                Ajusta los criterios de búsqueda o vuelve al historial general.
+            </div>
+        }
+    </section>
+</div>

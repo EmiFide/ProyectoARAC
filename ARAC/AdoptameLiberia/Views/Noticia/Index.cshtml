@@ -2,131 +2,149 @@
 
 @{
     ViewBag.Title = "Noticias";
+    int currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+    int totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
 }
 
-<div class="news-shell">
-    <section class="page-hero">
-        <span class="section-kicker">Noticias del refugio</span>
-        <h1>Actualizaciones, comunicados y novedades</h1>
-        <p>Consulta las noticias publicadas dentro del sistema con una presentación más consistente con el resto del sitio.</p>
+@section styles{
+    <link href="~/Content/estilos/Noticias.css" rel="stylesheet" />
+}
 
-        @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
-        {
-            <div style="margin-top:18px;">
-                @Html.ActionLink("Crear noticia", "Create", null, new { @class = "btn btn-primary" })
+<div class="news-page">
+    <section class="news-header-card">
+        <div class="news-header-top">
+            <div>
+                <span class="news-kicker">ARAC · NOTICIAS</span>
+                <h1>Noticias y novedades</h1>
+                <p>
+                    Mantente al tanto de campañas, rescates, actividades y anuncios importantes
+                    del refugio en una vista más limpia, ordenada y moderna.
+                </p>
             </div>
-        }
+
+            @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
+            {
+                <div class="news-header-actions">
+                    @Html.ActionLink("Crear noticia", "Create", null, new { @class = "news-btn news-btn-primary" })
+                </div>
+            }
+        </div>
     </section>
 
-    <section class="news-grid">
+    <section class="news-list-section">
+        <div class="news-section-head">
+            <div>
+                <h2>Últimas publicaciones</h2>
+                <p>Consulta las noticias publicadas.</p>
+            </div>
+        </div>
+
         @if (Model != null && Model.Any())
         {
-            foreach (var item in Model)
+            <div class="news-grid">
+                @foreach (var item in Model)
+                {
+                    var liked = Session["like_" + item.ID_Noticia] != null;
+
+                    <article class="news-card">
+                        <div class="news-card-top">
+                            <span class="news-date">
+                                @(item.Fecha_Publicacion.HasValue ? item.Fecha_Publicacion.Value.ToString("dd/MM/yyyy HH:mm") : "Sin fecha")
+                            </span>
+
+                            <span class="news-like-count">
+                                @item.Likes @(item.Likes == 1 ? "like" : "likes")
+                            </span>
+                        </div>
+
+                        <h3>@item.Titulo</h3>
+
+                        <p class="news-text">
+                            @item.Contenido
+                        </p>
+
+                        <div class="news-card-actions">
+                            @using (Html.BeginForm("Like", "Noticia", FormMethod.Post, new { @class = "news-like-form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", item.ID_Noticia)
+                                @Html.Hidden("page", currentPage)
+
+                                if (liked)
+                                {
+                                    <button type="submit" class="news-like-btn liked" disabled="disabled">
+                                        <span class="news-like-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M2 21h4V9H2v12zm20-11.5c0-.83-.67-1.5-1.5-1.5h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L13.67 1 7.59 7.09C7.22 7.45 7 7.95 7 8.5V19c0 1.1.9 2 2 2h8c.82 0 1.52-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2.5z" />
+                                            </svg>
+                                        </span>
+                                        <span>Ya diste like</span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="news-like-btn">
+                                        <span class="news-like-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M2 21h4V9H2v12zm20-11.5c0-.83-.67-1.5-1.5-1.5h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L13.67 1 7.59 7.09C7.22 7.45 7 7.95 7 8.5V19c0 1.1.9 2 2 2h8c.82 0 1.52-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2.5z" />
+                                            </svg>
+                                        </span>
+                                        <span>Me gusta</span>
+                                    </button>
+                                }
+                            }
+
+                            @Html.ActionLink("Ver detalle", "Details", "Noticia", new { id = item.ID_Noticia }, new { @class = "news-btn news-btn-secondary" })
+                        </div>
+                    </article>
+                }
+            </div>
+
+            if (totalPages > 1)
             {
-                <article class="news-card">
-                    <div class="news-card-top">
-                        <span class="news-date">
-                            @(item.Fecha_Publicacion.HasValue ? item.Fecha_Publicacion.Value.ToString("dd/MM/yyyy HH:mm") : "")
-                        </span>
-                        <span class="news-likes">@item.Likes Me gusta</span>
-                    </div>
+                <div class="news-pagination">
+                    @if (currentPage > 1)
+                    {
+                        <a href="@Url.Action("Index", "Noticia", new { page = currentPage - 1 })" class="news-page-btn news-page-arrow" aria-label="Página anterior">
+                            &#8249;
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="news-page-btn news-page-arrow disabled">&#8249;</span>
+                    }
 
-                    <h3>@item.Titulo</h3>
-                    <p>@item.Contenido</p>
-
-                    <div class="news-card-actions">
-                        @using (Html.BeginForm("Like", "Noticia", new { id = item.ID_Noticia }, FormMethod.Post))
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        if (i == currentPage)
                         {
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-outline-primary">Me gusta</button>
+                            <span class="news-page-btn active">@i</span>
                         }
-                    </div>
-                </article>
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Noticia", new { page = i })" class="news-page-btn">@i</a>
+                        }
+                    }
+
+                    @if (currentPage < totalPages)
+                    {
+                        <a href="@Url.Action("Index", "Noticia", new { page = currentPage + 1 })" class="news-page-btn news-page-arrow" aria-label="Página siguiente">
+                            &#8250;
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="news-page-btn news-page-arrow disabled">&#8250;</span>
+                    }
+                </div>
             }
         }
         else
         {
-            <div class="news-empty">No hay noticias registradas.</div>
+            <div class="news-empty">
+                <strong>No hay noticias publicadas todavía.</strong>
+                <p>Cuando se agreguen nuevas publicaciones aparecerán aquí.</p>
+            </div>
         }
     </section>
 </div>
-
-<style>
-    .news-shell {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-
-    .news-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-    }
-
-    .news-card {
-        background: #fff;
-        border: 1px solid #dcecf2;
-        border-radius: 28px;
-        padding: 24px;
-        box-shadow: 0 14px 26px rgba(17, 92, 109, .08);
-    }
-
-    .news-card-top {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 14px;
-    }
-
-    .news-date,
-    .news-likes {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 12px;
-        border-radius: 999px;
-        font-size: .84rem;
-        font-weight: 700;
-    }
-
-    .news-date {
-        background: #eef9fc;
-        color: #0d4c5a;
-    }
-
-    .news-likes {
-        background: #f6fbff;
-        color: #1498b9;
-    }
-
-    .news-card h3 {
-        margin-bottom: 12px;
-        font-size: 1.24rem;
-    }
-
-    .news-card p {
-        color: #67818c;
-        min-height: 88px;
-    }
-
-    .news-card-actions {
-        margin-top: 16px;
-    }
-
-    .news-empty {
-        grid-column: 1 / -1;
-        background: #fff;
-        border: 1px solid #dcecf2;
-        border-radius: 28px;
-        padding: 30px;
-        text-align: center;
-        color: #67818c;
-    }
-
-    @@media (max-width: 768px) {
-        .news-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
