@@ -1,7 +1,7 @@
-@model AdoptameLiberia.Models.Inventario.MovimientoEntrada
+@model AdoptameLiberia.Models.Inventario.MovimientoSalida
 
 @{
-    ViewBag.Title = "Registrar entrada";
+    ViewBag.Title = "Registrar salida";
 }
 
 @section styles{
@@ -9,15 +9,26 @@
 }
 
 <div class="inventory-shell">
+    <section class="inventory-hero inventory-hero-danger">
+        <div class="inventory-hero-content">
+            <span class="inventory-kicker inventory-kicker-danger">ARAC · SALIDA DE INVENTARIO</span>
+            <h1>Registrar salida</h1>
+            <p>
+                Registra el uso, entrega o consumo de unidades del artículo seleccionado
+                de forma clara y controlada.
+            </p>
+        </div>
+    </section>
+
     <section class="inventory-card">
         <div class="inventory-card-head">
             <div>
-                <h2>Registrar entrada</h2>
-                <p>Ingresa nuevas unidades al inventario del artículo seleccionado.</p>
+                <h2>Detalle del movimiento</h2>
+                <p>Completa la información para descontar correctamente las unidades del inventario.</p>
             </div>
         </div>
 
-        <div class="inventory-highlight">
+        <div class="inventory-highlight inventory-highlight-danger">
             Artículo seleccionado: <strong>@Model.NombreItem</strong>
         </div>
 
@@ -31,19 +42,25 @@
             <div class="inventory-form">
                 <div class="inventory-group">
                     @Html.LabelFor(m => m.Cantidad)
-                    @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", type = "number", min = "1" })
+                    @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", type = "number", min = "1", placeholder = "Cantidad a retirar" })
                     @Html.ValidationMessageFor(m => m.Cantidad, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="inventory-group">
+                    @Html.LabelFor(m => m.Destinatario, "Destino o uso")
+                    @Html.TextBoxFor(m => m.Destinatario, new { @class = "form-control", placeholder = "Ej: atención veterinaria, refugio, adopción, limpieza" })
+                    @Html.ValidationMessageFor(m => m.Destinatario, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group full">
                     @Html.LabelFor(m => m.Motivo)
-                    @Html.TextBoxFor(m => m.Motivo, new { @class = "form-control", placeholder = "Ej: Compra, donación, reposición" })
+                    @Html.TextBoxFor(m => m.Motivo, new { @class = "form-control", placeholder = "Ej: consumo interno, entrega, uso médico, ajuste operativo" })
                     @Html.ValidationMessageFor(m => m.Motivo, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="inventory-form-actions">
-                <button type="submit" class="inventory-btn-success">Guardar entrada</button>
+                <button type="submit" class="inventory-btn-danger">Guardar salida</button>
                 @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "inventory-btn-outline" })
             </div>
         }
