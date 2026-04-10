@@ -19,7 +19,7 @@
             <h1>Control de inventario</h1>
             <p>
                 Administra artículos, movimientos, stock mínimo y productos próximos a vencer
-                en una vista más clara, moderna y alineada con el diseño general del sitio.
+                desde una interfaz más ordenada, visual y alineada con el estilo general del sitio.
             </p>
         </div>
     </section>
@@ -30,7 +30,7 @@
             <p>@lista.Count</p>
         </div>
 
-        <div class="inventory-stat">
+        <div class="inventory-stat inventory-stat-danger">
             <h4>Stock bajo</h4>
             <p>@ViewBag.StockBajoCount</p>
         </div>
@@ -57,7 +57,7 @@
         <div class="inventory-actions">
             <a href="@Url.Action("Create", "Inventario")" class="inventory-btn">Registrar artículo</a>
             <a href="@Url.Action("Historial", "Inventario")" class="inventory-btn-alt">Historial de movimientos</a>
-            <a href="@Url.Action("AlertasStockMinimo", "Inventario")" class="inventory-btn-warning">Alertas de stock</a>
+            <a href="@Url.Action("AlertasStockMinimo", "Inventario")" class="inventory-btn-danger">Alertas de stock</a>
             <a href="@Url.Action("Vencimientos", "Inventario")" class="inventory-btn-info">Ver vencimientos</a>
         </div>
     </section>
@@ -65,90 +65,87 @@
     <section class="inventory-card">
         <div class="inventory-card-head">
             <div>
-                <h2>Artículos registrados</h2>
+                <h2>Panel de artículos</h2>
                 <p>Consulta el estado actual del inventario y ejecuta acciones por cada artículo.</p>
             </div>
         </div>
 
-        <div class="inventory-table-shell">
-            <table class="inventory-table">
-                <thead>
-                    <tr>
-                        <th>Artículo</th>
-                        <th>Categoría</th>
-                        <th>Unidad</th>
-                        <th>Stock</th>
-                        <th>Stock mínimo</th>
-                        <th>Caducidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (lista.Any())
-                    {
-                        foreach (var item in lista)
-                        {
-                            var stockBajo = item.StockActual <= item.StockMinimo;
-                            var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
+        @if (lista.Any())
+        {
+            <div class="inventory-cards-grid">
+                @foreach (var item in lista)
+                {
+                    var stockBajo = item.StockActual <= item.StockMinimo;
+                    var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
 
-                            <tr>
-                                <td class="inventory-item">
-                                    <strong>@item.Nombre</strong>
-                                    <span>@(string.IsNullOrWhiteSpace(item.Descripcion) ? "Sin descripción registrada" : item.Descripcion)</span>
-                                </td>
-                                <td>@item.Categoria</td>
-                                <td>@item.UnidadMedida</td>
-                                <td>
-                                    @item.StockActual
-                                    @if (stockBajo)
-                                    {
-                                        <div style="margin-top:8px;">
-                                            <span class="inventory-badge-alert">Stock bajo</span>
-                                        </div>
-                                    }
-                                </td>
-                                <td>@item.StockMinimo</td>
-                                <td>
-                                    @if (item.FechaCaducidad.HasValue)
-                                    {
-                                        <div>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</div>
+                    <article class="inventory-product-card">
+                        <div class="inventory-product-top">
+                            <div>
+                                <h3>@item.Nombre</h3>
+                                <span>@(string.IsNullOrWhiteSpace(item.Categoria) ? "Sin categoría" : item.Categoria)</span>
+                            </div>
 
-                                        if (vencePronto)
-                                        {
-                                            <div style="margin-top:8px;">
-                                                <span class="inventory-badge-alert">Próximo a vencer</span>
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <span class="inventory-badge">Sin fecha</span>
-                                    }
-                                </td>
-                                <td>
-                                    <div class="inventory-actions">
-                                        <a href="@Url.Action("Entrada", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-success">Entrada</a>
-                                        <a href="@Url.Action("Salida", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-warning">Salida</a>
-                                        <a href="@Url.Action("Ajuste", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-info">Ajuste</a>
-                                        <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-outline">Editar</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="7">
-                                <div class="inventory-empty">
-                                    <strong>No hay artículos registrados.</strong>
-                                    Cuando registres productos o suministros aparecerán aquí.
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                            <div class="inventory-summary-row">
+                                @if (stockBajo)
+                                {
+                                    <span class="inventory-badge-danger">Stock bajo</span>
+                                }
+
+                                @if (vencePronto)
+                                {
+                                    <span class="inventory-badge-alert">Próximo a vencer</span>
+                                }
+
+                                @if (!stockBajo && !vencePronto)
+                                {
+                                    <span class="inventory-badge-soft">Estable</span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="inventory-product-body">
+                            <p>
+                                @(string.IsNullOrWhiteSpace(item.Descripcion)
+                                    ? "Este artículo no tiene descripción registrada."
+                                    : item.Descripcion)
+                            </p>
+                        </div>
+
+                        <div class="inventory-product-metrics">
+                            <div class="inventory-product-metric">
+                                <small>Stock actual</small>
+                                <strong>@item.StockActual</strong>
+                            </div>
+                            <div class="inventory-product-metric">
+                                <small>Stock mínimo</small>
+                                <strong>@item.StockMinimo</strong>
+                            </div>
+                            <div class="inventory-product-metric">
+                                <small>Unidad</small>
+                                <strong>@(string.IsNullOrWhiteSpace(item.UnidadMedida) ? "N/D" : item.UnidadMedida)</strong>
+                            </div>
+                            <div class="inventory-product-metric">
+                                <small>Caducidad</small>
+                                <strong>@(item.FechaCaducidad.HasValue ? item.FechaCaducidad.Value.ToString("yyyy-MM-dd") : "Sin fecha")</strong>
+                            </div>
+                        </div>
+
+                        <div class="inventory-actions inventory-actions-full">
+                            <a href="@Url.Action("Entrada", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-success">Entrada</a>
+                            <a href="@Url.Action("Salida", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-danger">Salida</a>
+                            <a href="@Url.Action("Ajuste", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-info">Ajuste</a>
+                            <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-outline">Editar</a>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="inventory-empty">
+                <strong>No hay artículos registrados.</strong>
+                Cuando registres productos o suministros aparecerán aquí.
+            </div>
+        }
     </section>
 </div>
