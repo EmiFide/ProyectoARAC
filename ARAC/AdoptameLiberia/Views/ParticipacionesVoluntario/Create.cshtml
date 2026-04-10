@@ -9,10 +9,14 @@
 }
 
 <div class="vol-shell">
-    <div class="vol-form-card">
-        <div class="vol-panel-title">Asignar tarea a voluntario</div>
-        <div class="vol-panel-subtitle">
-            Cuando guardes esta asignación, el voluntario dejará de salir en la lista pendiente.
+    <section class="vol-form-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Asignar tarea a voluntario</h2>
+                <p class="vol-section-subtitle">
+                    Relaciona un voluntario con una tarea para que deje de mostrarse como pendiente.
+                </p>
+            </div>
         </div>
 
         @using (Html.BeginForm())
@@ -39,12 +43,12 @@
                 </div>
 
                 <div class="vol-group full">
-                    <div class="vol-info-strip">
+                    <div class="vol-switch-card">
                         <strong>Asistencia</strong>
-                        <div style="margin-top:10px;">
+                        <label class="vol-check-row">
                             @Html.CheckBoxFor(m => m.Asistio)
-                            <span style="margin-left:8px;">Marcar si ya asistió</span>
-                        </div>
+                            <span>Marcar si ya asistió</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -54,5 +58,5 @@
                 @Html.ActionLink("Volver", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>

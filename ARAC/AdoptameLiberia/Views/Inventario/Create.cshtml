@@ -1,81 +1,90 @@
 @model AdoptameLiberia.Models.Inventario.ItemInventarioCreateEdit
+
 @{
     ViewBag.Title = "Registrar artículo";
 }
 
-<h2>Registrar artículo</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Nombre, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Descripcion, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(m => m.Descripcion, 3, 40, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Categoria, new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.Categoria, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Categoria, "", new { @class = "text-danger" })
-            </div>
-
-            @Html.LabelFor(m => m.UnidadMedida, "Unidad de medida", new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.UnidadMedida, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.UnidadMedida, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.StockActual, "Stock inicial", new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.StockActual, new { @class = "form-control", type = "number", min = "0" })
-                @Html.ValidationMessageFor(m => m.StockActual, "", new { @class = "text-danger" })
-            </div>
-
-            @Html.LabelFor(m => m.StockMinimo, "Stock mínimo", new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.StockMinimo, new { @class = "form-control", type = "number", min = "0" })
-                @Html.ValidationMessageFor(m => m.StockMinimo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.FechaCaducidad, "Fecha de caducidad (si aplica)", new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.FechaCaducidad, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(m => m.FechaCaducidad, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 text-muted" style="padding-top:7px;">
-                Para medicamentos o alimentos con vencimiento.
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                @Html.ActionLink("Volver", "Index", "Inventario", null, new { @class = "btn-inventario" })
-            </div>
-        </div>
-    </div>
+@section styles{
+    <link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
 }
+
+<div class="inventory-shell">
+    <section class="inventory-hero">
+        <div class="inventory-hero-content">
+            <span class="inventory-kicker">ARAC · INVENTARIO</span>
+            <h1>Registrar artículo</h1>
+            <p>
+                Agrega un nuevo artículo al inventario con su categoría, unidad de medida,
+                stock inicial y fecha de caducidad si aplica.
+            </p>
+        </div>
+    </section>
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Nuevo artículo</h2>
+                <p>Completa los datos para guardarlo correctamente en el inventario.</p>
+            </div>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+
+            <div class="inventory-form">
+                <div class="inventory-group full">
+                    @Html.LabelFor(m => m.Nombre)
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre del artículo" })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group full">
+                    @Html.LabelFor(m => m.Descripcion)
+                    @Html.TextAreaFor(m => m.Descripcion, 4, 40, new { @class = "form-control", placeholder = "Descripción del artículo" })
+                    @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group">
+                    @Html.LabelFor(m => m.Categoria)
+                    @Html.TextBoxFor(m => m.Categoria, new { @class = "form-control", placeholder = "Categoría" })
+                    @Html.ValidationMessageFor(m => m.Categoria, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group">
+                    @Html.LabelFor(m => m.UnidadMedida, "Unidad de medida")
+                    @Html.TextBoxFor(m => m.UnidadMedida, new { @class = "form-control", placeholder = "Ej: unidades, kg, bolsas" })
+                    @Html.ValidationMessageFor(m => m.UnidadMedida, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group">
+                    @Html.LabelFor(m => m.StockActual, "Stock inicial")
+                    @Html.TextBoxFor(m => m.StockActual, new { @class = "form-control", type = "number", min = "0" })
+                    @Html.ValidationMessageFor(m => m.StockActual, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group">
+                    @Html.LabelFor(m => m.StockMinimo, "Stock mínimo")
+                    @Html.TextBoxFor(m => m.StockMinimo, new { @class = "form-control", type = "number", min = "0" })
+                    @Html.ValidationMessageFor(m => m.StockMinimo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="inventory-group full">
+                    @Html.LabelFor(m => m.FechaCaducidad, "Fecha de caducidad (si aplica)")
+                    @Html.TextBoxFor(m => m.FechaCaducidad, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    <div class="inventory-help">Úsalo para medicamentos, alimentos u otros productos con vencimiento.</div>
+                    @Html.ValidationMessageFor(m => m.FechaCaducidad, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="inventory-form-actions">
+                <button type="submit" class="inventory-btn">Guardar artículo</button>
+                @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "inventory-btn-outline" })
+            </div>
+        }
+    </section>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

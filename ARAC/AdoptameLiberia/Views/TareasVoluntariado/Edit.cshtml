@@ -9,9 +9,15 @@
 }
 
 <div class="vol-shell">
-    <div class="vol-form-card">
-        <div class="vol-panel-title">Editar tarea</div>
-        <div class="vol-panel-subtitle">Actualiza la información y vuelve al módulo principal de voluntarios.</div>
+    <section class="vol-form-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Editar tarea</h2>
+                <p class="vol-section-subtitle">
+                    Actualiza la información de la actividad y guarda los cambios.
+                </p>
+            </div>
+        </div>
 
         @using (Html.BeginForm())
         {
@@ -24,13 +30,13 @@
             <div class="vol-form-grid">
                 <div class="vol-group full">
                     @Html.LabelFor(model => model.Titulo)
-                    @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control", placeholder = "Título de la tarea" })
                     @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
                     @Html.LabelFor(model => model.Descripcion)
-                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 4 })
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 4, placeholder = "Descripción de la tarea" })
                     @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 </div>
 
@@ -48,17 +54,17 @@
 
                 <div class="vol-group full">
                     @Html.LabelFor(model => model.Lugar)
-                    @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control", placeholder = "Lugar o punto de encuentro" })
                     @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
-                    <div class="vol-info-strip">
+                    <div class="vol-switch-card">
                         <strong>Estado de la tarea</strong>
-                        <div style="margin-top:10px;">
+                        <label class="vol-check-row">
                             @Html.CheckBoxFor(model => model.Estado)
-                            <span style="margin-left:8px;">Activa</span>
-                        </div>
+                            <span>Tarea activa</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -68,7 +74,7 @@
                 @Html.ActionLink("Volver", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>
 
 @section Scripts {

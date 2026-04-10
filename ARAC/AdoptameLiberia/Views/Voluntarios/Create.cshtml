@@ -10,80 +10,95 @@
 
 <div class="vol-shell">
     <div class="vol-hero">
-        <div class="vol-hero-content">
+        <div class="vol-hero-main">
+            <span class="vol-hero-kicker">Registro interno</span>
             <h1>Registrar voluntario</h1>
             <p>
-                Completa la información del voluntario para dejarlo listo dentro del módulo
+                Utiliza este formulario para agregar un voluntario directamente al sistema
                 administrativo de ARAC.
             </p>
         </div>
-        <div class="vol-hero-image">
-            <img src="~/Content/img/GatoPerro.png" alt="Crear voluntario" />
+
+        <div class="vol-hero-side">
+            <div class="vol-hero-image">
+                <img src="~/Content/img/GatoPerro.png" alt="Registrar voluntario" />
+            </div>
+
+            <div>
+                <h2 class="vol-side-card-title">Uso recomendado</h2>
+                <p class="vol-side-card-text">
+                    Este registro es ideal cuando el voluntario ya fue validado o cuando se desea
+                    ingresarlo manualmente desde administración.
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="vol-form-card">
-        <div class="vol-panel-title">Formulario de registro</div>
-        <div class="vol-panel-subtitle">Ingresa los datos principales del voluntario.</div>
+    <section class="vol-form-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Datos del voluntario</h2>
+                <p class="vol-section-subtitle">Completa la información principal para guardar el registro.</p>
+            </div>
+        </div>
 
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-
             @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
 
             <div class="vol-form-grid">
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Nombre)
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre" })
                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Apellido1)
-                    @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control", placeholder = "Primer apellido" })
                     @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Apellido2)
-                    @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control", placeholder = "Segundo apellido" })
                     @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Correo)
-                    @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", type = "email" })
+                    @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", type = "email", placeholder = "correo@ejemplo.com" })
                     @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Telefono)
-                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", placeholder = "Teléfono" })
                     @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group">
                     @Html.LabelFor(model => model.Estado)
-                    <div class="vol-info-strip">
-                        <strong>Estado del voluntario:</strong>
-                        <div style="margin-top:10px;">
+                    <div class="vol-switch-card">
+                        <strong>Estado del voluntario</strong>
+                        <label class="vol-check-row">
                             @Html.CheckBoxFor(model => model.Estado)
-                            <span style="margin-left:8px;">Activo</span>
-                        </div>
+                            <span>Marcar como activo</span>
+                        </label>
                     </div>
                     @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
                     @Html.LabelFor(model => model.Disponibilidad)
-                    @Html.TextAreaFor(model => model.Disponibilidad, new { @class = "form-control", rows = "4", placeholder = "Ejemplo: fines de semana, tardes, apoyo en eventos..." })
+                    @Html.TextAreaFor(model => model.Disponibilidad, new { @class = "form-control", rows = "4", placeholder = "Ejemplo: fines de semana, mañanas, campañas, eventos..." })
                     @Html.ValidationMessageFor(model => model.Disponibilidad, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="vol-group full">
                     @Html.LabelFor(model => model.Habilidades)
-                    @Html.TextAreaFor(model => model.Habilidades, new { @class = "form-control", rows = "4", placeholder = "Ejemplo: atención al público, limpieza, apoyo con animales, transporte..." })
+                    @Html.TextAreaFor(model => model.Habilidades, new { @class = "form-control", rows = "4", placeholder = "Ejemplo: organización, limpieza, atención al público, apoyo animal..." })
                     @Html.ValidationMessageFor(model => model.Habilidades, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -93,5 +108,5 @@
                 @Html.ActionLink("Volver", "Index", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>
