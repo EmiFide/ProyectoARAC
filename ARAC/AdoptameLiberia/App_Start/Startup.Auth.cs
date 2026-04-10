@@ -27,6 +27,11 @@ namespace AdoptameLiberia
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+
+                ExpireTimeSpan = TimeSpan.FromHours(8),
+                SlidingExpiration = true,
+
+
                 Provider = new CookieAuthenticationProvider
                 {
                     // Permite a la aplicación validar la marca de seguridad cuando el usuario inicia sesión.
