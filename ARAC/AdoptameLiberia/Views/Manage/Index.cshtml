@@ -1,221 +1,374 @@
-﻿@model System.Collections.Generic.IList<Microsoft.AspNet.Identity.UserLoginInfo>
+﻿@model AdoptameLiberia.Models.IndexViewModel
 @{
-    ViewBag.Title = "Administrar cuenta";
+    ViewBag.Title = "Mi perfil";
 }
 
 <style>
-    .manage-index-page {
-        min-height: calc(100vh - 120px);
-        padding: 28px 16px;
-        background: linear-gradient(180deg, #f5f9ff 0%, #e8f1fb 100%);
+    .perfil-page {
+        min-height: calc(100vh - 80px);
+        padding: 42px 16px 56px;
+        background: linear-gradient(180deg, #f4f7fb 0%, #edf2f7 100%);
     }
 
-    .manage-index-container {
-        max-width: 1050px;
+    .perfil-container {
+        max-width: 980px;
         margin: 0 auto;
     }
 
-    .manage-index-header {
-        margin-bottom: 24px;
+    .perfil-header {
+        margin-bottom: 26px;
+        text-align: center;
     }
 
-    .manage-index-badge {
+    .perfil-badge {
         display: inline-block;
-        padding: 7px 14px;
-        margin-bottom: 12px;
+        padding: 8px 16px;
         border-radius: 999px;
-        background: #eaf3ff;
-        color: #2f74c9;
+        background: #eaf2ff;
+        color: #2f6fc4;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .perfil-title {
+        margin: 0 0 10px;
+        color: #163454;
+        font-size: 38px;
+        font-weight: 800;
+        line-height: 1.08;
+    }
+
+    .perfil-text {
+        margin: 0 auto;
+        max-width: 760px;
+        color: #5f7387;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .perfil-status {
+        margin: 0 auto 22px;
+        max-width: 860px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: #edf9f1;
+        border: 1px solid #cfe8d7;
+        color: #1f7a45;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .perfil-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        align-items: start;
+    }
+
+    .perfil-section {
+        background: #ffffff;
+        border: 1px solid #dbe5ef;
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: 0 12px 30px rgba(22, 52, 84, 0.06);
+    }
+
+    .perfil-section-title {
+        margin: 0 0 10px;
+        color: #163454;
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .perfil-section-text {
+        margin: 0 0 20px;
+        color: #5f7387;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .perfil-form {
+        display: grid;
+        gap: 16px;
+    }
+
+    .perfil-field {
+        display: grid;
+        gap: 7px;
+    }
+
+    .perfil-label {
+        color: #163454;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: .02em;
+    }
+
+    .perfil-input {
+        width: 100%;
+        height: 48px;
+        border-radius: 14px;
+        border: 1px solid #d4dfe9;
+        background: #fbfdff;
+        padding: 0 14px;
+        color: #163454;
+        font-size: 14px;
+        transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+        .perfil-input:focus {
+            outline: none;
+            border-color: #4f8fd8;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 143, 216, 0.14);
+        }
+
+    .perfil-error {
+        color: #c44545;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .validation-summary-errors {
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #fff3f3;
+        border: 1px solid #f1cccc;
+        color: #b42318;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+        .validation-summary-errors ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+    .perfil-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+    }
+
+    .perfil-btn {
+        min-width: 180px;
+        height: 48px;
+        border: none;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        text-decoration: none !important;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all .25s ease;
+    }
+
+    .perfil-btn-primary {
+        background: linear-gradient(135deg, #4f8fd8 0%, #2f74c9 100%);
+        color: #ffffff !important;
+        box-shadow: 0 12px 24px rgba(47, 116, 201, 0.20);
+    }
+
+        .perfil-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(47, 116, 201, 0.24);
+        }
+
+    .perfil-btn-secondary {
+        background: #ffffff;
+        color: #163454 !important;
+        border: 1px solid #d4dfe9;
+    }
+
+        .perfil-btn-secondary:hover {
+            background: #f7fbff;
+            border-color: #bfd1e3;
+            transform: translateY(-2px);
+        }
+
+    .perfil-card-info {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .perfil-info-item {
+        padding: 16px 18px;
+        background: #f8fbfe;
+        border: 1px solid #e2eaf2;
+        border-radius: 16px;
+    }
+
+    .perfil-info-label {
+        display: block;
+        margin-bottom: 6px;
+        color: #6a7f94;
         font-size: 12px;
         font-weight: 800;
         letter-spacing: .08em;
         text-transform: uppercase;
     }
 
-    .manage-index-title {
-        margin: 0 0 8px;
-        color: #183b56;
-        font-size: 34px;
-        font-weight: 800;
-        line-height: 1.1;
-    }
-
-    .manage-index-text {
-        margin: 0;
-        color: #5f7387;
+    .perfil-info-value {
+        color: #163454;
         font-size: 15px;
-        line-height: 1.6;
-        max-width: 700px;
-    }
-
-    .manage-index-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px;
-    }
-
-    .manage-box {
-        background: #ffffff;
-        border: 1px solid #dbe7f3;
-        border-radius: 24px;
-        box-shadow: 0 18px 40px rgba(24, 59, 86, 0.08);
-        padding: 24px;
-        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-
-    .manage-box:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 22px 45px rgba(24, 59, 86, 0.12);
-        border-color: #c6d9ee;
-    }
-
-    .manage-box h3 {
-        margin: 0 0 10px;
-        color: #183b56;
-        font-size: 22px;
-        font-weight: 800;
-    }
-
-    .manage-box p {
-        margin: 0 0 18px;
-        color: #5f7387;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .manage-action {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 46px;
-        padding: 0 18px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #4f8fd8 0%, #2f74c9 100%);
-        color: #ffffff !important;
-        text-decoration: none !important;
-        font-size: 14px;
-        font-weight: 800;
-        box-shadow: 0 10px 22px rgba(47, 116, 201, 0.18);
-        transition: all .25s ease;
-    }
-
-    .manage-action:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 14px 26px rgba(47, 116, 201, 0.22);
-        color: #ffffff !important;
-    }
-
-    .manage-action-secondary {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 46px;
-        padding: 0 18px;
-        border-radius: 14px;
-        border: 1px solid #dbe7f3;
-        background: #ffffff;
-        color: #183b56 !important;
-        text-decoration: none !important;
-        font-size: 14px;
         font-weight: 700;
-        transition: all .25s ease;
+        line-height: 1.6;
+        word-break: break-word;
     }
 
-    .manage-action-secondary:hover {
-        background: #f7fbff;
-        border-color: #bfd6f0;
-        color: #183b56 !important;
+    .perfil-password-box {
+        margin-top: 8px;
+        padding: 18px;
+        border-radius: 18px;
+        background: #f8fbfe;
+        border: 1px solid #e2eaf2;
     }
 
-    .manage-actions-row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
+        .perfil-password-box p {
+            margin: 0 0 16px;
+            color: #5f7387;
+            font-size: 14px;
+            line-height: 1.8;
+        }
 
-    .text-success {
-        margin-bottom: 16px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: #effaf3;
-        border: 1px solid #c7ead2;
-        color: #157347 !important;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    @media (max-width: 900px) {
-        .manage-index-grid {
+    @@media (max-width: 900px) {
+        .perfil-layout {
             grid-template-columns: 1fr;
         }
     }
 
-    @media (max-width: 768px) {
-        .manage-index-page {
-            padding: 18px 10px;
+    @@media (max-width: 640px) {
+        .perfil-page {
+            padding: 26px 12px 40px;
         }
 
-        .manage-index-title {
-            font-size: 27px;
+        .perfil-title {
+            font-size: 30px;
         }
 
-        .manage-box {
-            padding: 18px;
+        .perfil-section {
+            padding: 22px;
             border-radius: 18px;
+        }
+
+        .perfil-btn {
+            width: 100%;
+            min-width: 100%;
         }
     }
 </style>
 
-<div class="manage-index-page">
-    <div class="manage-index-container">
-        <div class="manage-index-header">
-            <span class="manage-index-badge">Mi cuenta</span>
-            <h1 class="manage-index-title">Administrar cuenta</h1>
-            <p class="manage-index-text">
-                Desde aquí puedes gestionar la seguridad y los accesos de tu cuenta de una forma más clara, moderna y ordenada.
+<div class="perfil-page">
+    <div class="perfil-container">
+
+        <div class="perfil-header">
+            <span class="perfil-badge">Mi perfil</span>
+            <h1 class="perfil-title">Administra tu información personal</h1>
+            <p class="perfil-text">
+                Desde aquí puedes actualizar tus datos principales y mantener segura tu cuenta
+                
             </p>
         </div>
 
-        @if (ViewBag.StatusMessage != null && !String.IsNullOrWhiteSpace(ViewBag.StatusMessage))
+        @if (ViewBag.StatusMessage != null && !String.IsNullOrWhiteSpace(ViewBag.StatusMessage.ToString()))
         {
-            <div class="text-success">@ViewBag.StatusMessage</div>
+            <div class="perfil-status">@ViewBag.StatusMessage</div>
         }
 
-        <div class="manage-index-grid">
-            <div class="manage-box">
-                <h3>Contraseña</h3>
-                <p>
-                    Cambia tu contraseña para mantener protegida tu cuenta y mejorar la seguridad de tu acceso.
+        <div class="perfil-layout">
+            <section class="perfil-section">
+                <h2 class="perfil-section-title">Mi información</h2>
+                <p class="perfil-section-text">
+                    Edita tu nombre, correo electrónico y número de teléfono. Al guardar,
+                    tus datos se actualizarán en tu cuenta.
                 </p>
 
-                <div class="manage-actions-row">
-                    @if (ViewBag.HasLocalPassword != null && ViewBag.HasLocalPassword)
-                    {
-                        <a href="@Url.Action("ChangePassword", "Manage")" class="manage-action">
-                            Cambiar contraseña
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("SetPassword", "Manage")" class="manage-action">
-                            Crear contraseña
-                        </a>
-                    }
-                </div>
-            </div>
+                @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "perfil-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                   
 
-            <div class="manage-box">
-                <h3>Accesos externos</h3>
-                <p>
-                    Administra inicios de sesión vinculados a servicios externos y revisa cómo accedes a tu cuenta.
+                    <div class="perfil-field">
+                        <label class="perfil-label">Nombre completo</label>
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "perfil-input", placeholder = "Ingresa tu nombre completo" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "perfil-error" })
+                    </div>
+
+                    <div class="perfil-field">
+                        <label class="perfil-label">Correo electrónico</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "perfil-input", placeholder = "Ingresa tu correo electrónico", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "perfil-error" })
+                    </div>
+
+                    <div class="perfil-field">
+                        <label class="perfil-label">Número de teléfono</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "perfil-input", placeholder = "Ingresa tu número de teléfono" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "perfil-error" })
+                    </div>
+
+                    <div class="perfil-actions">
+                        <button type="submit" class="perfil-btn perfil-btn-primary">
+                            Guardar datos
+                        </button>
+
+                        @if (Model.HasPassword)
+                        {
+                            <a href="@Url.Action("ChangePassword", "Manage")" class="perfil-btn perfil-btn-secondary">
+                                Cambiar contraseña
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("SetPassword", "Manage")" class="perfil-btn perfil-btn-secondary">
+                                Crear contraseña
+                            </a>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="perfil-section">
+                <h2 class="perfil-section-title">Resumen de tu cuenta</h2>
+                <p class="perfil-section-text">
+                    Aquí puedes visualizar rápidamente la información principal registrada en tu perfil.
                 </p>
 
-                <div class="manage-actions-row">
-                    <a href="@Url.Action("ManageLogins", "Manage")" class="manage-action-secondary">
-                        Administrar accesos
-                    </a>
+                <div class="perfil-card-info">
+                    <div class="perfil-info-item">
+                        <span class="perfil-info-label">Nombre completo</span>
+                        <div class="perfil-info-value">
+                            @(String.IsNullOrWhiteSpace(Model.Nombre) ? "No registrado" : Model.Nombre)
+                        </div>
+                    </div>
+
+                    <div class="perfil-info-item">
+                        <span class="perfil-info-label">Correo electrónico</span>
+                        <div class="perfil-info-value">
+                            @(String.IsNullOrWhiteSpace(Model.Email) ? "No registrado" : Model.Email)
+                        </div>
+                    </div>
+
+                    <div class="perfil-info-item">
+                        <span class="perfil-info-label">Número de teléfono</span>
+                        <div class="perfil-info-value">
+                            @(String.IsNullOrWhiteSpace(Model.PhoneNumber) ? "No registrado" : Model.PhoneNumber)
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+               
+            </section>
         </div>
+
     </div>
 </div>
