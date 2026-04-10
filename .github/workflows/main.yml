@@ -34,7 +34,7 @@ jobs:
       - name: Build and publish MVC app
         run: |
           msbuild ${{ env.WEB_PROJECT_PATH }} `
-            /t:Build;Publish `
+            "/t:Build;Publish" `
             /p:Configuration=${{ env.BUILD_CONFIGURATION }} `
             /p:WebPublishMethod=FileSystem `
             /p:PublishUrl="${{ github.workspace }}\publish" `
