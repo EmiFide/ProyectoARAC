@@ -1,0 +1,192 @@
+﻿/* GLOBAL */
+* {
+    box-sizing: border-box;
+}
+
+/* CONTENEDOR */
+.perfil-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* HERO */
+.perfil-hero {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* STATS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+}
+
+    .stat-card strong {
+        display: block;
+        font-size: 18px;
+    }
+
+    .stat-card small {
+        color: #64748b;
+    }
+
+/* ICONOS */
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.bg-green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.bg-yellow {
+    background: #fef9c3;
+    color: #92400e;
+}
+
+.bg-red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* GRID */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* CARD */
+.card-custom {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    overflow-x: auto;
+}
+
+/* HEADER */
+.card-header-custom {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* FILAS */
+.list-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.list-row-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+/* HEADER FILAS */
+.list-header {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #64748b;
+    background: transparent;
+}
+
+/* HOVER */
+.list-row:hover {
+    background: #eef2ff;
+}
+
+/* BADGES */
+.badge-custom {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.estado-activa {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.estado-pendiente {
+    background: #fef9c3;
+    color: #92400e;
+}
+
+.estado-adoptada {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.estado-devuelta {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* BADGE SUAVE */
+.badge-soft {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+}
+
+/* BOTÓN */
+.btn-action {
+    background: #3b82f6;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+    .btn-action:hover {
+        background: #2563eb;
+        color: white;
+    }
+
+/* FOOTER */
+.card-footer-link {
+    font-size: 0.8rem;
+    color: #3b82f6;
+    margin-top: 10px;
+    cursor: pointer;
+}
