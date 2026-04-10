@@ -258,6 +258,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\ReporteAdopciones.css" />
+    <Content Include="Content\estilos\MiPerfil.css" />
     <Content Include="Content\estilos\RegistrarSolicitud.css" />
     <Content Include="Content\estilos\Dashboard.css" />
     <Content Include="Content\estilos\Comunidad.css" />
