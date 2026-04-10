@@ -4,55 +4,136 @@
     ViewBag.Title = "Adopciones";
 }
 
-<div class="container mt-4">
-    <h2>Adopciones registradas</h2>
+<link href="@Url.Content("~/Content/estilos/Adopciones.css")" rel="stylesheet" />
 
+<div class="adopciones-container">
+
+    <!-- HEADER -->
+    <div class="header-adopciones">
+        <div>
+            <h1> Adopciones registradas</h1>
+            <p>Gestión y seguimiento de adopciones realizadas en el refugio</p>
+        </div>
+
+        <div class="acciones-header">
+            @Html.ActionLink(" Ver solicitudes", "Solicitudes", null, new { @class = "btn-main" })
+            @Html.ActionLink(" Reporte", "ReporteAdopciones", null, new { @class = "btn-secondary" })
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards-grid">
+        <div class="card-metric">
+            <div class="icon"></div>
+            <h2>@Model.Count()</h2>
+            <span>Total adopciones</span>
+        </div>
+
+        <div class="card-metric">
+            <div class="icon"></div>
+            <h2>@Model.Count(x => x.Estado_Adopcion == "Activa")</h2>
+            <span>Activas</span>
+        </div>
+
+        <div class="card-metric">
+            <div class="icon"></div>
+            <h2>@Model.Count(x => x.Estado_Adopcion == "Seguimiento")</h2>
+            <span>En seguimiento</span>
+        </div>
+
+        <div class="card-metric">
+            <div class="icon"></div>
+            <h2>@Model.Count(x => x.Estado_Adopcion == "Devolución")</h2>
+            <span>Devoluciones</span>
+        </div>
+    </div>
+
+    <!-- ALERTAS -->
     @if (TempData["ok"] != null)
     {
-        <div class="alert alert-success">@TempData["ok"]</div>
+        <div class="alert success"> @TempData["ok"]</div>
     }
 
     @if (TempData["error"] != null)
     {
-        <div class="alert alert-danger">@TempData["error"]</div>
+        <div class="alert error"> @TempData["error"]</div>
     }
 
-    <p>
-        @Html.ActionLink("Ver solicitudes", "Solicitudes", null, new { @class = "btn btn-primary" })
-        @Html.ActionLink("Reporte de adopciones", "ReporteAdopciones", null, new { @class = "btn btn-info" })
-    </p>
+    <!-- TABLA -->
+    <div class="tabla-card">
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID Adopción</th>
-                <th>Solicitud</th>
-                <th>Usuario</th>
-                <th>Animal</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Seguimiento inicial</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <div class="tabla-header">
+            <h3> Listado de adopciones</h3>
+        </div>
+
+        <table class="tabla-moderna">
+            <thead>
                 <tr>
-                    <td>@item.ID_Adopcion</td>
-                    <td>@item.ID_Solicitud</td>
-                    <td>@item.UsuarioNombre</td>
-                    <td>@item.AnimalNombre</td>
-                    <td>@item.Fecha_Adopcion.ToString("dd/MM/yyyy")</td>
-                    <td>@item.Estado_Adopcion</td>
-                    <td>@item.Seguimiento_Inicial</td>
-                    <td>
-                        @Html.ActionLink("Seguimiento", "RegistrarSeguimiento", new { id = item.ID_Adopcion }, new { @class = "btn btn-sm btn-success" })
-                        @Html.Raw(" ")
-                        @Html.ActionLink("Devolución", "RegistrarDevolucion", new { id = item.ID_Adopcion }, new { @class = "btn btn-sm btn-danger" })
-                    </td>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Animal</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Seguimiento</th>
+                    <th class="acciones-col">Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="id">#@item.ID_Adopcion</td>
+
+                        <td>
+                            <div class="usuario">
+                                <strong>@item.UsuarioNombre</strong>
+                                <span>Solicitud #@item.ID_Solicitud</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="animal"> @item.AnimalNombre</span>
+                        </td>
+
+                        <td>@item.Fecha_Adopcion.ToString("dd/MM/yyyy")</td>
+
+                        <td>
+                            <span class="badge @GetBadgeClass(item.Estado_Adopcion)">
+                                @item.Estado_Adopcion
+                            </span>
+                        </td>
+
+                        <td class="seguimiento">
+                            @item.Seguimiento_Inicial
+                        </td>
+
+                        <td class="acciones">
+                            @Html.ActionLink("Seguimiento", "RegistrarSeguimiento",
+                                new { id = item.ID_Adopcion },
+                                new { @class = "btn-icon success", title = "Seguimiento" })
+
+                            @Html.ActionLink("Devolucion", "RegistrarDevolucion",
+                                new { id = item.ID_Adopcion },
+                                new { @class = "btn-icon danger", title = "Devolución" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
+
+@functions{
+    public string GetBadgeClass(string estado)
+    {
+        switch (estado)
+        {
+            case "Activa": return "badge-success";
+            case "Seguimiento": return "badge-warning";
+            case "Devolución": return "badge-danger";
+            default: return "badge-default";
+        }
+    }
+}

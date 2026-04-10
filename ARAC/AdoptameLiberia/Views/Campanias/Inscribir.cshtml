@@ -45,8 +45,9 @@
 
                             <div class="form-group-camp">
                                 <label>Fecha</label>
-                                <input type="text" class="form-readonly" value="@(((DateTime)ViewBag.CampaniaFecha).ToString("dd/MM/yyyy"))" readonly />
-                            </div>
+                                <input type="text" class="form-readonly"
+                                       value="@(ViewBag.CampaniaFecha != null ? ((DateTime)ViewBag.CampaniaFecha).ToString("dd/MM/yyyy") : "Sin fecha")"
+                                       readonly />                            </div>
 
                             <div class="form-group-camp full">
                                 <label>Lugar</label>

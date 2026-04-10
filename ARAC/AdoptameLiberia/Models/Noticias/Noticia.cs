@@ -12,8 +12,11 @@ namespace AdoptameLiberia.Models.Noticias
 
         public string ID_Usuario { get; set; }
 
+        [Required(ErrorMessage = "El título es obligatorio")]
         public string Titulo { get; set; }
 
+
+        [Required(ErrorMessage = "El contenido es obligatorio")]
         public string Contenido { get; set; }
 
         public DateTime? Fecha_Publicacion { get; set; }

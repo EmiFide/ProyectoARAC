@@ -4,89 +4,131 @@
     ViewBag.Title = "Reporte de adopciones";
 }
 
-<div class="container mt-4">
-    <h2>Reporte de adopciones</h2>
+<link href="~/Content/estilos/ReporteAdopciones.css" rel="stylesheet" />
 
+<div class="reporte-container">
+
+    <!-- HERO -->
+    <div class="reporte-hero">
+        <div>
+            <h2>Reporte de adopciones</h2>
+            <p>Consulta y analiza solicitudes, adopciones y devoluciones</p>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
     @using (Html.BeginForm("ReporteAdopciones", "Adopciones", FormMethod.Get))
     {
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <label>Fecha inicio</label>
-                <input type="date" name="fechaInicio" value="@(Model.FechaInicio.HasValue ? Model.FechaInicio.Value.ToString("yyyy-MM-dd") : "")" class="form-control" />
-            </div>
-            <div class="col-md-3">
-                <label>Fecha fin</label>
-                <input type="date" name="fechaFin" value="@(Model.FechaFin.HasValue ? Model.FechaFin.Value.ToString("yyyy-MM-dd") : "")" class="form-control" />
-            </div>
-            <div class="col-md-3">
-                <label>Estado</label>
-                <input type="text" name="estado" value="@Model.Estado" class="form-control" placeholder="Pendiente, Aprobada, Activa..." />
-            </div>
-            <div class="col-md-3" style="margin-top:32px;">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+        <div class="card-filtros">
+            <div class="filtros-grid">
+
+                <div>
+                    <label>Fecha inicio</label>
+                    <input type="date" name="fechaInicio"
+                           value="@(Model.FechaInicio.HasValue ? Model.FechaInicio.Value.ToString("yyyy-MM-dd") : "")"
+                           class="form-control" />
+                </div>
+
+                <div>
+                    <label>Fecha fin</label>
+                    <input type="date" name="fechaFin"
+                           value="@(Model.FechaFin.HasValue ? Model.FechaFin.Value.ToString("yyyy-MM-dd") : "")"
+                           class="form-control" />
+                </div>
+
+                <div>
+                    <label>Estado</label>
+                    <input type="text" name="estado"
+                           value="@Model.Estado"
+                           class="form-control"
+                           placeholder="Pendiente, Aprobada, Activa..." />
+                </div>
+
+                <div class="filtro-btn">
+                    <button type="submit" class="btn-filtrar">Filtrar</button>
+                </div>
+
             </div>
         </div>
     }
 
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="alert alert-secondary">
-                <strong>Total solicitudes:</strong><br />
-                @Model.TotalSolicitudes
-            </div>
+    <!-- KPIs -->
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+            <span>Total solicitudes</span>
+            <h3>@Model.TotalSolicitudes</h3>
         </div>
-        <div class="col-md-3">
-            <div class="alert alert-success">
-                <strong>Total aprobadas/adoptadas:</strong><br />
-                @Model.TotalAprobadas
-            </div>
+
+        <div class="kpi-card">
+            <span>Aprobadas / Adoptadas</span>
+            <h3>@Model.TotalAprobadas</h3>
         </div>
-        <div class="col-md-3">
-            <div class="alert alert-info">
-                <strong>Adopciones activas:</strong><br />
-                @Model.TotalAdopcionesActivas
-            </div>
+
+        <div class="kpi-card">
+            <span>Adopciones activas</span>
+            <h3>@Model.TotalAdopcionesActivas</h3>
         </div>
-        <div class="col-md-3">
-            <div class="alert alert-danger">
-                <strong>Devoluciones:</strong><br />
-                @Model.TotalDevoluciones
-            </div>
+
+        <div class="kpi-card">
+            <span>Devoluciones</span>
+            <h3>@Model.TotalDevoluciones</h3>
         </div>
+
     </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Solicitud</th>
-                <th>Adopción</th>
-                <th>Usuario</th>
-                <th>Animal</th>
-                <th>Fecha solicitud</th>
-                <th>Fecha adopción</th>
-                <th>Estado solicitud</th>
-                <th>Estado adopción</th>
-                <th>Seguimientos</th>
-                <th>Devolución</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Registros)
-            {
-                <tr>
-                    <td>@item.ID_Solicitud</td>
-                    <td>@item.ID_Adopcion</td>
-                    <td>@item.UsuarioNombre</td>
-                    <td>@item.AnimalNombre</td>
-                    <td>@(item.Fecha_Solicitud.HasValue ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
-                    <td>@(item.Fecha_Adopcion.HasValue ? item.Fecha_Adopcion.Value.ToString("dd/MM/yyyy") : "")</td>
-                    <td>@item.EstadoSolicitud</td>
-                    <td>@item.EstadoAdopcion</td>
-                    <td>@item.CantidadSeguimientos</td>
-                    <td>@(item.TieneDevolucion ? "Sí" : "No")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+    <!-- TABLA -->
+    <div class="card-tabla">
 
+        <div class="tabla-header">
+            <h3>Detalle de adopciones</h3>
+        </div>
+
+        <table class="tabla-reporte">
+            <thead>
+                <tr>
+                    <th>Solicitud</th>
+                    <th>Usuario</th>
+                    <th>Animal</th>
+                    <th>Fecha solicitud</th>
+                    <th>Fecha adopción</th>
+                    <th>Estado solicitud</th>
+                    <th>Estado adopción</th>
+                    <th>Seguimientos</th>
+                    <th>Devolución</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.Registros)
+                {
+                    <tr>
+                        <td>@item.ID_Solicitud</td>
+                        <td>@item.UsuarioNombre</td>
+                        <td>@item.AnimalNombre</td>
+
+                        <td>@(item.Fecha_Solicitud.HasValue ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@(item.Fecha_Adopcion.HasValue ? item.Fecha_Adopcion.Value.ToString("dd/MM/yyyy") : "")</td>
+
+                        <td>
+                            <span class="badge estado-@item.EstadoSolicitud.ToLower()">
+                                @item.EstadoSolicitud
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge estado-@item.EstadoAdopcion.ToLower()">
+                                @item.EstadoAdopcion
+                            </span>
+                        </td>
+
+                        <td>@item.CantidadSeguimientos</td>
+                        <td>@(item.TieneDevolucion ? "Sí" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
