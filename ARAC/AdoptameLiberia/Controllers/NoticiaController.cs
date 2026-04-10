@@ -10,33 +10,51 @@ namespace AdoptameLiberia.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // =========================
-        // LISTAR NOTICIAS (PÚBLICO)
-        // =========================
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var noticias = db.Noticias
-                             .Where(n => n.Estado == true)
-                             .OrderByDescending(n => n.Fecha_Publicacion)
-                             .ToList();
+            const int pageSize = 6;
+
+            var query = db.Noticias
+                          .Where(n => n.Estado == true)
+                          .OrderByDescending(n => n.Fecha_Publicacion);
+
+            var totalNoticias = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalNoticias / pageSize);
+
+            if (totalPages == 0)
+            {
+                totalPages = 1;
+            }
+
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            if (page > totalPages)
+            {
+                page = totalPages;
+            }
+
+            var noticias = query.Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
 
             return View(noticias);
         }
 
-        // =========================
-        // CREAR NOTICIA (ADMIN)
-        // =========================
         [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // =========================
-        // GUARDAR NOTICIA
-        // =========================
         [HttpPost]
         [Authorize(Roles = "Administrador")]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Noticia model)
         {
             if (ModelState.IsValid)
@@ -54,15 +72,12 @@ namespace AdoptameLiberia.Controllers
             return View(model);
         }
 
-        // =========================
-        // LIKE (1 vez por sesión)
-        // =========================
         [HttpPost]
-        public ActionResult Like(int id)
+        [ValidateAntiForgeryToken]
+        public ActionResult Like(int id, int page = 1)
         {
             var key = "like_" + id;
 
-            // 👇 evita doble click rápido
             if (Session[key] == null)
             {
                 var noticia = db.Noticias.FirstOrDefault(n => n.ID_Noticia == id);
@@ -71,21 +86,16 @@ namespace AdoptameLiberia.Controllers
                 {
                     noticia.Likes++;
                     db.SaveChanges();
-
                     Session[key] = true;
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { page = page });
         }
 
-        // =========================
-        // DETALLE
-        // =========================
         public ActionResult Details(int id)
         {
-            var noticia = db.Noticias
-                            .FirstOrDefault(n => n.ID_Noticia == id);
+            var noticia = db.Noticias.FirstOrDefault(n => n.ID_Noticia == id);
 
             if (noticia == null)
             {

@@ -1,43 +1,114 @@
 @model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+
 @{
     ViewBag.Title = "Vencimientos";
     var dias = (int)ViewBag.Dias;
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Donaciones.ItemInventario>();
 }
 
-<h2>Vencimientos próximos (@dias días)</h2>
+<link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
 
-<div class="row" style="margin-bottom:15px;">
-    <div class="col-md-6">
-        @Html.ActionLink("Volver al inventario", "Index", "Inventario", null, new { @class = "btn-inventario" })
+<div class="inventory-shell">
+    <div class="inventory-card">
+        <div class="inventory-section-head">
+            <div>
+                <span class="inventory-kicker">INVENTARIO · CONTROL</span>
+                <h1 class="inventory-title">Vencimientos próximos</h1>
+                <p class="inventory-subtitle">
+                    Revisa los artículos que vencen dentro del rango seleccionado para actuar a tiempo.
+                </p>
+            </div>
+
+            <div class="inventory-actions">
+                <a href="@Url.Action("Index", "Inventario")" class="inventory-btn-outline">Volver al inventario</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 text-right">
-        @using (Html.BeginForm("Vencimientos", "Inventario", FormMethod.Get, new { @class = "form-inline" }))
+
+    <div class="inventory-card">
+        @using (Html.BeginForm("Vencimientos", "Inventario", FormMethod.Get, new { @class = "inventory-filter-grid" }))
         {
-            <label style="margin-right:8px;">Ver próximos</label>
-            <input type="number" name="dias" value="@dias" min="1" class="form-control" style="width:90px; margin-right:8px;" />
-            <button type="submit" class="btn btn-primary">Aplicar</button>
+            <div class="inventory-field">
+                <label>Días a revisar</label>
+                <input type="number" name="dias" value="@dias" min="1" class="inventory-input" />
+            </div>
+
+            <div class="inventory-field inventory-field-actions">
+                <button type="submit" class="inventory-btn">Aplicar filtro</button>
+            </div>
+        }
+    </div>
+
+    <div class="inventory-card">
+        <div class="inventory-mini-stats">
+            <div class="inventory-mini-stat">
+                <span>Total encontrados</span>
+                <strong>@lista.Count</strong>
+            </div>
+            <div class="inventory-mini-stat">
+                <span>Rango aplicado</span>
+                <strong>@dias días</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="inventory-card">
+        @if (lista.Any())
+        {
+            <div class="inventory-table-shell">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Artículo</th>
+                            <th>Categoría</th>
+                            <th>Stock actual</th>
+                            <th>Fecha de caducidad</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in lista)
+                        {
+                            var diasRestantes = item.FechaCaducidad.HasValue
+                                ? (item.FechaCaducidad.Value.Date - DateTime.Today).Days
+                                : 0;
+
+                            <tr>
+                                <td>
+                                    <strong>@item.Nombre</strong>
+                                    @if (!string.IsNullOrWhiteSpace(item.Descripcion))
+                                    {
+                                        <div class="inventory-cell-note">@item.Descripcion</div>
+                                    }
+                                </td>
+                                <td>@item.Categoria</td>
+                                <td>@item.StockActual</td>
+                                <td>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    @if (diasRestantes < 0)
+                                    {
+                                        <span class="inventory-badge-danger">Vencido</span>
+                                    }
+                                    else if (diasRestantes <= 7)
+                                    {
+                                        <span class="inventory-badge-alert">Urgente</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inventory-badge">Próximo</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="inventory-empty">
+                No hay artículos con vencimiento dentro del rango indicado.
+            </div>
         }
     </div>
 </div>
-
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Artículo</th>
-            <th>Categoría</th>
-            <th>Stock</th>
-            <th>Fecha de caducidad</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="warning">
-                <td>@item.Nombre</td>
-                <td>@item.Categoria</td>
-                <td>@item.StockActual</td>
-                <td>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</td>
-            </tr>
-        }
-    </tbody>
-</table>

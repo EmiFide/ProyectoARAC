@@ -9,36 +9,40 @@
 }
 
 <div class="vol-shell">
-    <div class="vol-detail-card">
-        <div class="vol-panel-title">Eliminar tarea</div>
-        <div class="vol-panel-subtitle">
-            Vas a eliminar esta tarea y también sus asignaciones relacionadas.
+    <section class="vol-detail-card">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Eliminar tarea</h2>
+                <p class="vol-section-subtitle">
+                    Vas a eliminar esta tarea junto con sus asignaciones relacionadas. Revisa bien antes de continuar.
+                </p>
+            </div>
         </div>
 
         <div class="vol-detail-grid">
             <div class="vol-detail-item">
                 <strong>Título</strong>
-                @Model.Titulo
+                <span>@Model.Titulo</span>
             </div>
 
             <div class="vol-detail-item">
                 <strong>Fecha</strong>
-                @Model.Fecha.ToShortDateString()
+                <span>@Model.Fecha.ToShortDateString()</span>
             </div>
 
             <div class="vol-detail-item">
                 <strong>Hora</strong>
-                @(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora")
+                <span>@(Model.Hora.HasValue ? Model.Hora.Value.ToString(@"hh\:mm") : "Sin hora")</span>
             </div>
 
             <div class="vol-detail-item">
                 <strong>Lugar</strong>
-                @Model.Lugar
+                <span>@Model.Lugar</span>
             </div>
 
-            <div class="vol-detail-item full" style="grid-column: 1 / -1;">
+            <div class="vol-detail-item full">
                 <strong>Descripción</strong>
-                @Model.Descripcion
+                <p>@Model.Descripcion</p>
             </div>
         </div>
 
@@ -47,9 +51,9 @@
             @Html.AntiForgeryToken()
 
             <div class="vol-form-actions">
-                <button type="submit" class="vol-btn-danger">Eliminar</button>
+                <button type="submit" class="vol-btn-danger">Eliminar tarea</button>
                 @Html.ActionLink("Cancelar", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
             </div>
         }
-    </div>
+    </section>
 </div>

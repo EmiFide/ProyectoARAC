@@ -1,45 +1,75 @@
 @model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
+@using System
+@using System.Collections.Generic
+@using System.Linq
 
 @{
     ViewBag.Title = "Inventario";
     var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Donaciones.ItemInventario>();
 }
 
-<link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
+@section styles{
+    <link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
+}
 
 <div class="inventory-shell">
-    <div class="inventory-hero">
+    <section class="inventory-hero">
         <div class="inventory-hero-content">
-            <h1>Inventario del refugio</h1>
-            <p>Controla mejor los artículos, movimientos, stock mínimo y productos próximos a vencer.</p>
+            <span class="inventory-kicker">ARAC · INVENTARIO</span>
+            <h1>Control de inventario</h1>
+            <p>
+                Administra artículos, movimientos, stock mínimo y productos próximos a vencer
+                en una vista más clara, moderna y alineada con el diseño general del sitio.
+            </p>
         </div>
-    </div>
+    </section>
 
     <div class="inventory-stats">
         <div class="inventory-stat">
             <h4>Total de artículos</h4>
             <p>@lista.Count</p>
         </div>
+
         <div class="inventory-stat">
             <h4>Stock bajo</h4>
             <p>@ViewBag.StockBajoCount</p>
         </div>
+
         <div class="inventory-stat">
             <h4>Próximos a vencer</h4>
             <p>@ViewBag.VencenProntoCount</p>
         </div>
     </div>
 
-    <div class="inventory-card">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">@TempData["Success"]</div>
+    }
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Acciones rápidas</h2>
+                <p>Accede rápidamente a las funciones principales del módulo.</p>
+            </div>
+        </div>
+
         <div class="inventory-actions">
             <a href="@Url.Action("Create", "Inventario")" class="inventory-btn">Registrar artículo</a>
             <a href="@Url.Action("Historial", "Inventario")" class="inventory-btn-alt">Historial de movimientos</a>
-            <a href="@Url.Action("AlertasStockMinimo", "Inventario")" class="inventory-btn-warning">Ver alertas de stock mínimo</a>
+            <a href="@Url.Action("AlertasStockMinimo", "Inventario")" class="inventory-btn-warning">Alertas de stock</a>
             <a href="@Url.Action("Vencimientos", "Inventario")" class="inventory-btn-info">Ver vencimientos</a>
         </div>
-    </div>
+    </section>
 
-    <div class="inventory-card">
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Artículos registrados</h2>
+                <p>Consulta el estado actual del inventario y ejecuta acciones por cada artículo.</p>
+            </div>
+        </div>
+
         <div class="inventory-table-shell">
             <table class="inventory-table">
                 <thead>
@@ -62,24 +92,32 @@
                             var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
 
                             <tr>
-                                <td><strong>@item.Nombre</strong></td>
+                                <td class="inventory-item">
+                                    <strong>@item.Nombre</strong>
+                                    <span>@(string.IsNullOrWhiteSpace(item.Descripcion) ? "Sin descripción registrada" : item.Descripcion)</span>
+                                </td>
                                 <td>@item.Categoria</td>
                                 <td>@item.UnidadMedida</td>
                                 <td>
                                     @item.StockActual
                                     @if (stockBajo)
                                     {
-                                        <span class="inventory-badge-alert">Stock bajo</span>
+                                        <div style="margin-top:8px;">
+                                            <span class="inventory-badge-alert">Stock bajo</span>
+                                        </div>
                                     }
                                 </td>
                                 <td>@item.StockMinimo</td>
                                 <td>
                                     @if (item.FechaCaducidad.HasValue)
                                     {
-                                        @item.FechaCaducidad.Value.ToString("yyyy-MM-dd")
+                                        <div>@item.FechaCaducidad.Value.ToString("yyyy-MM-dd")</div>
+
                                         if (vencePronto)
                                         {
-                                            <span class="inventory-badge-alert">Pronto</span>
+                                            <div style="margin-top:8px;">
+                                                <span class="inventory-badge-alert">Próximo a vencer</span>
+                                            </div>
                                         }
                                     }
                                     else
@@ -103,7 +141,8 @@
                         <tr>
                             <td colspan="7">
                                 <div class="inventory-empty">
-                                    No hay artículos registrados en inventario.
+                                    <strong>No hay artículos registrados.</strong>
+                                    Cuando registres productos o suministros aparecerán aquí.
                                 </div>
                             </td>
                         </tr>
@@ -111,5 +150,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </section>
 </div>

@@ -4,27 +4,73 @@
     ViewBag.Title = "Participación de voluntarios";
 }
 
-<h2>Participación de voluntarios</h2>
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
 
-<p>
-    @Html.ActionLink("Nueva participación", "Create", null, new { @class = "btn btn-success" })
-</p>
+<div class="vol-shell">
+    <section class="vol-section">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Asignaciones de voluntariado</h2>
+                <p class="vol-section-subtitle">
+                    Consulta las relaciones existentes entre voluntarios y tareas.
+                </p>
+            </div>
 
-<table class="table">
-    <tr>
-        <th>Voluntario</th>
-        <th>Tarea</th>
-        <th>Asistió</th>
-        <th>Observaciones</th>
-    </tr>
+            <div class="vol-toolbar-right">
+                @Html.ActionLink("Nueva asignación", "Create", null, new { @class = "vol-btn" })
+                @Html.ActionLink("Volver al módulo", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
+            </div>
+        </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Voluntario.Nombre @item.Voluntario.Apellido1</td>
-            <td>@item.Tarea.Titulo</td>
-            <td>@(item.Asistio ? "Sí" : "No")</td>
-            <td>@item.Observaciones</td>
-        </tr>
-    }
-</table>
+        @if (Model != null && Model.Any())
+        {
+            <div class="vol-table-wrap">
+                <table class="vol-table">
+                    <thead>
+                        <tr>
+                            <th>Voluntario</th>
+                            <th>Tarea</th>
+                            <th>Asistencia</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="vol-person-cell">
+                                    <strong>@item.Voluntario.Nombre @item.Voluntario.Apellido1</strong>
+                                    <span>@item.Voluntario.Correo</span>
+                                </td>
+                                <td class="vol-task-cell">
+                                    <strong>@item.Tarea.Titulo</strong>
+                                    <span>@item.Tarea.Lugar</span>
+                                </td>
+                                <td>
+                                    @if (item.Asistio)
+                                    {
+                                        <span class="vol-badge vol-badge-active">Sí asistió</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="vol-badge vol-badge-pending">Pendiente / No</span>
+                                    }
+                                </td>
+                                <td>@item.Observaciones</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="vol-empty">
+                <strong>No hay asignaciones registradas.</strong>
+                Cuando relaciones voluntarios con tareas, se mostrarán aquí.
+            </div>
+        }
+    </section>
+</div>

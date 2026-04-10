@@ -4,41 +4,81 @@
     ViewBag.Title = "Tareas de Voluntariado";
 }
 
-<h2>Tareas de Voluntariado</h2>
+@section styles{
+    <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
+}
 
-<p>
-    @Html.ActionLink("Nueva tarea", "Create", null, new { @class = "btn btn-primary" })
-</p>
+<div class="vol-shell">
+    <section class="vol-section">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Tareas de voluntariado</h2>
+                <p class="vol-section-subtitle">
+                    Consulta, crea y administra las actividades registradas dentro del sistema.
+                </p>
+            </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Titulo)</th>
-            <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
-            <th>@Html.DisplayNameFor(model => model.Fecha)</th>
-            <th>@Html.DisplayNameFor(model => model.Hora)</th>
-            <th>@Html.DisplayNameFor(model => model.Lugar)</th>
-            <th>@Html.DisplayNameFor(model => model.Estado)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+            <div class="vol-toolbar-right">
+                @Html.ActionLink("Nueva tarea", "Create", null, new { @class = "vol-btn" })
+                @Html.ActionLink("Volver al módulo", "Index", "Voluntarios", null, new { @class = "vol-btn-outline" })
+            </div>
+        </div>
+
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <td>@item.Titulo</td>
-                <td>@item.Descripcion</td>
-                <td>@item.Fecha.ToShortDateString()</td>
-                <td>@(item.Hora.HasValue ? item.Hora.Value.ToString(@"hh\:mm") : "")</td>
-                <td>@item.Lugar</td>
-                <td>@(item.Estado ? "Activa" : "Inactiva")</td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-warning" })
-                    @Html.ActionLink("Detalles", "Details", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-info" })
-                    @Html.ActionLink(item.Estado ? "Desactivar" : "Activar", "CambiarEstado", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-secondary" })
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_Tarea }, new { @class = "btn btn-sm btn-danger" })
-                </td>
-            </tr>
+            <div class="vol-table-wrap">
+                <table class="vol-table">
+                    <thead>
+                        <tr>
+                            <th>Tarea</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Lugar</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="vol-task-cell">
+                                    <strong>@item.Titulo</strong>
+                                    <span>@item.Descripcion</span>
+                                </td>
+                                <td>@item.Fecha.ToShortDateString()</td>
+                                <td>@(item.Hora.HasValue ? item.Hora.Value.ToString(@"hh\:mm") : "Sin hora")</td>
+                                <td>@item.Lugar</td>
+                                <td>
+                                    @if (item.Estado)
+                                    {
+                                        <span class="vol-badge vol-badge-active">Activa</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="vol-badge vol-badge-inactive">Inactiva</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="vol-actions-inline">
+                                        @Html.ActionLink("Editar", "Edit", new { id = item.ID_Tarea }, new { @class = "vol-btn-outline" })
+                                        @Html.ActionLink("Detalles", "Details", new { id = item.ID_Tarea }, new { @class = "vol-btn-soft" })
+                                        @Html.ActionLink(item.Estado ? "Desactivar" : "Activar", "CambiarEstado", new { id = item.ID_Tarea }, new { @class = "vol-btn-warning" })
+                                        @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_Tarea }, new { @class = "vol-btn-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="vol-empty">
+                <strong>No hay tareas registradas.</strong>
+                Puedes crear una nueva tarea desde el botón superior.
+            </div>
+        }
+    </section>
+</div>
