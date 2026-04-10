@@ -4,33 +4,73 @@
     ViewBag.Title = "Evaluar solicitud";
 }
 
-<div class="container mt-4">
-    <h2>Evaluar solicitud #@Model.ID_Solicitud</h2>
+@section Styles {
+    <link href="~/Content/estilos/Evaluar.css" rel="stylesheet" />
+}
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <p><strong>Usuario:</strong> @Model.UsuarioNombre</p>
-            <p><strong>Animal:</strong> @Model.AnimalNombre</p>
-            <p><strong>Motivo:</strong> @Model.Motivo_Adopcion</p>
-            <p><strong>Condiciones del hogar:</strong> @Model.Condiciones_Hogar</p>
-            <p><strong>Otros animales:</strong> @(Model.Otros_Animales ? "Sí" : "No")</p>
-            <p><strong>Detalle:</strong> @Model.Detalle_Otros_Animales</p>
-        </div>
+<div class="evaluar-container">
+
+    <!-- HEADER -->
+    <div class="evaluar-hero">
+        <h1>Evaluar solicitud #@Model.ID_Solicitud</h1>
+        <p>Revisa la información del solicitante antes de tomar una decisión</p>
     </div>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.ID_Solicitud)
+    <!-- INFO -->
+    <div class="evaluar-card">
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Estado)
-            @Html.DropDownListFor(m => m.Estado, (SelectList)ViewBag.Estados, "Seleccione", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Estado, "", new { @class = "text-danger" })
+        <div class="info-grid">
+
+            <div class="info-item">
+                <label>Usuario</label>
+                <p>@Model.UsuarioNombre</p>
+            </div>
+
+            <div class="info-item">
+                <label>Animal</label>
+                <p>@Model.AnimalNombre</p>
+            </div>
+
+            <div class="info-item">
+                <label>Motivo</label>
+                <p>@Model.Motivo_Adopcion</p>
+            </div>
+
+            <div class="info-item">
+                <label>Condiciones del hogar</label>
+                <p>@Model.Condiciones_Hogar</p>
+            </div>
+
+            <div class="info-item">
+                <label>Otros animales</label>
+                <p>@(Model.Otros_Animales ? "Sí" : "No")</p>
+            </div>
+
+            <div class="info-item">
+                <label>Detalle</label>
+                <p>@Model.Detalle_Otros_Animales</p>
+            </div>
+
         </div>
 
-        <button type="submit" class="btn btn-warning">Guardar evaluación</button>
-        @Html.ActionLink("Volver", "Solicitudes", null, new { @class = "btn btn-secondary" })
-    }
-</div>
+        <!-- FORM -->
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID_Solicitud)
 
+            <div class="form-group-modern">
+                <label>Nuevo estado</label>
+                @Html.DropDownListFor(m => m.Estado, (SelectList)ViewBag.Estados, "Seleccione", new { @class = "select-modern" })
+                @Html.ValidationMessageFor(m => m.Estado, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="btn-guardar">Guardar evaluación</button>
+                @Html.ActionLink("Volver", "Solicitudes", null, new { @class = "btn-volver" })
+            </div>
+        }
+
+    </div>
+
+</div>

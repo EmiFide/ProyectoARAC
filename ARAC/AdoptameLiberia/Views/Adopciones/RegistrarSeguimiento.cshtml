@@ -4,47 +4,85 @@
     ViewBag.Title = "Registrar seguimiento";
 }
 
-<div class="container mt-4">
-    <h2>Registrar seguimiento post-adopción</h2>
+<link href="~/Content/estilos/Seguimiento.css" rel="stylesheet" />
 
-    <div class="alert alert-info">
-        @Model.AdopcionInfo
+<div class="page-shell">
+
+    <!-- HERO -->
+    <section class="hero-seguimiento">
+        <div class="hero-text">
+            <span class="kicker">Bienestar animal</span>
+            <h1>Seguimiento post-adopción</h1>
+            <p>
+                Monitorea cómo se adapta la mascota a su nuevo hogar y asegura su bienestar continuo.
+            </p>
+        </div>
+
+        <div class="hero-img">
+            <img src="@Url.Content("~/Content/img/perro-feliz.png")" alt="Seguimiento mascota" />
+        </div>
+    </section>
+
+    <!-- CARD -->
+    <div class="form-card">
+
+        <!-- INFO -->
+        <div class="alert-custom info">
+            @Model.AdopcionInfo
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID_Adopcion)
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Tipo_Seguimiento)
+                    @Html.DropDownListFor(m => m.Tipo_Seguimiento,
+                        (SelectList)ViewBag.TiposSeguimiento,
+                        "Seleccione",
+                        new { @class = "input-custom" })
+                    @Html.ValidationMessageFor(m => m.Tipo_Seguimiento, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Proxima_Accion)
+                    @Html.TextBoxFor(m => m.Proxima_Accion,
+                        new { @class = "input-custom", placeholder = "Ej: Nueva visita, llamada..." })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Estado_Mascota)
+                    @Html.TextBoxFor(m => m.Estado_Mascota,
+                        new { @class = "input-custom", placeholder = "Salud, comportamiento..." })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Estado_Hogar)
+                    @Html.TextBoxFor(m => m.Estado_Hogar,
+                        new { @class = "input-custom", placeholder = "Condiciones del hogar..." })
+                </div>
+
+                <div class="form-group full">
+                    @Html.LabelFor(m => m.Comentario)
+                    @Html.TextAreaFor(m => m.Comentario,
+                        new { @class = "input-custom", rows = 4, placeholder = "Detalles del seguimiento..." })
+                    @Html.ValidationMessageFor(m => m.Comentario, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <!-- BOTONES -->
+            <div class="form-actions">
+                <button type="submit" class="btn-main success">
+                    Guardar seguimiento
+                </button>
+
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn-secondary" })
+            </div>
+        }
     </div>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.ID_Adopcion)
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Tipo_Seguimiento)
-            @Html.DropDownListFor(m => m.Tipo_Seguimiento, (SelectList)ViewBag.TiposSeguimiento, "Seleccione", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Tipo_Seguimiento, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Estado_Mascota)
-            @Html.TextBoxFor(m => m.Estado_Mascota, new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Estado_Hogar)
-            @Html.TextBoxFor(m => m.Estado_Hogar, new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Comentario)
-            @Html.TextAreaFor(m => m.Comentario, new { @class = "form-control", rows = 4 })
-            @Html.ValidationMessageFor(m => m.Comentario, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Proxima_Accion)
-            @Html.TextBoxFor(m => m.Proxima_Accion, new { @class = "form-control" })
-        </div>
-
-        <button type="submit" class="btn btn-success">Guardar seguimiento</button>
-        @Html.ActionLink("Volver", "MiPerfil", null, new { @class = "btn btn-secondary" })
-    }
 </div>
-

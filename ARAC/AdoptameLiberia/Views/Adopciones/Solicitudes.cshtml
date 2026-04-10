@@ -4,53 +4,106 @@
     ViewBag.Title = "Solicitudes de adopción";
 }
 
-<div class="container mt-4">
-    <h2>Solicitudes de adopción</h2>
+@section Styles {
+    <link href="~/Content/estilos/Solicitudes.css" rel="stylesheet" />
+}
 
+<div class="solicitudes-container">
+
+    <!-- HERO -->
+    <div class="solicitudes-hero">
+        <div class="hero-text">
+            <h1>Solicitudes de adopción</h1>
+            <p>Gestiona y revisa todas las solicitudes registradas en el sistema</p>
+        </div>
+
+        <div class="hero-actions">
+            @Html.ActionLink("Ver adopciones", "Index", null, new { @class = "btn -hero" })
+        </div>
+    </div>
+
+    <!-- ALERTAS -->
     @if (TempData["ok"] != null)
     {
-        <div class="alert alert-success">@TempData["ok"]</div>
+        <div class="alert-custom success">@TempData["ok"]</div>
     }
 
     @if (TempData["error"] != null)
     {
-        <div class="alert alert-danger">@TempData["error"]</div>
+        <div class="alert-custom error">@TempData["error"]</div>
     }
 
-    <p>
-        @Html.ActionLink("Registrar solicitud", "RegistrarSolicitud", null, new { @class = "btn btn-primary" })
-        @Html.ActionLink("Ver adopciones", "Index", null, new { @class = "btn btn-secondary" })
-    </p>
+    <!-- BUSCADOR -->
+    <div class="search-box">
+        <input type="text" id="buscarUsuario" placeholder="Buscar por usuario..." />
+    </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Animal</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Motivo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <!-- CARD TABLA -->
+    <div class="table-card">
+
+        <div class="table-header">
+            <h2>Solicitudes</h2>
+            <span>@Model.Count() solicitudes encontradas</span>
+        </div>
+
+        <table class="table-modern">
+            <thead>
                 <tr>
-                    <td>@item.ID_Solicitud</td>
-                    <td>@item.UsuarioNombre</td>
-                    <td>@item.AnimalNombre</td>
-                    <td>@(item.Fecha_Solicitud.HasValue ? item.Fecha_Solicitud.Value.ToString("dd/MM/yyyy") : "")</td>
-                    <td>@item.Estado</td>
-                    <td>@item.Motivo_Adopcion</td>
-                    <td>
-                        @Html.ActionLink("Evaluar", "Evaluar", new { id = item.ID_Solicitud }, new { @class = "btn btn-sm btn-warning" })
-                        @Html.Raw(" ")
-                        @Html.ActionLink("Asignar animal", "AsignarAnimal", new { id = item.ID_Solicitud }, new { @class = "btn btn-sm btn-success" })
-                    </td>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Animal</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Motivo</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID_Solicitud</td>
+                        <td>@item.UsuarioNombre</td>
+                        <td>@item.AnimalNombre</td>
+                        <td>@(item.Fecha_Solicitud?.ToString("dd/MM/yyyy"))</td>
+
+                        <td>
+                            <span class="badge-estado @item.Estado.ToLower()">
+                                @item.Estado
+                            </span>
+                        </td>
+
+                        <td class="motivo">@item.Motivo_Adopcion</td>
+
+                        <td class="acciones">
+                            @Html.ActionLink("Evaluar", "Evaluar", new { id = item.ID_Solicitud }, new { @class = "btn-accion warning" })
+                            @Html.ActionLink("Asignar", "AsignarAnimal", new { id = item.ID_Solicitud }, new { @class = "btn-accion success" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const input = document.getElementById("buscarUsuario");
+
+        input.addEventListener("keyup", function () {
+            let filtro = this.value.toLowerCase();
+            let filas = document.querySelectorAll(".table-modern tbody tr");
+
+            filas.forEach(fila => {
+                let usuario = fila.children[1].textContent.toLowerCase();
+
+                fila.style.display = usuario.includes(filtro) ? "" : "none";
+            });
+        });
+
+    });
+</script>
