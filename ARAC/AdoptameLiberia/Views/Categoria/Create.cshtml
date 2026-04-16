@@ -1,32 +1,98 @@
 ﻿@model AdoptameLiberia.Models.Finanzas.CategoriaFinanciera
 
 @{
-    ViewBag.Title = "Crear Categoría";
+    ViewBag.Title = "Registrar Categoría";
+
+    if (Model != null)
+    {
+        Model.Tipo = "Gasto";
+    }
 }
 
-<h2>Crear Categoría</h2>
+<link href="~/Content/estilos/Categoria.css" rel="stylesheet" />
 
-@using (Html.BeginForm())
-{
-    <div class="form-group">
-        <label>Nombre</label>
-        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
-    </div>
+<div class="categoria-shell">
+    <section class="categoria-hero categoria-hero-form">
+        <div class="categoria-hero-copy">
+            <span class="categoria-kicker">Gestión financiera</span>
+            <h1>Registrar nueva categoría</h1>
+            <p>
+                Completa los datos de la categoría para que pueda ser utilizada
+                en los registros financieros del sistema.
+            </p>
+        </div>
 
-    <div class="form-group">
-        <label>Tipo</label>
-        @Html.DropDownListFor(m => m.Tipo,
-            new SelectList(new[] { "Ingreso", "Gasto" }),
-            "Seleccione",
-            new { @class = "form-control" })
-    </div>
+        <div class="categoria-hero-image">
+            <img src="@Url.Content("~/Content/img/Refugio.png")" alt="Registrar categoría" />
+        </div>
+    </section>
 
-    <div class="form-group">
-        <label>Estado</label>
-        @Html.CheckBox("Estado", Model.Estado ?? false)
-    </div>
+    <section class="categoria-form-panel">
+        <div class="categoria-table-head">
+            <div>
+                <h2>Formulario de registro</h2>
+                <p>Ingresa la información necesaria y guarda el registro.</p>
+            </div>
+        </div>
 
-    <br />
+        @using (Html.BeginForm("Create", "Categoria", FormMethod.Post, new { @class = "categoria-form" }))
+        {
+            @Html.AntiForgeryToken()
 
-    <button type="submit" class="btn btn-success">Guardar</button>
+            @Html.ValidationSummary(true, "", new { @class = "categoria-validation" })
+
+            <input type="hidden" name="Tipo" value="Gasto" />
+
+            <div class="categoria-form-grid">
+                <div class="categoria-group categoria-group-full">
+                    @Html.LabelFor(m => m.Nombre, "Nombre")
+                    @Html.TextBoxFor(m => m.Nombre, new
+                    {
+                        @class = "categoria-input",
+                        placeholder = "Ejemplo: Veterinaria, Alimentación, Medicamentos..."
+                    })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="categoria-group">
+                    <label>Tipo</label>
+                    <input type="text" class="categoria-input" value="Gasto" readonly="readonly" />
+                </div>
+
+                <div class="categoria-group">
+                    @Html.LabelFor(m => m.FechaRegistro, "Fecha de registro")
+                    @Html.TextBoxFor(
+                        m => m.FechaRegistro,
+                        "{0:yyyy-MM-ddTHH:mm}",
+                        new { @class = "categoria-input", type = "datetime-local" }
+                    )
+                    @Html.ValidationMessageFor(m => m.FechaRegistro, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="categoria-group categoria-group-full">
+                    <div class="categoria-switch-card">
+                        <div>
+                            <label class="categoria-switch-title">Estado</label>
+                            <p>Marca esta opción si la categoría quedará activa para usarse en el sistema.</p>
+                        </div>
+
+                        <label class="categoria-switch">
+                            <input type="hidden" name="Estado" value="false" />
+                            <input type="checkbox" name="Estado" value="true" @(Model != null && Model.Estado == true ? "checked=\"checked\"" : "") />
+                            <span class="categoria-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="categoria-form-actions">
+                <button type="submit" class="categoria-btn-main">Guardar categoría</button>
+                <a href="@Url.Action("Index", "Categoria")" class="categoria-btn-soft">Cancelar</a>
+            </div>
+        }
+    </section>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -1,105 +1,123 @@
-﻿@model IEnumerable<AdoptameLiberia.Models.Campanias.CampaniaCastracion>
+﻿@model IEnumerable<AdoptameLiberia.Models.Finanzas.CategoriaFinanciera>
+@using System.Linq
 
 @{
-    ViewBag.Title = "Campañas";
-    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Campanias.CampaniaCastracion>();
-    var cuposMap = ViewBag.CuposDisponibles as Dictionary<int, int> ?? new Dictionary<int, int>();
-    var totalCampanias = ViewBag.TotalCampanias != null ? (int)ViewBag.TotalCampanias : lista.Count;
-    var campaniasDisponibles = ViewBag.CampaniasDisponibles != null ? (int)ViewBag.CampaniasDisponibles : 0;
+    ViewBag.Title = "Categoría";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Finanzas.CategoriaFinanciera>();
+
+    var totalCategorias = lista.Count;
+    var totalActivas = lista.Count(x => x.Estado == true);
+    var totalGastos = lista.Count(x => x.Tipo == "Gasto");
 }
 
-<link href="~/Content/estilos/Campanias.css" rel="stylesheet" />
+<link href="~/Content/estilos/Categoria.css" rel="stylesheet" />
 
-<div class="camp-shell">
-    <section class="camp-hero">
-        <div class="camp-hero-copy">
-            <span class="section-kicker">Castración responsable</span>
-            <h1>Campañas con mejor orden, presencia y navegación</h1>
-            <p>Consulta fechas, lugares, cupos disponibles y registra mascotas con una interfaz más clara.</p>
+<div class="categoria-shell">
+    <section class="categoria-hero">
+        <div class="categoria-hero-copy">
+            <span class="categoria-kicker">Gestión financiera</span>
+            <h1>Categorías financieras del sistema</h1>
+            <p>
+                Organiza de forma clara las categorías utilizadas para registrar gastos,
+                manteniendo una estructura ordenada y visualmente integrada con el resto del sitio.
+            </p>
         </div>
-        <div class="camp-hero-image">
-            <img src="~/Content/img/MitadPerro.png" alt="Campañas" />
+
+        <div class="categoria-hero-image">
+            <img src="@Url.Content("~/Content/img/GatoPerro.png")" alt="Categorías financieras" />
         </div>
     </section>
 
-    <section class="camp-stats">
-        <div class="camp-stat-card">
-            <strong>@totalCampanias</strong>
-            <span>Total de campañas</span>
-        </div>
-        <div class="camp-stat-card">
-            <strong>@campaniasDisponibles</strong>
-            <span>Disponibles</span>
-        </div>
-        <div class="camp-stat-card">
-            <strong>@lista.Count</strong>
-            <span>Mostradas</span>
-        </div>
+    <section class="categoria-stats">
+        <article class="categoria-stat-card">
+            <strong>@totalCategorias</strong>
+            <span>Total categorías</span>
+        </article>
+
+        <article class="categoria-stat-card">
+            <strong>@totalActivas</strong>
+            <span>Activas</span>
+        </article>
+
+        <article class="categoria-stat-card">
+            <strong>@totalGastos</strong>
+            <span>Tipo gasto</span>
+        </article>
+
+        <article class="categoria-stat-card">
+            <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+            <span>Fecha actual</span>
+        </article>
     </section>
 
-    <section class="camp-actions-panel">
-        @if (User.IsInRole("Administrador"))
+    @if (TempData["Success"] != null)
+    {
+        <div class="categoria-alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <section class="categoria-table-panel">
+        <div class="categoria-table-head">
+            <div>
+                <h2>Listado de categorías</h2>
+                <p>Consulta las categorías registradas actualmente en el módulo financiero.</p>
+            </div>
+
+            <div class="categoria-table-actions">
+                <a href="@Url.Action("Create", "Categoria")" class="categoria-btn-soft">Registrar categoría</a>
+            </div>
+        </div>
+
+        @if (lista.Any())
         {
-            <a href="@Url.Action("Create", "Campanias")" class="camp-btn-main">Nueva campaña</a>
-        }
-        else
-        {
-            <a href="@Url.Action("MisCampanias", "Campanias")" class="camp-btn-main">Ver mis registros</a>
-        }
-    </section>
-
-    <section class="camp-table-panel">
-        <div class="camp-table-head">
-            <h2>Próximas campañas</h2>
-            <p>Listado principal de jornadas disponibles en el sistema.</p>
-        </div>
-
-        <div class="camp-table-wrap">
-            <table class="table-campania">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Lugar</th>
-                        <th>Cupos</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (lista.Any())
-                    {
-                        foreach (var item in lista)
+            <div class="categoria-table-wrap">
+                <table class="categoria-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in lista)
                         {
-                            var disponibles = cuposMap.ContainsKey(item.Id) ? cuposMap[item.Id] : item.Cupos;
-
                             <tr>
-                                <td><strong>@item.Nombre</strong></td>
-                                <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
-                                <td>@item.Lugar</td>
-                                <td><span class="camp-cupo">@disponibles</span></td>
+                                <td>#@item.ID_Categoria</td>
+                                <td>@item.Nombre</td>
                                 <td>
-                                    @if (User.IsInRole("Administrador"))
+                                    <span class="categoria-badge categoria-badge-expense">Gasto</span>
+                                </td>
+                                <td>
+                                    @if (item.Estado == true)
                                     {
-                                        <a href="@Url.Action("VerInscripciones", "Campanias", new { id = item.Id })" class="camp-btn-soft">Ver inscripciones</a>
+                                        <span class="categoria-status categoria-status-active">Activa</span>
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("Inscribir", "Campanias", new { id = item.Id })" class="camp-btn-register">Registrar mascota</a>
+                                        <span class="categoria-status categoria-status-inactive">Inactiva</span>
                                     }
+                                </td>
+                                <td>
+                                    @(item.FechaRegistro.HasValue ? item.FechaRegistro.Value.ToString("dd/MM/yyyy HH:mm") : "Sin fecha")
                                 </td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5">
-                                <div class="camp-empty">Todavía no hay campañas registradas.</div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="categoria-empty">
+                <h3>No hay categorías registradas</h3>
+                <p>
+                    Cuando registres nuevas categorías, aparecerán aquí con el mismo diseño del resto del sistema.
+                </p>
+            </div>
+        }
     </section>
 </div>
