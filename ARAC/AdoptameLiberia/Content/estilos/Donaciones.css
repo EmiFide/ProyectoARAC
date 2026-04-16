@@ -407,3 +407,110 @@
         text-align: left;
     }
 }
+
+
+/* ================= SINPE BLOQUE ================= */
+.don-sinpe {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+}
+
+.don-sinpe-info h2 {
+    color: var(--brand-strong);
+    margin-bottom: 12px;
+}
+
+.don-sinpe-info p {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+/* Tarjeta */
+.don-sinpe-card {
+    background: linear-gradient(135deg, #f3f8ff, #e8f0ff);
+    border-radius: 20px;
+    padding: 22px;
+    border: 1px solid #dbe7ff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transform: scale(1.05);
+}
+
+.don-sinpe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+    .don-sinpe-header img {
+        width: 110px;
+        object-fit: contain;
+    }
+
+.don-sinpe-number {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--brand-strong);
+}
+
+.don-sinpe-name {
+    font-weight: 700;
+    color: var(--title);
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .don-sinpe {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* DATATABLES CUSTOM */
+.dataTables_wrapper {
+    margin-top: 10px;
+}
+
+.dataTables_filter input {
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    margin-left: 6px;
+}
+
+.dataTables_paginate {
+    margin-top: 15px !important;
+    display: flex;
+    justify-content: center;
+}
+
+    .dataTables_paginate .paginate_button {
+        border-radius: 10px !important;
+        padding: 6px 12px !important;
+        margin: 0 3px;
+        background: #f3f8ff !important;
+        color: var(--brand-strong) !important;
+        border: 1px solid #dbe7ff !important;
+    }
+
+        .dataTables_paginate .paginate_button.current {
+            background: linear-gradient(135deg,var(--brand),var(--brand-strong)) !important;
+            color: white !important;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background: #e4edff !important;
+        }
+
+.dataTables_info {
+    margin-top: 10px;
+    color: var(--muted);
+}
