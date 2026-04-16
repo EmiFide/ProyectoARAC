@@ -107,3 +107,24 @@
 
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        $('.table-modern').DataTable({
+            "pageLength": 9,
+            "lengthChange": false,
+            "searching": false, // 👈 QUITA EL BUSCADOR
+            "language": {
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ solicitudes",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "zeroRecords": "No se encontraron resultados"
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": -1 }
+            ]
+        });
+    });
+</script>
