@@ -1,48 +1,52 @@
 ﻿@model AdoptameLiberia.Models.Raza
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar raza";
 }
 
-<h2>Delete</h2>
+@section Styles{
+    <link href="~/Content/estilos/Razas.css" rel="stylesheet" />
+}
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Raza</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
-        </dt>
+<div class="razas-page">
+    <section class="razas-hero">
+        <span class="razas-kicker">ARAC · RAZAS</span>
+        <h1>Eliminar raza</h1>
+        <p>
+            Antes de eliminar, revisa cuidadosamente la información asociada a este registro.
+        </p>
+    </section>
 
-        <dd>
-            @Html.DisplayFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreRaza)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreRaza)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+    <section class="razas-delete-wrap">
+        <div class="razas-delete-head">
+            <h2>Confirmación de eliminación</h2>
+            <p>Esta acción removerá el registro de la base de datos.</p>
         </div>
-    }
+
+        <div class="razas-delete-alert">
+            ¿Estás seguro de que deseas eliminar esta raza? Esta acción no se puede deshacer.
+        </div>
+
+        <div class="razas-detail-grid">
+            <div class="razas-detail-item">
+                <span>Nombre</span>
+                <strong>@(string.IsNullOrWhiteSpace(Model.Nombre) ? "Sin nombre registrado" : Model.Nombre)</strong>
+            </div>
+
+            <div class="razas-detail-item">
+                <span>Descripción</span>
+                <strong>@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "Sin descripción registrada." : Model.Descripcion)</strong>
+            </div>
+        </div>
+
+        <div class="razas-form-actions" style="margin-top:24px;">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="razas-btn-danger">Eliminar definitivamente</button>
+            }
+
+            <a href="@Url.Action("Index", "Razas")" class="razas-btn-outline">Cancelar</a>
+        </div>
+    </section>
 </div>

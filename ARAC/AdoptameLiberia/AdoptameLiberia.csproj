@@ -259,6 +259,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\Usuarios.css" />
+    <Content Include="Content\estilos\Razas.css" />
     <Content Include="Content\estilos\Gasto.css" />
     <Content Include="Content\estilos\Account.css" />
     <Content Include="Content\estilos\Categoria.css" />
