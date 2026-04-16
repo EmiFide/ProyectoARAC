@@ -85,13 +85,13 @@
 
         @if (lista.Any())
         {
-            <div class="inventory-cards-grid">
+            <div class="inventory-cards-grid" id="inventoryCardsGrid">
                 @foreach (var item in lista)
                 {
                     var stockBajo = item.StockActual <= item.StockMinimo;
                     var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
 
-                    <article class="inventory-product-card" data-categoria="@(string.IsNullOrWhiteSpace(item.Categoria) ? "sin categoria" : item.Categoria.ToLower())">
+                    <article class="inventory-product-card inventory-page-item">
                         <div class="inventory-product-top">
                             <div>
                                 <h3>@item.Nombre</h3>
@@ -117,11 +117,17 @@
                         </div>
 
                         <div class="inventory-product-body">
-                            <p>
-                                @(string.IsNullOrWhiteSpace(item.Descripcion)
-                                    ? "Este artículo no tiene descripción registrada."
-                                    : item.Descripcion)
-                            </p>
+                            <div class="inventory-product-body-row">
+                                <p>
+                                    @(string.IsNullOrWhiteSpace(item.Descripcion)
+                                        ? "Este artículo no tiene descripción registrada."
+                                        : item.Descripcion)
+                                </p>
+
+                                <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-edit-inline">
+                                    Editar
+                                </a>
+                            </div>
                         </div>
 
                         <div class="inventory-product-metrics">
@@ -143,15 +149,16 @@
                             </div>
                         </div>
 
-                        <div class="inventory-actions inventory-actions-full">
+                        <div class="inventory-actions inventory-actions-full inventory-card-actions-compact">
                             <a href="@Url.Action("Entrada", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-success">Entrada</a>
                             <a href="@Url.Action("Salida", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-danger">Salida</a>
                             <a href="@Url.Action("Ajuste", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-info">Ajuste</a>
-                            <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-outline">Editar</a>
                         </div>
                     </article>
                 }
             </div>
+
+            <div class="inventory-pagination" id="inventoryPagination"></div>
         }
         else
         {
@@ -163,20 +170,64 @@
     </section>
 </div>
 
+@section Scripts{
+    <script>
+    (function () {
+        const items = Array.from(document.querySelectorAll('.inventory-page-item'));
+        const container = document.getElementById('inventoryPagination');
+        const perPage = 4;
+        let currentPage = 1;
 
-<script>
-    document.getElementById("filtroCategoria").addEventListener("keyup", function () {
-        let filtro = this.value.toLowerCase();
-        let items = document.querySelectorAll(".inventory-product-card");
+        if (!items.length || !container) return;
 
-        items.forEach(item => {
-            let categoria = item.getAttribute("data-categoria");
+        function showPage(page) {
+            currentPage = page;
+            const start = (page - 1) * perPage;
+            const end = start + perPage;
 
-            if (categoria.includes(filtro)) {
-                item.style.display = "block";
-            } else {
-                item.style.display = "none";
+            items.forEach((item, index) => {
+                item.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+
+            renderButtons();
+        }
+
+        function renderButtons() {
+            const totalPages = Math.ceil(items.length / perPage);
+            container.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            const prev = document.createElement('button');
+            prev.className = 'inventory-page-btn';
+            prev.textContent = '‹';
+            prev.disabled = currentPage === 1;
+            prev.onclick = function () {
+                if (currentPage > 1) showPage(currentPage - 1);
+            };
+            container.appendChild(prev);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'inventory-page-btn' + (i === currentPage ? ' active' : '');
+                btn.textContent = i;
+                btn.onclick = function () {
+                    showPage(i);
+                };
+                container.appendChild(btn);
             }
-        });
-    });
-</script>
+
+            const next = document.createElement('button');
+            next.className = 'inventory-page-btn';
+            next.textContent = '›';
+            next.disabled = currentPage === totalPages;
+            next.onclick = function () {
+                if (currentPage < totalPages) showPage(currentPage + 1);
+            };
+            container.appendChild(next);
+        }
+
+        showPage(1);
+    })();
+    </script>
+}

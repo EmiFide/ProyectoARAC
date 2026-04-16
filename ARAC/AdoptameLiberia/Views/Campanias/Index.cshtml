@@ -26,7 +26,6 @@
                 <div class="campanias-hero-actions">
                     @if (User.IsInRole("Administrador"))
                     {
-                        <a href="@Url.Action("Create", "Campanias")" class="camp-btn-primary">Crear nueva campaña</a>
                     }
                     else
                     {
@@ -37,7 +36,7 @@
             </div>
 
             <div class="campanias-hero-image">
-                <img src="@Url.Content("~/Content/img/PerroyGato.png")" alt="Campañas de castración" />
+                <img src="@Url.Content("~/Content/img/CampaniaCastracion.png")" alt="Campañas de castración" />
             </div>
         </section>
 
