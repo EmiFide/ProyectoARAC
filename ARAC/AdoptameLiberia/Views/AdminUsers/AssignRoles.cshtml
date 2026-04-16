@@ -1,42 +1,68 @@
 @model AdoptameLiberia.Models.UserAssignRolesVM
+
 @{
     ViewBag.Title = "Asignar roles";
 }
 
-<h2>Asignar roles</h2>
-
-<div class="mb-3">
-    <strong>Usuario:</strong> @Model.Email
-</div>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.UserId)
-    @Html.HiddenFor(m => m.Email)
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th style="width:60px;">Asignar</th>
-                <th>Rol</th>
-            </tr>
-        </thead>
-        <tbody>
-        @for (int i = 0; i < Model.AvailableRoles.Count; i++)
-        {
-            <tr>
-                <td class="text-center">
-                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleId)
-                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleName)
-                    @Html.CheckBoxFor(m => m.AvailableRoles[i].Selected)
-                </td>
-                <td>@Model.AvailableRoles[i].RoleName</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-
-    <button type="submit" class="btn btn-success">Guardar cambios</button>
-    @Html.ActionLink("Volver", "Index", "AdminUsers", null, new { @class = "btn btn-secondary" })
+@section Styles{
+    <link href="~/Content/estilos/Usuarios.css" rel="stylesheet" />
 }
+
+<div class="usuarios-page">
+    <section class="usuarios-hero">
+        <span class="usuarios-kicker">ARAC - USUARIOS</span>
+        <h1>Asignacion de roles</h1>
+        <p>
+            Selecciona los roles que deseas asociar al usuario y guarda los cambios
+            directamente desde este modulo administrativo.
+        </p>
+    </section>
+
+    <section class="usuarios-form-wrap">
+        <div class="usuarios-form-head">
+            <h2>Configuracion de permisos por rol</h2>
+            <p>Marca los roles que deben quedar activos para este usuario.</p>
+        </div>
+
+        <div class="usuarios-user-box">
+            <span>Usuario seleccionado</span>
+            <strong>@Model.Email</strong>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.Email)
+
+            <div class="usuarios-roles-table-wrap">
+                <table class="usuarios-roles-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 90px;">Asignar</th>
+                            <th>Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.AvailableRoles.Count; i++)
+                        {
+                            <tr>
+                                <td class="usuarios-checkbox-cell">
+                                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleId)
+                                    @Html.HiddenFor(m => m.AvailableRoles[i].RoleName)
+                                    @Html.CheckBoxFor(m => m.AvailableRoles[i].Selected, new { @class = "usuarios-checkbox" })
+                                </td>
+                                <td>@Model.AvailableRoles[i].RoleName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="usuarios-form-actions">
+                <button type="submit" class="usuarios-btn">Guardar cambios</button>
+                <a href="@Url.Action("Index", "AdminUsers")" class="usuarios-btn-outline">Volver a usuarios</a>
+            </div>
+        }
+    </section>
+</div>

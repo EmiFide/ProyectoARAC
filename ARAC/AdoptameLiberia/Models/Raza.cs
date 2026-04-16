@@ -1,7 +1,5 @@
-﻿using AdoptameLiberia.Models.TiposAnimales;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdoptameLiberia.Models
 {
@@ -10,16 +8,13 @@ namespace AdoptameLiberia.Models
         [Key]
         public int ID_Raza { get; set; }
 
+        [Required(ErrorMessage = "El nombre de la raza es obligatorio.")]
+        [StringLength(100)]
         [DisplayName("Nombre de la raza")]
-        public string NombreRaza { get; set; }
+        public string Nombre { get; set; }
 
+        [StringLength(255)]
         [DisplayName("Descripción")]
         public string Descripcion { get; set; }
-
-        [ForeignKey("TipoAnimal")]
-        [Required]
-        public int ID_TipoAnimal { get; set; }
-
-        public TipoAnimal TipoAnimal { get; set; }
     }
 }

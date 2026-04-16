@@ -1,13 +1,8 @@
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using AdoptameLiberia.Models;
 
@@ -15,87 +10,106 @@ namespace AdoptameLiberia.Controllers
 {
     public class RazasController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly string connectionString;
+
+        public RazasController()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        }
 
         // GET: Razas
-        public ActionResult Index(int? tipoAnimalId)
+        public ActionResult Index(string orden)
         {
-            // Query base
-            var razas = db.Razas
-                          .Include(r => r.TipoAnimal)
-                          .AsQueryable();
+            List<Raza> lista = new List<Raza>();
 
-            // Filtro por tipo de animal
-            if (tipoAnimalId.HasValue)
+            ViewBag.OrdenId = orden == "id_asc" ? "id_desc" : "id_asc";
+            ViewBag.OrdenNombre = orden == "nombre_asc" ? "nombre_desc" : "nombre_asc";
+
+            string orderBy = " ORDER BY ID_Raza ASC ";
+
+            if (orden == "id_desc")
             {
-                razas = razas.Where(r => r.ID_TipoAnimal == tipoAnimalId.Value);
+                orderBy = " ORDER BY ID_Raza DESC ";
+            }
+            else if (orden == "nombre_asc")
+            {
+                orderBy = " ORDER BY Nombre ASC ";
+            }
+            else if (orden == "nombre_desc")
+            {
+                orderBy = " ORDER BY Nombre DESC ";
             }
 
-            // Combo de tipos (solo activos)
-            ViewBag.TiposAnimal = new SelectList(
-                db.TipoAnimals.Where(t => t.Estado),
-                "ID_TipoAnimal",
-                "Nombre_Tipo_Animal",
-                tipoAnimalId
-            );
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT ID_Raza, Nombre, Descripcion FROM Raza" + orderBy;
 
-            return View(razas.ToList());
-        }
-        // GET: Razas/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                conexion.Open();
+
+                SqlDataReader reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Raza raza = new Raza();
+                    raza.ID_Raza = Convert.ToInt32(reader["ID_Raza"]);
+                    raza.Nombre = reader["Nombre"] == DBNull.Value ? "" : reader["Nombre"].ToString();
+                    raza.Descripcion = reader["Descripcion"] == DBNull.Value ? "" : reader["Descripcion"].ToString();
+
+                    lista.Add(raza);
+                }
             }
-            Raza raza = db.Razas.Find(id);
-            if (raza == null)
-            {
-                return HttpNotFound();
-            }
-            return View(raza);
+
+            return View(lista);
         }
 
         // GET: Razas/Create
         public ActionResult Create()
         {
-            ViewBag.ID_TipoAnimal = new SelectList(db.TipoAnimals, "ID_TipoAnimal", "Nombre_Tipo_Animal");
             return View();
         }
 
         // POST: Razas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_Raza,NombreRaza,Descripcion,ID_TipoAnimal")] Raza raza)
+        public ActionResult Create(Raza raza)
         {
-            bool existe = db.Razas.Any(r =>
-                r.NombreRaza == raza.NombreRaza &&
-                r.ID_TipoAnimal == raza.ID_TipoAnimal
-            );
-
-            if (existe)
+            if (string.IsNullOrWhiteSpace(raza.Nombre))
             {
-                ModelState.AddModelError("NombreRaza",
-                    "Ya existe una raza con ese nombre para el tipo de animal seleccionado.");
+                ModelState.AddModelError("Nombre", "El nombre de la raza es obligatorio.");
             }
 
-            if (ModelState.IsValid)
+            if (ExisteRaza(raza.Nombre))
             {
-                db.Razas.Add(raza);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("Nombre", "Ya existe una raza con ese nombre.");
             }
 
-            ViewBag.ID_TipoAnimal = new SelectList(
-                db.TipoAnimals,
-                "ID_TipoAnimal",
-                "Nombre_Tipo_Animal",
-                raza.ID_TipoAnimal
-            );
+            if (!ModelState.IsValid)
+            {
+                return View(raza);
+            }
 
-            return View(raza);
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string sql = "INSERT INTO Raza (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)";
+
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                comando.Parameters.AddWithValue("@Nombre", raza.Nombre.Trim());
+
+                if (string.IsNullOrWhiteSpace(raza.Descripcion))
+                {
+                    comando.Parameters.AddWithValue("@Descripcion", DBNull.Value);
+                }
+                else
+                {
+                    comando.Parameters.AddWithValue("@Descripcion", raza.Descripcion.Trim());
+                }
+
+                conexion.Open();
+                comando.ExecuteNonQuery();
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Razas/Edit/5
@@ -105,40 +119,59 @@ namespace AdoptameLiberia.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Raza raza = db.Razas.Find(id);
+
+            Raza raza = ObtenerRazaPorId(id.Value);
+
             if (raza == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_TipoAnimal = new SelectList(db.TipoAnimals, "ID_TipoAnimal", "Nombre_Tipo_Animal", raza.ID_TipoAnimal);
+
             return View(raza);
         }
 
         // POST: Razas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_Raza,NombreRaza,Descripcion,ID_TipoAnimal")] Raza raza)
+        public ActionResult Edit(Raza raza)
         {
-            bool existe = db.Razas.Any(r =>
-            r.NombreRaza.Trim().ToUpper() == raza.NombreRaza.Trim().ToUpper() &&
-            r.ID_TipoAnimal == raza.ID_TipoAnimal
-            );
+            if (string.IsNullOrWhiteSpace(raza.Nombre))
+            {
+                ModelState.AddModelError("Nombre", "El nombre de la raza es obligatorio.");
+            }
 
-            if (existe)
+            if (ExisteRaza(raza.Nombre, raza.ID_Raza))
             {
-                ModelState.AddModelError("NombreRaza",
-                    "Ya existe otra raza con ese nombre para el tipo de animal seleccionado.");
+                ModelState.AddModelError("Nombre", "Ya existe otra raza con ese nombre.");
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                db.Entry(raza).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(raza);
             }
-            ViewBag.ID_TipoAnimal = new SelectList(db.TipoAnimals, "ID_TipoAnimal", "Nombre_Tipo_Animal", raza.ID_TipoAnimal);
-            return View(raza);
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE Raza SET Nombre = @Nombre, Descripcion = @Descripcion WHERE ID_Raza = @ID_Raza";
+
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                comando.Parameters.AddWithValue("@ID_Raza", raza.ID_Raza);
+                comando.Parameters.AddWithValue("@Nombre", raza.Nombre.Trim());
+
+                if (string.IsNullOrWhiteSpace(raza.Descripcion))
+                {
+                    comando.Parameters.AddWithValue("@Descripcion", DBNull.Value);
+                }
+                else
+                {
+                    comando.Parameters.AddWithValue("@Descripcion", raza.Descripcion.Trim());
+                }
+
+                conexion.Open();
+                comando.ExecuteNonQuery();
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Razas/Delete/5
@@ -148,11 +181,14 @@ namespace AdoptameLiberia.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Raza raza = db.Razas.Find(id);
+
+            Raza raza = ObtenerRazaPorId(id.Value);
+
             if (raza == null)
             {
                 return HttpNotFound();
             }
+
             return View(raza);
         }
 
@@ -161,19 +197,73 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Raza raza = db.Razas.Find(id);
-            db.Razas.Remove(raza);
-            db.SaveChanges();
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string sql = "DELETE FROM Raza WHERE ID_Raza = @ID_Raza";
+
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                comando.Parameters.AddWithValue("@ID_Raza", id);
+
+                conexion.Open();
+                comando.ExecuteNonQuery();
+            }
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        private Raza ObtenerRazaPorId(int id)
         {
-            if (disposing)
+            Raza raza = null;
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                db.Dispose();
+                string sql = "SELECT ID_Raza, Nombre, Descripcion FROM Raza WHERE ID_Raza = @ID_Raza";
+
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                comando.Parameters.AddWithValue("@ID_Raza", id);
+
+                conexion.Open();
+                SqlDataReader reader = comando.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    raza = new Raza();
+                    raza.ID_Raza = Convert.ToInt32(reader["ID_Raza"]);
+                    raza.Nombre = reader["Nombre"] == DBNull.Value ? "" : reader["Nombre"].ToString();
+                    raza.Descripcion = reader["Descripcion"] == DBNull.Value ? "" : reader["Descripcion"].ToString();
+                }
             }
-            base.Dispose(disposing);
+
+            return raza;
+        }
+
+        private bool ExisteRaza(string nombre, int? idExcluir = null)
+        {
+            bool existe = false;
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT COUNT(*) FROM Raza WHERE UPPER(LTRIM(RTRIM(Nombre))) = UPPER(LTRIM(RTRIM(@Nombre)))";
+
+                if (idExcluir.HasValue)
+                {
+                    sql += " AND ID_Raza <> @ID_Raza";
+                }
+
+                SqlCommand comando = new SqlCommand(sql, conexion);
+                comando.Parameters.AddWithValue("@Nombre", nombre ?? "");
+
+                if (idExcluir.HasValue)
+                {
+                    comando.Parameters.AddWithValue("@ID_Raza", idExcluir.Value);
+                }
+
+                conexion.Open();
+                int cantidad = (int)comando.ExecuteScalar();
+                existe = cantidad > 0;
+            }
+
+            return existe;
         }
     }
 }

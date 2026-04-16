@@ -54,9 +54,8 @@
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Noticias", "Index", "Noticia", null, new { @class = "nav-link" })
-
-
                     </li>
+                   
 
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
@@ -74,6 +73,7 @@
                                 @Html.ActionLink("Inventario", "Index", "Inventario")
                                 @Html.ActionLink("Campañas", "Index", "Campanias")
                                 @Html.ActionLink("Registrar Mascota", "Crear", "Animal")
+                                @Html.ActionLink("Razas", "Index", "Razas")
                                 @Html.ActionLink("Voluntarios", "Index", "Voluntarios")
                                 @Html.ActionLink("Comunidad", "Index", "Comunidad")
 
@@ -81,7 +81,6 @@
 
                                 <span class="dropdown-title">Administración</span>
                                 @Html.ActionLink("Usuarios", "Index", "AdminUsers")
-                                @Html.ActionLink("Roles y permisos", "Index", "Roles")
                                 @Html.ActionLink("Categorías", "Index", "Categoria")
                                 @Html.ActionLink("Gastos", "Index", "Gasto")
                                 @Html.ActionLink("Adopciones", "Solicitudes", "Adopciones")

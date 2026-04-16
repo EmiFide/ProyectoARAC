@@ -1,58 +1,112 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Raza>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Razas";
 }
 
-<h2>Index</h2>
+@section Styles{
+    <link href="~/Content/estilos/Razas.css" rel="stylesheet" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-@using (Html.BeginForm("Index", "Razas", FormMethod.Get))
-{
-    <div class="form-group">
-        <label>Filtrar por tipo de animal</label>
-        @Html.DropDownList(
-            "tipoAnimalId",
-            (SelectList)ViewBag.TiposAnimal,
-            "Todos",
-            new { @class = "form-control", onchange = "this.form.submit();" }
-        )
-    </div>
+    <style>
+        .razas-table-actions {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .razas-sort-link {
+            color: #23456b;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+            .razas-sort-link:hover {
+                color: #1d4fb8;
+                text-decoration: none;
+            }
+
+        .razas-id-col {
+            width: 100px;
+        }
+
+        .razas-acciones-col {
+            width: 220px;
+        }
+    </style>
 }
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreRaza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoAnimal.Nombre_Tipo_Animal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreRaza)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID_Raza }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID_Raza }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID_Raza })
-            </td>
-        </tr>
-    }
+<div class="razas-page">
+    <section class="razas-hero">
+        <span class="razas-kicker">ARAC - RAZAS</span>
+        <h1>Gestion de razas</h1>
+        <p>
+            Administra las razas registradas en el sistema desde una vista clara,
+            ordenada y alineada con el diseno del proyecto.
+        </p>
+    </section>
 
-</table>
+    <section class="razas-toolbar">
+        <div>
+            <h2>Listado general</h2>
+            <p>Consulta, edita y elimina las razas registradas en la base de datos.</p>
+        </div>
+
+        <div class="razas-actions">
+            <a href="@Url.Action("Create", "Razas")" class="razas-btn">Nueva raza</a>
+        </div>
+    </section>
+
+    <section class="razas-section">
+        @if (Model != null && Model.Any())
+        {
+            <div class="razas-table-wrap">
+                <table class="razas-table">
+                    <thead>
+                        <tr>
+                            <th class="razas-id-col">
+                                <a href="@Url.Action("Index", "Razas", new { orden = ViewBag.OrdenId })" class="razas-sort-link">
+                                    ID
+                                </a>
+                            </th>
+                            <th>
+                                <a href="@Url.Action("Index", "Razas", new { orden = ViewBag.OrdenNombre })" class="razas-sort-link">
+                                    Nombre
+                                </a>
+                            </th>
+                            <th>Descripcion</th>
+                            <th class="razas-acciones-col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ID_Raza</td>
+                                <td class="razas-col-nombre">
+                                    <strong>@item.Nombre</strong>
+                                </td>
+                                <td class="razas-col-desc">
+                                    @(string.IsNullOrWhiteSpace(item.Descripcion) ? "Sin descripcion registrada." : item.Descripcion)
+                                </td>
+                                <td>
+                                    <div class="razas-table-actions">
+                                        <a href="@Url.Action("Edit", "Razas", new { id = item.ID_Raza })" class="razas-mini-btn">Editar</a>
+                                        <a href="@Url.Action("Delete", "Razas", new { id = item.ID_Raza })" class="razas-mini-btn-danger">Eliminar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="razas-empty">
+                No hay razas registradas por el momento. Cuando agregues una nueva raza aparecera aqui.
+            </div>
+        }
+    </section>
+</div>

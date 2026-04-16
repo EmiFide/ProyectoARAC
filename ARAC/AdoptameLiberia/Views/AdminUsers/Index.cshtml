@@ -1,42 +1,75 @@
 @model IEnumerable<AdoptameLiberia.Models.UserListItemVM>
+
 @{
     ViewBag.Title = "Usuarios";
 }
 
-<h2>Usuarios</h2>
-
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
+@section Styles{
+    <link href="~/Content/estilos/Usuarios.css" rel="stylesheet" />
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Correo</th>
-            <th>Roles</th>
-            <th style="width:180px;"></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var u in Model)
+<div class="usuarios-page">
+    <section class="usuarios-hero">
+        <span class="usuarios-kicker">ARAC - USUARIOS</span>
+        <h1>Gestion de usuarios</h1>
+        <p>
+            Consulta los usuarios registrados en el sistema y administra los roles asignados.
+        </p>
+    </section>
+
+    @if (TempData["Success"] != null)
     {
-        <tr>
-            <td>@u.Email</td>
-            <td>
-                @if (u.Roles != null && u.Roles.Any())
-                {
-                    @(string.Join(", ", u.Roles))
-                }
-                else
-                {
-                    <span class="text-muted">Sin roles</span>
-                }
-            </td>
-            <td>
-                @Html.ActionLink("Asignar roles", "AssignRoles", "AdminUsers", new { id = u.UserId }, new { @class = "btn btn-sm btn-primary" })
-            </td>
-        </tr>
+        <div class="usuarios-alert-success">
+            @TempData["Success"]
+        </div>
     }
-    </tbody>
-</table>
+
+    <section class="usuarios-toolbar">
+        <div>
+            <h2>Listado de usuarios</h2>
+            <p>Visualiza los roles asignados a cada usuario.</p>
+        </div>
+    </section>
+
+    <section class="usuarios-section">
+        <div class="usuarios-table-wrap">
+            <table class="usuarios-table">
+                <thead>
+                    <tr>
+                        <th>Correo</th>
+                        <th>Roles</th>
+                        <th style="width: 210px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td class="usuarios-mail">
+                                <strong>@u.Email</strong>
+                            </td>
+                            <td>
+                                @if (u.Roles != null && u.Roles.Any())
+                                {
+                                    @(string.Join(", ", u.Roles))
+                                }
+                                else
+                                {
+                                    <span class="usuarios-empty-role">Sin roles asignados</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="usuarios-table-actions">
+                                    <a href="@Url.Action("AssignRoles", "AdminUsers", new { id = u.UserId })"
+                                       class="usuarios-mini-btn">
+                                        Asignar roles
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
