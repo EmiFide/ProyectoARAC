@@ -91,7 +91,7 @@
                     var stockBajo = item.StockActual <= item.StockMinimo;
                     var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
 
-                    <article class="inventory-product-card inventory-page-item">
+                    <article class="inventory-product-card inventory-page-item" data-categoria="@(string.IsNullOrWhiteSpace(item.Categoria) ? "sin categoria" : item.Categoria.ToLower())">
                         <div class="inventory-product-top">
                             <div>
                                 <h3>@item.Nombre</h3>
@@ -172,62 +172,79 @@
 
 @section Scripts{
     <script>
-    (function () {
-        const items = Array.from(document.querySelectorAll('.inventory-page-item'));
-        const container = document.getElementById('inventoryPagination');
-        const perPage = 4;
-        let currentPage = 1;
+        (function () {
+            const items = Array.from(document.querySelectorAll('.inventory-page-item'));
+            const container = document.getElementById('inventoryPagination');
+            const perPage = 4;
+            let currentPage = 1;
 
-        if (!items.length || !container) return;
+            if (!items.length || !container) return;
 
-        function showPage(page) {
-            currentPage = page;
-            const start = (page - 1) * perPage;
-            const end = start + perPage;
+            function showPage(page) {
+                currentPage = page;
+                const start = (page - 1) * perPage;
+                const end = start + perPage;
 
-            items.forEach((item, index) => {
-                item.style.display = (index >= start && index < end) ? '' : 'none';
-            });
+                items.forEach((item, index) => {
+                    item.style.display = (index >= start && index < end) ? '' : 'none';
+                });
 
-            renderButtons();
-        }
-
-        function renderButtons() {
-            const totalPages = Math.ceil(items.length / perPage);
-            container.innerHTML = '';
-
-            if (totalPages <= 1) return;
-
-            const prev = document.createElement('button');
-            prev.className = 'inventory-page-btn';
-            prev.textContent = '‹';
-            prev.disabled = currentPage === 1;
-            prev.onclick = function () {
-                if (currentPage > 1) showPage(currentPage - 1);
-            };
-            container.appendChild(prev);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'inventory-page-btn' + (i === currentPage ? ' active' : '');
-                btn.textContent = i;
-                btn.onclick = function () {
-                    showPage(i);
-                };
-                container.appendChild(btn);
+                renderButtons();
             }
 
-            const next = document.createElement('button');
-            next.className = 'inventory-page-btn';
-            next.textContent = '›';
-            next.disabled = currentPage === totalPages;
-            next.onclick = function () {
-                if (currentPage < totalPages) showPage(currentPage + 1);
-            };
-            container.appendChild(next);
-        }
+            function renderButtons() {
+                const totalPages = Math.ceil(items.length / perPage);
+                container.innerHTML = '';
 
-        showPage(1);
-    })();
+                if (totalPages <= 1) return;
+
+                const prev = document.createElement('button');
+                prev.className = 'inventory-page-btn';
+                prev.textContent = '‹';
+                prev.disabled = currentPage === 1;
+                prev.onclick = function () {
+                    if (currentPage > 1) showPage(currentPage - 1);
+                };
+                container.appendChild(prev);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'inventory-page-btn' + (i === currentPage ? ' active' : '');
+                    btn.textContent = i;
+                    btn.onclick = function () {
+                        showPage(i);
+                    };
+                    container.appendChild(btn);
+                }
+
+                const next = document.createElement('button');
+                next.className = 'inventory-page-btn';
+                next.textContent = '›';
+                next.disabled = currentPage === totalPages;
+                next.onclick = function () {
+                    if (currentPage < totalPages) showPage(currentPage + 1);
+                };
+                container.appendChild(next);
+            }
+
+            showPage(1);
+        })();
+    </script>
+
+    <script>
+        document.getElementById("filtroCategoria").addEventListener("keyup", function () {
+            let filtro = this.value.toLowerCase();
+            let items = document.querySelectorAll(".inventory-product-card");
+
+            items.forEach(item => {
+                let categoria = item.getAttribute("data-categoria");
+
+                if (categoria.includes(filtro)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
     </script>
 }
