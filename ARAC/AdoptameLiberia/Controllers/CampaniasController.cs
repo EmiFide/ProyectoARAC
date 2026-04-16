@@ -197,6 +197,7 @@ namespace AdoptameLiberia.Controllers
                         a.Peso,
                         a.Descripcion,
                         a.Estado,
+                        a.ImagenUrl,
                         a.UsuarioRegistroId
                     FROM Animal a
                     WHERE NOT EXISTS (
@@ -223,6 +224,7 @@ namespace AdoptameLiberia.Controllers
                         a.Peso,
                         a.Descripcion,
                         a.Estado,
+                        a.ImagenUrl,
                         a.UsuarioRegistroId
                     FROM Animal a
                     WHERE a.ID_Animal IN (
@@ -263,6 +265,24 @@ namespace AdoptameLiberia.Controllers
                     WHERE s.ID_Usuario = @p1
                 )
             ", animalId, userId).FirstOrDefault() > 0;
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CampaniaCastracion model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            db.CampaniasCastracion.Add(model);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
