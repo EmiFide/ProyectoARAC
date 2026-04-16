@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
+using System.IO;
+using System.Linq;
+using AdoptameLiberia.Models.ViewModel;
 
 namespace AdoptameLiberia.Controllers.Mascotas
 {
@@ -45,6 +48,7 @@ namespace AdoptameLiberia.Controllers.Mascotas
             a.Descripcion,
             a.Estado,
             a.UsuarioRegistroId,
+            a.ImagenUrl,
             ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
             ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
         FROM Animal a
@@ -72,7 +76,8 @@ namespace AdoptameLiberia.Controllers.Mascotas
                         Estado = dr["Estado"]?.ToString(),
                         NombreRaza = dr["NombreRaza"]?.ToString(),
                         NombreTipo = dr["NombreTipo"]?.ToString(),
-                        UsuarioRegistroId = dr["UsuarioRegistroId"]?.ToString()
+                        UsuarioRegistroId = dr["UsuarioRegistroId"]?.ToString(),
+                        ImagenUrl = dr["ImagenUrl"]?.ToString()
                     });
                 }
             }
@@ -107,15 +112,28 @@ namespace AdoptameLiberia.Controllers.Mascotas
         public ActionResult Crear()
         {
             CargarCatalogos();
-            return View(new AnimalModel());
+            return View(new RegistrarAnimalVM());
         }
 
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(AnimalModel model)
+        public ActionResult Crear(RegistrarAnimalVM model)
         {
-            ValidarCatalogos(model);
+            // 🔥 Convertimos a AnimalModel para reutilizar tu validación
+            var animal = new AnimalModel
+            {
+                Nombre_Animal = model.Nombre_Animal,
+                ID_Raza = model.ID_Raza,
+                ID_TipoAnimal = model.ID_TipoAnimal,
+                Edad = model.Edad,
+                Sexo = model.Sexo,
+                Tamano = model.Tamano,
+                Peso = model.Peso,
+                Descripcion = model.Descripcion
+            };
+
+            ValidarCatalogos(animal);
 
             if (!ModelState.IsValid)
             {
@@ -123,37 +141,76 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 return View(model);
             }
 
+            string rutaImagen = null;
+
+            // 🔥 GUARDAR IMAGEN
+            if (model.ImagenArchivo != null && model.ImagenArchivo.ContentLength > 0)
+            {
+                string extension = Path.GetExtension(model.ImagenArchivo.FileName).ToLower();
+                string[] permitidas = { ".jpg", ".jpeg", ".png", ".webp" };
+
+                if (!permitidas.Contains(extension))
+                {
+                    ModelState.AddModelError("", "Formato de imagen no válido.");
+                    CargarCatalogos(model.ID_Raza, model.ID_TipoAnimal);
+                    return View(model);
+                }
+
+                if (model.ImagenArchivo.ContentLength > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("", "La imagen no puede superar los 5MB.");
+                    CargarCatalogos(model.ID_Raza, model.ID_TipoAnimal);
+                    return View(model);
+                }
+
+                string nombreArchivo = Guid.NewGuid().ToString() + extension;
+                string carpeta = Server.MapPath("~/Content/img/mascotas/");
+                string rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+                if (!Directory.Exists(carpeta))
+                {
+                    Directory.CreateDirectory(carpeta);
+                }
+
+                model.ImagenArchivo.SaveAs(rutaCompleta);
+                rutaImagen = "/Content/img/mascotas/" + nombreArchivo;
+            }
+
+            // 🔥 INSERT CON IMAGEN
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 string sql = @"
-                INSERT INTO Animal
-                (
-                    Nombre_Animal,
-                    ID_Raza,
-                    ID_TipoAnimal,
-                    Edad,
-                    Sexo,
-                    Tamano,
-                    Peso,
-                    Descripcion,
-                    Estado,
-                    UsuarioRegistroId
-                )
-                VALUES
-                (
-                    @Nombre_Animal,
-                    @ID_Raza,
-                    @ID_TipoAnimal,
-                    @Edad,
-                    @Sexo,
-                    @Tamano,
-                    @Peso,
-                    @Descripcion,
-                    'Disponible',
-                    @UsuarioRegistroId
-                )";
+        INSERT INTO Animal
+        (
+            Nombre_Animal,
+            ID_Raza,
+            ID_TipoAnimal,
+            Edad,
+            Sexo,
+            Tamano,
+            Peso,
+            Descripcion,
+            Estado,
+            UsuarioRegistroId,
+            ImagenUrl
+        )
+        VALUES
+        (
+            @Nombre_Animal,
+            @ID_Raza,
+            @ID_TipoAnimal,
+            @Edad,
+            @Sexo,
+            @Tamano,
+            @Peso,
+            @Descripcion,
+            'Disponible',
+            @UsuarioRegistroId,
+            @ImagenUrl
+        )";
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
+
                 cmd.Parameters.AddWithValue("@Nombre_Animal", (object)model.Nombre_Animal ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ID_Raza", model.ID_Raza);
                 cmd.Parameters.AddWithValue("@ID_TipoAnimal", model.ID_TipoAnimal);
@@ -163,6 +220,7 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 cmd.Parameters.AddWithValue("@Peso", (object)model.Peso ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Descripcion", (object)model.Descripcion ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@UsuarioRegistroId", User.Identity.GetUserId());
+                cmd.Parameters.AddWithValue("@ImagenUrl", (object)rutaImagen ?? DBNull.Value);
 
                 cn.Open();
                 cmd.ExecuteNonQuery();

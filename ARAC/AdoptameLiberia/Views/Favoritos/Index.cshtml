@@ -38,8 +38,24 @@
             {
                 <article class="favorite-card">
                     <div class="favorite-card-media">
-                        <img src="@(item.NombreTipo == "Gato" ? Url.Content("~/Content/img/Gatillo.png") : Url.Content("~/Content/img/Cachorro.png"))" alt="@item.Nombre_Animal" />
+                        @{
+                            string imagenMostrar;
 
+                            if (!string.IsNullOrEmpty(item.ImagenUrl))
+                            {
+                                imagenMostrar = item.ImagenUrl;
+                            }
+                            else if (item.NombreTipo == "Gato")
+                            {
+                                imagenMostrar = Url.Content("~/Content/img/Gatillo.png");
+                            }
+                            else
+                            {
+                                imagenMostrar = Url.Content("~/Content/img/Cachorro.png");
+                            }
+                        }
+
+                        <img src="@imagenMostrar" alt="@item.Nombre_Animal" />
                         <span class="favorite-chip">
                             @(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)
                         </span>

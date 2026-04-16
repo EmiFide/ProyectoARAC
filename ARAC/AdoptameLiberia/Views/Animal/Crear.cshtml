@@ -1,4 +1,4 @@
-﻿@model AdoptameLiberia.Models.Mascotas.AnimalModel
+﻿@model AdoptameLiberia.Models.ViewModel.RegistrarAnimalVM 
 @using System.Collections.Generic
 @using System.Web.Mvc
 
@@ -20,83 +20,88 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Crear", "Animal", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
-            <div class="edit-grid">
+    <div class="edit-grid">
 
-                <div class="edit-group">
-                    <label>Nombre</label>
-                    @Html.TextBoxFor(m => m.Nombre_Animal, new { @class = "edit-input" })
-                    @Html.ValidationMessageFor(m => m.Nombre_Animal, "", new { @class = "text-danger" })
-                </div>
+        <div class="edit-group">
+            <label>Nombre</label>
+            @Html.TextBoxFor(m => m.Nombre_Animal, new { @class = "edit-input" })
+            @Html.ValidationMessageFor(m => m.Nombre_Animal, "", new { @class = "text-danger" })
+        </div>
 
-                <div class="edit-group">
-                    <label>Raza</label>
-                    @Html.DropDownListFor(
-                        m => m.ID_Raza,
-                        new SelectList(listaRazas, "Value", "Text"),
-                        "Seleccione una raza",
-                        new { @class = "edit-input" }
-                    )
-                </div>
+        <div class="edit-group">
+            <label>Raza</label>
+            @Html.DropDownListFor(
+                m => m.ID_Raza,
+                new SelectList(listaRazas, "Value", "Text"),
+                "Seleccione una raza",
+                new { @class = "edit-input" }
+            )
+        </div>
 
-                <div class="edit-group">
-                    <label>Tipo</label>
-                    @Html.DropDownListFor(
-                        m => m.ID_TipoAnimal,
-                        new SelectList(listaTipos, "Value", "Text"),
-                        "Seleccione un tipo",
-                        new { @class = "edit-input" }
-                    )
-                </div>
+        <div class="edit-group">
+            <label>Tipo</label>
+            @Html.DropDownListFor(
+                m => m.ID_TipoAnimal,
+                new SelectList(listaTipos, "Value", "Text"),
+                "Seleccione un tipo",
+                new { @class = "edit-input" }
+            )
+        </div>
 
-                <div class="edit-group">
-                    <label>Edad</label>
-                    @Html.TextBoxFor(m => m.Edad, new { @class = "edit-input", type = "number" })
-                </div>
+        <div class="edit-group">
+            <label>Edad</label>
+            @Html.TextBoxFor(m => m.Edad, new { @class = "edit-input", type = "number" })
+        </div>
 
-                <div class="edit-group">
-                    <label>Sexo</label>
-                    @Html.DropDownListFor(
-                        m => m.Sexo,
-                        new List<SelectListItem>
-                        {
-                            new SelectListItem { Text = "Macho", Value = "Macho" },
-                            new SelectListItem { Text = "Hembra", Value = "Hembra" }
-                        },
-                        "Seleccione",
-                        new { @class = "edit-input" }
-                    )
-                </div>
+        <div class="edit-group">
+            <label>Sexo</label>
+            @Html.DropDownListFor(
+                m => m.Sexo,
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Macho", Value = "Macho" },
+                    new SelectListItem { Text = "Hembra", Value = "Hembra" }
+                },
+                "Seleccione",
+                new { @class = "edit-input" }
+            )
+        </div>
 
-                <div class="edit-group">
-                    <label>Tamaño</label>
-                    @Html.DropDownListFor(
-                        m => m.Tamano,
-                        new List<SelectListItem>
-                        {
-                            new SelectListItem { Text = "Pequeño", Value = "Pequeño" },
-                            new SelectListItem { Text = "Mediano", Value = "Mediano" },
-                            new SelectListItem { Text = "Grande", Value = "Grande" }
-                        },
-                        "Seleccione",
-                        new { @class = "edit-input" }
-                    )
-                </div>
+        <div class="edit-group">
+            <label>Tamaño</label>
+            @Html.DropDownListFor(
+                m => m.Tamano,
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Pequeño", Value = "Pequeño" },
+                    new SelectListItem { Text = "Mediano", Value = "Mediano" },
+                    new SelectListItem { Text = "Grande", Value = "Grande" }
+                },
+                "Seleccione",
+                new { @class = "edit-input" }
+            )
+        </div>
 
-                <div class="edit-group">
-                    <label>Peso (kg)</label>
-                    @Html.TextBoxFor(m => m.Peso, new { @class = "edit-input", type = "number", step = "0.01" })
-                </div>
+        <div class="edit-group">
+            <label>Peso (kg)</label>
+            @Html.TextBoxFor(m => m.Peso, new { @class = "edit-input", type = "number", step = "0.01" })
+        </div>
 
-                <div class="edit-group full">
-                    <label>Descripción</label>
-                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "edit-input", rows = "4" })
-                </div>
+        <div class="edit-group full">
+            <label>Descripción</label>
+            @Html.TextAreaFor(m => m.Descripcion, new { @class = "edit-input", rows = "4" })
+        </div>
 
-            </div>
+        <div class="edit-group full">
+            <label>Imagen de la mascota</label>
+            <input type="file" name="ImagenArchivo" class="edit-input" accept=".jpg,.jpeg,.png,.webp" />
+        </div>
+
+    </div>
 
             <div class="edit-actions">
                 <button type="submit" class="edit-btn-primary">
