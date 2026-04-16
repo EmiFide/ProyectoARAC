@@ -58,6 +58,35 @@
         </article>
     </section>
 
+
+    <section class="don-sinpe">
+        <div class="don-sinpe-info">
+            <h2>Sinpe Móvil</h2>
+
+            <p>
+                Si tienes una cuenta bancaria en Costa Rica, la forma más fácil de apoyar
+                es a través de Sinpe Móvil: es rápido, seguro y recibimos el 100% de tu donación al instante.
+            </p>
+
+            <p>
+                También puedes realizar transferencias bancarias en colones o dólares si lo prefieres.
+            </p>
+        </div>
+
+        <div class="don-sinpe-card">
+            <div class="don-sinpe-header">
+                <img src="~/Content/img/sinpe.png" alt="Sinpe" />
+                <span class="don-sinpe-number">83252514</span>
+            </div>
+
+            <div class="don-sinpe-name">
+                ARAC REFUGIO
+            </div>
+        </div>
+    </section>
+
+
+
     @using (Html.BeginForm("Index", "Donaciones", FormMethod.Get, new { @class = "don-filter-panel" }))
     {
         <div class="don-panel-head">
@@ -81,7 +110,7 @@
         <div class="don-panel-head">
             <div>
                 <h2>@(esAdmin ? "Historial general" : "Tus últimos aportes")</h2>
-                <p>Se muestra la información importante para el usuario, sin textos técnicos innecesarios.</p>
+                <p>Se muestra la información importante para el usuario</p>
             </div>
         </div>
 
@@ -155,4 +184,26 @@
 
         window.location.href = '@Url.Action("Create", "Donaciones")' + '?monto=' + monto;
     }
+</script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.don-table').DataTable({
+            "pageLength": 5,
+            "lengthChange": false,
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "zeroRecords": "No se encontraron resultados"
+            }
+        });
+    });
 </script>
