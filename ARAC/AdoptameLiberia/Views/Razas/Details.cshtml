@@ -1,42 +1,43 @@
 ﻿@model AdoptameLiberia.Models.Raza
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle de raza";
 }
 
-<h2>Details</h2>
+@section Styles{
+    <link href="~/Content/estilos/Razas.css" rel="stylesheet" />
+}
 
-<div>
-    <h4>Raza</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
-        </dt>
+<div class="razas-page">
+    <section class="razas-hero">
+        <span class="razas-kicker">ARAC · RAZAS</span>
+        <h1>Detalle de la raza</h1>
+        <p>
+            Consulta la información almacenada del registro seleccionado.
+        </p>
+    </section>
 
-        <dd>
-            @Html.DisplayFor(model => model.TipoAnimal.Nombre_Tipo_Animal)
-        </dd>
+    <section class="razas-detail-wrap">
+        <div class="razas-detail-head">
+            <h2>Información general</h2>
+            <p>Estos son los datos actualmente guardados para esta raza.</p>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreRaza)
-        </dt>
+        <div class="razas-detail-grid">
+            <div class="razas-detail-item">
+                <span>Nombre</span>
+                <strong>@(string.IsNullOrWhiteSpace(Model.Nombre) ? "Sin nombre registrado" : Model.Nombre)</strong>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.NombreRaza)
-        </dd>
+            <div class="razas-detail-item">
+                <span>Descripción</span>
+                <strong>@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "Sin descripción registrada." : Model.Descripcion)</strong>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-
-    </dl>
+        <div class="razas-form-actions" style="margin-top:24px;">
+            <a href="@Url.Action("Edit", "Razas", new { id = Model.ID_Raza })" class="razas-btn">Editar</a>
+            <a href="@Url.Action("Index", "Razas")" class="razas-btn-outline">Volver al listado</a>
+        </div>
+    </section>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_Raza }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
