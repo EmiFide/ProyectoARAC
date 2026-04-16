@@ -1,34 +1,102 @@
 ﻿@model AdoptameLiberia.Models.Finanzas.Gasto
 
 @{
-    ViewBag.Title = "Crear Gasto";
+    ViewBag.Title = "Registrar Gasto";
 }
 
-<h2>Registrar Gasto</h2>
+<link href="~/Content/estilos/Gasto.css" rel="stylesheet" />
 
-@using (Html.BeginForm())
-{
-    <div class="form-group">
-        <label>Categoría</label>
-        @Html.DropDownList("ID_Categoria", null, "Seleccione una categoría", new { @class = "form-control" })
+<div class="gasto-page">
+    <div class="gasto-top">
+        <div class="gasto-heading">
+            <h1>Registrar gasto</h1>
+            <p>Ingresa los datos del gasto y guárdalo dentro del sistema financiero.</p>
+        </div>
+
+        <div class="gasto-top-actions">
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Monto</label>
-        @Html.TextBoxFor(m => m.Monto, new { @class = "form-control", type = "number", step = "0.01" })
+    <div class="gasto-panel gasto-form-panel">
+        <div class="gasto-panel-head">
+            <div>
+                <h2>Nuevo registro</h2>
+                <p>Completa la información solicitada para registrar el gasto.</p>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("Create", "Gasto", FormMethod.Post, new { @class = "gasto-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "gasto-validation" })
+
+            <div class="gasto-form-grid">
+                <div class="gasto-field gasto-field-full">
+                    <label for="ID_Categoria">Categoría</label>
+                    @Html.DropDownList(
+                        "ID_Categoria",
+                        (SelectList)ViewBag.ID_Categoria,
+                        "Seleccione una categoría",
+                        new { @class = "gasto-input" }
+                    )
+                    @Html.ValidationMessageFor(m => m.ID_Categoria, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="gasto-field">
+                    <label for="Monto">Monto</label>
+                    @Html.TextBoxFor(
+                        m => m.Monto,
+                        new
+                        {
+                            @class = "gasto-input",
+                            type = "number",
+                            step = "0.01",
+                            min = "0.01",
+                            placeholder = "0.00"
+                        }
+                    )
+                    @Html.ValidationMessageFor(m => m.Monto, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="gasto-field">
+                    <label for="Fecha">Fecha</label>
+                    @Html.TextBoxFor(
+                        m => m.Fecha,
+                        "{0:yyyy-MM-dd}",
+                        new
+                        {
+                            @class = "gasto-input",
+                            type = "date"
+                        }
+                    )
+                    @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="gasto-field gasto-field-full">
+                    <label for="Descripcion">Descripción</label>
+                    @Html.TextAreaFor(
+                        m => m.Descripcion,
+                        5,
+                        10,
+                        new
+                        {
+                            @class = "gasto-input gasto-textarea",
+                            placeholder = "Describe brevemente el gasto realizado"
+                        }
+                    )
+                    @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="gasto-form-actions">
+                <button type="submit" class="gasto-btn gasto-btn-primary">Guardar gasto</button>
+                @Html.ActionLink("Cancelar", "Index", "Gasto", null, new { @class = "gasto-btn gasto-btn-secondary" })
+            </div>
+        }
     </div>
+</div>
 
-    <div class="form-group">
-        <label>Descripción</label>
-        @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Fecha</label>
-        @Html.TextBoxFor(m => m.Fecha, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-    </div>
-
-    <br />
-
-    <button type="submit" class="btn btn-success">Guardar</button>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

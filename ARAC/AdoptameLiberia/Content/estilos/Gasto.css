@@ -1,0 +1,256 @@
+﻿.gasto-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 0 34px;
+}
+
+.gasto-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.gasto-heading h1 {
+    margin: 0 0 8px;
+    color: var(--title);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.gasto-heading p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 760px;
+}
+
+.gasto-top-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.gasto-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition: .2s ease;
+    cursor: pointer;
+}
+
+.gasto-btn-primary {
+    background: var(--brand);
+    color: #fff;
+}
+
+    .gasto-btn-primary:hover {
+        background: var(--brand-strong);
+        color: #fff;
+        text-decoration: none;
+    }
+
+.gasto-btn-secondary {
+    background: #fff;
+    color: var(--title);
+    border-color: var(--line);
+}
+
+    .gasto-btn-secondary:hover {
+        background: #f8fbff;
+        color: var(--title);
+        text-decoration: none;
+    }
+
+.gasto-resumen {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.gasto-resumen-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 22px;
+}
+
+    .gasto-resumen-card span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: .92rem;
+        font-weight: 600;
+    }
+
+    .gasto-resumen-card strong {
+        display: block;
+        color: var(--title);
+        font-size: 1.65rem;
+        font-weight: 800;
+    }
+
+.gasto-panel {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 24px;
+}
+
+.gasto-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+    .gasto-panel-head h2 {
+        margin: 0 0 6px;
+        color: var(--title);
+        font-size: 1.2rem;
+        font-weight: 800;
+    }
+
+    .gasto-panel-head p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+    }
+
+.gasto-table-wrap {
+    overflow-x: auto;
+}
+
+.gasto-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .gasto-table thead th {
+        text-align: left;
+        padding: 14px 12px;
+        border-bottom: 1px solid var(--line);
+        color: var(--title);
+        font-size: .92rem;
+        font-weight: 800;
+        background: #f8fbff;
+    }
+
+    .gasto-table tbody td {
+        padding: 15px 12px;
+        border-bottom: 1px solid #edf2f8;
+        color: var(--text);
+        vertical-align: middle;
+    }
+
+    .gasto-table tbody tr:hover {
+        background: #fbfdff;
+    }
+
+.gasto-monto {
+    font-weight: 800;
+    color: #b42318;
+    white-space: nowrap;
+}
+
+.gasto-empty {
+    padding: 22px 8px 8px;
+    text-align: center;
+}
+
+    .gasto-empty h3 {
+        margin: 0 0 8px;
+        color: var(--title);
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .gasto-empty p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+    }
+
+.gasto-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.gasto-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.gasto-field-full {
+    grid-column: 1 / -1;
+}
+
+.gasto-field label {
+    margin-bottom: 8px;
+    color: var(--title);
+    font-weight: 700;
+}
+
+.gasto-input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0 14px;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+}
+
+    .gasto-input:focus {
+        border-color: var(--brand);
+    }
+
+.gasto-textarea {
+    min-height: 120px;
+    padding: 14px;
+    resize: vertical;
+}
+
+.gasto-form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+
+.gasto-validation {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #fff3f3;
+    border: 1px solid #f2caca;
+    color: #a63b3b;
+}
+
+.text-danger {
+    margin-top: 6px;
+    color: #c94b4b;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .gasto-resumen,
+    .gasto-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
