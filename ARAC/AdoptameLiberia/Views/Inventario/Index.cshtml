@@ -65,6 +65,19 @@
     <section class="inventory-card">
         <div class="inventory-card-head">
             <div>
+                <h2>Buscar por categoría</h2>
+                <p>Filtra los artículos según su categoría.</p>
+            </div>
+        </div>
+
+        <div class="inventory-search">
+            <input type="text" id="filtroCategoria" placeholder="Ej: alimentos, higiene..." class="inventory-input" />
+        </div>
+    </section>
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
                 <h2>Panel de artículos</h2>
                 <p>Consulta el estado actual del inventario y ejecuta acciones por cada artículo.</p>
             </div>
@@ -78,7 +91,7 @@
                     var stockBajo = item.StockActual <= item.StockMinimo;
                     var vencePronto = item.FechaCaducidad.HasValue && item.FechaCaducidad.Value.Date <= DateTime.Today.AddDays(30);
 
-                    <article class="inventory-product-card">
+                    <article class="inventory-product-card" data-categoria="@(string.IsNullOrWhiteSpace(item.Categoria) ? "sin categoria" : item.Categoria.ToLower())">
                         <div class="inventory-product-top">
                             <div>
                                 <h3>@item.Nombre</h3>
@@ -149,3 +162,21 @@
         }
     </section>
 </div>
+
+
+<script>
+    document.getElementById("filtroCategoria").addEventListener("keyup", function () {
+        let filtro = this.value.toLowerCase();
+        let items = document.querySelectorAll(".inventory-product-card");
+
+        items.forEach(item => {
+            let categoria = item.getAttribute("data-categoria");
+
+            if (categoria.includes(filtro)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    });
+</script>
