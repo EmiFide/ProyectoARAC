@@ -84,7 +84,7 @@
             <h3>Detalle de adopciones</h3>
         </div>
 
-        <table class="tabla-reporte">
+        <table id="tablaReporteAdopciones" class="tabla-reporte">
             <thead>
                 <tr>
                     <th>Solicitud</th>
@@ -132,3 +132,31 @@
     </div>
 
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#tablaReporteAdopciones').DataTable({
+            pageLength: 8,
+            lengthChange: false,
+            searching: false,
+            info: true,
+            paging: true,
+            ordering: true,
+            autoWidth: false,
+            language: {
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                paginate: {
+                    previous: "Anterior",
+                    next: "Siguiente"
+                },
+                zeroRecords: "No se encontraron registros",
+                emptyTable: "No hay datos disponibles"
+            },
+            columnDefs: [
+                { orderable: false, targets: [7, 8] }
+            ]
+        });
+    });
+</script>

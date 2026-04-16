@@ -797,3 +797,23 @@ body {
             flex: 1 1 100%;
         }
 }
+
+
+.inventory-search {
+    margin-top: 12px;
+}
+
+.inventory-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #dfe5ea;
+    font-size: 0.9rem;
+    outline: none;
+    transition: 0.2s;
+}
+
+    .inventory-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59,130,246,0.1);
+    }

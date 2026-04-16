@@ -1,5 +1,7 @@
 ﻿@model AdoptameLiberia.Models.Finanzas.ReporteFinancieroVM
 
+@using System.Globalization
+
 @{
     ViewBag.Title = "Dashboard Financiero";
 
@@ -120,28 +122,74 @@
 
     @{
         var grupos = Model.Gastos
-            .GroupBy(g => g.Categoria != null ? g.Categoria.Nombre : "Otros")
-            .Select(g => new {
-                Nombre = g.Key,
+            .GroupBy(g =>
+            {
+                if (g.Categoria != null && !string.IsNullOrWhiteSpace(g.Categoria.Nombre))
+                    return g.Categoria.Nombre.Trim().ToLower();
+
+                // 🔥 fallback a descripción (aquí entra Bryan)
+                if (!string.IsNullOrWhiteSpace(g.Descripcion))
+                    return g.Descripcion.Trim().ToLower();
+
+                return "otros";
+            })
+            .Select(g => new
+            {
+                Nombre = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(g.Key),
                 Total = g.Sum(x => x.Monto ?? 0)
             })
+            .OrderByDescending(g => g.Total)
             .ToList();
 
         var colorList = new List<string> {
-            "#3B82F6",
-            "#10B981",
-            "#F59E0B",
-            "#8B5CF6",
-            "#EF4444"
+            "#3B82F6", // Azul principal (base)
+            "#10B981", // Verde (bueno / saludable)
+            "#F59E0B", // Naranja (advertencia)
+            "#EF4444", // Rojo (gasto fuerte)
+            "#8B5CF6", // Morado (extra)
+            "#06B6D4", // Cyan (detalle)
+            "#84CC16"  // Verde claro (balance positivo)
         };
 
         int i = 0;
     }
 
+    @{
+        var coloresCategorias = new Dictionary<string, string>
+        {
+            { "vacunas", "#3B82F6" }, // azul
+            { "bryan", "#F59E0B" },   // amarillo
+            { "otros", "#9CA3AF" }    // gris
+        };
+
+        var coloresDisponibles = new List<string>
+        {
+            "#10B981", // verde
+            "#8B5CF6", // morado
+            "#EF4444", // rojo
+            "#06B6D4", // cyan
+            "#84CC16", // verde claro
+            "#F97316", // naranja fuerte
+            "#E11D48"  // rosado fuerte
+        };
+
+        int colorIndex = 0;
+    }
+
     @foreach (var item in grupos)
     {
-        var color = colorList[i % colorList.Count];
-        i++;
+        string key = item.Nombre.ToLower();
+        string color;
+
+        if (coloresCategorias.ContainsKey(key))
+        {
+            color = coloresCategorias[key];
+        }
+        else
+        {
+            color = coloresDisponibles[colorIndex % coloresDisponibles.Count];
+            colorIndex++;
+        }
 
         <text>
             labels.push("@item.Nombre");
