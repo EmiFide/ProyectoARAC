@@ -171,7 +171,7 @@
     <Compile Include="Controllers\ComunidadController.cs" />
     <Compile Include="Controllers\DonacionesController.cs" />
     <Compile Include="Controllers\FavoritosController.cs" />
-    <Compile Include="Controllers\Finanzas\CategoriasController.cs" />
+    <Compile Include="Controllers\Finanzas\CategoriaController.cs" />
     <Compile Include="Controllers\Finanzas\GastosController.cs" />
     <Compile Include="Controllers\Finanzas\ReportesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -259,6 +259,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\estilos\Account.css" />
+    <Content Include="Content\estilos\Categoria.css" />
     <Content Include="Content\estilos\Seguimiento.css" />
     <Content Include="Content\estilos\Devoluciones.css" />
     <Content Include="Content\estilos\Adopciones.css" />
@@ -396,8 +398,6 @@
     <Content Include="Views\Animal\Editar.cshtml" />
     <Content Include="Views\Campanias\RegistrarResultado.cshtml" />
     <Content Include="Views\Campanias\MisCampanias.cshtml" />
-    <Content Include="Views\Categoria\Index.cshtml" />
-    <Content Include="Views\Categoria\Create.cshtml" />
     <Content Include="Views\Gasto\Index.cshtml" />
     <Content Include="Views\Gasto\Create.cshtml" />
     <Content Include="Views\Reporte\Dashboard.cshtml" />
@@ -412,6 +412,8 @@
     <Content Include="Views\Adopciones\RegistrarSeguimiento.cshtml" />
     <Content Include="Views\Adopciones\RegistrarDevolucion.cshtml" />
     <Content Include="Views\Adopciones\ReporteAdopciones.cshtml" />
+    <Content Include="Views\Categoria\Index.cshtml" />
+    <Content Include="Views\Categoria\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
