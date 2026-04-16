@@ -19,13 +19,13 @@
     grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
     gap: 22px;
     align-items: center;
-    background: linear-gradient(135deg, #3cc6df 0%, #63d9ee 58%, #9cf0f8 100%);
+    background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 58%, #4d86e8 100%);
     border-radius: 28px;
     padding: 24px 28px;
     min-height: 260px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 18px 32px rgba(19, 112, 132, .14);
+    box-shadow: 0 18px 32px rgba(45, 108, 223, .18);
 }
 
     .catalog-hero::before,
@@ -101,39 +101,44 @@
     transition: .2s ease;
 }
 
+/* REGISTRAR MASCOTA = BLANCO CON TEXTO AZUL */
 .catalog-btn-main {
-    background: #0a4653;
-    color: #fff;
-    box-shadow: 0 10px 18px rgba(10, 70, 83, .18);
+    background: #ffffff;
+    color: #1d4fb8;
+    box-shadow: 0 10px 18px rgba(255, 255, 255, .22);
 }
 
     .catalog-btn-main:hover {
-        color: #fff;
+        color: #1d4fb8;
+        background: #f7f9ff;
         transform: translateY(-1px);
         text-decoration: none;
     }
 
+/* VER FAVORITOS = ROSADO */
 .catalog-btn-soft {
-    background: rgba(255,255,255,.94);
-    color: #0d4c5a;
-    border: 1px solid rgba(255,255,255,.35);
+    background: linear-gradient(135deg, #ff9cb3 0%, #ef6b9a 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 10px 18px rgba(239, 107, 154, .22);
 }
 
     .catalog-btn-soft:hover {
-        color: #0d4c5a;
-        background: #ffffff;
+        color: #ffffff;
+        background: linear-gradient(135deg, #ff8aa7 0%, #e95a8c 100%);
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
 .catalog-btn-link {
     background: transparent;
-    color: #0d4c5a;
+    color: #1d4fb8;
     padding-left: 0;
     padding-right: 0;
 }
 
     .catalog-btn-link:hover {
-        color: #073844;
+        color: #163f95;
         text-decoration: none;
     }
 
@@ -168,7 +173,7 @@
     border-radius: 28px;
     padding: 14px;
     border: 1px solid rgba(255,255,255,.45);
-    box-shadow: 0 14px 28px rgba(8, 71, 85, .14);
+    box-shadow: 0 14px 28px rgba(45, 108, 223, .14);
 }
 
     .catalog-visual-card img,
@@ -178,7 +183,7 @@
         object-fit: contain;
         object-position: center;
         border-radius: 22px;
-        background: linear-gradient(180deg, #f4fdff 0%, #ffffff 100%);
+        background: linear-gradient(180deg, #f4f8ff 0%, #ffffff 100%);
     }
 
 /* =========================
@@ -212,7 +217,7 @@
 .pet-card-media {
     position: relative;
     padding: 12px;
-    background: linear-gradient(180deg, #edfafe 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #edf4ff 0%, #ffffff 100%);
 }
 
     .pet-card-media img {
@@ -221,7 +226,7 @@
         object-fit: contain;
         object-position: center;
         border-radius: 20px;
-        background: #f7fcfe;
+        background: #f7faff;
         padding: 8px;
     }
 
@@ -288,6 +293,7 @@
 .pet-card-body,
 .favorite-card-body {
     padding: 18px;
+    position: relative;
 }
 
     .pet-card-body h3,
@@ -296,6 +302,7 @@
         font-size: 1.1rem;
         line-height: 1.2;
         color: #334e68;
+        padding-right: 92px;
     }
 
 .pet-description,
@@ -305,8 +312,10 @@
     min-height: 40px;
     line-height: 1.5;
     font-size: .95rem;
+    padding-right: 92px;
 }
 
+/* GRID DE DETALLES */
 .pet-data-grid,
 .favorite-data-grid {
     display: grid;
@@ -316,8 +325,8 @@
 
     .pet-data-grid div,
     .favorite-data-grid div {
-        background: #f7fcfe;
-        border: 1px solid #e4f1f5;
+        background: #f7faff;
+        border: 1px solid #e4ecf8;
         border-radius: 16px;
         padding: 12px;
     }
@@ -340,14 +349,81 @@
         line-height: 1.35;
     }
 
+/* ACCIONES */
 .pet-card-actions,
 .favorite-card-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     margin-top: 16px;
+    position: relative;
 }
+
+    /* EDITAR ARRIBA, VISIBLE, AL LADO DEL NOMBRE/DESCRIPCIÓN */
+    .pet-card-body .catalog-btn-link,
+    .favorite-card-body .catalog-btn-link,
+    .pet-card-actions .catalog-btn-link,
+    .favorite-card-actions .catalog-btn-link {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        background: #eef4ff;
+        color: #1d4fb8;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid #d7e4ff;
+        font-weight: 800;
+        line-height: 1;
+        z-index: 3;
+        box-shadow: 0 6px 14px rgba(45, 108, 223, .10);
+    }
+
+        .pet-card-body .catalog-btn-link:hover,
+        .favorite-card-body .catalog-btn-link:hover,
+        .pet-card-actions .catalog-btn-link:hover,
+        .favorite-card-actions .catalog-btn-link:hover {
+            background: #dfeaff;
+            color: #163f95;
+            text-decoration: none;
+        }
+
+    /* SI EDITAR SIGUE DENTRO DE ACTIONS, QUE NO ESTORBE LA FILA DE BOTONES */
+    .pet-card-actions .catalog-btn-link,
+    .favorite-card-actions .catalog-btn-link {
+        margin-top: -178px;
+    }
+
+    /* ADOPTAR Y QUITAR ALINEADOS */
+    .pet-card-actions .catalog-btn-main,
+    .pet-card-actions .catalog-btn-danger,
+    .favorite-card-actions .catalog-btn-main,
+    .favorite-card-actions .catalog-btn-danger {
+        min-width: 132px;
+        min-height: 48px;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* EN LAS CARDS, ADOPTAR DEBE QUEDAR AZUL */
+    .pet-card-actions .catalog-btn-main,
+    .favorite-card-actions .catalog-btn-main {
+        background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 100%);
+        color: #fff;
+        box-shadow: 0 10px 18px rgba(45, 108, 223, .22);
+    }
+
+        .pet-card-actions .catalog-btn-main:hover,
+        .favorite-card-actions .catalog-btn-main:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #255fcd 0%, #1746a9 100%);
+        }
+
+    /* EMPUJA EDITAR FUERA DEL FLUJO Y DEJA SOLO ADOPTAR + QUITAR ABAJO */
+    .pet-card-actions > *:not(.catalog-btn-link),
+    .favorite-card-actions > *:not(.catalog-btn-link) {
+        flex: 1 1 0;
+    }
 
 /* =========================
    FAVORITOS
@@ -380,7 +456,7 @@
 .favorite-card-media {
     position: relative;
     padding: 14px;
-    background: linear-gradient(180deg, #ecfbff 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #edf4ff 0%, #ffffff 100%);
 }
 
     .favorite-card-media img {
@@ -389,7 +465,7 @@
         object-fit: contain;
         object-position: center;
         border-radius: 22px;
-        background: #f8fdff;
+        background: #f8fbff;
         padding: 10px;
     }
 
@@ -498,6 +574,24 @@
         width: 100%;
         justify-content: center;
     }
+
+    .pet-card-body h3,
+    .favorite-card-body h3,
+    .pet-description,
+    .favorite-description {
+        padding-right: 0;
+    }
+
+    .pet-card-body .catalog-btn-link,
+    .favorite-card-body .catalog-btn-link,
+    .pet-card-actions .catalog-btn-link,
+    .favorite-card-actions .catalog-btn-link {
+        position: static;
+        width: auto;
+        margin-top: 0;
+        margin-bottom: 10px;
+        align-self: flex-start;
+    }
 }
 
 /* BOTÓN DESHABILITADO */
@@ -521,12 +615,12 @@
 }
 
     .badge-estado.ok {
-        background: #f7fcfe;
+        background: #f7faff;
         color: #000000;
     }
 
     .badge-estado.no {
-        background: #f7fcfe;
+        background: #f7faff;
         color: #000000;
     }
 
@@ -588,7 +682,7 @@
     padding: 11px 12px;
     border-radius: 14px;
     border: 1px solid #dcecf2;
-    background: #f7fcfe;
+    background: #f7faff;
     font-size: .9rem;
     color: #17384a;
     transition: all .2s ease;
@@ -596,9 +690,9 @@
 
     .edit-input:focus {
         outline: none;
-        border-color: #3cc6df;
+        border-color: #2d6cdf;
         background: #ffffff;
-        box-shadow: 0 0 0 3px rgba(60, 198, 223, .12);
+        box-shadow: 0 0 0 3px rgba(45, 108, 223, .12);
     }
 
 .edit-actions {
@@ -609,13 +703,13 @@
 }
 
 .edit-btn-primary {
-    background: #0a4653;
+    background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 100%);
     color: #fff;
     padding: 11px 18px;
     border-radius: 999px;
     font-weight: 800;
     border: none;
-    box-shadow: 0 10px 18px rgba(10, 70, 83, .18);
+    box-shadow: 0 10px 18px rgba(45, 108, 223, .18);
     transition: .2s ease;
 }
 
@@ -624,13 +718,13 @@
     }
 
 .edit-btn-secondary {
-    background: #eaf6fa;
-    color: #0d4c5a;
+    background: #eef4ff;
+    color: #1d4fb8;
     padding: 11px 18px;
     border-radius: 999px;
     font-weight: 800;
     text-decoration: none;
-    border: 1px solid #dcecf2;
+    border: 1px solid #dce7f7;
 }
 
     .edit-btn-secondary:hover {
@@ -657,4 +751,83 @@
         width: 100%;
         text-align: center;
     }
+    /* TODO TU CSS ORIGINAL SE MANTIENE IGUAL */
+
+    /* =========================
+   HERO (SOLO COLOR)
+========================= */
+
+    .catalog-hero,
+    .favorites-hero {
+        background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 58%, #4d86e8 100%);
+    }
+
+    /* =========================
+   BOTONES HERO
+========================= */
+
+    /* REGISTRAR MASCOTA */
+    .catalog-btn-main {
+        background: #ffffff;
+        color: #1d4fb8;
+        box-shadow: 0 10px 18px rgba(255,255,255,.25);
+    }
+
+    /* VER FAVORITOS ROSADO */
+    .catalog-btn-soft {
+        background: linear-gradient(135deg, #ff9cb3, #ef6b9a);
+        color: #ffffff;
+    }
+
+    /* =========================
+   BOTON EDITAR (VISIBLE)
+========================= */
+
+    .pet-edit-btn {
+        background: #eef4ff;
+        color: #000000 !important;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        border: 1px solid #d7e4ff;
+        text-decoration: none;
+    }
+
+        .pet-edit-btn:hover {
+            background: #dfeaff;
+            color: #000000 !important;
+        }
+
+    /* =========================
+   BOTONES ADOPTAR / QUITAR
+========================= */
+
+    .pet-card-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-start;
+    }
+
+        /* BOTONES PEQUEÑOS */
+        .pet-card-actions .catalog-btn-main,
+        .pet-card-actions .catalog-btn-danger {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            min-width: auto;
+            height: auto;
+            border-radius: 999px;
+        }
+
+        /* ADOPTAR AZUL */
+        .pet-card-actions .catalog-btn-main {
+            background: linear-gradient(135deg, #2d6cdf, #1d4fb8);
+            color: #fff;
+        }
+
+    /* QUITAR ROJO (YA LO TENIAS BIEN) */
+
+    /* =========================
+   NO TOCAR MÁS
+========================= */
 }

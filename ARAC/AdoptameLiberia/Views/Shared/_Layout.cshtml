@@ -1,4 +1,73 @@
 ﻿@using Microsoft.AspNet.Identity
+@using AdoptameLiberia.Models.Donaciones
+@using System.Linq
+@using System.Data.Entity
+
+@{
+    var mostrarNotificacionVoluntario = false;
+    var tareasPendientesUsuario = 0;
+
+    if (Request.IsAuthenticated && !User.IsInRole("Administrador"))
+    {
+        var correoUsuario = User.Identity.GetUserName();
+        var aspNetUserId = User.Identity.GetUserId();
+
+        using (var dbNav = new ARACDbContext())
+        {
+            var idUsuarioNav = dbNav.Usuarios
+                .Where(u =>
+                    (u.Correo != null && u.Correo == correoUsuario) ||
+                    (u.IdAspNetUser != null && u.IdAspNetUser == aspNetUserId))
+                .Select(u => (int?)u.ID_Usuario)
+                .FirstOrDefault();
+
+            int? idVoluntarioNav = null;
+
+            if (idUsuarioNav.HasValue)
+            {
+                idVoluntarioNav = dbNav.Voluntarios
+                    .Where(v => v.ID_Usuario == idUsuarioNav.Value)
+                    .Select(v => (int?)v.ID_Voluntario)
+                    .FirstOrDefault();
+            }
+
+            if (!idVoluntarioNav.HasValue && !string.IsNullOrWhiteSpace(correoUsuario))
+            {
+                var correoNormalizado = correoUsuario.Trim().ToLower();
+
+                idVoluntarioNav = dbNav.Voluntarios
+                    .Where(v => v.Correo != null && v.Correo.ToLower() == correoNormalizado)
+                    .Select(v => (int?)v.ID_Voluntario)
+                    .FirstOrDefault();
+            }
+
+            if (idVoluntarioNav.HasValue)
+            {
+                var ultimaParticipacionAsignada = dbNav.ParticipacionesVoluntario
+                    .Where(p => p.ID_Voluntario == idVoluntarioNav.Value)
+                    .Select(p => (int?)p.ID_Participacion)
+                    .DefaultIfEmpty(0)
+                    .Max() ?? 0;
+
+                var ultimaParticipacionVista = 0;
+
+                if (Session["UltimaParticipacionVistaVoluntario"] != null)
+                {
+                    int.TryParse(Session["UltimaParticipacionVistaVoluntario"].ToString(), out ultimaParticipacionVista);
+                }
+
+                tareasPendientesUsuario = dbNav.ParticipacionesVoluntario
+                    .Include(p => p.Tarea)
+                    .Count(p => p.ID_Voluntario == idVoluntarioNav.Value &&
+                                p.Tarea != null &&
+                                p.Tarea.Estado);
+
+                mostrarNotificacionVoluntario = ultimaParticipacionAsignada > ultimaParticipacionVista && tareasPendientesUsuario > 0;
+            }
+        }
+    }
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,15 +79,69 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- 1. jQuery primero -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- 2. DataTables después -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     <link href="~/Content/estilos/Layout.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
+
+    <style>
+        .nav-link-with-badge {
+            display: inline-flex !important;
+            align-items: center;
+            position: relative;
+            gap: 0;
+            padding-right: 14px;
+        }
+
+            .nav-link-with-badge .nav-link-text {
+                position: relative;
+                display: inline-block;
+            }
+
+        .nav-notification-badge {
+            position: absolute;
+            top: -12px;
+            right: -22px;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 7px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+            z-index: 20;
+            border: 2px solid rgba(255,255,255,0.95);
+            background: linear-gradient(180deg, #6fb8ff 0%, #2f7df0 48%, #1558c8 100%);
+            box-shadow: 0 10px 20px rgba(21, 88, 200, 0.30), inset 0 2px 3px rgba(255,255,255,0.55), inset 0 -2px 4px rgba(0,0,0,0.10);
+            transform: rotate(18deg);
+        }
+
+            .nav-notification-badge::before {
+                content: "";
+                position: absolute;
+                top: 2px;
+                left: 3px;
+                right: 3px;
+                height: 42%;
+                border-radius: 999px;
+                background: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.14) 100%);
+                pointer-events: none;
+            }
+
+            .nav-notification-badge span {
+                position: relative;
+                z-index: 2;
+                transform: rotate(-18deg);
+                display: inline-block;
+            }
+    </style>
 </head>
 <body>
     <header class="site-header-full">
@@ -44,7 +167,16 @@
                         @Html.ActionLink("Donaciones", "Index", "Donaciones", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Ser voluntario", "Create", "SolicitudesVoluntariado", null, new { @class = "nav-link" })
+                        <a href="@Url.Action("Create", "SolicitudesVoluntariado")" class="nav-link nav-link-with-badge">
+                            <span class="nav-link-text">Ser voluntario</span>
+
+                            @if (mostrarNotificacionVoluntario)
+                            {
+                                <span class="nav-notification-badge">
+                                    <span>@tareasPendientesUsuario</span>
+                                </span>
+                            }
+                        </a>
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Comunidad", "Index", "Comunidad", null, new { @class = "nav-link" })
@@ -55,18 +187,15 @@
                     <li class="nav-item">
                         @Html.ActionLink("Noticias", "Index", "Noticia", null, new { @class = "nav-link" })
                     </li>
-                   
 
                     @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                     {
                         <li class="nav-item dropdown-custom">
 
-                            <!-- BOTÓN -->
                             <span class="nav-link" id="adminMenuBtn">
                                 Administración ▾
                             </span>
 
-                            <!-- DROPDOWN -->
                             <div class="dropdown-content" id="adminDropdown">
 
                                 <span class="dropdown-title">Gestión</span>
@@ -130,7 +259,7 @@
                             <li><a href="@Url.Action("Catalogo", "Animal")">Mascotas</a></li>
                             <li><a href="@Url.Action("Index", "Campanias")">Campañas</a></li>
                             <li><a href="@Url.Action("Index", "Donaciones")">Donaciones</a></li>
-                            <li><a href="@Url.Action("Index", "Voluntarios")">Voluntariado</a></li>
+                            <li><a href="@Url.Action("Create", "SolicitudesVoluntariado")">Voluntariado</a></li>
                             <li><a href="@Url.Action("Index", "Comunidad")">Comunidad</a></li>
                         </ul>
                     </div>
@@ -169,41 +298,38 @@
     @RenderSection("Scripts", required: false)
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-        const userBtn = document.getElementById("userMenuBtn");
-        const userDropdown = document.getElementById("userDropdown");
+            const userBtn = document.getElementById("userMenuBtn");
+            const userDropdown = document.getElementById("userDropdown");
 
-        const adminBtn = document.getElementById("adminMenuBtn");
-        const adminDropdown = document.getElementById("adminDropdown");
+            const adminBtn = document.getElementById("adminMenuBtn");
+            const adminDropdown = document.getElementById("adminDropdown");
 
-        // ===== USER =====
-        if (userBtn && userDropdown) {
-            userBtn.addEventListener("click", function (e) {
-                e.stopPropagation();
-                userDropdown.classList.toggle("active");
+            if (userBtn && userDropdown) {
+                userBtn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    userDropdown.classList.toggle("active");
 
+                    if (adminDropdown) adminDropdown.classList.remove("active");
+                });
+            }
+
+            if (adminBtn && adminDropdown) {
+                adminBtn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    adminDropdown.classList.toggle("active");
+
+                    if (userDropdown) userDropdown.classList.remove("active");
+                });
+            }
+
+            document.addEventListener("click", function () {
+                if (userDropdown) userDropdown.classList.remove("active");
                 if (adminDropdown) adminDropdown.classList.remove("active");
             });
-        }
 
-        // ===== ADMIN =====
-        if (adminBtn && adminDropdown) {
-            adminBtn.addEventListener("click", function (e) {
-                e.stopPropagation();
-                adminDropdown.classList.toggle("active");
-
-                if (userDropdown) userDropdown.classList.remove("active");
-            });
-        }
-
-        // ===== CLICK AFUERA =====
-        document.addEventListener("click", function () {
-            if (userDropdown) userDropdown.classList.remove("active");
-            if (adminDropdown) adminDropdown.classList.remove("active");
         });
-
-    });
     </script>
 </body>
 </html>

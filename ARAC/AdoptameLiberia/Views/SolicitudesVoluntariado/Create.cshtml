@@ -1,7 +1,14 @@
 ﻿@model AdoptameLiberia.Models.Voluntariado.Voluntario
+@using System.Linq
+@using System.Collections.Generic
+@using AdoptameLiberia.Models.Voluntariado
 
 @{
     ViewBag.Title = "Ser voluntario";
+
+    var tareasAsignadas = ViewBag.TareasAsignadas as List<ParticipacionVoluntario> ?? new List<ParticipacionVoluntario>();
+    var totalTareasAsignadas = ViewBag.TotalTareasAsignadas != null ? (int)ViewBag.TotalTareasAsignadas : 0;
+    var totalTareasActivas = ViewBag.TotalTareasActivas != null ? (int)ViewBag.TotalTareasActivas : 0;
 }
 
 @section styles{
@@ -21,7 +28,6 @@
 
             <div class="vol-hero-actions">
                 <img src="~/Content/img/Voluntariohero2.jpg" alt="Voluntariado ARAC" />
-                
             </div>
         </div>
 
@@ -45,6 +51,39 @@
             </ul>
         </div>
     </div>
+
+    @if (tareasAsignadas.Any())
+    {
+        <div class="vol-stats">
+            <div class="vol-stat-card">
+                <div class="vol-stat-label">Tareas asignadas</div>
+                <div class="vol-stat-value">@totalTareasAsignadas</div>
+                <div class="vol-stat-help">Total de tareas vinculadas a tu perfil de voluntariado.</div>
+            </div>
+
+            <div class="vol-stat-card">
+                <div class="vol-stat-label">Tareas activas</div>
+                <div class="vol-stat-value">@totalTareasActivas</div>
+                <div class="vol-stat-help">Estas son las tareas que actualmente siguen vigentes.</div>
+            </div>
+
+            <div class="vol-stat-card">
+                <div class="vol-stat-label">Estado de tu perfil</div>
+                <div class="vol-stat-value" style="font-size:1.25rem;">
+                    @(Model != null && Model.Estado ? "Aprobado" : "Pendiente")
+                </div>
+                <div class="vol-stat-help">Tu solicitud queda asociada a tu cuenta actual.</div>
+            </div>
+
+            <div class="vol-stat-card">
+                <div class="vol-stat-label">Correo asociado</div>
+                <div class="vol-stat-value" style="font-size:1rem; line-height:1.4;">
+                    @(!string.IsNullOrWhiteSpace(Model.Correo) ? Model.Correo : "Sin correo")
+                </div>
+                <div class="vol-stat-help">Este correo es el que se usa para localizar tus tareas.</div>
+            </div>
+        </div>
+    }
 
     <div class="vol-grid-2">
         <section class="vol-section">
@@ -116,7 +155,7 @@
             <div class="vol-soft-card">
                 <h3>Importante</h3>
                 <p>
-                    Procura escribir bien tu correo, teléfono y disponibilidad. Esa información es la que
+                    Procura escribir bien tu teléfono, disponibilidad y habilidades. Esa información es la que
                     permitirá al equipo contactarte y ubicarte en una tarea adecuada.
                 </p>
             </div>
@@ -128,7 +167,7 @@
             <div>
                 <h2 class="vol-section-title">Formulario de solicitud</h2>
                 <p class="vol-section-subtitle">
-                    Completa cada campo para enviar tu solicitud de voluntariado.
+                    Completa o actualiza tus datos de voluntariado.
                 </p>
             </div>
         </div>
@@ -142,6 +181,10 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
+            @Html.HiddenFor(m => m.ID_Voluntario)
+            @Html.HiddenFor(m => m.ID_Usuario)
+            @Html.HiddenFor(m => m.Estado)
+            @Html.HiddenFor(m => m.Fecha_Registro)
 
             <div class="vol-form-grid">
                 <div class="vol-group">
@@ -164,7 +207,8 @@
 
                 <div class="vol-group">
                     @Html.LabelFor(m => m.Correo)
-                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", type = "email", placeholder = "correo@ejemplo.com" })
+                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", type = "email", placeholder = "correo@ejemplo.com", @readonly = "readonly" })
+                    <div class="vol-form-hint">Este correo queda ligado a tu cuenta y se usa para mostrar tus tareas.</div>
                     @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
                 </div>
 
@@ -190,8 +234,94 @@
             </div>
 
             <div class="vol-form-actions">
-                <button type="submit" class="vol-btn">Enviar solicitud</button>
+                <button type="submit" class="vol-btn">Guardar información</button>
                 @Html.ActionLink("Volver al inicio", "Index", "Home", null, new { @class = "vol-btn-outline" })
+            </div>
+        }
+    </section>
+
+    <section class="vol-section vol-task-board">
+        <div class="vol-section-header">
+            <div>
+                <h2 class="vol-section-title">Mis tareas asignadas</h2>
+                <p class="vol-section-subtitle">
+                    Aquí te aparecen las tareas que el administrador te haya asignado.
+                </p>
+            </div>
+
+            @if (tareasAsignadas.Any())
+            {
+                <span class="vol-badge vol-badge-pending">@tareasAsignadas.Count tarea(s)</span>
+            }
+        </div>
+
+        @if (!tareasAsignadas.Any())
+        {
+            <div class="vol-empty">
+                <strong>Aún no tienes tareas asignadas.</strong>
+                <p>
+                    Cuando un administrador te asigne una tarea, te aparecerá aquí con su fecha,
+                    hora, lugar y descripción.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="vol-task-list">
+                @foreach (var item in tareasAsignadas)
+                {
+                    var tarea = item.Tarea;
+                    var estadoTexto = (tarea != null && tarea.Estado) ? "Asignada" : "Cerrada";
+                    var badgeClass = (tarea != null && tarea.Estado) ? "vol-badge-pending" : "vol-badge-inactive";
+
+                    <article class="vol-task-card">
+                        <div class="vol-task-card-top">
+                            <div>
+                                <h3>@(tarea != null ? tarea.Titulo : "Tarea sin título")</h3>
+                                <p class="vol-task-card-subtitle">
+                                    @if (tarea != null)
+                                    {
+                                        <text>Revisa los detalles de la actividad asignada a tu perfil.</text>
+                                    }
+                                </p>
+                            </div>
+
+                            <span class="vol-badge @badgeClass">@estadoTexto</span>
+                        </div>
+
+                        <div class="vol-task-meta">
+                            <div class="vol-task-meta-item">
+                                <strong>Fecha</strong>
+                                <span>@(tarea != null ? tarea.Fecha.ToString("dd/MM/yyyy") : "-")</span>
+                            </div>
+
+                            <div class="vol-task-meta-item">
+                                <strong>Hora</strong>
+                                <span>@(tarea != null && tarea.Hora.HasValue ? tarea.Hora.Value.ToString(@"hh\:mm") : "Por definir")</span>
+                            </div>
+
+                            <div class="vol-task-meta-item">
+                                <strong>Lugar</strong>
+                                <span>@(!string.IsNullOrWhiteSpace(tarea != null ? tarea.Lugar : null) ? tarea.Lugar : "Por definir")</span>
+                            </div>
+                        </div>
+
+                        <div class="vol-task-body">
+                            <div class="vol-task-block">
+                                <strong>Descripción</strong>
+                                <p>@(tarea != null ? tarea.Descripcion : "Sin descripción.")</p>
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(item.Observaciones))
+                            {
+                                <div class="vol-task-block">
+                                    <strong>Observaciones</strong>
+                                    <p>@item.Observaciones</p>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
             </div>
         }
     </section>

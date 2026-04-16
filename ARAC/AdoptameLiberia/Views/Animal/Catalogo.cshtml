@@ -111,7 +111,9 @@
                         @if (esAdmin)
                         {
                             <div class="pet-card-actions">
-                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="catalog-btn-link">Editar</a>
+                                <a href="@Url.Action("Editar", "Animal", new { id = item.ID_Animal })" class="pet-edit-btn">
+                                    Editar
+                                </a>
                                 <a href="@Url.Action("Desactivar", "Animal", new { id = item.ID_Animal })"
                                    class="catalog-btn-danger"
                                    onclick="return confirm('¿Seguro que deseas quitar esta mascota?');">

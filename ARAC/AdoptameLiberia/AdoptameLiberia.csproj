@@ -288,6 +288,11 @@
     <Content Include="Content\estilos\About.css" />
     <Content Include="Content\estilos\Layout.css" />
     <Content Include="Content\estilos\Index.css" />
+    <Content Include="Content\img\CampaniaCastracion.png" />
+    <Content Include="Content\img\Comunidad1.jpg" />
+    <Content Include="Content\img\Comunidad2.png" />
+    <Content Include="Content\img\Donaciones.jpg" />
+    <Content Include="Content\img\FavoritosMascotas.jpg" />
     <Content Include="Content\img\MascotaHero.jpg" />
     <Content Include="Content\img\VoluntariadoHero.png" />
     <Content Include="Content\img\Voluntariohero2.jpg" />
