@@ -233,6 +233,7 @@
     <Compile Include="Models\SolicitudAdopcion.cs" />
     <Compile Include="Models\TiposAnimales\TipoAnimal.cs" />
     <Compile Include="Models\SecurityModels.cs" />
+    <Compile Include="Models\ViewModel\RegistrarAnimalVM.cs" />
     <Compile Include="Models\ViewModel\AdopcionesViewModels.cs" />
     <Compile Include="Models\Voluntariado\ParticipacionVoluntario.cs" />
     <Compile Include="Models\Voluntariado\TareaVoluntariado.cs" />
@@ -414,6 +415,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\mascotas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
