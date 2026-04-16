@@ -416,37 +416,21 @@ body {
     transition: .22s ease;
 }
 
-.vol-btn {
-    background: linear-gradient(135deg, var(--vol-brand) 0%, var(--vol-brand-strong) 100%);
-    color: #fff !important;
-    box-shadow: 0 12px 24px rgba(45,108,223,.20);
-}
-
-    .vol-btn:hover {
-        transform: translateY(-1px);
-        color: #fff !important;
-    }
-
-.vol-btn-outline {
-    background: #fff;
-    color: var(--vol-brand) !important;
-    border: 1px solid #cfe0ff;
-}
-
-    .vol-btn-outline:hover {
-        background: #f7fbff;
-        color: var(--vol-brand) !important;
-    }
-
+/* LOS 3 BOTONES DEL HERO IGUALES */
+.vol-btn,
+.vol-btn-outline,
 .vol-btn-soft {
-    background: var(--vol-brand-soft);
-    color: var(--vol-brand) !important;
-    border: 1px solid #d7e6ff;
+    background: #ffffff !important;
+    color: #2d6cdf !important;
+    border: none !important;
+    box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
 }
 
+    .vol-btn:hover,
+    .vol-btn-outline:hover,
     .vol-btn-soft:hover {
-        background: #dfeaff;
-        color: var(--vol-brand) !important;
+        background: #f7faff !important;
+        color: #1d4fb8 !important;
     }
 
 .vol-btn-warning {
@@ -672,7 +656,7 @@ body {
 }
 
 /* =========================
-   BLOQUE NUEVO DE TAREAS
+   BLOQUE DE TAREAS
 ========================= */
 
 .vol-task-board {
@@ -834,22 +818,6 @@ body {
             max-height: 260px;
             object-fit: contain;
             filter: drop-shadow(0 16px 24px rgba(20, 32, 51, 0.18));
-        }
-
-    .vol-hero-actions .vol-btn,
-    .vol-hero-actions .vol-btn-outline,
-    .vol-hero-actions .vol-btn-soft {
-        background: #ffffff !important;
-        color: #2d6cdf !important;
-        border: none !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-
-        .vol-hero-actions .vol-btn:hover,
-        .vol-hero-actions .vol-btn-outline:hover,
-        .vol-hero-actions .vol-btn-soft:hover {
-            background: #f3f7ff !important;
-            color: #1d4fb8 !important;
         }
 
     .vol-btn-activar {
