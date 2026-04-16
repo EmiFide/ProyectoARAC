@@ -30,6 +30,7 @@ namespace AdoptameLiberia.Controllers
                     a.Peso,
                     a.Descripcion,
                     a.Estado,
+                    a.ImagenUrl,
                     ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
                     ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
                 FROM Favorito f
@@ -60,6 +61,7 @@ namespace AdoptameLiberia.Controllers
                         Descripcion = dr["Descripcion"]?.ToString(),
                         Estado = dr["Estado"]?.ToString(),
                         NombreRaza = dr["NombreRaza"]?.ToString(),
+                        ImagenUrl = dr["ImagenUrl"]?.ToString(),
                         NombreTipo = dr["NombreTipo"]?.ToString()
                     });
                 }
