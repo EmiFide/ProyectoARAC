@@ -14,108 +14,112 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 }
 
-<h2 class="titulo">
-    <i class="fas fa-chart-pie"></i> Transparencia de Donaciones
-</h2>
+<div class="dashboard-wrapper">
 
-<!-- KPI -->
-<div class="kpi-container">
+    <h2 class="titulo">
+        <i class="fas fa-chart-pie"></i> Transparencia de Donaciones
+    </h2>
 
-    <div class="kpi-card">
-        <i class="fas fa-coins"></i>
-        <h5>Total Donado</h5>
-        <h2>₡ @Model.TotalIngresos.ToString("N2")</h2>
+    <!-- KPI -->
+    <div class="kpi-container">
+
+        <div class="kpi-card">
+            <i class="fas fa-coins"></i>
+            <h5>Total Donado</h5>
+            <h2>₡ @Model.TotalIngresos.ToString("N2")</h2>
+        </div>
+
+        <div class="kpi-card">
+            <i class="fas fa-file-invoice"></i>
+            <h5>Total Utilizado</h5>
+            <h2>₡ @Model.TotalGastos.ToString("N2")</h2>
+        </div>
+
+        <div class="kpi-card">
+            <i class="fas fa-wallet"></i>
+            <h5>Disponible</h5>
+            <h2>₡ @Model.Balance.ToString("N2")</h2>
+        </div>
+
     </div>
 
-    <div class="kpi-card">
-        <i class="fas fa-file-invoice"></i>
-        <h5>Total Utilizado</h5>
-        <h2>₡ @Model.TotalGastos.ToString("N2")</h2>
+    <!-- INFO -->
+    <div class="info-box">
+        <strong>¿Cómo se usan las donaciones?</strong><br />
+        Alimentación, atención veterinaria, medicamentos y mantenimiento del refugio.
     </div>
 
-    <div class="kpi-card">
-        <i class="fas fa-wallet"></i>
-        <h5>Disponible</h5>
-        <h2>₡ @Model.Balance.ToString("N2")</h2>
+    <!-- PROGRESO -->
+    <div class="uso-section">
+
+        <div class="uso-header">
+            <h5>Uso de las donaciones</h5>
+            <span>@porcentaje.ToString("0")% utilizado</span>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width:@porcentaje%"></div>
+        </div>
+
+        <div class="uso-labels">
+            <span>Utilizado: ₡ @Model.TotalGastos.ToString("N2")</span>
+            <span>Disponible: ₡ @Model.Balance.ToString("N2")</span>
+        </div>
+
     </div>
 
-</div>
+    <!-- GRID -->
+    <div class="dashboard-grid">
 
-<!-- INFO -->
-<div class="info-box">
-    <strong>¿Cómo se usan las donaciones?</strong><br />
-    Alimentación, atención veterinaria, medicamentos y mantenimiento del refugio.
-</div>
+        <!-- GRAFICO -->
+        <div class="card">
+            <h5>
+                <i class="fas fa-chart-pie"></i> Distribución de gastos
+            </h5>
+            <canvas id="grafico"></canvas>
+        </div>
 
-<!-- PROGRESO -->
-<div class="uso-section">
+        <!-- TABLA -->
+        <div class="card">
+            <h5>¿En qué se usan los fondos?</h5>
 
-    <div class="uso-header">
-        <h5>Uso de las donaciones</h5>
-        <span>@porcentaje.ToString("0")% utilizado</span>
-    </div>
-
-    <div class="progress-bar-container">
-        <div class="progress-bar-fill" style="width:@porcentaje%"></div>
-    </div>
-
-    <div class="uso-labels">
-        <span>Utilizado: ₡ @Model.TotalGastos.ToString("N2")</span>
-        <span>Disponible: ₡ @Model.Balance.ToString("N2")</span>
-    </div>
-
-</div>
-
-<!-- GRID -->
-<div class="dashboard-grid">
-
-    <!-- GRAFICO -->
-    <div class="card">
-        <h5>
-            <i class="fas fa-chart-pie"></i> Distribución de gastos
-        </h5>
-        <canvas id="grafico"></canvas>
-    </div>
-
-    <!-- TABLA -->
-    <div class="card">
-        <h5>¿En qué se usan los fondos?</h5>
-
-        <table class="tabla-pro">
-            <thead>
-                <tr>
-                    <th>Categoría</th>
-                    <th>Monto</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model.Gastos)
-                {
+            <table class="tabla-pro">
+                <thead>
                     <tr>
-                        <td>
-                            @(item.Categoria != null ? item.Categoria.Nombre : "Sin categoría")
-                        </td>
-
-                        <td class="monto">
-                            ₡ @(item.Monto.HasValue ? item.Monto.Value.ToString("N2") : "0.00")
-                        </td>
-
-                        <td>@item.Descripcion</td>
+                        <th>Categoría</th>
+                        <th>Monto</th>
+                        <th>Descripción</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.Gastos)
+                    {
+                        <tr>
+                            <td>
+                                @(item.Categoria != null ? item.Categoria.Nombre : "Sin categoría")
+                            </td>
+
+                            <td class="monto">
+                                ₡ @(item.Monto.HasValue ? item.Monto.Value.ToString("N2") : "0.00")
+                            </td>
+
+                            <td>@item.Descripcion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
 
     </div>
 
 </div>
 
-<!-- CHART -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CHART -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
+    <script>
     var labels = [];
     var data = [];
     var colores = [];
@@ -260,4 +264,4 @@
         },
         plugins: [centerText]
     });
-</script>
+    </script>
