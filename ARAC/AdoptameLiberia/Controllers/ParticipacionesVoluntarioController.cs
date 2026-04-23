@@ -118,10 +118,7 @@ namespace AdoptameLiberia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MarcarAsistencia(int idParticipacion, bool asistio, string returnUrl)
         {
-            var participacion = db.ParticipacionesVoluntario
-                .Include(p => p.Voluntario)
-                .Include(p => p.Tarea)
-                .FirstOrDefault(p => p.ID_Participacion == idParticipacion);
+            var participacion = db.ParticipacionesVoluntario.Find(idParticipacion);
 
             if (participacion == null)
             {
@@ -130,24 +127,21 @@ namespace AdoptameLiberia.Controllers
 
             participacion.Asistio = asistio;
 
-            var observacionActual = participacion.Observaciones ?? string.Empty;
-            observacionActual = observacionActual.Replace("[NO_ASISTIO]", "")
-                                                 .Replace("Pendiente de asistencia", "")
-                                                 .Trim();
+            string observaciones = participacion.Observaciones ?? "";
+
+            observaciones = observaciones
+                .Replace("[ASISTIO]", "")
+                .Replace("[NO_ASISTIO]", "")
+                .Replace("Pendiente de asistencia", "")
+                .Trim();
 
             if (asistio)
             {
-                participacion.Observaciones = string.IsNullOrWhiteSpace(observacionActual)
-                    ? "Asistencia confirmada."
-                    : observacionActual;
+                participacion.Observaciones = "[ASISTIO] " + observaciones;
             }
             else
             {
-                var textoBase = string.IsNullOrWhiteSpace(observacionActual)
-                    ? "No asistió a la actividad."
-                    : observacionActual;
-
-                participacion.Observaciones = "[NO_ASISTIO] " + textoBase;
+                participacion.Observaciones = "[NO_ASISTIO] " + observaciones;
             }
 
             db.SaveChanges();
@@ -157,7 +151,7 @@ namespace AdoptameLiberia.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Voluntarios");
         }
 
         protected override void Dispose(bool disposing)

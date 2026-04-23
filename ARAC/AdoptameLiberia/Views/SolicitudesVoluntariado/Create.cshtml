@@ -15,6 +15,34 @@
     <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
 }
 
+@functions{
+    public bool EstaMarcado(string observaciones)
+    {
+        return !string.IsNullOrWhiteSpace(observaciones) &&
+               (observaciones.Contains("[ASISTIO]") || observaciones.Contains("[NO_ASISTIO]"));
+    }
+
+    public bool NoAsistio(string observaciones)
+    {
+        return !string.IsNullOrWhiteSpace(observaciones) &&
+               observaciones.Contains("[NO_ASISTIO]");
+    }
+
+    public string LimpiarObservaciones(string observaciones)
+    {
+        if (string.IsNullOrWhiteSpace(observaciones))
+        {
+            return "";
+        }
+
+        return observaciones
+            .Replace("[ASISTIO]", "")
+            .Replace("[NO_ASISTIO]", "")
+            .Replace("Pendiente de asistencia", "")
+            .Trim();
+    }
+}
+
 <div class="vol-shell">
     <div class="vol-hero">
         <div class="vol-hero-main">
@@ -46,76 +74,43 @@
 
             <ul class="vol-side-list">
                 <li>Horarios flexibles según disponibilidad</li>
+                <li>Apoyo en tareas operativas y comunitarias</li>
                 <li>Participación en campañas y actividades</li>
-                <li>Apoyo real al refugio y a la comunidad</li>
             </ul>
         </div>
     </div>
 
-    @if (tareasAsignadas.Any())
-    {
-        <div class="vol-stats">
-            <div class="vol-stat-card">
-                <div class="vol-stat-label">Tareas asignadas</div>
-                <div class="vol-stat-value">@totalTareasAsignadas</div>
-                <div class="vol-stat-help">Total de tareas vinculadas a tu perfil de voluntariado.</div>
-            </div>
-
-            <div class="vol-stat-card">
-                <div class="vol-stat-label">Tareas activas</div>
-                <div class="vol-stat-value">@totalTareasActivas</div>
-                <div class="vol-stat-help">Estas son las tareas que actualmente siguen vigentes.</div>
-            </div>
-
-            <div class="vol-stat-card">
-                <div class="vol-stat-label">Estado de tu perfil</div>
-                <div class="vol-stat-value" style="font-size:1.25rem;">
-                    @(Model != null && Model.Estado ? "Aprobado" : "Pendiente")
-                </div>
-                <div class="vol-stat-help">Tu solicitud queda asociada a tu cuenta actual.</div>
-            </div>
-
-            <div class="vol-stat-card">
-                <div class="vol-stat-label">Correo asociado</div>
-                <div class="vol-stat-value" style="font-size:1rem; line-height:1.4;">
-                    @(!string.IsNullOrWhiteSpace(Model.Correo) ? Model.Correo : "Sin correo")
-                </div>
-                <div class="vol-stat-help">Este correo es el que se usa para localizar tus tareas.</div>
-            </div>
-        </div>
-    }
-
-    <div class="vol-grid-2">
+    <div class="vol-dashboard">
         <section class="vol-section">
             <div class="vol-section-header">
                 <div>
-                    <h2 class="vol-section-title">¿Qué pasa después de enviar la solicitud?</h2>
+                    <h2 class="vol-section-title">Proceso para ser voluntario</h2>
                     <p class="vol-section-subtitle">
-                        El proceso es simple y está pensado para que la experiencia sea clara.
+                        Completa tu información para que el equipo pueda revisarla y asignarte tareas cuando corresponda.
                     </p>
                 </div>
             </div>
 
-            <div class="vol-card-grid">
+            <div class="vol-steps-grid">
                 <div class="vol-step-card">
                     <div class="vol-step-number">1</div>
-                    <h3>Envías tu información</h3>
+                    <h3>Completa el formulario</h3>
                     <p>
-                        Registras tus datos, tu disponibilidad y las habilidades con las que puedes apoyar.
+                        Registra tus datos personales, disponibilidad y habilidades.
                     </p>
                 </div>
 
                 <div class="vol-step-card">
                     <div class="vol-step-number">2</div>
-                    <h3>Revisamos tu solicitud</h3>
+                    <h3>Revisión del equipo</h3>
                     <p>
-                        El equipo valida tu información y determina en qué actividades encaja mejor tu apoyo.
+                        El administrador revisará tu información para validar tu solicitud.
                     </p>
                 </div>
 
                 <div class="vol-step-card">
                     <div class="vol-step-number">3</div>
-                    <h3>Te contactamos</h3>
+                    <h3>Asignación de tareas</h3>
                     <p>
                         Cuando haya una oportunidad adecuada, se te contactará por correo o teléfono.
                     </p>
@@ -274,6 +269,10 @@
                     var estadoTexto = (tarea != null && tarea.Estado) ? "Asignada" : "Cerrada";
                     var badgeClass = (tarea != null && tarea.Estado) ? "vol-badge-pending" : "vol-badge-inactive";
 
+                    bool asistenciaMarcada = EstaMarcado(item.Observaciones);
+                    bool noAsistio = NoAsistio(item.Observaciones);
+                    string observacionesLimpias = LimpiarObservaciones(item.Observaciones);
+
                     <article class="vol-task-card">
                         <div class="vol-task-card-top">
                             <div>
@@ -286,7 +285,18 @@
                                 </p>
                             </div>
 
-                            <span class="vol-badge @badgeClass">@estadoTexto</span>
+                            @if (asistenciaMarcada && item.Asistio)
+                            {
+                                <span class="vol-badge vol-badge-active">Asistió</span>
+                            }
+                            else if (asistenciaMarcada && noAsistio)
+                            {
+                                <span class="vol-badge vol-badge-inactive">No asistió</span>
+                            }
+                            else
+                            {
+                                <span class="vol-badge @badgeClass">@estadoTexto</span>
+                            }
                         </div>
 
                         <div class="vol-task-meta">
@@ -312,11 +322,11 @@
                                 <p>@(tarea != null ? tarea.Descripcion : "Sin descripción.")</p>
                             </div>
 
-                            @if (!string.IsNullOrWhiteSpace(item.Observaciones))
+                            @if (!string.IsNullOrWhiteSpace(observacionesLimpias))
                             {
                                 <div class="vol-task-block">
                                     <strong>Observaciones</strong>
-                                    <p>@item.Observaciones</p>
+                                    <p>@observacionesLimpias</p>
                                 </div>
                             }
                         </div>
