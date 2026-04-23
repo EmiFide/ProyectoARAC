@@ -825,9 +825,164 @@
             color: #fff;
         }
 
-    /* QUITAR ROJO (YA LO TENIAS BIEN) */
+    /* =========================
+   ENCUENTRA TU MASCOTA IDEAL
+========================= */
+
+    .pet-finder-section,
+    .happy-adopters-section {
+        background: #ffffff;
+        border: 1px solid #dcecf2;
+        border-radius: 28px;
+        padding: 26px 24px;
+        box-shadow: 0 12px 24px rgba(17, 92, 109, .08);
+    }
+
+    .pet-finder-header,
+    .happy-adopters-header {
+        margin-bottom: 18px;
+    }
+
+        .pet-finder-header h2,
+        .happy-adopters-header h2 {
+            margin: 0 0 8px;
+            color: #264653;
+            font-size: 1.7rem;
+        }
+
+        .pet-finder-header p,
+        .happy-adopters-header p {
+            margin: 0;
+            color: #67818c;
+            line-height: 1.7;
+        }
+
+    .pet-finder-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .pet-finder-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .pet-finder-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .pet-finder-group label {
+            color: #334e68;
+            font-weight: 700;
+            font-size: .92rem;
+        }
+
+        .pet-finder-group .form-control {
+            width: 100%;
+            border: 1px solid #d8e5f6;
+            background: #f8fbff;
+            color: #334e68;
+            border-radius: 16px;
+            padding: 12px 14px;
+            outline: none;
+            transition: .25s ease;
+            box-shadow: none;
+        }
+
+            .pet-finder-group .form-control:focus {
+                border-color: #8eb2f0;
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(45,108,223,.10);
+            }
+
+    .pet-finder-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .pet-finder-btn {
+        border-radius: 14px !important;
+        min-height: 46px;
+        padding: 0 18px !important;
+    }
+
+    .pet-clean-link {
+        padding: 10px 0 !important;
+    }
 
     /* =========================
-   NO TOCAR MÁS
+   ADOPTANTES FELICES
 ========================= */
+
+    .happy-adopters-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .happy-card {
+        background: #f9fbff;
+        border: 1px solid #e4ecf8;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 22px rgba(17, 92, 109, .07);
+    }
+
+        .happy-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+    .happy-card-body {
+        padding: 18px;
+    }
+
+        .happy-card-body h3 {
+            margin: 0 0 10px;
+            color: #334e68;
+            font-size: 1.08rem;
+        }
+
+        .happy-card-body p {
+            margin: 0;
+            color: #67818c;
+            line-height: 1.7;
+        }
+
+    /* =========================
+   RESPONSIVE NUEVO
+========================= */
+
+    @media (max-width: 992px) {
+        .pet-finder-grid,
+        .happy-adopters-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .pet-finder-grid,
+        .happy-adopters-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .pet-finder-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+            .pet-finder-actions .catalog-btn-main,
+            .pet-finder-actions .catalog-btn-link {
+                width: 100%;
+                justify-content: center;
+            }
+    }
 }

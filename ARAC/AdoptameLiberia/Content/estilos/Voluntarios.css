@@ -832,4 +832,19 @@ body {
             object-fit: contain;
             filter: drop-shadow(0 16px 24px rgba(20, 32, 51, 0.18));
         }
+    .vol-action-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .vol-inline-form {
+        margin: 0;
+        display: inline-flex;
+    }
+
+        .vol-inline-form button {
+            min-width: 95px;
+        }
 }

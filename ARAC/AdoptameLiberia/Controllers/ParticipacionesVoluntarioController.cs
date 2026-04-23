@@ -52,7 +52,8 @@ namespace AdoptameLiberia.Controllers
             {
                 ID_Voluntario = idVoluntario ?? 0,
                 Asistio = false,
-                Fecha_Registro = DateTime.Now
+                Fecha_Registro = DateTime.Now,
+                Observaciones = "Pendiente de asistencia"
             };
 
             return View(model);
@@ -65,6 +66,13 @@ namespace AdoptameLiberia.Controllers
             if (ModelState.IsValid)
             {
                 model.Fecha_Registro = DateTime.Now;
+                model.Asistio = false;
+
+                if (string.IsNullOrWhiteSpace(model.Observaciones))
+                {
+                    model.Observaciones = "Pendiente de asistencia";
+                }
+
                 db.ParticipacionesVoluntario.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Voluntarios");
@@ -104,6 +112,62 @@ namespace AdoptameLiberia.Controllers
             );
 
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MarcarAsistencia(int idParticipacion, bool asistio, string returnUrl)
+        {
+            var participacion = db.ParticipacionesVoluntario
+                .Include(p => p.Voluntario)
+                .Include(p => p.Tarea)
+                .FirstOrDefault(p => p.ID_Participacion == idParticipacion);
+
+            if (participacion == null)
+            {
+                return HttpNotFound();
+            }
+
+            participacion.Asistio = asistio;
+
+            var observacionActual = participacion.Observaciones ?? string.Empty;
+            observacionActual = observacionActual.Replace("[NO_ASISTIO]", "")
+                                                 .Replace("Pendiente de asistencia", "")
+                                                 .Trim();
+
+            if (asistio)
+            {
+                participacion.Observaciones = string.IsNullOrWhiteSpace(observacionActual)
+                    ? "Asistencia confirmada."
+                    : observacionActual;
+            }
+            else
+            {
+                var textoBase = string.IsNullOrWhiteSpace(observacionActual)
+                    ? "No asistió a la actividad."
+                    : observacionActual;
+
+                participacion.Observaciones = "[NO_ASISTIO] " + textoBase;
+            }
+
+            db.SaveChanges();
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

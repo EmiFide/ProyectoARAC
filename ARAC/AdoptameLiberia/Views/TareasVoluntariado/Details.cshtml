@@ -12,6 +12,23 @@
     <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
 }
 
+@functions{
+    public bool EsNoAsistio(string observaciones)
+    {
+        return !string.IsNullOrWhiteSpace(observaciones) && observaciones.Contains("[NO_ASISTIO]");
+    }
+
+    public string LimpiarObservacion(string observaciones)
+    {
+        if (string.IsNullOrWhiteSpace(observaciones))
+        {
+            return "Sin observaciones";
+        }
+
+        return observaciones.Replace("[NO_ASISTIO]", "").Trim();
+    }
+}
+
 <div class="vol-shell">
     <section class="vol-detail-card">
         <div class="vol-section-header">
@@ -76,14 +93,50 @@
                     @foreach (var item in voluntariosAsignados)
                     {
                         var nombreCompleto = (item.Voluntario.Nombre + " " + item.Voluntario.Apellido1 + " " + item.Voluntario.Apellido2).Trim();
+                        bool noAsistio = EsNoAsistio(item.Observaciones);
 
                         <li>
                             <strong style="display:block; color:#1c2d44; margin-bottom:8px;">@nombreCompleto</strong>
-                            <div style="color:#56667a; line-height:1.8;">
+
+                            <div style="color:#56667a; line-height:1.8; margin-bottom:14px;">
                                 <div><strong style="display:inline; margin:0;">Correo:</strong> @item.Voluntario.Correo</div>
                                 <div><strong style="display:inline; margin:0;">Teléfono:</strong> @item.Voluntario.Telefono</div>
-                                <div><strong style="display:inline; margin:0;">Asistió:</strong> @(item.Asistio ? "Sí" : "No")</div>
-                                <div><strong style="display:inline; margin:0;">Observaciones:</strong> @(string.IsNullOrWhiteSpace(item.Observaciones) ? "Sin observaciones" : item.Observaciones)</div>
+                                <div>
+                                    <strong style="display:inline; margin:0;">Asistencia:</strong>
+                                    @if (item.Asistio)
+                                    {
+                                        <span class="vol-badge vol-badge-active">Sí asistió</span>
+                                    }
+                                    else if (noAsistio)
+                                    {
+                                        <span class="vol-badge vol-badge-inactive">No asistió</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="vol-badge vol-badge-pending">Pendiente</span>
+                                    }
+                                </div>
+                                <div><strong style="display:inline; margin:0;">Observaciones:</strong> @LimpiarObservacion(item.Observaciones)</div>
+                            </div>
+
+                            <div class="vol-action-inline">
+                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("idParticipacion", item.ID_Participacion)
+                                    @Html.Hidden("asistio", true)
+                                    @Html.Hidden("returnUrl", Request.RawUrl)
+                                    <button type="submit" class="vol-btn-activar">Asistió</button>
+                                }
+
+                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("idParticipacion", item.ID_Participacion)
+                                    @Html.Hidden("asistio", false)
+                                    @Html.Hidden("returnUrl", Request.RawUrl)
+                                    <button type="submit" class="vol-btn-desactivar">No asistió</button>
+                                }
                             </div>
                         </li>
                     }
