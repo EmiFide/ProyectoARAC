@@ -419,23 +419,39 @@ body {
 }
 
 /* BOTONES AZULES */
+/* BOTONES BLANCOS CON TEXTO AZUL */
 .vol-btn,
 .vol-btn-outline,
 .vol-btn-soft {
-    background: #2f5bd3 !important;
-    color: #ffffff !important;
-    border: 1px solid #2f5bd3 !important;
+    background: #ffffff !important;
+    color: #2f5bd3 !important;
+    border: 1px solid #ffffff !important;
     box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
 }
 
     .vol-btn:hover,
     .vol-btn-outline:hover,
     .vol-btn-soft:hover {
+        background: #ffffff !important;
+        color: #2447a5 !important;
+        border-color: #ffffff !important;
+    }
+/* BOTONES DE TABLA (EDITAR / ASIGNAR) */
+.vol-actions-inline .vol-btn,
+.vol-actions-inline .vol-btn-outline,
+.vol-actions-inline .vol-btn-soft {
+    background: #2f5bd3 !important;
+    color: #ffffff !important;
+    border: 1px solid #2f5bd3 !important;
+}
+
+    .vol-actions-inline .vol-btn:hover,
+    .vol-actions-inline .vol-btn-outline:hover,
+    .vol-actions-inline .vol-btn-soft:hover {
         background: #2447a5 !important;
         color: #ffffff !important;
         border-color: #2447a5 !important;
     }
-
 /* INACTIVAR / DESACTIVAR EN ROJO */
 .vol-btn-warning,
 .vol-btn-danger,
@@ -459,12 +475,11 @@ body {
     background: #28a745 !important;
     color: #ffffff !important;
     border: 1px solid #28a745 !important;
-    box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
+    box-shadow: 0 8px 18px rgba(40,167,69,.25);
 }
 
     .vol-btn-activar:hover {
         background: #218838 !important;
-        color: #ffffff !important;
         border-color: #218838 !important;
     }
 
@@ -846,5 +861,18 @@ body {
 
         .vol-inline-form button {
             min-width: 95px;
+        }
+    /* FORZAR BOTÓN ACTIVAR EN VERDE */
+    button.vol-btn-activar,
+    .vol-actions-inline button:first-child {
+        background: #28a745 !important;
+        color: #ffffff !important;
+        border: 1px solid #28a745 !important;
+    }
+
+        button.vol-btn-activar:hover,
+        .vol-actions-inline button:first-child:hover {
+            background: #218838 !important;
+            border-color: #218838 !important;
         }
 }

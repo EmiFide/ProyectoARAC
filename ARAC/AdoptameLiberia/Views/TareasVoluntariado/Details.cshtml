@@ -13,19 +13,30 @@
 }
 
 @functions{
-    public bool EsNoAsistio(string observaciones)
+    public bool EstaMarcado(string observaciones)
     {
-        return !string.IsNullOrWhiteSpace(observaciones) && observaciones.Contains("[NO_ASISTIO]");
+        return !string.IsNullOrWhiteSpace(observaciones) &&
+               (observaciones.Contains("[ASISTIO]") || observaciones.Contains("[NO_ASISTIO]"));
     }
 
-    public string LimpiarObservacion(string observaciones)
+    public bool NoAsistio(string observaciones)
+    {
+        return !string.IsNullOrWhiteSpace(observaciones) &&
+               observaciones.Contains("[NO_ASISTIO]");
+    }
+
+    public string LimpiarObservaciones(string observaciones)
     {
         if (string.IsNullOrWhiteSpace(observaciones))
         {
-            return "Sin observaciones";
+            return "";
         }
 
-        return observaciones.Replace("[NO_ASISTIO]", "").Trim();
+        return observaciones
+            .Replace("[ASISTIO]", "")
+            .Replace("[NO_ASISTIO]", "")
+            .Replace("Pendiente de asistencia", "")
+            .Trim();
     }
 }
 
@@ -35,7 +46,7 @@
             <div>
                 <h2 class="vol-section-title">Detalle de la tarea</h2>
                 <p class="vol-section-subtitle">
-                    Consulta la información completa y los voluntarios vinculados a esta actividad.
+                    Consulta la información completa y marca la asistencia de los voluntarios asignados.
                 </p>
             </div>
         </div>
@@ -50,13 +61,13 @@
                 <strong>Estado</strong>
                 @if (Model.Estado)
                 {
-                    <span class="vol-badge vol-badge-active">Activa</span>
-                }
-                else
-                {
-                    <span class="vol-badge vol-badge-inactive">Inactiva</span>
-                }
-            </div>
+                    <button type="submit" class="vol-btn-activar" style="background:#28a745; border-color:#28a745; color:#fff;">
+                        }
+                        else
+                        {
+                        <span class="vol-badge vol-badge-inactive">Inactiva</span>
+                        }
+</div>
 
             <div class="vol-detail-item">
                 <strong>Fecha</strong>
@@ -82,8 +93,10 @@
         <div style="margin-top:26px;">
             <div class="vol-section-header">
                 <div>
-                    <h2 class="vol-section-title" style="font-size:1.3rem;">Voluntarios asignados</h2>
-                    <p class="vol-section-subtitle">Listado actual de participantes relacionados con esta tarea.</p>
+                    <h2 class="vol-section-title" style="font-size:1.3rem;">Lista de asistencia</h2>
+                    <p class="vol-section-subtitle">
+                        Marca si cada voluntario asistió o no asistió a esta tarea.
+                    </p>
                 </div>
             </div>
 
@@ -93,7 +106,9 @@
                     @foreach (var item in voluntariosAsignados)
                     {
                         var nombreCompleto = (item.Voluntario.Nombre + " " + item.Voluntario.Apellido1 + " " + item.Voluntario.Apellido2).Trim();
-                        bool noAsistio = EsNoAsistio(item.Observaciones);
+                        bool asistenciaMarcada = EstaMarcado(item.Observaciones);
+                        bool noAsistio = NoAsistio(item.Observaciones);
+                        string observacionesLimpias = LimpiarObservaciones(item.Observaciones);
 
                         <li>
                             <strong style="display:block; color:#1c2d44; margin-bottom:8px;">@nombreCompleto</strong>
@@ -101,13 +116,15 @@
                             <div style="color:#56667a; line-height:1.8; margin-bottom:14px;">
                                 <div><strong style="display:inline; margin:0;">Correo:</strong> @item.Voluntario.Correo</div>
                                 <div><strong style="display:inline; margin:0;">Teléfono:</strong> @item.Voluntario.Telefono</div>
+
                                 <div>
                                     <strong style="display:inline; margin:0;">Asistencia:</strong>
-                                    @if (item.Asistio)
+
+                                    @if (asistenciaMarcada && item.Asistio)
                                     {
-                                        <span class="vol-badge vol-badge-active">Sí asistió</span>
+                                        <span class="vol-badge vol-badge-active">Asistió</span>
                                     }
-                                    else if (noAsistio)
+                                    else if (asistenciaMarcada && noAsistio)
                                     {
                                         <span class="vol-badge vol-badge-inactive">No asistió</span>
                                     }
@@ -116,25 +133,31 @@
                                         <span class="vol-badge vol-badge-pending">Pendiente</span>
                                     }
                                 </div>
-                                <div><strong style="display:inline; margin:0;">Observaciones:</strong> @LimpiarObservacion(item.Observaciones)</div>
+
+                                <div>
+                                    <strong style="display:inline; margin:0;">Observaciones:</strong>
+                                    @(string.IsNullOrWhiteSpace(observacionesLimpias) ? "Sin observaciones" : observacionesLimpias)
+                                </div>
                             </div>
 
-                            <div class="vol-action-inline">
-                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                            <div class="vol-actions-inline">
+                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { style = "display:inline-block; margin:0;" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("idParticipacion", item.ID_Participacion)
                                     @Html.Hidden("asistio", true)
                                     @Html.Hidden("returnUrl", Request.RawUrl)
+
                                     <button type="submit" class="vol-btn-activar">Asistió</button>
                                 }
 
-                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                                @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { style = "display:inline-block; margin:0;" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("idParticipacion", item.ID_Participacion)
                                     @Html.Hidden("asistio", false)
                                     @Html.Hidden("returnUrl", Request.RawUrl)
+
                                     <button type="submit" class="vol-btn-desactivar">No asistió</button>
                                 }
                             </div>
