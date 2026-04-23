@@ -116,3 +116,10 @@ canvas {
     font-weight: bold;
     color: #2c3e63;
 }
+
+
+.dashboard-wrapper {
+    max-width: 1200px; /* ancho controlado */
+    margin: 40px auto; /* centra y da espacio arriba/abajo */
+    padding: 0 20px; /* espacio a los lados */
+}
