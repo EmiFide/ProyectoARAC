@@ -26,7 +26,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
             HashSet<int> favoritos = new HashSet<int>();
             string currentUserId = User.Identity.GetUserId();
 
-            // 🔥 FILTRO DINÁMICO SEGÚN ROL
             string filtroEstado = User.IsInRole("Administrador")
                 ? "WHERE a.Estado IS NULL OR a.Estado <> 'Inactivo'"
                 : "WHERE a.Estado = 'Disponible'";
@@ -82,7 +81,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 }
             }
 
-            // 🔥 CARGAR FAVORITOS
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 cn.Open();
@@ -108,6 +106,108 @@ namespace AdoptameLiberia.Controllers.Mascotas
             return View(lista);
         }
 
+        public ActionResult MascotaIdeal(string tamano, int? idTipoAnimal, int? idRaza, int? edad, string personalidad)
+        {
+            List<AnimalModel> lista = new List<AnimalModel>();
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+
+                string sql = @"
+        SELECT 
+            a.ID_Animal,
+            a.Nombre_Animal,
+            a.ID_Raza,
+            a.ID_TipoAnimal,
+            a.Edad,
+            a.Sexo,
+            a.Tamano,
+            a.Peso,
+            a.Descripcion,
+            a.Estado,
+            a.UsuarioRegistroId,
+            a.ImagenUrl,
+            ISNULL(r.Nombre, a.NombreRaza) AS NombreRaza,
+            ISNULL(t.Nombre_Tipo_Animal, a.NombreTipo) AS NombreTipo
+        FROM Animal a
+        LEFT JOIN Raza r ON a.ID_Raza = r.ID_Raza
+        LEFT JOIN Tipo_Animal t ON a.ID_TipoAnimal = t.ID_TipoAnimal
+        WHERE a.Estado = 'Disponible'
+        ORDER BY a.ID_Animal DESC";
+
+                SqlCommand cmd = new SqlCommand(sql, cn);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    lista.Add(new AnimalModel
+                    {
+                        ID_Animal = Convert.ToInt32(dr["ID_Animal"]),
+                        Nombre_Animal = dr["Nombre_Animal"]?.ToString(),
+                        ID_Raza = dr["ID_Raza"] != DBNull.Value ? Convert.ToInt32(dr["ID_Raza"]) : 0,
+                        ID_TipoAnimal = dr["ID_TipoAnimal"] != DBNull.Value ? Convert.ToInt32(dr["ID_TipoAnimal"]) : 0,
+                        Edad = dr["Edad"] != DBNull.Value ? Convert.ToInt32(dr["Edad"]) : (int?)null,
+                        Sexo = dr["Sexo"]?.ToString(),
+                        Tamano = dr["Tamano"]?.ToString(),
+                        Peso = dr["Peso"] != DBNull.Value ? Convert.ToDecimal(dr["Peso"]) : (decimal?)null,
+                        Descripcion = dr["Descripcion"]?.ToString(),
+                        Estado = dr["Estado"]?.ToString(),
+                        NombreRaza = dr["NombreRaza"]?.ToString(),
+                        NombreTipo = dr["NombreTipo"]?.ToString(),
+                        UsuarioRegistroId = dr["UsuarioRegistroId"]?.ToString(),
+                        ImagenUrl = dr["ImagenUrl"]?.ToString()
+                    });
+                }
+            }
+
+            if (idTipoAnimal.HasValue && idTipoAnimal.Value > 0)
+            {
+                lista = lista.Where(x => x.ID_TipoAnimal == idTipoAnimal.Value).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(tamano))
+            {
+                lista = lista
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Tamano) &&
+                                x.Tamano.Trim().ToLower() == tamano.Trim().ToLower())
+                    .ToList();
+            }
+
+            if (idRaza.HasValue && idRaza.Value > 0)
+            {
+                lista = lista.Where(x => x.ID_Raza == idRaza.Value).ToList();
+            }
+
+            if (edad.HasValue)
+            {
+                lista = lista
+                    .Where(x => x.Edad.HasValue && x.Edad.Value <= edad.Value)
+                    .ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(personalidad))
+            {
+                string personalidadFiltro = personalidad.Trim().ToLower();
+
+                lista = lista
+                    .Where(x =>
+                        (!string.IsNullOrWhiteSpace(x.Descripcion) && x.Descripcion.ToLower().Contains(personalidadFiltro)) ||
+                        (!string.IsNullOrWhiteSpace(x.Nombre_Animal) && x.Nombre_Animal.ToLower().Contains(personalidadFiltro)) ||
+                        (!string.IsNullOrWhiteSpace(x.NombreRaza) && x.NombreRaza.ToLower().Contains(personalidadFiltro))
+                    )
+                    .ToList();
+            }
+
+            ViewBag.ListaTiposFiltro = ObtenerTiposParaFiltro(idTipoAnimal);
+            ViewBag.ListaRazasFiltro = ObtenerRazasParaFiltro(idRaza);
+            ViewBag.TamanoFiltro = tamano;
+            ViewBag.EdadFiltro = edad;
+            ViewBag.PersonalidadFiltro = personalidad;
+
+            return View(lista);
+        }
+
         [Authorize(Roles = "Administrador")]
         public ActionResult Crear()
         {
@@ -120,7 +220,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
         [ValidateAntiForgeryToken]
         public ActionResult Crear(RegistrarAnimalVM model)
         {
-            // 🔥 Convertimos a AnimalModel para reutilizar tu validación
             var animal = new AnimalModel
             {
                 Nombre_Animal = model.Nombre_Animal,
@@ -143,7 +242,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
 
             string rutaImagen = null;
 
-            // 🔥 GUARDAR IMAGEN
             if (model.ImagenArchivo != null && model.ImagenArchivo.ContentLength > 0)
             {
                 string extension = Path.GetExtension(model.ImagenArchivo.FileName).ToLower();
@@ -176,7 +274,6 @@ namespace AdoptameLiberia.Controllers.Mascotas
                 rutaImagen = "/Content/img/mascotas/" + nombreArchivo;
             }
 
-            // 🔥 INSERT CON IMAGEN
             using (SqlConnection cn = new SqlConnection(conexion))
             {
                 string sql = @"
@@ -415,6 +512,66 @@ namespace AdoptameLiberia.Controllers.Mascotas
 
             ViewBag.ListaRazas = razas;
             ViewBag.ListaTipos = tipos;
+        }
+
+        private List<SelectListItem> ObtenerRazasParaFiltro(int? razaSeleccionada = null)
+        {
+            var razas = new List<SelectListItem>();
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+
+                string sqlRazas = "SELECT ID_Raza, Nombre FROM Raza ORDER BY Nombre";
+                using (SqlCommand cmd = new SqlCommand(sqlRazas, cn))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        int id = Convert.ToInt32(dr["ID_Raza"]);
+                        string nombre = dr["Nombre"].ToString();
+
+                        razas.Add(new SelectListItem
+                        {
+                            Value = id.ToString(),
+                            Text = nombre,
+                            Selected = razaSeleccionada.HasValue && razaSeleccionada.Value == id
+                        });
+                    }
+                }
+            }
+
+            return razas;
+        }
+
+        private List<SelectListItem> ObtenerTiposParaFiltro(int? tipoSeleccionado = null)
+        {
+            var tipos = new List<SelectListItem>();
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+
+                string sqlTipos = "SELECT ID_TipoAnimal, Nombre_Tipo_Animal FROM Tipo_Animal ORDER BY Nombre_Tipo_Animal";
+                using (SqlCommand cmd = new SqlCommand(sqlTipos, cn))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        int id = Convert.ToInt32(dr["ID_TipoAnimal"]);
+                        string nombre = dr["Nombre_Tipo_Animal"].ToString();
+
+                        tipos.Add(new SelectListItem
+                        {
+                            Value = id.ToString(),
+                            Text = nombre,
+                            Selected = tipoSeleccionado.HasValue && tipoSeleccionado.Value == id
+                        });
+                    }
+                }
+            }
+
+            return tipos;
         }
     }
 }

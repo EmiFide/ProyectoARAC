@@ -2,6 +2,126 @@
     ViewBag.Title = "Inicio";
 }
 
+<style>
+    .home-ideal-section {
+        padding: 70px 0 78px;
+        background: #f2f8ff;
+    }
+
+    .home-ideal-wrap {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 52px;
+        align-items: center;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 18px 28px;
+    }
+
+    .home-ideal-copy .hero-mini {
+        color: var(--brand, #74a97f);
+        background: rgba(116,169,127,.10);
+        border: 1px solid rgba(116,169,127,.22);
+        margin-bottom: 14px;
+    }
+
+    .home-ideal-copy h2 {
+        font-size: clamp(2.2rem, 3.4vw, 3.4rem);
+        line-height: 1.08;
+        margin: 0 0 22px;
+        color: var(--dark, #212934);
+        letter-spacing: -.03em;
+    }
+
+        .home-ideal-copy h2 strong {
+            color: #2d6cdf;
+        }
+
+    .home-ideal-copy p {
+        color: #40576a;
+        font-size: 1.08rem;
+        line-height: 1.9;
+        margin: 0 0 18px;
+        max-width: 720px;
+    }
+
+    .home-ideal-actions {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+    }
+
+    .home-ideal-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 100%);
+        color: #fff !important;
+        font-weight: 700;
+        text-decoration: none !important;
+        box-shadow: 0 12px 24px rgba(45,108,223,.22);
+        transition: .25s ease;
+    }
+
+        .home-ideal-btn:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #255fcd 0%, #1746a9 100%);
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+
+    .home-ideal-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .home-ideal-visual img {
+            width: 100%;
+            max-width: 520px;
+            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 22px 38px rgba(33,41,52,.16));
+        }
+
+    @@media (max-width: 900px) {
+        .home-ideal-wrap {
+            grid-template-columns: 1fr;
+        }
+
+        .home-ideal-copy {
+            text-align: center;
+        }
+
+            .home-ideal-copy p {
+                max-width: 100%;
+            }
+
+        .home-ideal-actions {
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .home-ideal-section {
+            padding-bottom: 40px;
+        }
+
+        .home-ideal-copy h2 {
+            font-size: 2rem;
+        }
+
+        .home-ideal-visual img {
+            max-width: 320px;
+        }
+    }
+</style>
+
 <div class="home-shell">
 
     <section class="home-hero-section">
@@ -73,6 +193,34 @@
                     <div class="cat-arrow">→</div>
                 </a>
 
+            </div>
+        </div>
+    </section>
+
+    <section class="home-ideal-section">
+        <div class="container">
+            <div class="home-ideal-wrap">
+                <div class="home-ideal-copy">
+                    <span class="hero-mini">Encuentra a tu mascota ideal</span>
+                    <h2>Descubrí ese compañero que encaja<br><strong>con tu forma de vivir</strong></h2>
+                    <p>
+                        Cada mascota tiene una personalidad distinta, una energía diferente y una manera única de dar cariño.
+                        En ARAC queremos ayudarte a encontrar ese amigo especial que conecte con tu hogar, tu rutina y tu corazón.
+                    </p>
+                    <p>
+                        Acá podés encontrar a tu compañero ideal.
+                    </p>
+
+                    <div class="home-ideal-actions">
+                        <a href="@Url.Action("MascotaIdeal", "Animal")" class="home-ideal-btn">
+                            Buscar mi mascota ideal
+                        </a>
+                    </div>
+                </div>
+
+                <div class="home-ideal-visual">
+                    <img src="~/Content/img/Mascotaideal.png" alt="Encuentra tu mascota ideal" />
+                </div>
             </div>
         </div>
     </section>
