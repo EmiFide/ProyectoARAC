@@ -1,8 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using AdoptameLiberia.Models;
+﻿using AdoptameLiberia.Models;
 using AdoptameLiberia.Models.Noticias;
+using System;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AdoptameLiberia.Controllers
 {
@@ -55,10 +57,30 @@ namespace AdoptameLiberia.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Noticia model)
+        public ActionResult Create(Noticia model, HttpPostedFileBase ImagenFile)
         {
             if (ModelState.IsValid)
             {
+                // 🔥 SUBIR IMAGEN
+                if (ImagenFile != null && ImagenFile.ContentLength > 0)
+                {
+                    string nombreArchivo = Guid.NewGuid() + Path.GetExtension(ImagenFile.FileName);
+
+                    string ruta = Server.MapPath("~/Content/img/noticias/");
+
+                    // Crear carpeta si no existe
+                    if (!Directory.Exists(ruta))
+                    {
+                        Directory.CreateDirectory(ruta);
+                    }
+
+                    string rutaCompleta = Path.Combine(ruta, nombreArchivo);
+
+                    ImagenFile.SaveAs(rutaCompleta);
+
+                    model.ImagenUrl = "/Content/img/noticias/" + nombreArchivo;
+                }
+
                 model.Fecha_Publicacion = DateTime.Now;
                 model.Estado = true;
                 model.Likes = 0;

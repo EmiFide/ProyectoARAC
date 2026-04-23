@@ -2,11 +2,13 @@
 using AdoptameLiberia.Models.Mascotas;
 using AdoptameLiberia.Models.ViewModel;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace AdoptameLiberia.Controllers
@@ -19,6 +21,18 @@ namespace AdoptameLiberia.Controllers
         private bool EsAdministrador()
         {
             return User.IsInRole("Administrador");
+        }
+
+        
+        
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
         }
 
         private int? ObtenerIdUsuarioActual()
@@ -442,9 +456,18 @@ namespace AdoptameLiberia.Controllers
                                     Estado_Final_Animal = dev.Estado_Final_Animal
                                 }).ToList();
 
+
+            var userIdAsp = User.Identity.GetUserId();
+            var userIdentity = UserManager.FindById(userIdAsp);
+
+            var nombreMostrar = !string.IsNullOrWhiteSpace(userIdentity.Nombre)
+                ? userIdentity.Nombre
+                : userIdentity.Email;
+
+
             var vm = new MiPerfilAdopcionVM
             {
-                NombreUsuario = NombreCompletoUsuario(usuario),
+                NombreUsuario = nombreMostrar,
                 Solicitudes = solicitudes,
                 Adopciones = adopciones,
                 Seguimientos = seguimientos,

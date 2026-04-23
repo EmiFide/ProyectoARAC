@@ -356,3 +356,21 @@
         width: 100%;
     }
 }
+
+
+.news-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+}
+
+    .news-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+.news-card:hover .news-img img {
+    transform: scale(1.08);
+}
