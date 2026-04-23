@@ -1,122 +1,122 @@
 @model IEnumerable<AdoptameLiberia.Models.Donaciones.ItemInventario>
-    @using System
-    @using System.Collections.Generic
-    @using System.Linq
+@using System
+@using System.Collections.Generic
+@using System.Linq
 
-    @{
-        ViewBag.Title = "Alertas de stock";
-        var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Donaciones.ItemInventario>();
-    }
+@{
+    ViewBag.Title = "Alertas de stock";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Donaciones.ItemInventario>();
+}
 
-    @section styles{
-        <link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
-    }
+@section styles{
+    <link href="~/Content/estilos/Inventario.css" rel="stylesheet" />
+}
 
-    <div class="inventory-shell">
-        <section class="inventory-hero inventory-hero-danger">
-            <div class="inventory-hero-content">
-                <span class="inventory-kicker inventory-kicker-danger">ARAC · ALERTA DE STOCK</span>
-                <h1>Artículos con stock bajo</h1>
-                <p>
-                    Aquí puedes revisar rápidamente los artículos que ya alcanzaron su stock mínimo
-                    o se encuentran por debajo del nivel recomendado.
-                </p>
-            </div>
-        </section>
+<div class="inventory-shell">
+    <section class="inventory-hero inventory-hero-danger">
+        <div class="inventory-hero-content">
+            <span class="inventory-kicker inventory-kicker-danger">ARAC · ALERTA DE STOCK</span>
+            <h1>Artículos con stock bajo</h1>
+            <p>
+                Aquí puedes revisar rápidamente los artículos que ya alcanzaron su stock mínimo
+                o se encuentran por debajo del nivel recomendado.
+            </p>
+        </div>
+    </section>
 
-        <div class="inventory-stats inventory-stats-single">
-            <div class="inventory-stat inventory-stat-danger">
-                <h4>Total en alerta</h4>
-                <p>@lista.Count</p>
+    <div class="inventory-stats inventory-stats-single">
+        <div class="inventory-stat inventory-stat-danger">
+            <h4>Total en alerta</h4>
+            <p>@lista.Count</p>
+        </div>
+    </div>
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Acciones rápidas</h2>
+                <p>Gestiona los artículos en alerta sin salir de esta pantalla.</p>
             </div>
         </div>
 
-        <section class="inventory-card">
-            <div class="inventory-card-head">
-                <div>
-                    <h2>Acciones rápidas</h2>
-                    <p>Gestiona los artículos en alerta sin salir de esta pantalla.</p>
-                </div>
+        <div class="inventory-actions">
+            <a href="@Url.Action("Create", "Inventario")" class="inventory-btn">Registrar artículo</a>
+            <a href="@Url.Action("Historial", "Inventario")" class="inventory-btn-alt">Ver historial</a>
+            <a href="@Url.Action("Index", "Inventario")" class="inventory-btn-outline">Volver al inventario</a>
+        </div>
+    </section>
+
+    <section class="inventory-card">
+        <div class="inventory-card-head">
+            <div>
+                <h2>Productos en estado crítico</h2>
+                <p>Prioriza la reposición de estos artículos para evitar faltantes en operación.</p>
             </div>
+        </div>
 
-            <div class="inventory-actions">
-                <a href="@Url.Action("Index", "Inventario")" class="inventory-btn-outline">Volver al inventario</a>
-                <a href="@Url.Action("Historial", "Inventario")" class="inventory-btn-alt">Ver historial</a>
-                <a href="@Url.Action("Create", "Inventario")" class="inventory-btn">Registrar artículo</a>
+        @if (lista.Any())
+        {
+            <div class="inventory-grid-alerts">
+                @foreach (var item in lista)
+                {
+                    var faltante = item.StockMinimo - item.StockActual;
+
+                    <article class="inventory-alert-card">
+                        <div class="inventory-alert-top">
+                            <div>
+                                <h3>@item.Nombre</h3>
+                                <span>@(string.IsNullOrWhiteSpace(item.Categoria) ? "Sin categoría" : item.Categoria)</span>
+                            </div>
+
+                            <span class="inventory-badge-danger">Stock bajo</span>
+                        </div>
+
+                        <div class="inventory-alert-body">
+                            @if (!string.IsNullOrWhiteSpace(item.Descripcion))
+                            {
+                                <p>@item.Descripcion</p>
+                            }
+                            else
+                            {
+                                <p>Este artículo no tiene descripción registrada.</p>
+                            }
+                        </div>
+
+                        <div class="inventory-alert-metrics">
+                            <div class="inventory-alert-metric">
+                                <small>Stock actual</small>
+                                <strong>@item.StockActual</strong>
+                            </div>
+                            <div class="inventory-alert-metric">
+                                <small>Stock mínimo</small>
+                                <strong>@item.StockMinimo</strong>
+                            </div>
+                            <div class="inventory-alert-metric">
+                                <small>Faltante</small>
+                                <strong>@(faltante > 0 ? faltante : 0)</strong>
+                            </div>
+                            <div class="inventory-alert-metric">
+                                <small>Unidad</small>
+                                <strong>@(string.IsNullOrWhiteSpace(item.UnidadMedida) ? "N/D" : item.UnidadMedida)</strong>
+                            </div>
+                        </div>
+
+                        <div class="inventory-actions inventory-actions-full">
+                            <a href="@Url.Action("Entrada", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-success">Registrar entrada</a>
+                            <a href="@Url.Action("Salida", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-danger">Registrar salida</a>
+                            <a href="@Url.Action("Ajuste", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-info">Ajustar stock</a>
+                            <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-outline">Editar</a>
+                        </div>
+                    </article>
+                }
             </div>
-        </section>
-
-        <section class="inventory-card">
-            <div class="inventory-card-head">
-                <div>
-                    <h2>Productos en estado crítico</h2>
-                    <p>Prioriza la reposición de estos artículos para evitar faltantes en operación.</p>
-                </div>
+        }
+        else
+        {
+            <div class="inventory-empty">
+                <strong>No hay artículos con stock bajo.</strong>
+                El inventario se encuentra por encima del mínimo configurado.
             </div>
-
-            @if (lista.Any())
-            {
-                <div class="inventory-grid-alerts">
-                    @foreach (var item in lista)
-                    {
-                        var faltante = item.StockMinimo - item.StockActual;
-
-                        <article class="inventory-alert-card">
-                            <div class="inventory-alert-top">
-                                <div>
-                                    <h3>@item.Nombre</h3>
-                                    <span>@(string.IsNullOrWhiteSpace(item.Categoria) ? "Sin categoría" : item.Categoria)</span>
-                                </div>
-
-                                <span class="inventory-badge-danger">Stock bajo</span>
-                            </div>
-
-                            <div class="inventory-alert-body">
-                                @if (!string.IsNullOrWhiteSpace(item.Descripcion))
-                                {
-                                    <p>@item.Descripcion</p>
-                                }
-                                else
-                                {
-                                    <p>Este artículo no tiene descripción registrada.</p>
-                                }
-                            </div>
-
-                            <div class="inventory-alert-metrics">
-                                <div class="inventory-alert-metric">
-                                    <small>Stock actual</small>
-                                    <strong>@item.StockActual</strong>
-                                </div>
-                                <div class="inventory-alert-metric">
-                                    <small>Stock mínimo</small>
-                                    <strong>@item.StockMinimo</strong>
-                                </div>
-                                <div class="inventory-alert-metric">
-                                    <small>Faltante</small>
-                                    <strong>@(faltante > 0 ? faltante : 0)</strong>
-                                </div>
-                                <div class="inventory-alert-metric">
-                                    <small>Unidad</small>
-                                    <strong>@(string.IsNullOrWhiteSpace(item.UnidadMedida) ? "N/D" : item.UnidadMedida)</strong>
-                                </div>
-                            </div>
-
-                            <div class="inventory-actions inventory-actions-full">
-                                <a href="@Url.Action("Entrada", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-success">Registrar entrada</a>
-                                <a href="@Url.Action("Salida", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-danger">Registrar salida</a>
-                                <a href="@Url.Action("Ajuste", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-info">Ajustar stock</a>
-                                <a href="@Url.Action("Edit", "Inventario", new { id = item.IdItemInventario })" class="inventory-btn-outline">Editar</a>
-                            </div>
-                        </article>
-                    }
-                </div>
-            }
-            else
-            {
-                <div class="inventory-empty">
-                    <strong>No hay artículos con stock bajo.</strong>
-                    El inventario se encuentra por encima del mínimo configurado.
-                </div>
-            }
-        </section>
-    </div>
+        }
+    </section>
+</div>

@@ -206,8 +206,11 @@ body {
     text-decoration: none !important;
     font-weight: 700;
     font-size: .9rem;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
     border: 1px solid transparent;
-    transition: background .18s ease, border-color .18s ease, color .18s ease, transform .12s ease;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
     cursor: pointer;
     box-shadow: none;
 }
@@ -219,56 +222,85 @@ body {
     .inventory-btn-warning:hover,
     .inventory-btn-info:hover,
     .inventory-btn-danger:hover {
-        transform: translateY(-1px);
+        transform: none;
     }
 
 /* REGISTRAR ARTICULO */
 .inventory-btn {
-    background: linear-gradient(135deg, #2f64d6 0%, #2453ba 100%);
-    color: #fff !important;
-    border-color: #2f64d6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #2f5bd3;
+    color: #ffffff;
+    border: 1px solid #2f5bd3;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
 }
 
     .inventory-btn:hover {
-        background: linear-gradient(135deg, #2a5dca 0%, #1f49ab 100%);
-        border-color: #2453ba;
+        background-color: #2447a5;
+        border-color: #2447a5;
+        color: #ffffff;
     }
-
 /* HISTORIAL Y VER VENCIMIENTOS IGUALES A REGISTRAR */
 .inventory-btn-alt,
 .inventory-btn-info {
-    background: linear-gradient(135deg, #2f64d6 0%, #2453ba 100%);
-    color: #ffffff !important;
-    border-color: #2f64d6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #2f5bd3;
+    color: #ffffff;
+    border: 1px solid #2f5bd3;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
 }
 
     .inventory-btn-alt:hover,
     .inventory-btn-info:hover {
-        background: linear-gradient(135deg, #2a5dca 0%, #1f49ab 100%);
-        color: #ffffff !important;
-        border-color: #2453ba;
+        background-color: #2447a5;
+        border-color: #2447a5;
+        color: #ffffff;
     }
 
 .inventory-btn-outline {
-    background: #ffffff;
-    color: var(--inv-brand) !important;
-    border-color: #cfd8e4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #e9ecef;
+    color: #2c3e50;
+    border: 1px solid #d6d9dc;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
 }
 
     .inventory-btn-outline:hover {
-        background: #f7f9fc;
-        color: var(--inv-brand) !important;
+        background-color: #dfe3e7;
+        color: #2c3e50;
     }
 
 /* ENTRADA VERDE FUERTE */
 .inventory-btn-success {
-    background: linear-gradient(135deg, #228b49 0%, #176a37 100%);
-    color: #ffffff !important;
-    border-color: #176a37;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #198754;
+    color: #fff;
+    border: 1px solid #198754;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
 }
 
     .inventory-btn-success:hover {
-        background: linear-gradient(135deg, #1e7d42 0%, #145d31 100%);
+        background-color: #145d31;
+        border-color: #145d31;
         color: #ffffff !important;
     }
 
@@ -285,16 +317,20 @@ body {
 
 /* ALERTAS Y SALIDA ROJO VIVO */
 .inventory-btn-danger {
-    background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
-    color: #ffffff !important;
-    border-color: #c62828;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dc3545;
+    color: #fff;
+    border: 1px solid #dc3545;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
 }
 
     .inventory-btn-danger:hover {
-        background: linear-gradient(135deg, #d9332f 0%, #b71c1c 100%);
+        background-color: #b71c1c;
+        border-color: #b71c1c;
         color: #ffffff !important;
     }
-
 .inventory-highlight {
     background: var(--inv-surface-2);
     border: 1px solid var(--inv-border);
@@ -685,6 +721,11 @@ body {
         padding: 0 12px;
         font-size: .86rem;
         border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        text-align: center;
     }
 
 /* PAGINACION */
@@ -816,4 +857,22 @@ body {
     .inventory-input:focus {
         border-color: #3b82f6;
         box-shadow: 0 0 0 2px rgba(59,130,246,0.1);
+    }
+.inventory-btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: #ffffff;
+    border: 1px solid #6c757d;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+    .inventory-btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+        color: #ffffff;
+        text-decoration: none;
     }

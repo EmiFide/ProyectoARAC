@@ -401,7 +401,9 @@ body {
 .vol-btn-soft,
 .vol-btn-warning,
 .vol-btn-danger,
-.vol-btn-plain {
+.vol-btn-plain,
+.vol-btn-activar,
+.vol-btn-desactivar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -411,51 +413,62 @@ body {
     font-size: .92rem;
     font-weight: 700;
     text-decoration: none !important;
-    border: none;
+    border: 1px solid transparent;
     cursor: pointer;
-    transition: .22s ease;
+    transition: background-color .22s ease, color .22s ease, border-color .22s ease;
 }
 
-/* LOS 3 BOTONES DEL HERO IGUALES */
+/* BOTONES AZULES */
 .vol-btn,
 .vol-btn-outline,
 .vol-btn-soft {
-    background: #ffffff !important;
-    color: #2d6cdf !important;
-    border: none !important;
+    background: #2f5bd3 !important;
+    color: #ffffff !important;
+    border: 1px solid #2f5bd3 !important;
     box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
 }
 
     .vol-btn:hover,
     .vol-btn-outline:hover,
     .vol-btn-soft:hover {
-        background: #f7faff !important;
-        color: #1d4fb8 !important;
+        background: #2447a5 !important;
+        color: #ffffff !important;
+        border-color: #2447a5 !important;
     }
 
-.vol-btn-warning {
-    background: var(--vol-warning-bg);
-    color: var(--vol-warning-text) !important;
-    border: 1px solid #f1d49d;
+/* INACTIVAR / DESACTIVAR EN ROJO */
+.vol-btn-warning,
+.vol-btn-danger,
+.vol-btn-desactivar {
+    background: #dc3545 !important;
+    color: #ffffff !important;
+    border: 1px solid #dc3545 !important;
+    box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
 }
 
-    .vol-btn-warning:hover {
-        background: #ffe9c8;
-        color: var(--vol-warning-text) !important;
+    .vol-btn-warning:hover,
+    .vol-btn-danger:hover,
+    .vol-btn-desactivar:hover {
+        background: #c82333 !important;
+        color: #ffffff !important;
+        border-color: #c82333 !important;
     }
 
-.vol-btn-danger {
-    background: var(--vol-danger-bg);
-    color: var(--vol-danger-text) !important;
-    border: 1px solid #f4c4ca;
-    min-height: 46px;
+/* ACTIVAR EN VERDE */
+.vol-btn-activar {
+    background: #28a745 !important;
+    color: #ffffff !important;
+    border: 1px solid #28a745 !important;
+    box-shadow: 0 8px 18px rgba(17, 92, 109, 0.10);
 }
 
-    .vol-btn-danger:hover {
-        background: #fbdce0;
-        color: var(--vol-danger-text) !important;
+    .vol-btn-activar:hover {
+        background: #218838 !important;
+        color: #ffffff !important;
+        border-color: #218838 !important;
     }
 
+/* BOTON PLANO */
 .vol-btn-plain {
     background: transparent;
     color: var(--vol-muted) !important;
@@ -818,25 +831,5 @@ body {
             max-height: 260px;
             object-fit: contain;
             filter: drop-shadow(0 16px 24px rgba(20, 32, 51, 0.18));
-        }
-
-    .vol-btn-activar {
-        background: #28a745 !important;
-        color: #fff !important;
-        border: none !important;
-    }
-
-        .vol-btn-activar:hover {
-            background: #218838 !important;
-        }
-
-    .vol-btn-desactivar {
-        background: #dc3545 !important;
-        color: #fff !important;
-        border: none !important;
-    }
-
-        .vol-btn-desactivar:hover {
-            background: #c82333 !important;
         }
 }
