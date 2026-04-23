@@ -14,7 +14,8 @@
             <div>
                 <h2 class="vol-section-title">Asignar tarea a voluntario</h2>
                 <p class="vol-section-subtitle">
-                    Relaciona un voluntario con una tarea para que deje de mostrarse como pendiente.
+                    Relaciona un voluntario con una tarea. La asistencia se marcará después desde los botones
+                    <strong>Asistió</strong> o <strong>No asistió</strong>.
                 </p>
             </div>
         </div>
@@ -39,16 +40,22 @@
 
                 <div class="vol-group full">
                     @Html.LabelFor(m => m.Observaciones)
-                    @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control", rows = 4, placeholder = "Observaciones adicionales..." })
+                    @Html.TextAreaFor(m => m.Observaciones, new
+                    {
+                        @class = "form-control",
+                        rows = 4,
+                        placeholder = "Observaciones adicionales..."
+                    })
                 </div>
 
                 <div class="vol-group full">
                     <div class="vol-switch-card">
                         <strong>Asistencia</strong>
-                        <label class="vol-check-row">
-                            @Html.CheckBoxFor(m => m.Asistio)
-                            <span>Marcar si ya asistió</span>
-                        </label>
+                        <p class="vol-form-hint" style="margin:0;">
+                            Al guardar la asignación quedará en estado <strong>Pendiente</strong>. Luego podrás marcar
+                            <strong>Asistió</strong> o <strong>No asistió</strong> desde el listado de asignaciones
+                            o desde el detalle de la tarea.
+                        </p>
                     </div>
                 </div>
             </div>

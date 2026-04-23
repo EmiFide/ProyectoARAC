@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<AdoptameLiberia.Models.Voluntariado.ParticipacionVoluntario>
+@using System.Linq
 
 @{
     ViewBag.Title = "Participación de voluntarios";
@@ -8,13 +9,30 @@
     <link href="~/Content/estilos/Voluntarios.css" rel="stylesheet" />
 }
 
+@functions{
+    public bool EsNoAsistio(string observaciones)
+    {
+        return !string.IsNullOrWhiteSpace(observaciones) && observaciones.Contains("[NO_ASISTIO]");
+    }
+
+    public string LimpiarObservacion(string observaciones)
+    {
+        if (string.IsNullOrWhiteSpace(observaciones))
+        {
+            return "Sin observaciones";
+        }
+
+        return observaciones.Replace("[NO_ASISTIO]", "").Trim();
+    }
+}
+
 <div class="vol-shell">
     <section class="vol-section">
         <div class="vol-section-header">
             <div>
                 <h2 class="vol-section-title">Asignaciones de voluntariado</h2>
                 <p class="vol-section-subtitle">
-                    Consulta las relaciones existentes entre voluntarios y tareas.
+                    Consulta las relaciones existentes entre voluntarios y tareas y marca su asistencia.
                 </p>
             </div>
 
@@ -34,31 +52,63 @@
                             <th>Tarea</th>
                             <th>Asistencia</th>
                             <th>Observaciones</th>
+                            <th style="width:220px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
+                            bool noAsistio = EsNoAsistio(item.Observaciones);
+
                             <tr>
                                 <td class="vol-person-cell">
                                     <strong>@item.Voluntario.Nombre @item.Voluntario.Apellido1</strong>
                                     <span>@item.Voluntario.Correo</span>
                                 </td>
+
                                 <td class="vol-task-cell">
                                     <strong>@item.Tarea.Titulo</strong>
                                     <span>@item.Tarea.Lugar</span>
                                 </td>
+
                                 <td>
                                     @if (item.Asistio)
                                     {
                                         <span class="vol-badge vol-badge-active">Sí asistió</span>
                                     }
+                                    else if (noAsistio)
+                                    {
+                                        <span class="vol-badge vol-badge-inactive">No asistió</span>
+                                    }
                                     else
                                     {
-                                        <span class="vol-badge vol-badge-pending">Pendiente / No</span>
+                                        <span class="vol-badge vol-badge-pending">Pendiente</span>
                                     }
                                 </td>
-                                <td>@item.Observaciones</td>
+
+                                <td>@LimpiarObservacion(item.Observaciones)</td>
+
+                                <td>
+                                    <div class="vol-action-inline">
+                                        @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("idParticipacion", item.ID_Participacion)
+                                            @Html.Hidden("asistio", true)
+                                            @Html.Hidden("returnUrl", Request.RawUrl)
+                                            <button type="submit" class="vol-btn-activar">Asistió</button>
+                                        }
+
+                                        @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { @class = "vol-inline-form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("idParticipacion", item.ID_Participacion)
+                                            @Html.Hidden("asistio", false)
+                                            @Html.Hidden("returnUrl", Request.RawUrl)
+                                            <button type="submit" class="vol-btn-desactivar">No asistió</button>
+                                        }
+                                    </div>
+                                </td>
                             </tr>
                         }
                     </tbody>

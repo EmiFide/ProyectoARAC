@@ -1,0 +1,380 @@
+﻿@model IEnumerable<AdoptameLiberia.Models.Mascotas.AnimalModel>
+@using System.Collections.Generic
+@using System.Linq
+@using System.Web.Mvc
+
+@{
+    ViewBag.Title = "Mascota Ideal";
+    var lista = Model != null ? Model.ToList() : new List<AdoptameLiberia.Models.Mascotas.AnimalModel>();
+
+    var tiposFiltro = ViewBag.ListaTiposFiltro as List<SelectListItem> ?? new List<SelectListItem>();
+    var razasFiltro = ViewBag.ListaRazasFiltro as List<SelectListItem> ?? new List<SelectListItem>();
+    string tamanoFiltro = ViewBag.TamanoFiltro as string;
+    int? edadFiltro = ViewBag.EdadFiltro as int?;
+    string personalidadFiltro = ViewBag.PersonalidadFiltro as string;
+}
+
+<link href="~/Content/estilos/Mascotas.css" rel="stylesheet" />
+
+<style>
+    .ideal-page-shell {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 28px 18px 56px;
+    }
+
+    .ideal-header-card {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 34px;
+        align-items: center;
+        background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 100%);
+        border-radius: 28px;
+        padding: 42px 46px;
+        margin-bottom: 32px;
+        box-shadow: 0 18px 34px rgba(45,108,223,.22);
+    }
+
+    .ideal-mini {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 15px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.16);
+        border: 1px solid rgba(255,255,255,.28);
+        color: #ffffff;
+        font-weight: 800;
+        font-size: .78rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+    }
+
+    .ideal-header-copy h1 {
+        margin: 0 0 16px;
+        color: #ffffff;
+        font-size: clamp(2.1rem, 3vw, 3.3rem);
+        line-height: 1.08;
+    }
+
+        .ideal-header-copy h1 strong,
+        .ideal-header-copy h1 span {
+            color: #ffffff;
+        }
+
+    .ideal-header-copy p {
+        margin: 0;
+        color: rgba(255,255,255,.92);
+        line-height: 1.9;
+        font-size: 1rem;
+        max-width: 720px;
+    }
+
+    .ideal-header-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .ideal-header-image img {
+            width: 100%;
+            max-width: 390px;
+            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 18px 30px rgba(0,0,0,.18));
+        }
+
+    .ideal-filter-box {
+        background: #ffffff;
+        border: 1px solid #dcecf2;
+        border-radius: 26px;
+        padding: 24px;
+        box-shadow: 0 12px 24px rgba(17, 92, 109, .08);
+        margin-bottom: 30px;
+    }
+
+        .ideal-filter-box h2 {
+            margin: 0 0 8px;
+            color: #264653;
+            font-size: 1.55rem;
+        }
+
+        .ideal-filter-box p {
+            margin: 0 0 18px;
+            color: #67818c;
+            line-height: 1.8;
+        }
+
+    .ideal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .ideal-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .ideal-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .ideal-group label {
+            color: #334e68;
+            font-weight: 700;
+            font-size: .92rem;
+        }
+
+        .ideal-group .form-control {
+            width: 100%;
+            border: 1px solid #d8e5f6;
+            background: #f8fbff;
+            color: #334e68;
+            border-radius: 16px;
+            padding: 12px 14px;
+            outline: none;
+            transition: .25s ease;
+            box-shadow: none;
+        }
+
+            .ideal-group .form-control:focus {
+                border-color: #8eb2f0;
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(45,108,223,.10);
+            }
+
+    .ideal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .ideal-main-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 20px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2d6cdf 0%, #1d4fb8 100%);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 10px 18px rgba(45, 108, 223, .22);
+        text-decoration: none;
+    }
+
+        .ideal-main-btn:hover {
+            color: #fff;
+            text-decoration: none;
+            background: linear-gradient(135deg, #255fcd 0%, #1746a9 100%);
+        }
+
+    .ideal-link-btn {
+        color: #2454b8;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .ideal-link-btn:hover {
+            color: #1d4fb8;
+            text-decoration: none;
+        }
+
+    .ideal-results-title {
+        margin: 0 0 18px;
+        color: #264653;
+        font-size: 1.45rem;
+    }
+
+    @@media (max-width: 1100px) {
+        .ideal-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .ideal-header-card {
+            grid-template-columns: 1fr;
+            padding: 32px 26px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .ideal-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .ideal-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .ideal-main-btn,
+        .ideal-link-btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="ideal-page-shell">
+    <section class="ideal-header-card">
+        <div class="ideal-header-copy">
+            <span class="ideal-mini">Mascota ideal</span>
+            <h1>Encuentra tu mascota ideal</h1>
+            <p>
+                Aquí puedes buscar con más calma ese compañero especial. Filtra por tamaño, tipo de mascota, raza,
+                edad y personalidad. No es obligatorio llenar todo, puedes usar solo lo que necesites.
+            </p>
+        </div>
+
+        <div class="ideal-header-image">
+            <img src="~/Content/img/Mascotaideal.png" alt="Mascota ideal ARAC" />
+        </div>
+    </section>
+
+    <section class="ideal-filter-box">
+        <h2>Busca según lo que te gustaría</h2>
+        <p>
+            Algunas personas buscan un perro juguetón, otras un gato tranquilo, otras una mascota pequeña o de cierta edad.
+            Usa los filtros y descubre cuál se parece más a lo que estás esperando.
+        </p>
+
+        @using (Html.BeginForm("MascotaIdeal", "Animal", FormMethod.Get, new { @class = "ideal-form" }))
+        {
+            <div class="ideal-grid">
+                <div class="ideal-group">
+                    <label>Tamaño</label>
+                    <select name="tamano" class="form-control">
+                        <option value="">Todos</option>
+                        <option value="Pequeño" @(tamanoFiltro == "Pequeño" ? "selected" : "")>Pequeño</option>
+                        <option value="Mediano" @(tamanoFiltro == "Mediano" ? "selected" : "")>Mediano</option>
+                        <option value="Grande" @(tamanoFiltro == "Grande" ? "selected" : "")>Grande</option>
+                    </select>
+                </div>
+
+                <div class="ideal-group">
+                    <label>Tipo de mascota</label>
+                    @Html.DropDownList("idTipoAnimal", tiposFiltro, "Todos", new { @class = "form-control" })
+                </div>
+
+                <div class="ideal-group">
+                    <label>Raza</label>
+                    @Html.DropDownList("idRaza", razasFiltro, "Todas las razas", new { @class = "form-control" })
+                </div>
+
+                <div class="ideal-group">
+                    <label>Edad máxima</label>
+                    <input type="number"
+                           name="edad"
+                           class="form-control"
+                           min="0"
+                           value="@(edadFiltro.HasValue ? edadFiltro.ToString() : "")"
+                           placeholder="Ej: 3" />
+                </div>
+
+                <div class="ideal-group">
+                    <label>Personalidad</label>
+                    <input type="text"
+                           name="personalidad"
+                           class="form-control"
+                           value="@personalidadFiltro"
+                           placeholder="Ej: juguetón, tranquilo, cariñosa" />
+                </div>
+            </div>
+
+            <div class="ideal-actions">
+                <button type="submit" class="ideal-main-btn">Buscar mascota ideal</button>
+                <a href="@Url.Action("MascotaIdeal", "Animal")" class="ideal-link-btn">Limpiar filtros</a>
+            </div>
+        }
+    </section>
+
+    <h2 class="ideal-results-title">Resultados</h2>
+
+    @if (lista.Any())
+    {
+        <section class="catalog-grid">
+            @foreach (var item in lista)
+            {
+                <article class="pet-card-pro">
+                    <div class="pet-card-media">
+                        @{
+                            string imagenMostrar;
+
+                            if (!string.IsNullOrEmpty(item.ImagenUrl))
+                            {
+                                imagenMostrar = Url.Content(item.ImagenUrl);
+                            }
+                            else if (item.NombreTipo == "Gato")
+                            {
+                                imagenMostrar = Url.Content("~/Content/img/Gatillo.png");
+                            }
+                            else
+                            {
+                                imagenMostrar = Url.Content("~/Content/img/Cachorro.png");
+                            }
+                        }
+
+                        <img src="@imagenMostrar" alt="@item.Nombre_Animal" />
+
+                        <span class="pet-chip">
+                            @(string.IsNullOrWhiteSpace(item.NombreTipo) ? "Mascota" : item.NombreTipo)
+                        </span>
+                    </div>
+
+                    <div class="pet-card-body">
+                        <h3>@item.Nombre_Animal</h3>
+
+                        <p class="pet-description">
+                            @(string.IsNullOrWhiteSpace(item.Descripcion) ? "Mascota disponible en el refugio." : item.Descripcion)
+                        </p>
+
+                        <div class="pet-data-grid">
+                            <div><span>Raza</span><strong>@(string.IsNullOrWhiteSpace(item.NombreRaza) ? "No registrada" : item.NombreRaza)</strong></div>
+                            <div><span>Edad</span><strong>@(item.Edad.HasValue ? item.Edad + " años" : "No registrada")</strong></div>
+                            <div><span>Sexo</span><strong>@(string.IsNullOrWhiteSpace(item.Sexo) ? "No registrado" : item.Sexo)</strong></div>
+                            <div><span>Tamaño</span><strong>@(string.IsNullOrWhiteSpace(item.Tamano) ? "No registrado" : item.Tamano)</strong></div>
+                            <div><span>Peso</span><strong>@(item.Peso.HasValue ? item.Peso + " kg" : "No registrado")</strong></div>
+                            <div>
+                                <span>Estado</span>
+                                <strong class="badge-estado ok">Disponible</strong>
+                            </div>
+                        </div>
+
+                        <div class="pet-card-actions">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <a href="@Url.Action("RegistrarSolicitud", "Adopciones", new { idAnimal = item.ID_Animal })"
+                                   class="catalog-btn-main">
+                                    Adoptar
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("RegistrarSolicitud", "Adopciones", new { idAnimal = item.ID_Animal }) })"
+                                   class="catalog-btn-main">
+                                    Iniciar sesión para adoptar
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </article>
+            }
+        </section>
+    }
+    else
+    {
+        <section class="catalog-empty">
+            <h3>No encontramos mascotas con esos filtros</h3>
+            <p>Prueba con otros datos o deja algunos campos vacíos para ver más opciones.</p>
+        </section>
+    }
+</div>
