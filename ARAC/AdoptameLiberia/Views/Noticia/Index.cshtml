@@ -47,6 +47,11 @@
                     var liked = Session["like_" + item.ID_Noticia] != null;
 
                     <article class="news-card">
+                        <div class="news-img">
+                            <img src="@(string.IsNullOrEmpty(item.ImagenUrl)
+                                ? "/Content/img/default.jpg"
+                                : item.ImagenUrl)" alt="Imagen noticia" />
+                        </div>
                         <div class="news-card-top">
                             <span class="news-date">
                                 @(item.Fecha_Publicacion.HasValue ? item.Fecha_Publicacion.Value.ToString("dd/MM/yyyy HH:mm") : "Sin fecha")

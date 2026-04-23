@@ -14,7 +14,8 @@
             <p>Comparte una historia y conecta con la comunidad 🐾</p>
         </div>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Create", "Noticia", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -44,6 +45,11 @@
                     required = "required"
                 })
                 @Html.ValidationMessageFor(m => m.Contenido, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Imagen</label>
+                <input type="file" name="ImagenFile" class="input" />
             </div>
 
             <!-- BOTÓN -->
