@@ -59,15 +59,16 @@
 
             <div class="vol-detail-item">
                 <strong>Estado</strong>
+
                 @if (Model.Estado)
                 {
-                    <button type="submit" class="vol-btn-activar" style="background:#28a745; border-color:#28a745; color:#fff;">
-                        }
-                        else
-                        {
-                        <span class="vol-badge vol-badge-inactive">Inactiva</span>
-                        }
-</div>
+                    <span class="vol-badge vol-badge-active">Activa</span>
+                }
+                else
+                {
+                    <span class="vol-badge vol-badge-inactive">Inactiva</span>
+                }
+            </div>
 
             <div class="vol-detail-item">
                 <strong>Fecha</strong>
@@ -111,11 +112,20 @@
                         string observacionesLimpias = LimpiarObservaciones(item.Observaciones);
 
                         <li>
-                            <strong style="display:block; color:#1c2d44; margin-bottom:8px;">@nombreCompleto</strong>
+                            <strong style="display:block; color:#1c2d44; margin-bottom:8px;">
+                                @nombreCompleto
+                            </strong>
 
                             <div style="color:#56667a; line-height:1.8; margin-bottom:14px;">
-                                <div><strong style="display:inline; margin:0;">Correo:</strong> @item.Voluntario.Correo</div>
-                                <div><strong style="display:inline; margin:0;">Teléfono:</strong> @item.Voluntario.Telefono</div>
+                                <div>
+                                    <strong style="display:inline; margin:0;">Correo:</strong>
+                                    @item.Voluntario.Correo
+                                </div>
+
+                                <div>
+                                    <strong style="display:inline; margin:0;">Teléfono:</strong>
+                                    @item.Voluntario.Telefono
+                                </div>
 
                                 <div>
                                     <strong style="display:inline; margin:0;">Asistencia:</strong>
@@ -148,7 +158,9 @@
                                     @Html.Hidden("asistio", true)
                                     @Html.Hidden("returnUrl", Request.RawUrl)
 
-                                    <button type="submit" class="vol-btn-activar">Asistió</button>
+                                    <button type="submit" class="vol-btn-activar">
+                                        Asistió
+                                    </button>
                                 }
 
                                 @using (Html.BeginForm("MarcarAsistencia", "ParticipacionesVoluntario", FormMethod.Post, new { style = "display:inline-block; margin:0;" }))
@@ -158,7 +170,9 @@
                                     @Html.Hidden("asistio", false)
                                     @Html.Hidden("returnUrl", Request.RawUrl)
 
-                                    <button type="submit" class="vol-btn-desactivar">No asistió</button>
+                                    <button type="submit" class="vol-btn-desactivar">
+                                        No asistió
+                                    </button>
                                 }
                             </div>
                         </li>
